@@ -1,0 +1,45 @@
+// Thin inline bar used behind product and city rows instead of a second chart.
+.report-bar {
+  height: 6px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  &__fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background-color: var(--mat-sys-primary, #635bff);
+    transition: width 0.3s ease;
+  }
+}
+
+// Lets the product name ellipsis instead of pushing the revenue figure out.
+.min-w-0 {
+  min-width: 0;
+}
+
+// A broken or slow image must not resize the row around it.
+.report-thumb {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: cover;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+// Eight columns do not fit a half-width card: scroll rather than squeeze, which
+// would clip the figures.
+.table-responsive {
+  overflow-x: auto;
+
+  table {
+    min-width: 760px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+}

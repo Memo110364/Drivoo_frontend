@@ -100,7 +100,10 @@ export class HeaderComponent {
     public dialog: MatDialog,
     private translate: TranslateService
   ) {
-    translate.setDefaultLang('ar');
+    // AppComponent already picked the language; just reflect it in the switcher.
+    this.selectedLanguage =
+      this.languages.find((lang) => lang.code === this.settings.getLanguage()) ??
+      this.selectedLanguage;
   }
 
   options = this.settings.getOptions();
@@ -115,6 +118,7 @@ export class HeaderComponent {
 
   changeLanguage(lang: any): void {
     this.translate.use(lang.code);
+    this.settings.setLanguage(lang.code);
     this.selectedLanguage = lang;
   }
 

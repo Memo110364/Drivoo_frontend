@@ -1,12 +1,14 @@
 {
-  "name": "matdash",
+  "name": "drivoo-frontend",
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "start:demo": "ng serve --configuration demo",
+    "build:demo": "ng build --configuration demo"
   },
   "private": true,
   "dependencies": {

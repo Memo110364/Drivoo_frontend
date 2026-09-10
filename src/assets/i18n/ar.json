@@ -1,7 +1,7 @@
 {
-  "system_messages":{
-    "no_orders":"لا يوجد طلبات",
-    "close":"إغلاق"
+  "system_messages": {
+    "no_orders": "لا يوجد طلبات",
+    "close": "إغلاق"
   },
   "dashboard": {
     "currentOrdersStatusTitle": "حالة الطلبات الحالية",
@@ -32,18 +32,18 @@
     "logout": "تسجيل الخروج"
   },
   "orders": {
-    "invoice":{
-      "back_to_invoices":"العودة إلى الفواتير",
-      "edit_invoice":"تعديل الفاتورة",
-      "order_number":"رقم الطلب",
-      "order_date":"تاريخ الطلب",
-      "order_status":"حالة الطلب",
-      "order_address":"عنوان الطلب",
-      "order_phone":"رقم الطلب",
-      "product":"المنتج",
-      "unit_price":"سعر الوحدة",
-      "quantity":"الكمية",
-      "total_cost":"التكلفة الإجمالية"
+    "invoice": {
+      "back_to_invoices": "العودة إلى الفواتير",
+      "edit_invoice": "تعديل الفاتورة",
+      "order_number": "رقم الطلب",
+      "order_date": "تاريخ الطلب",
+      "order_status": "حالة الطلب",
+      "order_address": "عنوان الطلب",
+      "order_phone": "رقم الطلب",
+      "product": "المنتج",
+      "unit_price": "سعر الوحدة",
+      "quantity": "الكمية",
+      "total_cost": "التكلفة الإجمالية"
     },
     "status": {
       "pending": "قيد الانتظار",
@@ -54,7 +54,7 @@
       "collected": "تم الجمع",
       "in_shipping": "في الشحن"
     },
-    "status_number":{
+    "status_number": {
       "1": "قيد الانتظار",
       "2": "قيد التنفيذ",
       "3": "تم الانتهاء",
@@ -73,8 +73,70 @@
       "16": "تم الإلغاء تلقائيا",
       "17": "تم التأكيد من قبل العميل",
       "18": "تبديل",
-      "19": "تحتاج إلى تحديث" 
+      "19": "تحتاج إلى تحديث"
     }
-
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "أداء التشغيل خلال الفترة المختارة",
+    "export_csv": "تصدير CSV",
+    "vs_previous": "مقارنة بالفترة السابقة",
+    "units": "قطعة",
+    "no_data": "لا توجد بيانات في هذه الفترة",
+    "presets": {
+      "last_7_days": "آخر ٧ أيام",
+      "last_30_days": "آخر ٣٠ يوم",
+      "last_90_days": "آخر ٩٠ يوم"
+    },
+    "filters": {
+      "from": "من",
+      "to": "إلى",
+      "city": "المدينة",
+      "status": "الحالة",
+      "all_cities": "كل المدن",
+      "all_statuses": "كل الحالات"
+    },
+    "groups": {
+      "delivered": "تم التوصيل",
+      "shipped": "في الشحن",
+      "pending": "قيد الانتظار",
+      "failed": "مرتجع"
+    },
+    "series": {
+      "total": "إجمالي الطلبات",
+      "delivered": "تم التوصيل",
+      "failed": "مرتجع"
+    },
+    "kpi": {
+      "total_orders": "إجمالي الطلبات",
+      "revenue": "المبالغ المحصلة",
+      "net_profit": "صافي الربح",
+      "delivery_rate": "معدل التوصيل",
+      "return_rate": "معدل الإرجاع",
+      "avg_delivery": "متوسط التوصيل (أيام)"
+    },
+    "charts": {
+      "orders_over_time": "الطلبات عبر الوقت",
+      "orders_over_time_sub": "الإجمالي اليومي مقابل الموصّل والمرتجع",
+      "status_breakdown": "توزيع الحالات",
+      "status_breakdown_sub": "نسبة الطلبات في كل حالة",
+      "top_products": "أفضل المنتجات",
+      "cities_performance": "أداء المدن"
+    },
+    "table": {
+      "city_name": "المدينة",
+      "orders": "الطلبات",
+      "delivered": "تم التوصيل",
+      "failed": "مرتجع",
+      "delivery_rate": "معدل التوصيل",
+      "avg_delivery_days": "متوسط الأيام",
+      "revenue": "الإيرادات",
+      "net_profit": "صافي الربح"
+    },
+    "error": {
+      "title": "تعذر تحميل التقارير",
+      "subtitle": "تأكد أن الـ API شغال ثم حاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
+    }
   }
 }

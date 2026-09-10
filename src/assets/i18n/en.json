@@ -1,7 +1,7 @@
 {
-  "system_messages":{
-    "no_orders":"No Orders",
-    "close":"Close"
+  "system_messages": {
+    "no_orders": "No Orders",
+    "close": "Close"
   },
   "dashboard": {
     "currentOrdersStatusTitle": "Current Orders Status",
@@ -32,19 +32,18 @@
     "logout": "Logout"
   },
   "orders": {
-    
-    "invoice":{
-      "back_to_invoices":"Back to Invoices",
-      "edit_invoice":"Edit Invoice",
-      "order_number":"Order Number",
-      "order_date":"Order Date",
-      "order_status":"Order Status",
-      "order_address":"Order Address",
-      "order_phone":"Order Phone",
-      "product":"Product",
-      "unit_price":"Unit Price",
-      "quantity":"Quantity",
-      "total_cost":"Total Cost"
+    "invoice": {
+      "back_to_invoices": "Back to Invoices",
+      "edit_invoice": "Edit Invoice",
+      "order_number": "Order Number",
+      "order_date": "Order Date",
+      "order_status": "Order Status",
+      "order_address": "Order Address",
+      "order_phone": "Order Phone",
+      "product": "Product",
+      "unit_price": "Unit Price",
+      "quantity": "Quantity",
+      "total_cost": "Total Cost"
     },
     "status": {
       "pending": "Pending",
@@ -55,7 +54,7 @@
       "collected": "Collected",
       "in_shipping": "In Shipping"
     },
-    "status_number":{
+    "status_number": {
       "1": "Pending",
       "2": "In Progress",
       "3": "Done",
@@ -74,8 +73,70 @@
       "16": "Cancelled Automatically",
       "17": "Confirm By Client",
       "18": "Exchange",
-      "19": "Need Update" 
+      "19": "Need Update"
     }
-
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Operational performance across the selected period",
+    "export_csv": "Export CSV",
+    "vs_previous": "vs previous period",
+    "units": "units",
+    "no_data": "No data for this period",
+    "presets": {
+      "last_7_days": "Last 7 days",
+      "last_30_days": "Last 30 days",
+      "last_90_days": "Last 90 days"
+    },
+    "filters": {
+      "from": "From",
+      "to": "To",
+      "city": "City",
+      "status": "Status",
+      "all_cities": "All cities",
+      "all_statuses": "All statuses"
+    },
+    "groups": {
+      "delivered": "Delivered",
+      "shipped": "In shipping",
+      "pending": "Pending",
+      "failed": "Returned"
+    },
+    "series": {
+      "total": "Total orders",
+      "delivered": "Delivered",
+      "failed": "Returned"
+    },
+    "kpi": {
+      "total_orders": "Total Orders",
+      "revenue": "Collected Revenue",
+      "net_profit": "Net Profit",
+      "delivery_rate": "Delivery Rate",
+      "return_rate": "Return Rate",
+      "avg_delivery": "Avg. Delivery (days)"
+    },
+    "charts": {
+      "orders_over_time": "Orders Over Time",
+      "orders_over_time_sub": "Daily totals against delivered and returned orders",
+      "status_breakdown": "Status Breakdown",
+      "status_breakdown_sub": "Share of orders per status group",
+      "top_products": "Top Products",
+      "cities_performance": "Cities Performance"
+    },
+    "table": {
+      "city_name": "City",
+      "orders": "Orders",
+      "delivered": "Delivered",
+      "failed": "Returned",
+      "delivery_rate": "Delivery Rate",
+      "avg_delivery_days": "Avg. Days",
+      "revenue": "Revenue",
+      "net_profit": "Net Profit"
+    },
+    "error": {
+      "title": "Could not load the reports",
+      "subtitle": "Check that the API is running, then try again.",
+      "retry": "Retry"
+    }
   }
 }

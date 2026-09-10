@@ -1,38 +1,38 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable, catchError, switchMap, throwError } from 'rxjs';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) { }
+/**
+ * Attaches the access token to every API call and retries once through the
+ * refresh endpoint when the backend answers 401.
+ */
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const accessToken = authService.getAccessToken();
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const accessToken = this.authService.getAccessToken();
+  // The refresh call itself must not carry the expired token, or it would loop.
+  const isRefreshCall = req.url.includes('auth/refresh');
+  const authReq =
+    accessToken && !isRefreshCall
+      ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
+      : req;
 
-    let authReq = req;
-    if (accessToken) {
-      authReq = req.clone({
-        setHeaders: { Authorization: `Bearer ${accessToken}` }
-      });
-    }
-
-    return next.handle(authReq).pipe(
-      catchError(err => {
-        if (err.status === 401) {
-            console.log("auth request: ",req);
-          // لو الـ access token انتهى، نجدد باستخدام refresh token
-          return this.authService.refreshAccessToken().pipe(
-            switchMap((res: any) => {
-              const newReq = req.clone({
-                setHeaders: { Authorization: `Bearer ${res.accessToken}` }
-              });
-              return next.handle(newReq);
-            })
-          );
-        }
-        return throwError(() => err);
-      })
-    );
-  }
-}
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status !== 401 || isRefreshCall) {
+        return throwError(() => error);
+      }
+      return authService.refreshAccessToken().pipe(
+        switchMap((res: { accessToken: string }) =>
+          next(req.clone({ setHeaders: { Authorization: `Bearer ${res.accessToken}` } }))
+        ),
+        catchError((refreshError) => {
+          // The refresh token is gone too — drop the session and bubble up.
+          authService.logout();
+          return throwError(() => refreshError);
+        })
+      );
+    })
+  );
+};
