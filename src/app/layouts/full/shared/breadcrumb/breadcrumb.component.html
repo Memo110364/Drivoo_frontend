@@ -1,0 +1,35 @@
+@if(pageInfo.breadcrumb){
+<mat-card class="cardWithShadow p-5">
+  <div class="grid grid-cols-12 gap-6">
+    <div class="md:col-span-8 col-span-12">
+      <h4 class="page-title m-0 text-lg font-semibold">
+        {{ pageInfo?.['title'] }}
+      </h4>
+    </div>
+    <div class="md:col-span-4 col-span-12">
+      <div class="flex items-center md:justify-end justify-start">
+        <ul class="breadcrumb">
+          @for (url of pageInfo?.['urls']; track url.url;let index = $index,last
+          = $last ) { @if(!last){
+
+          <li class="breadcrumb-item" [routerLink]="url.url">
+            <a [routerLink]="url.url" class="text-body-color">{{
+              url.title
+              }}</a>
+          </li>
+          }@else {
+          <li class="breadcrumb-item">
+            <i-tabler name="circle-filled" class="size-2!"></i-tabler>
+          </li>
+          <li class="breadcrumb-item active text-nowrap">
+            <span class="rounded px-2 py-2 text-primary bg-light-primary text-xs font-medium">
+              {{ url.title }}
+            </span>
+          </li>
+          } }
+        </ul>
+      </div>
+    </div>
+  </div>
+</mat-card>
+}

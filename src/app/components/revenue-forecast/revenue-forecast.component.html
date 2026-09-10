@@ -1,0 +1,49 @@
+<mat-card class="cardWithShadow h-full">
+  <mat-card-content>
+    <div class="hstack align-items-center flex-col flex-lg-row">
+      <div class="hstack w-100">
+        <div
+          class="bg-light-info rounded icon-48 d-flex align-items-center justify-content-center"
+        >
+          <i
+            class="iconify f-s-24 d-flex text-info"
+            data-icon="solar:layers-linear"
+          ></i>
+        </div>
+        <div>
+          <mat-card-title> {{ "dashboard.revenueLast30Days" | translate }}</mat-card-title>
+          <mat-card-subtitle> {{ "dashboard.revenueLast30DaysOverview" | translate }}</mat-card-subtitle>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- chart -->
+    <div class="m-t-16" style="height: 300px">
+      @if (isLoading()) {
+<ngx-skeleton-loader animation="progress"
+    [theme]="{
+      height: '300px'
+    }" 
+   
+    > </ngx-skeleton-loader>
+      }@else {
+
+      <apx-chart
+        [series]="revenueForecastChart.series"
+        [dataLabels]="revenueForecastChart.dataLabels"
+        [chart]="revenueForecastChart.chart"
+        [legend]="revenueForecastChart.legend"
+        [colors]="revenueForecastChart.colors"
+        [grid]="revenueForecastChart.grid"
+        [fill]="revenueForecastChart.fill"
+        [stroke]="revenueForecastChart.stroke"
+        [tooltip]="revenueForecastChart.tooltip"
+        [markers]="revenueForecastChart.markers"
+        [xaxis]="revenueForecastChart.xaxis"
+        [responsive]="revenueForecastChart.responsive"
+      ></apx-chart>
+    }
+    </div>
+  </mat-card-content>
+</mat-card>

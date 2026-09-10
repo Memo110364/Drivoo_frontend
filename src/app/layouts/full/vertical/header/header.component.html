@@ -1,0 +1,220 @@
+<mat-toolbar class="topbar gap-1.5">
+  <!-- --------------------------------------------------------------- -->
+  <!-- Desktop Menu -->
+  @if(showToggle) {
+  <button mat-icon-button (click)="toggleCollapsed.emit()" class="flex justify-center items-center">
+    <i class="iconify text-xl! flex" data-icon="solar:hamburger-menu-line-duotone"></i>
+  </button>
+  }
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- Mobile Menu -->
+  @if(!showToggle) {
+  <button mat-icon-button (click)="toggleMobileNav.emit()" class="flex justify-center items-center">
+    <i class="iconify text-xl! flex" data-icon="solar:hamburger-menu-line-duotone"></i>
+  </button>
+  }
+  <!-- --------------------------------------------------------------- -->
+
+  <!-- --------------------------------------------------------------- -->
+  <!--  Search -->
+  <!-- --------------------------------------------------------------- -->
+  <!-- <button mat-icon-button (click)="openDialog()" class="flex items-center justify-center">
+    <i class="iconify text-xl! flex" data-icon="solar:magnifer-outline"></i>
+  </button> -->
+
+  <div class="hidden lg:flex">
+    <!-- --------------------------------------------------------------- -->
+    <!--  Links -->
+    <!-- --------------------------------------------------------------- -->
+    <button mat-icon-button [matMenuTriggerFor]="appsmenu" aria-label="links" class="flex items-center justify-center">
+      <i class="iconify text-xl! flex" data-icon="solar:widget-3-line-duotone"></i>
+    </button>
+    <mat-menu #appsmenu="matMenu" class="apps-dd cardWithShadow overflow-hidden! rounded-2xl">
+      <div class="grid grid-cols-12 gap-2">
+        <div class="col-span-8">
+          <div class="p-6">
+            <div class="grid grid-cols-12 gap-6">
+              @for(appdd of apps; track appdd.title) {
+              <div class="col-span-6 text-hover-primary">
+                <a [routerLink]="[appdd.link]" class="flex items-center gap-4 no-underline">
+                  <span class="text-{{ appdd.color }} bg-light-{{
+                      appdd.color
+                    }} rounded size-12! flex items-center justify-center">
+                    <span class="iconify size-5!" [attr.data-icon]="appdd.icon"></span>
+                  </span>
+
+                  <div>
+                    <h5 class="text-sm font-semibold hover-text">
+                      {{ appdd.title }}
+                    </h5>
+                    <span class="text-xs text-muted">{{ appdd.subtitle }}</span>
+                  </div>
+                </a>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="col-span-4">
+          <img src="/assets/images/backgrounds/mega-dd-bg.jpg" alt="mega-dd-bg" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </mat-menu>
+  </div>
+
+  <span class="flex-1"></span>
+
+  @if(options.theme=='light'){
+  <button mat-icon-button aria-label="lightdark" class="flex justify-center" (click)="setlightDark('dark')">
+    <i-tabler class="flex text-xl!" [name]="'moon'"></i-tabler>
+  </button>
+  }@else{
+  <button mat-icon-button aria-label="lightdark" class="flex justify-center" (click)="setlightDark('light')">
+    <i-tabler class="flex text-xl!" [name]="'sun'"></i-tabler>
+  </button>
+  }
+
+  <!-- Mobile Menu -->
+  <button mat-icon-button (click)="toggleMobileFilterNav.emit()" class="flex lg:hidden! justify-center items-center">
+    <i class="iconify text-xl! flex" data-icon="solar:menu-dots-outline"></i>
+  </button>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- Collpase bar -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-icon-button (click)="toggleCollpase()" class="flex lg:hidden! justify-center">
+    <i class="iconify text-xl! flex" data-icon="solar:sort-outline"></i>
+  </button>
+  @if(isCollapse){
+  <div class="header-collpase py-2.5 px-4">
+    <div class="flex justify-center gap-2.5">
+      <!-- --------------------------------------------------------------- -->
+      <!-- Notification Dropdown -->
+      <!-- --------------------------------------------------------------- -->
+      <button class="relative flex items-center justify-center" mat-icon-button [matMenuTriggerFor]="notificationmenu"
+        aria-label="Notifications">
+        <i class="iconify flex" data-icon="solar:bell-line-duotone"></i>
+        <div class="notify">
+          <span class="heartbit"></span> <span class="point"></span>
+        </div>
+      </button>
+      <!-- --------------------------------------------------------------- -->
+      <!-- langugage Dropdown -->
+      <!-- --------------------------------------------------------------- -->
+      <button [matMenuTriggerFor]="flags" mat-icon-button>
+        <img [src]="selectedLanguage.icon" class="rounded-full object-cover" />
+      </button>
+
+      <!-- --------------------------------------------------------------- -->
+      <!-- Profile Dropdown -->
+      <!-- --------------------------------------------------------------- -->
+      <button mat-icon-button extended [matMenuTriggerFor]="profilemenu" aria-label="Notifications"
+        class="relative flex items-center justify-center profile-btn-dd">
+        <img src="/assets/images/profile/user-1.jpg"
+          class="rounded-full size-9 object-cover profile-dd flex items-center justify-center" width="36" height="36" />
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- Notification Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-icon-button [matMenuTriggerFor]="notificationmenu" aria-label="Notifications"
+    class="hidden lg:flex items-center justify-center">
+    <i class="iconify text-xl! flex" data-icon="solar:bell-line-duotone"></i>
+  </button>
+  <mat-menu #notificationmenu="matMenu" class="topbar-dd cardWithShadow">
+    <div class="flex items-center justify-between px-7.5 py-4">
+      <h6 class="text-base font-semibold">Notifications</h6>
+      <span class="bg-primary text-white px-2 py-1 font-medium rounded text-xs">5 new</span>
+    </div>
+
+    @for(notification of notifications; track notification.title) {
+    <button mat-menu-item class="px-7.5! py-3!">
+      <div class="flex gap-4 items-center">
+        <span class="shrink-0 text-{{ notification.color }} bg-light-{{
+            notification.color
+          }} rounded-full size-12! flex items-center justify-center">
+          <i-tabler name="{{ notification.icon }}" class="text-xl! flex"></i-tabler>
+        </span>
+        <div class="w-full">
+          <div class="flex items-center justify-between w-full">
+            <h5 class="text-sm font-semibold">
+              {{ notification.title }}
+            </h5>
+            <span class="block text-xs">
+              {{ notification.time }}</span>
+          </div>
+          <span class="block text-truncate text-xs">{{
+            notification.subtitle
+            }}</span>
+        </div>
+      </div>
+    </button>
+    }
+
+    <div class="py-3 px-7.5">
+      <button mat-flat-button color="primary" class="w-full">
+        See all Notifications
+      </button>
+    </div>
+  </mat-menu>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- langugage Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <button [matMenuTriggerFor]="flags" mat-icon-button class="hidden lg:flex">
+    <img [src]="selectedLanguage.icon" class="rounded-full object-cover" />
+  </button>
+  <mat-menu #flags="matMenu" class="cardWithShadow" xPosition="before">
+    @for(lang of languages; track lang.icon) {
+    <button mat-menu-item (click)="changeLanguage(lang)">
+      <div class="flex gap-2 items-center">
+        <img [src]="lang.icon" class="rounded-full object-cover size-5!" />
+        <span class="text-sm">{{ lang.language }}</span>
+      </div>
+    </button>
+    }
+  </mat-menu>
+
+  <!-- --------------------------------------------------------------- -->
+  <!-- profile Dropdown -->
+  <!-- --------------------------------------------------------------- -->
+  <button mat-button [matMenuTriggerFor]="profilemenu" aria-label="Profile" class="profile-btn px-2! hidden lg:flex">
+    <div class="flex items-center gap-2">
+      <img src="/assets/images/profile/user-1.jpg" class="rounded-full object-cover size-9! profile-dd" width="36" />
+
+      <i data-icon="solar:alt-arrow-down-bold" class="iconify text-sm"></i>
+    </div>
+  </button>
+  <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
+    <div class="px-7.5 py-4">
+      <div class="flex gap-4 items-center pb-6 border-b border-border mt-4">
+        <img src="/assets/images/profile/user-1.jpg" class="rounded-full" width="56" />
+        <div>
+          <h6 class="text-sm font-semibold flex items-center">
+            David McMichael
+            <span class="text-sm block text-success mx-1">Pro</span>
+          </h6>
+          <span class="text-muted"> david&#64;wrappixel.com </span>
+        </div>
+      </div>
+    </div>
+    <div class="px-7.5 pb-4">
+      @for(profile of profiledd; track profile.title) {
+      <a class="p-2 no-underline block text-hover-primary" [routerLink]="[profile.link]">
+        <div class="flex items-center">
+          <h5 class="text-sm font-semibold hover-text">
+            {{ profile.title }}
+          </h5>
+          @if(profile.new) {
+          <span class="bg-light-error text-error rounded px-2 py-0.5 font-medium text-xs mx-1">5</span>
+          }
+        </div>
+      </a>
+      }
+    </div>
+  </mat-menu>
+</mat-toolbar>

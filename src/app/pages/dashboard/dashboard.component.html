@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-lg-3 col-sm-6">
+    <app-card title="{{'dashboard.total_orders'|translate}}" subtitle="{{dashboardData?.total_orders??'- -'}}" icon="solar:cart-outline" color="primary"></app-card>
+  </div>
+    <div class="col-lg-3 col-sm-6">
+    <app-card title="{{'dashboard.revenue'|translate}}" subtitle="{{dashboardData?.revenue??'- -'}}" icon="ic:sharp-attach-money" color="success"></app-card>
+  </div>
+    <div class="col-lg-3 col-sm-6">
+        <app-card title="{{'dashboard.delivery_rate'|translate}}" subtitle="{{dashboardData?.delivery_rate??'- -'}}" icon="la:shipping-fast" color="warning"></app-card>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <app-card title="{{'dashboard.return_rate'|translate}}" subtitle="{{dashboardData?.return_rate??'- -'}}" icon="tabler:arrow-back" color="error"></app-card>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <app-card title="{{'dashboard.average_delivery'|translate}}" subtitle="{{dashboardData?.average_delivery??'- -'}}" icon="solar:clock-circle-broken" color="primary"></app-card>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <app-card title="{{'dashboard.net_profit'|translate}}" subtitle="{{dashboardData?.net_profit??'- -'}}" icon="hugeicons:money-01" color="primary"></app-card>
+    </div>
+</div>
+<div class="row ">
+        <app-orders-status class="col-lg-6"></app-orders-status>
+        <app-revenue-forecast class="col-lg-6"></app-revenue-forecast>
+</div>

@@ -1,0 +1,51 @@
+<mat-card class="cardWithShadow h-full">
+  <mat-card-content>
+    <div class="hstack w-100">
+      <div
+        class="bg-light-success rounded icon-48 d-flex align-items-center justify-content-center"
+      >
+        <i
+          class="iconify f-s-24 d-flex text-success"
+          data-icon="solar:chart-line-duotone"
+        ></i>
+      </div>
+      <div>
+        <mat-card-title>{{'dashboard.currentOrdersStatusTitle' | translate}}</mat-card-title>
+        <mat-card-subtitle>{{'dashboard.orderStatusOverview' | translate}}</mat-card-subtitle>
+      </div>
+    </div>
+  </mat-card-content>
+  <div class="p-x-30 p-b-30 p-t-15">
+    @if (isLoading()) {
+      @for (item of [].constructor(5); track $index) {
+        <ngx-skeleton-loader class="flex" appearance="custom-content">
+          <div class="d-flex align-items-center justify-content-between gap-16">
+            <ngx-skeleton-loader class="f-w-600 f-s-14 w-25"
+              >Paid</ngx-skeleton-loader
+            >
+            <mat-progress-bar
+              color="success"
+              mode="determinate"
+              value="0"
+            ></mat-progress-bar>
+            <ngx-skeleton-loader class="f-w-600 w-10 f-s-14 text-muted"
+              >28%</ngx-skeleton-loader
+            >
+          </div>
+        </ngx-skeleton-loader>
+      }
+    } @else {
+      @for (item of orderStatus.status; track $index) {
+<div class="d-flex align-items-center justify-content-between gap-16 m-t-20">
+      <span class="f-w-600 f-s-14 w-25">{{"orders.status." + item.name | translate}}</span>
+      <mat-progress-bar
+        color="primary"
+        mode="determinate"
+        [value]="(item.value/orderStatus.total)*100"
+      ></mat-progress-bar>
+      <span class="f-w-600 f-s-14 text-muted">{{((item.value/orderStatus.total)*100).toFixed(2)}}%</span>
+    </div>
+  }
+    }
+  </div>
+</mat-card>

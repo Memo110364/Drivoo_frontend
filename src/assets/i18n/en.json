@@ -1,0 +1,81 @@
+{
+  "system_messages":{
+    "no_orders":"No Orders",
+    "close":"Close"
+  },
+  "dashboard": {
+    "currentOrdersStatusTitle": "Current Orders Status",
+    "orderStatusOverview": "Overview of Orders",
+    "revenueLast30Days": "Revenue Last 30 days",
+    "revenueLast30DaysOverview": "Overview of Revenue",
+    "total_orders": "Total Orders",
+    "revenue": "Revenue",
+    "delivery_rate": "Delivery Rate",
+    "return_rate": "Return Rate",
+    "average_delivery": "Average Delivery",
+    "net_profit": "Net Profit"
+  },
+  "navbar": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "products": "Products",
+    "finance": "Finance",
+    "reports": "Reports",
+    "settings": "Settings",
+    "all_orders": "All Orders",
+    "create_order": "Create Order",
+    "all_products": "All Products",
+    "create_product": "Create Product",
+    "my_wallets": "My Wallets",
+    "my_invoices": "My Invoices",
+    "transfers": "Transfers",
+    "logout": "Logout"
+  },
+  "orders": {
+    
+    "invoice":{
+      "back_to_invoices":"Back to Invoices",
+      "edit_invoice":"Edit Invoice",
+      "order_number":"Order Number",
+      "order_date":"Order Date",
+      "order_status":"Order Status",
+      "order_address":"Order Address",
+      "order_phone":"Order Phone",
+      "product":"Product",
+      "unit_price":"Unit Price",
+      "quantity":"Quantity",
+      "total_cost":"Total Cost"
+    },
+    "status": {
+      "pending": "Pending",
+      "delivered": "Delivered",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "returned": "Returned",
+      "collected": "Collected",
+      "in_shipping": "In Shipping"
+    },
+    "status_number":{
+      "1": "Pending",
+      "2": "In Progress",
+      "3": "Done",
+      "4": "Cancelled",
+      "5": "Refunded",
+      "6": "Ready to Delivery",
+      "7": "In Delivery",
+      "8": "Waiting Confirm",
+      "9": "Delivered",
+      "10": "Confirmed",
+      "11": "Refund Request",
+      "12": "Packing",
+      "13": "Confirm By Aff",
+      "14": "Suspended",
+      "15": "Reactivated",
+      "16": "Cancelled Automatically",
+      "17": "Confirm By Client",
+      "18": "Exchange",
+      "19": "Need Update" 
+    }
+
+  }
+}
