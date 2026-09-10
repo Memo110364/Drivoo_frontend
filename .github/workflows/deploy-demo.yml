@@ -29,6 +29,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      # Turns Pages on for the repository on the first run, so the deploy job
+      # has somewhere to publish instead of failing until someone flips the
+      # setting by hand.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - run: npm ci
 
       # Pages serves the site from /<repo>/, so the router needs a matching base href.
