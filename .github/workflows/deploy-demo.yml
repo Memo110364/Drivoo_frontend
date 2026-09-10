@@ -3,7 +3,9 @@ name: Deploy demo to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # Mahmoud is the working branch; main stays untouched until it is merged
+    # there deliberately, so the demo link has to follow Mahmoud.
+    branches: [Mahmoud, main]
   workflow_dispatch:
 
 permissions:
