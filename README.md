@@ -34,8 +34,9 @@ inert in every other configuration, so it never affects real builds.
 
 ## Deploying
 
-Pushing to `main` runs `.github/workflows/deploy-demo.yml`, which builds the
-demo configuration and publishes it to GitHub Pages. This needs GitHub Pages to
+Pushing to `Mahmoud` (the working branch) or `main` runs
+`.github/workflows/deploy-demo.yml`, which builds the demo configuration and
+publishes it to GitHub Pages. This needs GitHub Pages to
 be enabled once: **Settings → Pages → Source: GitHub Actions**. The workflow can
 also be started by hand from the **Actions** tab (`Run workflow`).
 
