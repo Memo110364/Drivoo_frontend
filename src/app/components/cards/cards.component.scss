@@ -37,15 +37,17 @@
   }
 }
 
-// One line only. The icon sits on its own row above, so the label has the full
-// card width and Arabic labels fit without wrapping the card taller.
-.kpi-label {
+// Label, trend and caption each get their own line, so the value never shares a
+// row with the trend. One line apiece keeps all six tiles the same height.
+.kpi-line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.kpi-note {
+// The value is the dominant element and is read as a number in either
+// direction, so it isolates itself from the surrounding text direction.
+.kpi-value {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

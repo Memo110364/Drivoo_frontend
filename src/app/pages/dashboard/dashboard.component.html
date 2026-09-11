@@ -40,8 +40,8 @@
 
     <button mat-flat-button color="primary" class="toolbar-btn" (click)="exportReport()"
             [disabled]="isLoading()">
-      <i class="iconify f-s-18 m-r-4" data-icon="solar:download-minimalistic-linear"></i>
-      {{ 'dashboard.export_report' | translate }}
+      <i class="iconify f-s-18 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+      <span>{{ 'dashboard.export_report' | translate }}</span>
     </button>
   </div>
 </div>
@@ -265,7 +265,7 @@
                   <i class="iconify f-s-16 d-flex text-{{ attentionMeta[item.key].color }}"
                      [attr.data-icon]="attentionMeta[item.key].icon"></i>
                 </div>
-                <span class="f-s-13 flex-grow-1 min-w-0">
+                <span class="f-s-13 flex-grow-1 min-w-0 attention-text" dir="auto">
                   {{ 'dashboard.attention.' + item.key | translate: { count: item.count } }}
                 </span>
                 <span class="badge-soft badge-soft--{{ item.severity }} f-s-11 f-w-500 text-nowrap">
@@ -304,7 +304,9 @@
               <div class="d-flex align-items-center justify-content-between gap-8 p-y-6">
                 <span class="d-flex align-items-center gap-8 f-s-13 min-w-0">
                   <i class="iconify f-s-16 d-flex text-{{ row.color }} flex-shrink-0" [attr.data-icon]="row.icon"></i>
-                  <span class="text-truncate">{{ 'dashboard.inventory.' + row.key | translate }}</span>
+                  <span class="text-truncate" dir="auto">
+                    {{ 'dashboard.inventory.' + row.key | translate }}
+                  </span>
                 </span>
                 <span class="f-s-14 f-w-600 text-{{ row.color }}">{{ row.value ?? 0 | number }}</span>
               </div>
@@ -318,10 +320,9 @@
     <div class="col-lg-4">
       <mat-card class="cardWithShadow h-full">
         <mat-card-content class="p-24">
-          <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
-            <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'dashboard.top_products.title' | translate }}</h5>
-            <span class="f-s-12 text-muted">{{ 'dashboard.periods.' + period() | translate }}</span>
-          </div>
+          <h5 class="f-s-15 f-w-600 m-0 m-b-8 lh-sm">
+            {{ 'dashboard.top_products.title' | translate }}
+          </h5>
 
           @if (isLoading()) {
             @for (placeholder of [].constructor(5); track $index) {
@@ -334,8 +335,9 @@
               <div class="d-flex align-items-center gap-12 p-y-6">
                 <img [src]="product.image" [alt]="product.name" class="rounded product-thumb"
                      width="38" height="38" />
-                <span class="f-s-13 flex-grow-1 text-truncate min-w-0">{{ product.name }}</span>
-                <span class="f-s-13 f-w-600 text-nowrap text-muted">
+                <span class="f-s-13 flex-grow-1 text-truncate min-w-0" dir="auto"
+                      [title]="product.name">{{ product.name }}</span>
+                <span class="f-s-13 f-w-600 text-nowrap text-muted product-count">
                   {{ product.orders | number }} {{ 'dashboard.top_products.orders' | translate }}
                 </span>
               </div>

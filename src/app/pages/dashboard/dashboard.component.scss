@@ -59,7 +59,19 @@
 
 .toolbar-btn {
   height: 42px;
-  line-height: 42px;
+  line-height: normal;
+
+  // Material wraps projected content in `.mdc-button__label`, which is a block.
+  // A `d-flex` icon inside it therefore became a block-level box and dropped
+  // onto its own line above the text. Making that wrapper the flex row puts the
+  // icon and label on one centred line; `gap` follows the writing direction, so
+  // RTL needs no separate rule and no absolute positioning is involved.
+  ::ng-deep .mdc-button__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -146,6 +158,13 @@
   }
 }
 
+// An alert mixes a number with a translated sentence. `dir="auto"` in the
+// template isolates the run so the count keeps its place whichever language the
+// interface is in; this keeps the sentence readable when it wraps.
+.attention-text {
+  line-height: 1.45;
+}
+
 // ---------------------------------------------------------------------------
 // Top selling products
 // ---------------------------------------------------------------------------
@@ -158,6 +177,12 @@
   flex-shrink: 0;
   object-fit: cover;
   background-color: rgba(0, 0, 0, 0.04);
+}
+
+// The count holds its width so a long product name ellipsises instead of
+// pushing it out of alignment.
+.product-count {
+  flex-shrink: 0;
 }
 
 // Lets a flex child shrink below its content width so text-truncate can bite.
