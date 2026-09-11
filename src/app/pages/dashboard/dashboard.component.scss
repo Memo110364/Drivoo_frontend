@@ -1,0 +1,198 @@
+// ---------------------------------------------------------------------------
+// Density
+//
+// The theme gives every card 30px of body padding and a 30px bottom margin, and
+// the grid adds a 30px gutter. That is generous for a content page but leaves an
+// operations dashboard very sparse. Everything below tightens those three
+// numbers for this page only — no theme file is touched.
+// ---------------------------------------------------------------------------
+:host {
+  display: block;
+
+  ::ng-deep .mat-mdc-card {
+    // The gap between rows comes from the columns instead, so a stretched card
+    // does not inherit this margin as dead space at its own foot.
+    margin-bottom: 0 !important;
+  }
+
+  ::ng-deep .mat-mdc-card > .mat-mdc-card-content {
+    padding: 20px !important;
+  }
+
+  // 30px gutter -> 24px, applied symmetrically so the grid stays balanced.
+  ::ng-deep .row {
+    margin-right: -12px;
+    margin-left: -12px;
+  }
+
+  ::ng-deep .row > [class*='col-'] {
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-bottom: 24px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Header toolbar
+// ---------------------------------------------------------------------------
+
+// Material's outline field is 56px tall with a hint row beneath it. These
+// controls sit in a toolbar, so they are shortened to button height and the
+// hint row is removed.
+.dashboard-filter {
+  width: 150px;
+
+  ::ng-deep .mat-mdc-form-field-infix {
+    min-height: 42px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  ::ng-deep .mat-mdc-floating-label:not(.mdc-floating-label--float-above) {
+    top: 21px;
+  }
+}
+
+.toolbar-btn {
+  height: 42px;
+  line-height: normal;
+
+  // Material wraps projected content in `.mdc-button__label`, which is a block.
+  // A `d-flex` icon inside it therefore became a block-level box and dropped
+  // onto its own line above the text. Making that wrapper the flex row puts the
+  // icon and label on one centred line; `gap` follows the writing direction, so
+  // RTL needs no separate rule and no absolute positioning is involved.
+  ::ng-deep .mdc-button__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status breakdown
+// ---------------------------------------------------------------------------
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-row {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.status-share {
+  min-width: 40px;
+  text-align: end;
+}
+
+// ---------------------------------------------------------------------------
+// Operational performance
+//
+// This card's height is set by Orders Aging beside it. Making the body a flex
+// column and letting the metric row grow pushes that surplus into the four
+// tiles, instead of leaving it as one blank band under them.
+.perf-card ::ng-deep .mat-mdc-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.perf-metrics {
+  flex: 1 1 auto;
+}
+//
+// The four tiles stretch to fill the card, which is itself sized by the taller
+// Orders Aging card beside it. Without this the surplus collects as one blank
+// band under the tiles.
+// ---------------------------------------------------------------------------
+.metric-tile {
+  background-color: rgba(0, 0, 0, 0.02);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// ---------------------------------------------------------------------------
+// Attention required
+// ---------------------------------------------------------------------------
+.attention-row {
+  color: inherit;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 7px 6px;
+  margin-inline: -6px;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+}
+
+.badge-soft {
+  padding: 3px 9px;
+  border-radius: 999px;
+
+  &--high {
+    background-color: rgba(250, 137, 107, 0.15);
+    color: #d8583a;
+  }
+
+  &--medium {
+    background-color: rgba(255, 174, 31, 0.15);
+    color: #b87a00;
+  }
+
+  &--low {
+    background-color: rgba(83, 155, 255, 0.15);
+    color: #2f6fd0;
+  }
+}
+
+// An alert mixes a number with a translated sentence. `dir="auto"` in the
+// template isolates the run so the count keeps its place whichever language the
+// interface is in; this keeps the sentence readable when it wraps.
+.attention-text {
+  line-height: 1.45;
+}
+
+// ---------------------------------------------------------------------------
+// Top selling products
+// ---------------------------------------------------------------------------
+
+// Arabic product names run long; the thumbnail and the order count hold their
+// size and the name ellipsises between them.
+.product-thumb {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  object-fit: cover;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+// The count holds its width so a long product name ellipsises instead of
+// pushing it out of alignment.
+.product-count {
+  flex-shrink: 0;
+}
+
+// Lets a flex child shrink below its content width so text-truncate can bite.
+.min-w-0 {
+  min-width: 0;
+}
+
+// A secondary "view" link should not read as a primary action.
+.card-link {
+  min-width: 0;
+  padding: 0 6px;
+  line-height: 1.6;
+}

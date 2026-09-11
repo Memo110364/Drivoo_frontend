@@ -1,0 +1,279 @@
+<!-- Filter bar -->
+<mat-card class="cardWithShadow m-b-24">
+  <mat-card-content class="p-24">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-16 m-b-16">
+      <div>
+        <h4 class="f-s-18 f-w-600 m-0">{{ 'reports.title' | translate }}</h4>
+        <span class="f-s-13 text-muted">{{ 'reports.subtitle' | translate }}</span>
+      </div>
+      <button mat-stroked-button color="primary" (click)="exportCitiesCsv()" [disabled]="isLoading()">
+        <i class="iconify f-s-18 m-r-4" data-icon="solar:download-minimalistic-linear"></i>
+        {{ 'reports.export_csv' | translate }}
+      </button>
+    </div>
+
+    <div class="d-flex flex-wrap gap-8 m-b-16">
+      @for (preset of presets; track preset.key) {
+        <button
+          mat-stroked-button
+          [color]="activePreset() === preset.key ? 'primary' : undefined"
+          (click)="applyPreset(preset)"
+        >
+          {{ 'reports.presets.' + preset.key | translate }}
+        </button>
+      }
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3 col-sm-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'reports.filters.from' | translate }}</mat-label>
+          <input matInput [matDatepicker]="fromPicker" [value]="fromDate()"
+                 (dateChange)="onDateChange('from', $event.value)" />
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'reports.filters.to' | translate }}</mat-label>
+          <input matInput [matDatepicker]="toPicker" [value]="toDate()"
+                 (dateChange)="onDateChange('to', $event.value)" />
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'reports.filters.city' | translate }}</mat-label>
+          <mat-select [ngModel]="cityId()" (ngModelChange)="cityId.set($event); onFilterChange()">
+            <mat-option value="">{{ 'reports.filters.all_cities' | translate }}</mat-option>
+            @for (city of cityOptions(); track city.id) {
+              <mat-option [value]="city.id">{{ city.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'reports.filters.status' | translate }}</mat-label>
+          <mat-select [ngModel]="statusGroup()" (ngModelChange)="statusGroup.set($event); onFilterChange()">
+            <mat-option value="">{{ 'reports.filters.all_statuses' | translate }}</mat-option>
+            @for (group of statusGroups; track group) {
+              <mat-option [value]="group">{{ 'reports.groups.' + group | translate }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+@if (hasError()) {
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24 text-center">
+      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <h5 class="f-s-16 f-w-600">{{ 'reports.error.title' | translate }}</h5>
+      <p class="text-muted f-s-14">{{ 'reports.error.subtitle' | translate }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        {{ 'reports.error.retry' | translate }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+} @else {
+
+  <!-- KPI row -->
+  <div class="row">
+    @for (kpi of [
+      { key: 'total_orders',   value: summary()?.total_orders,      icon: 'solar:cart-outline',            color: 'primary', trend: summary()?.trends?.total_orders,  suffix: '' },
+      { key: 'revenue',        value: summary()?.revenue,           icon: 'ic:sharp-attach-money',         color: 'success', trend: summary()?.trends?.revenue,       suffix: '' },
+      { key: 'net_profit',     value: summary()?.net_profit,        icon: 'hugeicons:money-01',            color: 'secondary', trend: summary()?.trends?.net_profit,  suffix: '' },
+      { key: 'delivery_rate',  value: summary()?.delivery_rate,     icon: 'la:shipping-fast',              color: 'warning', trend: summary()?.trends?.delivery_rate, suffix: '%' },
+      { key: 'return_rate',    value: summary()?.return_rate,       icon: 'tabler:arrow-back',             color: 'error',   trend: null,                             suffix: '%' },
+      { key: 'avg_delivery',   value: summary()?.avg_delivery_days, icon: 'solar:clock-circle-broken',     color: 'primary', trend: null,                             suffix: '' }
+    ]; track kpi.key) {
+      <div class="col-lg-2 col-md-4 col-sm-6">
+        <mat-card class="cardWithShadow">
+          <mat-card-content class="p-20">
+            <div class="d-flex align-items-center gap-12">
+              <div class="bg-light-{{ kpi.color }} rounded icon-40 d-flex align-items-center justify-content-center">
+                <i class="iconify f-s-20 d-flex text-{{ kpi.color }}" [attr.data-icon]="kpi.icon"></i>
+              </div>
+              <span class="f-s-13 text-muted lh-sm">{{ 'reports.kpi.' + kpi.key | translate }}</span>
+            </div>
+            @if (isLoading()) {
+              <ngx-skeleton-loader class="d-block m-t-12" [theme]="{ height: '28px', 'margin-bottom': '0' }"></ngx-skeleton-loader>
+            } @else {
+              <h3 class="f-s-22 f-w-600 m-t-12 m-b-0">
+                {{ kpi.value ?? 0 | number }}{{ kpi.suffix }}
+              </h3>
+              @if (kpi.trend !== null && kpi.trend !== undefined) {
+                <span class="f-s-12 d-flex align-items-center gap-4 m-t-4" [ngClass]="trendClass(kpi.trend)">
+                  <i class="iconify f-s-14 d-flex" [attr.data-icon]="'tabler:' + trendIcon(kpi.trend)"></i>
+                  {{ kpi.trend > 0 ? '+' : '' }}{{ kpi.trend }}{{ kpi.key === 'delivery_rate' ? ' pt' : '%' }}
+                  <span class="text-muted">{{ 'reports.vs_previous' | translate }}</span>
+                </span>
+              }
+            }
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  </div>
+
+  <!-- Charts -->
+  <div class="row">
+    <div class="col-lg-8">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-4">{{ 'reports.charts.orders_over_time' | translate }}</h5>
+          <span class="f-s-13 text-muted">{{ 'reports.charts.orders_over_time_sub' | translate }}</span>
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block m-t-16" [theme]="{ height: '320px' }"></ngx-skeleton-loader>
+          } @else {
+            <apx-chart
+              [series]="ordersChart.series"
+              [chart]="ordersChart.chart"
+              [colors]="ordersChart.colors"
+              [stroke]="ordersChart.stroke"
+              [dataLabels]="ordersChart.dataLabels"
+              [legend]="ordersChart.legend"
+              [grid]="ordersChart.grid"
+              [fill]="ordersChart.fill"
+              [xaxis]="ordersChart.xaxis"
+              [yaxis]="ordersChart.yaxis"
+              [tooltip]="ordersChart.tooltip"
+            ></apx-chart>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-4">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-4">{{ 'reports.charts.status_breakdown' | translate }}</h5>
+          <span class="f-s-13 text-muted">{{ 'reports.charts.status_breakdown_sub' | translate }}</span>
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block m-t-16" [theme]="{ height: '320px' }"></ngx-skeleton-loader>
+          } @else {
+            <apx-chart
+              [series]="statusChart.series"
+              [labels]="statusChart.labels"
+              [chart]="statusChart.chart"
+              [colors]="statusChart.colors"
+              [dataLabels]="statusChart.dataLabels"
+              [legend]="statusChart.legend"
+              [stroke]="statusChart.stroke"
+              [plotOptions]="statusChart.plotOptions"
+              [tooltip]="statusChart.tooltip"
+            ></apx-chart>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Top products -->
+  <div class="row">
+    <div class="col-lg-4">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-16">{{ 'reports.charts.top_products' | translate }}</h5>
+          @if (isLoading()) {
+            @for (row of [].constructor(6); track $index) {
+              <ngx-skeleton-loader class="d-block" [theme]="{ height: '42px' }"></ngx-skeleton-loader>
+            }
+          } @else if (topProducts().length === 0) {
+            <p class="text-muted f-s-14 text-center m-t-24">{{ 'reports.no_data' | translate }}</p>
+          } @else {
+            @for (product of topProducts(); track product.id) {
+              <div class="d-flex align-items-center gap-12 m-b-16">
+                <img [src]="product.image" [alt]="product.name" class="rounded report-thumb" width="40" height="40" />
+                <div class="flex-grow-1 min-w-0">
+                  <div class="d-flex align-items-center justify-content-between gap-8">
+                    <span class="f-s-13 f-w-500 text-truncate">{{ product.name }}</span>
+                    <span class="f-s-13 f-w-600 text-nowrap">{{ product.revenue | number }}</span>
+                  </div>
+                  <div class="report-bar m-t-6">
+                    <span class="report-bar__fill"
+                          [style.width.%]="maxProductRevenue() ? (product.revenue / maxProductRevenue()) * 100 : 0"></span>
+                  </div>
+                  <span class="f-s-11 text-muted">
+                    {{ product.quantity | number }} {{ 'reports.units' | translate }}
+                  </span>
+                </div>
+              </div>
+            }
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Cities table -->
+    <div class="col-lg-8">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-16">{{ 'reports.charts.cities_performance' | translate }}</h5>
+          @if (isLoading()) {
+            @for (row of [].constructor(6); track $index) {
+              <ngx-skeleton-loader class="d-block" [theme]="{ height: '42px' }"></ngx-skeleton-loader>
+            }
+          } @else {
+            <div class="table-responsive">
+              <table mat-table [dataSource]="cities()" class="w-100 no-wrap">
+                <ng-container matColumnDef="city_name">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.city_name' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <span class="f-s-13 f-w-500">{{ row.city_name }}</span>
+                    <div class="report-bar m-t-4" style="max-width: 90px">
+                      <span class="report-bar__fill"
+                            [style.width.%]="maxCityOrders() ? (row.orders / maxCityOrders()) * 100 : 0"></span>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="orders">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.orders' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.orders | number }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="delivered">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.delivered' | translate }}</th>
+                  <td mat-cell *matCellDef="let row" class="text-success">{{ row.delivered | number }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="failed">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.failed' | translate }}</th>
+                  <td mat-cell *matCellDef="let row" class="text-error">{{ row.failed | number }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="delivery_rate">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.delivery_rate' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.delivery_rate }}%</td>
+                </ng-container>
+
+                <ng-container matColumnDef="avg_delivery_days">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.avg_delivery_days' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.avg_delivery_days }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="revenue">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.revenue' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.revenue | number }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="net_profit">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.table.net_profit' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.net_profit | number }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="cityColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: cityColumns"></tr>
+              </table>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}
