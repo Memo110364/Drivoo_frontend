@@ -14,15 +14,22 @@ const LANGUAGE_STORAGE_KEY = 'drivoo.language';
   providedIn: 'root',
 })
 export class CoreService {
-  private optionsSignal = signal<AppSettings>({
-    ...defaults,
-    language: CoreService.readStoredLanguage(),
-  });
+  private optionsSignal = signal<AppSettings>(CoreService.initialOptions());
   private notify$ = new BehaviorSubject<Record<string, any>>({});
 
   constructor() {
     this.notify$.next(this.optionsSignal());
     this.applyDirection(this.getLanguage());
+  }
+
+  /**
+   * Direction has to be derived from the stored language here, not left at the
+   * default. Otherwise a session saved in English still boots the layout in RTL,
+   * because `dir` and `language` would disagree from the very first render.
+   */
+  private static initialOptions(): AppSettings {
+    const language = CoreService.readStoredLanguage();
+    return { ...defaults, language, dir: SUPPORTED_LANGUAGES[language] };
   }
 
   /** Falls back to the configured default when storage is empty or holds junk. */
