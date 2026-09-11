@@ -21,32 +21,30 @@
   top: -21px;
 }
 
-
-
-// KPI cards sit in one row, so they have to share a height regardless of
-// whether a given metric has a delta or a note underneath it.
+// KPI cards sit six to a row, so they share a height and need a tight box.
 .kpi-card {
   height: 100%;
+
   // The theme gives every card a 30px bottom margin. Inside a stretched grid
   // column that margin lands *inside* the column, so `height: 100%` inherits it
   // as dead space at the foot of the card. The column supplies the gap instead.
   margin-bottom: 0 !important;
 
-  // The theme sets `padding: 30px !important` on every card body. Six tiles in
-  // one row need a tighter box, so this overrides it for KPI cards only.
+  // Same reason the padding is overridden on the dashboard: 30px is too much
+  // for a tile this small, and the theme sets it with !important.
   ::ng-deep .mat-mdc-card-content {
-    padding: 18px !important;
+    padding: 14px !important;
   }
 }
 
-// Labels differ in length between locales, so reserve two lines for every card
-// rather than letting the longest one stretch the whole row.
+// One line only. The icon sits on its own row above, so the label has the full
+// card width and Arabic labels fit without wrapping the card taller.
 .kpi-label {
-  line-height: 1.35;
-  min-height: 2.7em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-// The caption is secondary; keeping it on one line keeps card heights uniform.
 .kpi-note {
   white-space: nowrap;
   overflow: hidden;

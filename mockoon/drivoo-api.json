@@ -468,7 +468,7 @@
       "responses": [
         {
           "uuid": "94c9cfbe-edb3-4250-8bb1-8549c8d1a9f1",
-          "body": "{\n  \"total_orders\": 279,\n  \"delivered\": 168,\n  \"shipped\": 54,\n  \"pending\": 46,\n  \"failed\": 11,\n  \"confirmed\": 28,\n  \"returned\": 9,\n  \"cancelled\": 2,\n  \"goods_total\": 743563,\n  \"shipping_cost\": 19955,\n  \"commission\": 41614,\n  \"revenue\": 402983,\n  \"net_profit\": 19685,\n  \"cod_collected\": 374166,\n  \"cod_success_rate\": 98.1,\n  \"delivery_rate\": 93.9,\n  \"return_rate\": 6.1,\n  \"avg_delivery_days\": 3.3,\n  \"trends\": {\n    \"total_orders\": 12.0, \"revenue\": 22.4, \"net_profit\": 8.6, \"cod_collected\": 22.0,\n    \"delivered\": 18.0, \"shipped\": 6.0, \"pending\": -25.0, \"returned\": -10.0,\n    \"delivery_rate\": 4.2, \"return_rate\": -1.1, \"avg_delivery_days\": -0.4,\n    \"cod_success_rate\": 0.8\n  }\n}",
+          "body": "{\n  \"total_orders\": 279,\n  \"delivered\": 168,\n  \"shipped\": 54,\n  \"pending\": 46,\n  \"failed\": 11,\n  \"confirmed\": 28,\n  \"returned\": 9,\n  \"cancelled\": 2,\n  \"goods_total\": 743563,\n  \"shipping_cost\": 19955,\n  \"commission\": 41614,\n  \"revenue\": 402983,\n  \"net_profit\": 19685,\n  \"cod_collected\": 374166,\n  \"cod_success_rate\": 98.1,\n  \"delivery_rate\": 94.9,\n  \"return_rate\": 5.1,\n  \"avg_delivery_days\": 3.3,\n  \"trends\": {\n    \"total_orders\": 12.0, \"revenue\": 22.4, \"net_profit\": 8.6, \"cod_collected\": 22.0,\n    \"delivered\": 18.0, \"shipped\": 6.0, \"pending\": -25.0, \"returned\": -10.0,\n    \"delivery_rate\": 4.2, \"return_rate\": -1.1, \"avg_delivery_days\": -0.4,\n    \"cod_success_rate\": 0.8\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

@@ -111,9 +111,11 @@ function totalsOf(orders: MockOrder[]): Totals {
     }
   }
 
-  // Delivery and return rates are measured against orders that reached a final
-  // state, so orders still in transit do not drag the percentages down.
-  const settled = counts.delivered + counts.failed;
+  // Both rates share one denominator: orders whose delivery outcome is final.
+  // Orders still in transit have no outcome yet, and orders cancelled before
+  // shipping never reached a delivery attempt, so neither belongs here. The two
+  // rates therefore add up to 100%.
+  const finalised = counts.delivered + fine.returned;
   return {
     total_orders: orders.length,
     ...counts,
@@ -129,8 +131,10 @@ function totalsOf(orders: MockOrder[]): Totals {
     commission: Math.round(commission),
     revenue: Math.round(revenue),
     net_profit: Math.round(profit),
-    delivery_rate: settled ? Number(((counts.delivered / settled) * 100).toFixed(1)) : 0,
-    return_rate: settled ? Number(((counts.failed / settled) * 100).toFixed(1)) : 0,
+    delivery_rate: finalised
+      ? Number(((counts.delivered / finalised) * 100).toFixed(1))
+      : 0,
+    return_rate: finalised ? Number(((fine.returned / finalised) * 100).toFixed(1)) : 0,
     avg_delivery_days: deliveredWithDays
       ? Number((deliveryDaysSum / deliveredWithDays).toFixed(1))
       : 0,

@@ -37,7 +37,7 @@
       "total_orders": "Total Orders",
       "delivered": "Delivered",
       "in_shipping": "In Shipping",
-      "pending": "Pending",
+      "pending": "Awaiting Shipment",
       "returned": "Returned",
       "cod_collected": "COD Collected"
     },
@@ -64,7 +64,7 @@
     "performance": {
       "title": "Operational Performance",
       "subtitle": "Key metrics to monitor your operations",
-      "delivery_rate": "Delivery Rate",
+      "delivery_rate": "Delivery Success Rate",
       "return_rate": "Return Rate",
       "avg_delivery": "Average Delivery Time",
       "cod_success_rate": "COD Success Rate",
@@ -112,7 +112,8 @@
       "title": "Could not load the dashboard",
       "subtitle": "Check that the API is running, then try again.",
       "retry": "Retry"
-    }
+    },
+    "vs_previous_short": "vs prev. period"
   },
   "navbar": {
     "dashboard": "Dashboard",

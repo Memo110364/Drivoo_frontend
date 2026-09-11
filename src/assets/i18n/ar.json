@@ -37,7 +37,7 @@
       "total_orders": "إجمالي الطلبات",
       "delivered": "تم التوصيل",
       "in_shipping": "في الشحن",
-      "pending": "قيد الانتظار",
+      "pending": "في انتظار الشحن",
       "returned": "مرتجع",
       "cod_collected": "المحصّل عند الاستلام"
     },
@@ -64,7 +64,7 @@
     "performance": {
       "title": "الأداء التشغيلي",
       "subtitle": "المؤشرات الأساسية لمتابعة التشغيل",
-      "delivery_rate": "معدل التوصيل",
+      "delivery_rate": "نسبة نجاح التوصيل",
       "return_rate": "معدل الإرجاع",
       "avg_delivery": "متوسط مدة التوصيل",
       "cod_success_rate": "نسبة نجاح التحصيل",
@@ -112,7 +112,8 @@
       "title": "تعذر تحميل لوحة التحكم",
       "subtitle": "تأكد أن الـ API شغال ثم حاول مرة أخرى.",
       "retry": "إعادة المحاولة"
-    }
+    },
+    "vs_previous_short": "عن الفترة السابقة"
   },
   "navbar": {
     "dashboard": "الرئيسية",

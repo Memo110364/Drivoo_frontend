@@ -246,21 +246,29 @@ export class DashboardComponent implements OnInit {
         type: 'line',
         fontFamily: 'inherit',
         foreColor: '#adb0bb',
-        height: 320,
+        height: 285,
         toolbar: { show: false },
       },
       colors: ['#635bff', '#539bff', '#13deb9', '#fa896b'],
       stroke: { width: 2, curve: 'smooth' },
       dataLabels: { enabled: false },
-      legend: { show: true, position: 'bottom', horizontalAlign: 'center' },
-      grid: { borderColor: 'rgba(0,0,0,0.05)' },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'right',
+        fontSize: '12px',
+        offsetY: -4,
+        itemMargin: { horizontal: 8 },
+        markers: { size: 5 },
+      },
+      grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 4, right: 4, top: -8 } },
       xaxis: {
         categories,
         axisBorder: { show: false },
         axisTicks: { show: false },
         // A 90-day range would otherwise print an unreadable wall of labels.
-        labels: { rotate: 0, hideOverlappingLabels: true },
-        tickAmount: 10,
+        labels: { rotate: 0, hideOverlappingLabels: true, style: { fontSize: '11px' } },
+        tickAmount: 8,
       },
       yaxis: { min: 0, forceNiceScale: true },
       tooltip: { theme: 'dark' },
@@ -271,7 +279,7 @@ export class DashboardComponent implements OnInit {
     return {
       series,
       labels,
-      chart: { type: 'donut', fontFamily: 'inherit', foreColor: '#adb0bb', height: 300 },
+      chart: { type: 'donut', fontFamily: 'inherit', foreColor: '#adb0bb', height: 150 },
       // Same order as statusOrder: pending, confirmed, shipping, delivered, returned, cancelled.
       colors: ['#ffae1f', '#49beff', '#539bff', '#13deb9', '#fa896b', '#7c8fac'],
       dataLabels: { enabled: false },
@@ -280,14 +288,14 @@ export class DashboardComponent implements OnInit {
       plotOptions: {
         pie: {
           donut: {
-            size: '78%',
+            size: '74%',
             labels: {
               show: true,
-              value: { fontSize: '24px', fontWeight: 600 },
+              value: { fontSize: '22px', fontWeight: 600, offsetY: 2 },
               total: {
                 show: true,
                 label: this.translate.instant('dashboard.kpi.total_orders'),
-                fontSize: '13px',
+                fontSize: '12px',
               },
             },
           },
@@ -300,9 +308,9 @@ export class DashboardComponent implements OnInit {
   private buildAgingChart(categories: string[], series: number[]) {
     return {
       series: [{ name: this.translate.instant('dashboard.aging.orders'), data: series }],
-      chart: { type: 'bar', fontFamily: 'inherit', foreColor: '#adb0bb', height: 260, toolbar: { show: false } },
+      chart: { type: 'bar', fontFamily: 'inherit', foreColor: '#adb0bb', height: 195, toolbar: { show: false } },
       plotOptions: {
-        bar: { borderRadius: 6, columnWidth: '45%', distributed: true, dataLabels: { position: 'top' } },
+        bar: { borderRadius: 6, columnWidth: '52%', distributed: true, dataLabels: { position: 'top' } },
       },
       // Older buckets read hotter, so the eye lands on what needs chasing.
       colors: ['#13deb9', '#539bff', '#ffae1f', '#fa896b'],
@@ -312,7 +320,7 @@ export class DashboardComponent implements OnInit {
         style: { fontSize: '12px', fontWeight: 600, colors: ['#7c8fac'] },
       },
       legend: { show: false },
-      grid: { borderColor: 'rgba(0,0,0,0.05)' },
+      grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 0, right: 0, top: -10 } },
       xaxis: {
         categories,
         axisBorder: { show: false },
