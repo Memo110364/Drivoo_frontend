@@ -11,7 +11,10 @@ import { environment } from 'src/environments/environment';
 import { CITIES, ORDERS, PRODUCTS, STATUS_GROUPS, TODAY, dayKey, statusCounts } from './mock-data';
 import {
   ReportFilters,
+  attentionRequired,
   citiesPerformance,
+  inventorySnapshot,
+  ordersAging,
   ordersOverTime,
   reportSummary,
   statusBreakdown,
@@ -133,6 +136,11 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     return ok(topProducts(reportFilters, Number(params.get('limit') ?? 8) || 8));
   }
   if (route === 'reports/cities-performance') return ok(citiesPerformance(reportFilters));
+
+  // ---- dashboard-only reports ----------------------------------------------
+  if (route === 'reports/dashboard/orders-aging') return ok(ordersAging(reportFilters));
+  if (route === 'reports/dashboard/attention') return ok(attentionRequired(reportFilters));
+  if (route === 'reports/dashboard/inventory') return ok(inventorySnapshot());
 
   // ---- logistics -----------------------------------------------------------
   if (route === 'logistics/cities') {

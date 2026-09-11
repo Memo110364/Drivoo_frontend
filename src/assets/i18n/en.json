@@ -13,7 +13,106 @@
     "delivery_rate": "Delivery Rate",
     "return_rate": "Return Rate",
     "average_delivery": "Average Delivery",
-    "net_profit": "Net Profit"
+    "net_profit": "Net Profit",
+    "greeting": "Good morning",
+    "subtitle": "Here's what's happening with your business today.",
+    "export_report": "Export Report",
+    "refresh": "Refresh",
+    "currency": "EGP",
+    "vs_previous": "vs previous period",
+    "of_total": "of total",
+    "no_data": "No data for this period",
+    "filters": {
+      "period": "Period",
+      "from": "From",
+      "to": "To"
+    },
+    "periods": {
+      "today": "Today",
+      "last_7_days": "Last 7 days",
+      "last_30_days": "Last 30 days",
+      "custom": "Custom"
+    },
+    "kpi": {
+      "total_orders": "Total Orders",
+      "delivered": "Delivered",
+      "in_shipping": "In Shipping",
+      "pending": "Pending",
+      "returned": "Returned",
+      "cod_collected": "COD Collected"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "in_shipping": "In Shipping",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "cancelled": "Cancelled"
+    },
+    "series": {
+      "total": "Total Orders",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "returned": "Returned"
+    },
+    "charts": {
+      "orders_trend": "Orders Trend",
+      "orders_trend_sub": "Daily orders across key stages",
+      "status_breakdown": "Order Status Breakdown",
+      "status_breakdown_sub": "Total orders by current status"
+    },
+    "performance": {
+      "title": "Operational Performance",
+      "subtitle": "Key metrics to monitor your operations",
+      "delivery_rate": "Delivery Rate",
+      "return_rate": "Return Rate",
+      "avg_delivery": "Average Delivery Time",
+      "cod_success_rate": "COD Success Rate",
+      "days": "days"
+    },
+    "aging": {
+      "title": "Orders Aging",
+      "subtitle": "How long orders have been pending / undelivered",
+      "orders": "Orders",
+      "0_2": "0-2 days",
+      "3_5": "3-5 days",
+      "6_7": "6-7 days",
+      "over_7": "+7 days"
+    },
+    "attention": {
+      "title": "Attention Required",
+      "view_all": "View All",
+      "delayed_orders": "{{count}} orders delayed more than 5 days",
+      "pending_confirmation": "{{count}} orders pending customer confirmation",
+      "returns_pending_receipt": "{{count}} returned orders pending warehouse receipt",
+      "low_stock_products": "{{count}} products low in stock",
+      "badge": {
+        "high": "Needs follow-up",
+        "medium": "Action needed",
+        "low": "Review stock"
+      }
+    },
+    "inventory": {
+      "title": "Inventory Snapshot",
+      "view": "View Inventory",
+      "total_products": "Total Products (SKUs)",
+      "in_stock": "In Stock",
+      "low_stock": "Low Stock",
+      "out_of_stock": "Out of Stock"
+    },
+    "top_products": {
+      "title": "Top Selling Products",
+      "orders": "orders"
+    },
+    "export": {
+      "metric": "Metric",
+      "value": "Value"
+    },
+    "error": {
+      "title": "Could not load the dashboard",
+      "subtitle": "Check that the API is running, then try again.",
+      "retry": "Retry"
+    }
   },
   "navbar": {
     "dashboard": "Dashboard",

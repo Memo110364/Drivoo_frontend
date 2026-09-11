@@ -32,6 +32,29 @@ export const STATUS_GROUPS: Record<string, string[]> = {
   shipped: ['7'],
 };
 
+/**
+ * The six statuses the dashboard reports on. This is a strict refinement of
+ * STATUS_GROUPS above — pending + confirmed roll up to the "pending" group,
+ * returned + cancelled to "failed" — so dashboard, reports and the orders list
+ * always agree on totals.
+ */
+export const DASHBOARD_STATUS_GROUPS: Record<string, string[]> = {
+  pending: ['1', '8', '14', '15', '18', '19'],
+  confirmed: ['2', '6', '10', '12', '13', '17'],
+  in_shipping: ['7'],
+  delivered: ['3', '9'],
+  returned: ['5', '11'],
+  cancelled: ['4', '16'],
+};
+
+export function dashboardGroupOfStatus(status: string): string {
+  return (
+    Object.keys(DASHBOARD_STATUS_GROUPS).find((group) =>
+      DASHBOARD_STATUS_GROUPS[group].includes(status)
+    ) ?? 'pending'
+  );
+}
+
 /** Badge colours per status code, matching the palette the backend sends. */
 const STATUS_COLORS: Record<string, { color: string; text_color: string; class: string }> = {
   delivered: { color: '13deb9', text_color: 'ffffff', class: 'badge badge-success' },
@@ -198,6 +221,9 @@ export interface MockOrder {
   net_profit: number;
   /** Days between creation and delivery; null while the order is still moving. */
   delivery_days: number | null;
+  /** Cash due on delivery, and whether the courier actually collected it. */
+  cod_amount: number;
+  cod_collected: boolean;
 }
 
 export interface MockOrderItem {
@@ -300,6 +326,10 @@ function buildOrder(index: number, daysAgo: number): MockOrder {
     commission,
     net_profit: group === 'delivered' ? commission : group === 'failed' ? -shipping : 0,
     delivery_days: group === 'delivered' ? between(1, 6) : null,
+    cod_amount: goodsTotal + shipping,
+    // A small share of delivered orders fail collection, which is what the COD
+    // success rate measures.
+    cod_collected: group === 'delivered' && rand() > 0.02,
   };
 }
 

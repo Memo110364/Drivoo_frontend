@@ -13,7 +13,106 @@
     "delivery_rate": "معدل التوصيل",
     "return_rate": "معدل الإرجاع",
     "average_delivery": "متوسط التوصيل",
-    "net_profit": "صافي الربح"
+    "net_profit": "صافي الربح",
+    "greeting": "صباح الخير",
+    "subtitle": "ده اللي بيحصل في شغلك النهاردة.",
+    "export_report": "تصدير التقرير",
+    "refresh": "تحديث",
+    "currency": "ج.م",
+    "vs_previous": "مقارنة بالفترة السابقة",
+    "of_total": "من الإجمالي",
+    "no_data": "لا توجد بيانات في هذه الفترة",
+    "filters": {
+      "period": "الفترة",
+      "from": "من",
+      "to": "إلى"
+    },
+    "periods": {
+      "today": "اليوم",
+      "last_7_days": "آخر ٧ أيام",
+      "last_30_days": "آخر ٣٠ يوم",
+      "custom": "فترة مخصصة"
+    },
+    "kpi": {
+      "total_orders": "إجمالي الطلبات",
+      "delivered": "تم التوصيل",
+      "in_shipping": "في الشحن",
+      "pending": "قيد الانتظار",
+      "returned": "مرتجع",
+      "cod_collected": "المحصّل عند الاستلام"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "تم التأكيد",
+      "in_shipping": "في الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع",
+      "cancelled": "ملغي"
+    },
+    "series": {
+      "total": "إجمالي الطلبات",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع"
+    },
+    "charts": {
+      "orders_trend": "اتجاه الطلبات",
+      "orders_trend_sub": "الطلبات اليومية عبر المراحل الأساسية",
+      "status_breakdown": "توزيع حالات الطلبات",
+      "status_breakdown_sub": "إجمالي الطلبات حسب الحالة الحالية"
+    },
+    "performance": {
+      "title": "الأداء التشغيلي",
+      "subtitle": "المؤشرات الأساسية لمتابعة التشغيل",
+      "delivery_rate": "معدل التوصيل",
+      "return_rate": "معدل الإرجاع",
+      "avg_delivery": "متوسط مدة التوصيل",
+      "cod_success_rate": "نسبة نجاح التحصيل",
+      "days": "يوم"
+    },
+    "aging": {
+      "title": "أعمار الطلبات",
+      "subtitle": "مدة بقاء الطلبات معلّقة أو غير موصّلة",
+      "orders": "طلبات",
+      "0_2": "٠-٢ يوم",
+      "3_5": "٣-٥ أيام",
+      "6_7": "٦-٧ أيام",
+      "over_7": "أكثر من ٧ أيام"
+    },
+    "attention": {
+      "title": "تحتاج انتباهك",
+      "view_all": "عرض الكل",
+      "delayed_orders": "{{count}} طلب متأخر أكثر من ٥ أيام",
+      "pending_confirmation": "{{count}} طلب في انتظار تأكيد العميل",
+      "returns_pending_receipt": "{{count}} طلب مرتجع في انتظار استلام المخزن",
+      "low_stock_products": "{{count}} منتج مخزونه منخفض",
+      "badge": {
+        "high": "يحتاج متابعة",
+        "medium": "يحتاج إجراء",
+        "low": "راجع المخزون"
+      }
+    },
+    "inventory": {
+      "title": "نظرة على المخزون",
+      "view": "عرض المخزون",
+      "total_products": "إجمالي المنتجات",
+      "in_stock": "متوفر",
+      "low_stock": "مخزون منخفض",
+      "out_of_stock": "نفد المخزون"
+    },
+    "top_products": {
+      "title": "أكثر المنتجات مبيعاً",
+      "orders": "طلب"
+    },
+    "export": {
+      "metric": "المؤشر",
+      "value": "القيمة"
+    },
+    "error": {
+      "title": "تعذر تحميل لوحة التحكم",
+      "subtitle": "تأكد أن الـ API شغال ثم حاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
+    }
   },
   "navbar": {
     "dashboard": "الرئيسية",

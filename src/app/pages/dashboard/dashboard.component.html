@@ -1,24 +1,347 @@
-<div class="row">
-    <div class="col-lg-3 col-sm-6">
-    <app-card title="{{'dashboard.total_orders'|translate}}" subtitle="{{dashboardData?.total_orders??'- -'}}" icon="solar:cart-outline" color="primary"></app-card>
+<!-- SECTION 1 — page header -->
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-16 m-b-24">
+  <div>
+    <h4 class="f-s-20 f-w-600 m-0">{{ 'dashboard.greeting' | translate }}</h4>
+    <span class="f-s-14 text-muted">{{ 'dashboard.subtitle' | translate }}</span>
   </div>
-    <div class="col-lg-3 col-sm-6">
-    <app-card title="{{'dashboard.revenue'|translate}}" subtitle="{{dashboardData?.revenue??'- -'}}" icon="ic:sharp-attach-money" color="success"></app-card>
+
+  <div class="d-flex flex-wrap align-items-center gap-12">
+    <mat-form-field appearance="outline" class="dashboard-filter no-hint">
+      <mat-label>{{ 'dashboard.filters.period' | translate }}</mat-label>
+      <mat-select [ngModel]="period()" (ngModelChange)="onPeriodChange($event)">
+        @for (option of periods; track option.key) {
+          <mat-option [value]="option.key">
+            {{ 'dashboard.periods.' + option.key | translate }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dashboard-filter no-hint">
+      <mat-label>{{ 'dashboard.filters.from' | translate }}</mat-label>
+      <input matInput [matDatepicker]="fromPicker" [value]="fromDate()"
+             (dateChange)="onDateChange('from', $event.value)" />
+      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dashboard-filter no-hint">
+      <mat-label>{{ 'dashboard.filters.to' | translate }}</mat-label>
+      <input matInput [matDatepicker]="toPicker" [value]="toDate()"
+             (dateChange)="onDateChange('to', $event.value)" />
+      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-stroked-button (click)="load()" [disabled]="isLoading()"
+            [attr.aria-label]="'dashboard.refresh' | translate">
+      <i class="iconify f-s-18 d-flex" data-icon="solar:refresh-linear"></i>
+    </button>
+
+    <button mat-flat-button color="primary" (click)="exportReport()" [disabled]="isLoading()">
+      <i class="iconify f-s-18 m-r-4" data-icon="solar:download-minimalistic-linear"></i>
+      {{ 'dashboard.export_report' | translate }}
+    </button>
   </div>
-    <div class="col-lg-3 col-sm-6">
-        <app-card title="{{'dashboard.delivery_rate'|translate}}" subtitle="{{dashboardData?.delivery_rate??'- -'}}" icon="la:shipping-fast" color="warning"></app-card>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-        <app-card title="{{'dashboard.return_rate'|translate}}" subtitle="{{dashboardData?.return_rate??'- -'}}" icon="tabler:arrow-back" color="error"></app-card>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-        <app-card title="{{'dashboard.average_delivery'|translate}}" subtitle="{{dashboardData?.average_delivery??'- -'}}" icon="solar:clock-circle-broken" color="primary"></app-card>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-        <app-card title="{{'dashboard.net_profit'|translate}}" subtitle="{{dashboardData?.net_profit??'- -'}}" icon="hugeicons:money-01" color="primary"></app-card>
-    </div>
 </div>
-<div class="row ">
-        <app-orders-status class="col-lg-6"></app-orders-status>
-        <app-revenue-forecast class="col-lg-6"></app-revenue-forecast>
-</div>
+
+@if (hasError()) {
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24 text-center">
+      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <h5 class="f-s-16 f-w-600">{{ 'dashboard.error.title' | translate }}</h5>
+      <p class="text-muted f-s-14">{{ 'dashboard.error.subtitle' | translate }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        {{ 'dashboard.error.retry' | translate }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+} @else {
+
+  <!-- SECTION 2 — main KPI cards -->
+  <div class="row">
+    @if (isLoading()) {
+      @for (placeholder of [].constructor(6); track $index) {
+        <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+          <ngx-skeleton-loader class="d-block" [theme]="{ height: '124px' }"></ngx-skeleton-loader>
+        </div>
+      }
+    } @else {
+      <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+        <app-card [title]="'dashboard.kpi.total_orders' | translate"
+                  [subtitle]="(summary()?.total_orders ?? 0) | number"
+                  icon="solar:cart-outline" color="primary"
+                  [delta]="summary()?.trends?.total_orders ?? null"
+                  [note]="'dashboard.vs_previous' | translate"></app-card>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+        <app-card [title]="'dashboard.kpi.delivered' | translate"
+                  [subtitle]="(summary()?.delivered ?? 0) | number"
+                  icon="la:shipping-fast" color="success"
+                  [delta]="summary()?.trends?.delivered ?? null"
+                  [note]="shareOfTotal(summary()?.delivered)"></app-card>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+        <app-card [title]="'dashboard.kpi.in_shipping' | translate"
+                  [subtitle]="(summary()?.shipped ?? 0) | number"
+                  icon="solar:box-line-duotone" color="info"
+                  [delta]="summary()?.trends?.shipped ?? null"
+                  [note]="shareOfTotal(summary()?.shipped)"></app-card>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+        <app-card [title]="'dashboard.kpi.pending' | translate"
+                  [subtitle]="(summary()?.pending ?? 0) | number"
+                  icon="solar:clock-circle-broken" color="warning"
+                  [delta]="summary()?.trends?.pending ?? null" [lowerIsBetter]="true"
+                  [note]="shareOfTotal(summary()?.pending)"></app-card>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+        <app-card [title]="'dashboard.kpi.returned' | translate"
+                  [subtitle]="(summary()?.returned ?? 0) | number"
+                  icon="tabler:arrow-back" color="error"
+                  [delta]="summary()?.trends?.returned ?? null" [lowerIsBetter]="true"
+                  [note]="shareOfTotal(summary()?.returned)"></app-card>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
+        <app-card [title]="'dashboard.kpi.cod_collected' | translate"
+                  [subtitle]="((summary()?.cod_collected ?? 0) | number) + ' ' + ('dashboard.currency' | translate)"
+                  icon="ic:sharp-attach-money" color="secondary"
+                  [delta]="summary()?.trends?.cod_collected ?? null"
+                  [note]="'dashboard.vs_previous' | translate"></app-card>
+      </div>
+    }
+  </div>
+
+  <div class="row">
+    <!-- SECTION 3 — orders trend -->
+    <div class="col-lg-8">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-4">{{ 'dashboard.charts.orders_trend' | translate }}</h5>
+          <span class="f-s-13 text-muted">{{ 'dashboard.charts.orders_trend_sub' | translate }}</span>
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block m-t-16" [theme]="{ height: '320px' }"></ngx-skeleton-loader>
+          } @else {
+            <apx-chart [series]="ordersTrendChart.series" [chart]="ordersTrendChart.chart"
+                       [colors]="ordersTrendChart.colors" [stroke]="ordersTrendChart.stroke"
+                       [dataLabels]="ordersTrendChart.dataLabels" [legend]="ordersTrendChart.legend"
+                       [grid]="ordersTrendChart.grid" [xaxis]="ordersTrendChart.xaxis"
+                       [yaxis]="ordersTrendChart.yaxis" [tooltip]="ordersTrendChart.tooltip"></apx-chart>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- SECTION 4 — order status breakdown -->
+    <div class="col-lg-4">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-4">{{ 'dashboard.charts.status_breakdown' | translate }}</h5>
+          <span class="f-s-13 text-muted">{{ 'dashboard.charts.status_breakdown_sub' | translate }}</span>
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block m-t-16" [theme]="{ height: '300px' }"></ngx-skeleton-loader>
+          } @else {
+            <apx-chart [series]="statusChart.series" [labels]="statusChart.labels"
+                       [chart]="statusChart.chart" [colors]="statusChart.colors"
+                       [dataLabels]="statusChart.dataLabels" [legend]="statusChart.legend"
+                       [stroke]="statusChart.stroke" [plotOptions]="statusChart.plotOptions"
+                       [tooltip]="statusChart.tooltip"></apx-chart>
+
+            <div class="m-t-8">
+              @for (group of statusOrder; track group; let i = $index) {
+                <div class="d-flex align-items-center justify-content-between gap-8 p-y-6">
+                  <span class="d-flex align-items-center gap-8 f-s-13 min-w-0">
+                    <span class="status-dot" [style.background-color]="statusChart.colors[i]"></span>
+                    <span class="text-truncate">{{ 'dashboard.status.' + group | translate }}</span>
+                  </span>
+                  <span class="d-flex align-items-center gap-12 text-nowrap">
+                    <span class="f-s-13 f-w-600">{{ statusCount(group) | number }}</span>
+                    <span class="f-s-12 text-muted status-share">{{ statusPercentage(group) }}%</span>
+                  </span>
+                </div>
+              }
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- SECTION 5 — operational performance -->
+    <div class="col-lg-8">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-4">{{ 'dashboard.performance.title' | translate }}</h5>
+          <span class="f-s-13 text-muted">{{ 'dashboard.performance.subtitle' | translate }}</span>
+
+          <div class="row m-t-16">
+            @for (metric of [
+              { key: 'delivery_rate',    value: summary()?.delivery_rate,     suffix: '%',    icon: 'solar:check-circle-line-duotone', color: 'success', trend: summary()?.trends?.delivery_rate,    lower: false },
+              { key: 'return_rate',      value: summary()?.return_rate,       suffix: '%',    icon: 'tabler:arrow-back',               color: 'error',   trend: summary()?.trends?.return_rate,      lower: true  },
+              { key: 'avg_delivery',     value: summary()?.avg_delivery_days, suffix: 'days', icon: 'solar:clock-circle-broken',       color: 'warning', trend: summary()?.trends?.avg_delivery_days, lower: true  },
+              { key: 'cod_success_rate', value: summary()?.cod_success_rate,  suffix: '%',    icon: 'ic:sharp-attach-money',           color: 'primary', trend: summary()?.trends?.cod_success_rate, lower: false }
+            ]; track metric.key) {
+              <div class="col-lg-3 col-sm-6">
+                @if (isLoading()) {
+                  <ngx-skeleton-loader class="d-block" [theme]="{ height: '108px' }"></ngx-skeleton-loader>
+                } @else {
+                  <div class="metric-tile p-16 rounded">
+                    <div class="d-flex align-items-center gap-8 m-b-8">
+                      <div class="bg-light-{{ metric.color }} rounded icon-32 d-flex align-items-center justify-content-center">
+                        <i class="iconify f-s-16 d-flex text-{{ metric.color }}" [attr.data-icon]="metric.icon"></i>
+                      </div>
+                      <span class="f-s-13 text-muted lh-sm">
+                        {{ 'dashboard.performance.' + metric.key | translate }}
+                      </span>
+                    </div>
+                    <h4 class="f-s-20 f-w-600 m-b-0">
+                      {{ metric.value ?? 0 | number }}{{ metric.suffix === 'days'
+                        ? ' ' + ('dashboard.performance.days' | translate) : metric.suffix }}
+                    </h4>
+                    @if (metric.trend !== null && metric.trend !== undefined) {
+                      <span class="f-s-12 d-flex align-items-center gap-2 m-t-4"
+                            [ngClass]="metric.trend === 0 ? 'text-muted'
+                                        : (metric.lower ? metric.trend < 0 : metric.trend > 0) ? 'text-success' : 'text-error'">
+                        <i class="iconify f-s-14 d-flex"
+                           [attr.data-icon]="metric.trend > 0 ? 'tabler:trending-up' : metric.trend < 0 ? 'tabler:trending-down' : 'tabler:minus'"></i>
+                        {{ metric.trend > 0 ? '+' : '' }}{{ metric.trend }}{{ metric.suffix === '%' ? ' pt' : '' }}
+                        <span class="text-muted">{{ 'dashboard.vs_previous' | translate }}</span>
+                      </span>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- SECTION 6 — orders aging -->
+    <div class="col-lg-4">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-16 f-w-600 m-b-4">{{ 'dashboard.aging.title' | translate }}</h5>
+          <span class="f-s-13 text-muted">{{ 'dashboard.aging.subtitle' | translate }}</span>
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block m-t-16" [theme]="{ height: '260px' }"></ngx-skeleton-loader>
+          } @else {
+            <apx-chart [series]="agingChart.series" [chart]="agingChart.chart"
+                       [plotOptions]="agingChart.plotOptions" [colors]="agingChart.colors"
+                       [dataLabels]="agingChart.dataLabels" [legend]="agingChart.legend"
+                       [grid]="agingChart.grid" [xaxis]="agingChart.xaxis"
+                       [yaxis]="agingChart.yaxis" [tooltip]="agingChart.tooltip"></apx-chart>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- SECTION 7 — attention required -->
+    <div class="col-lg-5">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
+            <h5 class="f-s-16 f-w-600 m-0 d-flex align-items-center gap-8">
+              <i class="iconify f-s-18 d-flex text-error" data-icon="solar:bell-bing-line-duotone"></i>
+              {{ 'dashboard.attention.title' | translate }}
+            </h5>
+            <a mat-button color="primary" class="f-s-13" routerLink="/orders">
+              {{ 'dashboard.attention.view_all' | translate }}
+            </a>
+          </div>
+
+          @if (isLoading()) {
+            @for (placeholder of [].constructor(4); track $index) {
+              <ngx-skeleton-loader class="d-block" [theme]="{ height: '48px' }"></ngx-skeleton-loader>
+            }
+          } @else {
+            @for (item of attention(); track item.key) {
+              <a class="attention-row d-flex align-items-center gap-12 p-y-10" [routerLink]="item.route">
+                <div class="bg-light-{{ attentionMeta[item.key].color }} rounded icon-32 d-flex align-items-center justify-content-center flex-shrink-0">
+                  <i class="iconify f-s-16 d-flex text-{{ attentionMeta[item.key].color }}"
+                     [attr.data-icon]="attentionMeta[item.key].icon"></i>
+                </div>
+                <span class="f-s-13 flex-grow-1 min-w-0">
+                  {{ 'dashboard.attention.' + item.key | translate: { count: item.count } }}
+                </span>
+                <span class="badge-soft badge-soft--{{ item.severity }} f-s-11 f-w-500 text-nowrap">
+                  {{ 'dashboard.attention.badge.' + item.severity | translate }}
+                </span>
+                <i class="iconify f-s-16 d-flex text-muted flex-shrink-0" data-icon="solar:alt-arrow-right-linear"></i>
+              </a>
+            }
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- SECTION 8 — inventory snapshot -->
+    <div class="col-lg-3">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
+            <h5 class="f-s-16 f-w-600 m-0">{{ 'dashboard.inventory.title' | translate }}</h5>
+            <a mat-button color="primary" class="f-s-13" routerLink="/products">
+              {{ 'dashboard.inventory.view' | translate }}
+            </a>
+          </div>
+
+          @if (isLoading()) {
+            @for (placeholder of [].constructor(4); track $index) {
+              <ngx-skeleton-loader class="d-block" [theme]="{ height: '40px' }"></ngx-skeleton-loader>
+            }
+          } @else {
+            @for (row of [
+              { key: 'total_products', value: inventory()?.total_products, icon: 'solar:box-line-duotone',            color: 'primary' },
+              { key: 'in_stock',       value: inventory()?.in_stock,       icon: 'solar:check-circle-line-duotone',   color: 'success' },
+              { key: 'low_stock',      value: inventory()?.low_stock,      icon: 'solar:danger-triangle-linear',      color: 'warning' },
+              { key: 'out_of_stock',   value: inventory()?.out_of_stock,   icon: 'solar:close-circle-line-duotone',   color: 'error'   }
+            ]; track row.key) {
+              <div class="d-flex align-items-center justify-content-between gap-8 p-y-8">
+                <span class="d-flex align-items-center gap-8 f-s-13 min-w-0">
+                  <i class="iconify f-s-16 d-flex text-{{ row.color }}" [attr.data-icon]="row.icon"></i>
+                  <span class="text-truncate">{{ 'dashboard.inventory.' + row.key | translate }}</span>
+                </span>
+                <span class="f-s-14 f-w-600 text-{{ row.color }}">{{ row.value ?? 0 | number }}</span>
+              </div>
+            }
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- SECTION 9 — top selling products -->
+    <div class="col-lg-4">
+      <mat-card class="cardWithShadow h-full">
+        <mat-card-content class="p-24">
+          <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
+            <h5 class="f-s-16 f-w-600 m-0">{{ 'dashboard.top_products.title' | translate }}</h5>
+            <span class="f-s-12 text-muted">{{ 'dashboard.periods.' + period() | translate }}</span>
+          </div>
+
+          @if (isLoading()) {
+            @for (placeholder of [].constructor(5); track $index) {
+              <ngx-skeleton-loader class="d-block" [theme]="{ height: '44px' }"></ngx-skeleton-loader>
+            }
+          } @else if (topProducts().length === 0) {
+            <p class="text-muted f-s-14 text-center m-t-24">{{ 'dashboard.no_data' | translate }}</p>
+          } @else {
+            @for (product of topProducts(); track product.id) {
+              <div class="d-flex align-items-center gap-12 p-y-8">
+                <img [src]="product.image" [alt]="product.name" class="rounded product-thumb"
+                     width="36" height="36" />
+                <span class="f-s-13 flex-grow-1 text-truncate min-w-0">{{ product.name }}</span>
+                <span class="f-s-13 f-w-600 text-nowrap text-muted">
+                  {{ product.orders | number }} {{ 'dashboard.top_products.orders' | translate }}
+                </span>
+              </div>
+            }
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}

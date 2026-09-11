@@ -20,25 +20,44 @@ export interface ReportSummary {
   shipped: number;
   pending: number;
   failed: number;
+  /** Finer split of `pending` and `failed`, used by the dashboard donut. */
+  confirmed: number;
+  returned: number;
+  cancelled: number;
   goods_total: number;
   shipping_cost: number;
   commission: number;
   revenue: number;
   net_profit: number;
+  cod_collected: number;
+  cod_success_rate: number;
   delivery_rate: number;
   return_rate: number;
   avg_delivery_days: number;
+  /**
+   * Change against the preceding period of equal length. Counts and amounts are
+   * percentages; rates are already percentages, so their trend is in points.
+   */
   trends: {
     total_orders: number;
     revenue: number;
     net_profit: number;
+    cod_collected: number;
+    delivered: number;
+    shipped: number;
+    pending: number;
+    returned: number;
     delivery_rate: number;
+    return_rate: number;
+    avg_delivery_days: number;
+    cod_success_rate: number;
   };
 }
 
 export interface OrdersOverTime {
   labels: string[];
   total: number[];
+  shipped: number[];
   delivered: number[];
   failed: number[];
 }

@@ -100,6 +100,18 @@
         {
           "type": "route",
           "uuid": "d999375d-6716-4ce4-b370-3fef0f6f6bc2"
+        },
+        {
+          "type": "route",
+          "uuid": "e716e089-59a4-410a-9b8d-e913a0a2ee5c"
+        },
+        {
+          "type": "route",
+          "uuid": "e3d69bbc-ba45-4edb-9f41-316a3861437b"
+        },
+        {
+          "type": "route",
+          "uuid": "70c19c11-a13a-4120-9f62-ba2dfefedc0b"
         }
       ]
     }
@@ -456,7 +468,7 @@
       "responses": [
         {
           "uuid": "94c9cfbe-edb3-4250-8bb1-8549c8d1a9f1",
-          "body": "{\n  \"total_orders\": {{int 200 320}},\n  \"delivered\": {{int 110 150}},\n  \"shipped\": {{int 30 60}},\n  \"pending\": {{int 30 60}},\n  \"failed\": {{int 15 30}},\n  \"goods_total\": {{int 600000 900000}},\n  \"shipping_cost\": {{int 15000 25000}},\n  \"commission\": {{int 35000 50000}},\n  \"revenue\": {{int 350000 450000}},\n  \"net_profit\": {{int 15000 25000}},\n  \"delivery_rate\": {{int 70 90}}.{{int 0 9}},\n  \"return_rate\": {{int 10 25}}.{{int 0 9}},\n  \"avg_delivery_days\": {{int 2 5}}.{{int 0 9}},\n  \"trends\": {\n    \"total_orders\": {{int -20 40}}.{{int 0 9}},\n    \"revenue\": {{int -20 40}}.{{int 0 9}},\n    \"net_profit\": {{int -20 40}}.{{int 0 9}},\n    \"delivery_rate\": {{int -5 8}}.{{int 0 9}}\n  }\n}",
+          "body": "{\n  \"total_orders\": 279,\n  \"delivered\": 168,\n  \"shipped\": 54,\n  \"pending\": 46,\n  \"failed\": 11,\n  \"confirmed\": 28,\n  \"returned\": 9,\n  \"cancelled\": 2,\n  \"goods_total\": 743563,\n  \"shipping_cost\": 19955,\n  \"commission\": 41614,\n  \"revenue\": 402983,\n  \"net_profit\": 19685,\n  \"cod_collected\": 374166,\n  \"cod_success_rate\": 98.1,\n  \"delivery_rate\": 93.9,\n  \"return_rate\": 6.1,\n  \"avg_delivery_days\": 3.3,\n  \"trends\": {\n    \"total_orders\": 12.0, \"revenue\": 22.4, \"net_profit\": 8.6, \"cod_collected\": 22.0,\n    \"delivered\": 18.0, \"shipped\": 6.0, \"pending\": -25.0, \"returned\": -10.0,\n    \"delivery_rate\": 4.2, \"return_rate\": -1.1, \"avg_delivery_days\": -0.4,\n    \"cod_success_rate\": 0.8\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -487,7 +499,7 @@
       "responses": [
         {
           "uuid": "12a04592-80cf-447a-a9f1-29fc1828d7e3",
-          "body": "{\n  \"labels\": [\n    {{#repeat 30 comma=true}}\"{{dateTimeShift date=(now) days=(subtract @index 29) format='yyyy-MM-dd'}}\"{{/repeat}}\n  ],\n  \"total\": [{{#repeat 30 comma=true}}{{int 4 14}}{{/repeat}}],\n  \"delivered\": [{{#repeat 30 comma=true}}{{int 2 9}}{{/repeat}}],\n  \"failed\": [{{#repeat 30 comma=true}}{{int 0 4}}{{/repeat}}]\n}",
+          "body": "{\n  \"labels\": [\n    {{#repeat 30 comma=true}}\"{{dateTimeShift date=(now) days=(subtract @index 29) format='yyyy-MM-dd'}}\"{{/repeat}}\n  ],\n  \"total\": [{{#repeat 30 comma=true}}{{int 8 22}}{{/repeat}}],\n  \"shipped\": [{{#repeat 30 comma=true}}{{int 2 9}}{{/repeat}}],\n  \"delivered\": [{{#repeat 30 comma=true}}{{int 4 14}}{{/repeat}}],\n  \"failed\": [{{#repeat 30 comma=true}}{{int 0 4}}{{/repeat}}]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -518,7 +530,7 @@
       "responses": [
         {
           "uuid": "6b9134ac-553e-4b50-8da1-6ea312929f9c",
-          "body": "{\n  \"total\": 242,\n  \"data\": [\n    {\"group\": \"delivered\", \"count\": 127, \"percentage\": 52.5},\n    {\"group\": \"shipped\",   \"count\": 48,  \"percentage\": 19.8},\n    {\"group\": \"pending\",   \"count\": 47,  \"percentage\": 19.4},\n    {\"group\": \"failed\",    \"count\": 20,  \"percentage\": 8.3}\n  ]\n}",
+          "body": "{\n  \"total\": 279,\n  \"data\": [\n    { \"group\": \"pending\",     \"count\": 18,   \"percentage\": 6.5 },\n    { \"group\": \"confirmed\",   \"count\": 28, \"percentage\": 10.0 },\n    { \"group\": \"in_shipping\", \"count\": 54,  \"percentage\": 19.4 },\n    { \"group\": \"delivered\",   \"count\": 168, \"percentage\": 60.2 },\n    { \"group\": \"returned\",    \"count\": 9,  \"percentage\": 3.2 },\n    { \"group\": \"cancelled\",   \"count\": 2, \"percentage\": 0.7 }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -549,7 +561,7 @@
       "responses": [
         {
           "uuid": "c35f2801-eb7a-4fa7-ab01-7f9b760cc2ab",
-          "body": "{\n  \"data\": [\n    {{#repeat 8 comma=true}}\n    {\n      \"id\": {{add 1 @index}},\n      \"name\": \"\\u0645\\u0646\\u062a\\u062c \\u0631\\u0642\\u0645 {{add 1 @index}}\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/UnXeJfcanWlfNcf45VP7zKjzAM2c5VDyDYYClLw1.jpg\",\n      \"quantity\": {{int 10 60}},\n      \"orders\": {{int 5 40}},\n      \"revenue\": {{int 5000 60000}}\n    }\n    {{/repeat}}\n  ]\n}",
+          "body": "{\n  \"data\": [\n    {{#repeat (queryParam 'limit' 8) comma=true}}\n    {\n      \"id\": {{add 1 @index}},\n      \"name\": \"\\u0645\\u0646\\u062a\\u062c \\u0631\\u0642\\u0645 {{add 1 @index}}\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/UnXeJfcanWlfNcf45VP7zKjzAM2c5VDyDYYClLw1.jpg\",\n      \"quantity\": {{int 10 60}},\n      \"orders\": {{int 20 120}},\n      \"revenue\": {{int 5000 60000}}\n    }\n    {{/repeat}}\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -860,6 +872,99 @@
         {
           "uuid": "477c5278-a2c2-49ec-b110-73b1ae70f75b",
           "body": "{\n  \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshed.token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e716e089-59a4-410a-9b8d-e913a0a2ee5c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/orders-aging",
+      "responses": [
+        {
+          "uuid": "a1c47919-5560-4450-9352-5b2afaa508a6",
+          "body": "{\n  \"total\": 100,\n  \"data\": [\n    { \"bucket\": \"0_2\",    \"count\": 55 },\n    { \"bucket\": \"3_5\",    \"count\": 28 },\n    { \"bucket\": \"6_7\",    \"count\": 12 },\n    { \"bucket\": \"over_7\", \"count\": 5 }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e3d69bbc-ba45-4edb-9f41-316a3861437b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/attention",
+      "responses": [
+        {
+          "uuid": "993e541c-c81f-4d99-a4de-2622904ea6ba",
+          "body": "{\n  \"data\": [\n    {\"key\": \"delayed_orders\",          \"count\": {{int 5 25}}, \"severity\": \"high\",   \"route\": \"/orders\"},\n    {\"key\": \"pending_confirmation\",    \"count\": {{int 2 15}}, \"severity\": \"medium\", \"route\": \"/orders\"},\n    {\"key\": \"returns_pending_receipt\", \"count\": {{int 1 10}}, \"severity\": \"medium\", \"route\": \"/orders\"},\n    {\"key\": \"low_stock_products\",      \"count\": {{int 1 8}},  \"severity\": \"low\",    \"route\": \"/products\"}\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "70c19c11-a13a-4120-9f62-ba2dfefedc0b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/inventory",
+      "responses": [
+        {
+          "uuid": "ee3532ac-b09b-496d-83ad-af8582ae311b",
+          "body": "{\n  \"total_products\": 120,\n  \"in_stock\": 96,\n  \"low_stock\": 18,\n  \"out_of_stock\": 6\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

@@ -4,7 +4,16 @@
  * These functions define the payload contract of the `reports/*` endpoints, so
  * the real backend can be written against them one-for-one.
  */
-import { CITIES, MockOrder, ORDERS, dayKey, groupOfStatus } from './mock-data';
+import {
+  CITIES,
+  DASHBOARD_STATUS_GROUPS,
+  MockOrder,
+  ORDERS,
+  PRODUCTS,
+  dashboardGroupOfStatus,
+  dayKey,
+  groupOfStatus,
+} from './mock-data';
 
 export interface ReportFilters {
   /** Inclusive `YYYY-MM-DD` bounds. */
@@ -50,6 +59,12 @@ interface Totals {
   shipped: number;
   pending: number;
   failed: number;
+  /** Finer split of `pending` and `failed`, for the dashboard's six statuses. */
+  confirmed: number;
+  returned: number;
+  cancelled: number;
+  cod_collected: number;
+  cod_success_rate: number;
   goods_total: number;
   shipping_cost: number;
   commission: number;
@@ -62,6 +77,10 @@ interface Totals {
 
 function totalsOf(orders: MockOrder[]): Totals {
   const counts = { delivered: 0, shipped: 0, pending: 0, failed: 0 };
+  const fine = { pending: 0, confirmed: 0, in_shipping: 0, delivered: 0, returned: 0, cancelled: 0 };
+  let codCollected = 0;
+  let codDue = 0;
+  let codCollectedCount = 0;
   let goods = 0;
   let shipping = 0;
   let commission = 0;
@@ -73,12 +92,18 @@ function totalsOf(orders: MockOrder[]): Totals {
   for (const order of orders) {
     const group = groupOfStatus(order.status) as keyof typeof counts;
     counts[group] += 1;
+    fine[dashboardGroupOfStatus(order.status) as keyof typeof fine] += 1;
     goods += order.goods_total;
     shipping += order.shipping_cost;
     commission += order.commission;
     profit += order.net_profit;
     if (group === 'delivered') {
       revenue += order.goods_total + order.shipping_cost;
+      codDue += order.cod_amount;
+      if (order.cod_collected) {
+        codCollected += order.cod_amount;
+        codCollectedCount += 1;
+      }
       if (order.delivery_days != null) {
         deliveryDaysSum += order.delivery_days;
         deliveredWithDays += 1;
@@ -92,6 +117,13 @@ function totalsOf(orders: MockOrder[]): Totals {
   return {
     total_orders: orders.length,
     ...counts,
+    confirmed: fine.confirmed,
+    returned: fine.returned,
+    cancelled: fine.cancelled,
+    cod_collected: Math.round(codCollected),
+    cod_success_rate: codDue
+      ? Number(((codCollected / codDue) * 100).toFixed(1))
+      : 0,
     goods_total: Math.round(goods),
     shipping_cost: Math.round(shipping),
     commission: Math.round(commission),
@@ -127,7 +159,19 @@ export function reportSummary(filters: ReportFilters) {
       total_orders: percentChange(current.total_orders, previous.total_orders),
       revenue: percentChange(current.revenue, previous.revenue),
       net_profit: percentChange(current.net_profit, previous.net_profit),
+      cod_collected: percentChange(current.cod_collected, previous.cod_collected),
+      delivered: percentChange(current.delivered, previous.delivered),
+      shipped: percentChange(current.shipped, previous.shipped),
+      pending: percentChange(current.pending, previous.pending),
+      returned: percentChange(current.returned, previous.returned),
       delivery_rate: Number((current.delivery_rate - previous.delivery_rate).toFixed(1)),
+      return_rate: Number((current.return_rate - previous.return_rate).toFixed(1)),
+      avg_delivery_days: Number(
+        (current.avg_delivery_days - previous.avg_delivery_days).toFixed(1)
+      ),
+      cod_success_rate: Number(
+        (current.cod_success_rate - previous.cod_success_rate).toFixed(1)
+      ),
     },
   };
 }
@@ -137,11 +181,12 @@ export function ordersOverTime(filters: ReportFilters) {
   const orders = filterOrders(filters);
   const from = parseDay(filters.from);
   const to = parseDay(filters.to);
-  if (!from || !to) return { labels: [], total: [], delivered: [], failed: [] };
+  if (!from || !to) return { labels: [], total: [], shipped: [], delivered: [], failed: [] };
 
-  const buckets = new Map<string, { total: number; delivered: number; failed: number }>();
+  const empty = () => ({ total: 0, shipped: 0, delivered: 0, failed: 0 });
+  const buckets = new Map<string, ReturnType<typeof empty>>();
   for (let day = new Date(from); day <= to; day = new Date(day.getTime() + DAY_MS)) {
-    buckets.set(dayKey(day), { total: 0, delivered: 0, failed: 0 });
+    buckets.set(dayKey(day), empty());
   }
   for (const order of orders) {
     const bucket = buckets.get(dayKey(order.date));
@@ -149,6 +194,7 @@ export function ordersOverTime(filters: ReportFilters) {
     bucket.total += 1;
     const group = groupOfStatus(order.status);
     if (group === 'delivered') bucket.delivered += 1;
+    if (group === 'shipped') bucket.shipped += 1;
     if (group === 'failed') bucket.failed += 1;
   }
 
@@ -156,17 +202,18 @@ export function ordersOverTime(filters: ReportFilters) {
   return {
     labels,
     total: labels.map((label) => buckets.get(label)!.total),
+    shipped: labels.map((label) => buckets.get(label)!.shipped),
     delivered: labels.map((label) => buckets.get(label)!.delivered),
     failed: labels.map((label) => buckets.get(label)!.failed),
   };
 }
 
-/** Donut source: how the orders split across the four status groups. */
+/** Donut source: how the orders split across the six dashboard statuses. */
 export function statusBreakdown(filters: ReportFilters) {
   const orders = filterOrders(filters);
-  const groups = ['delivered', 'shipped', 'pending', 'failed'];
+  const groups = Object.keys(DASHBOARD_STATUS_GROUPS);
   const counts = groups.map(
-    (group) => orders.filter((order) => groupOfStatus(order.status) === group).length
+    (group) => orders.filter((order) => dashboardGroupOfStatus(order.status) === group).length
   );
   const total = counts.reduce((sum, value) => sum + value, 0);
   return {
@@ -231,4 +278,95 @@ export function citiesPerformance(filters: ReportFilters) {
     };
   });
   return { data: rows.sort((a, b) => b.orders - a.orders) };
+}
+
+/**
+ * How long still-open orders have been sitting. Delivered and cancelled orders
+ * are excluded — only work that is still outstanding can age.
+ */
+export function ordersAging(filters: ReportFilters) {
+  const open = filterOrders(filters).filter((order) => {
+    const group = dashboardGroupOfStatus(order.status);
+    return group !== 'delivered' && group !== 'cancelled' && group !== 'returned';
+  });
+
+  const buckets = [
+    { key: '0_2', min: 0, max: 2 },
+    { key: '3_5', min: 3, max: 5 },
+    { key: '6_7', min: 6, max: 7 },
+    { key: 'over_7', min: 8, max: Infinity },
+  ];
+
+  const now = Date.now();
+  const ageInDays = (order: MockOrder) =>
+    Math.floor((now - new Date(order.date).getTime()) / DAY_MS);
+
+  return {
+    total: open.length,
+    data: buckets.map((bucket) => ({
+      bucket: bucket.key,
+      count: open.filter((order) => {
+        const age = ageInDays(order);
+        return age >= bucket.min && age <= bucket.max;
+      }).length,
+    })),
+  };
+}
+
+/**
+ * Operational alerts. Every one is derived from order or stock state, so the
+ * real backend can compute the same four counts.
+ */
+export function attentionRequired(filters: ReportFilters) {
+  const orders = filterOrders(filters);
+  const now = Date.now();
+  const olderThan = (order: MockOrder, days: number) =>
+    now - new Date(order.date).getTime() > days * DAY_MS;
+
+  const stillOpen = (order: MockOrder) => {
+    const group = dashboardGroupOfStatus(order.status);
+    return group !== 'delivered' && group !== 'cancelled' && group !== 'returned';
+  };
+
+  return {
+    data: [
+      {
+        key: 'delayed_orders',
+        count: orders.filter((order) => stillOpen(order) && olderThan(order, 5)).length,
+        severity: 'high',
+        // Status 8 is "Waiting Confirm"; 11 is "Refund Request".
+        route: '/orders',
+      },
+      {
+        key: 'pending_confirmation',
+        count: orders.filter((order) => order.status === '8').length,
+        severity: 'medium',
+        route: '/orders',
+      },
+      {
+        key: 'returns_pending_receipt',
+        count: orders.filter((order) => order.status === '11').length,
+        severity: 'medium',
+        route: '/orders',
+      },
+      {
+        key: 'low_stock_products',
+        count: PRODUCTS.filter((product) => product.status === 'low_stock').length,
+        severity: 'low',
+        route: '/products',
+      },
+    ],
+  };
+}
+
+/** Stock counts straight off the catalogue. */
+export function inventorySnapshot() {
+  const byStatus = (status: string) =>
+    PRODUCTS.filter((product) => product.status === status).length;
+  return {
+    total_products: PRODUCTS.length,
+    in_stock: byStatus('in_stock'),
+    low_stock: byStatus('low_stock'),
+    out_of_stock: byStatus('out_of_stock'),
+  };
 }
