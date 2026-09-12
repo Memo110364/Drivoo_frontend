@@ -112,6 +112,34 @@ backend — only real values in place of the provisional store names.
 
 ---
 
+## 7. Orders detail endpoint
+
+`GET reports/orders` lists every order in the period. Unlike the comparison
+endpoints it is **paged on the server**, because a busy merchant's month runs to
+thousands of rows.
+
+```
+GET reports/orders?from&to&page&limit&status&search
+  -> { page, limit, total, data: OrderRow[] }
+```
+
+| Parameter | Notes |
+| --- | --- |
+| `status` | One of the six groups, or absent for every status |
+| `search` | Matches order code, customer name or phone |
+| `limit` | Export passes `limit = total` to pull the whole filtered set |
+
+Each row carries `order_code`, `date`, customer name and phone, city and area,
+store, carrier, item count, `status` (the group) **and** `status_code` (the
+backend's own numeric status, so a row can be traced back), goods total,
+shipping cost and the total the customer pays.
+
+Every field already exists on the order except `carrier`, covered in section 1.
+
+**Note on the demo:** the static host ignores `limit`, so the table renders at
+most one page itself rather than trusting the response length. Against a real
+paging server that slice is a no-op.
+
 ## Metrics and their formulas
 
 Both rates share one denominator — orders whose delivery outcome is final. An

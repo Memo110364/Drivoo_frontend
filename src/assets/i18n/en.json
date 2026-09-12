@@ -98,7 +98,8 @@
       "products": "Products",
       "geography": "Geography",
       "operations": "Operations",
-      "stores": "Stores"
+      "stores": "Stores",
+      "orders": "All Orders"
     },
     "kpi": {
       "total_orders": "Total Orders",
@@ -206,6 +207,25 @@
       "title": "Could not load the reports",
       "subtitle": "Check that the API is reachable, then try again.",
       "retry": "Retry"
+    },
+    "orders": {
+      "title": "All Orders",
+      "subtitle": "Every order in the period, whatever its status",
+      "order_code": "Order Code",
+      "date": "Date",
+      "customer": "Customer",
+      "phone": "Phone",
+      "destination": "Destination",
+      "items_count": "Items",
+      "status": "Status",
+      "status_code": "Status Code",
+      "goods_total": "Goods",
+      "shipping_cost": "Shipping",
+      "total": "Total",
+      "shipping_short": "shipping",
+      "all_statuses": "All statuses",
+      "search": "Search",
+      "search_hint": "Order code, name or phone"
     }
   }
 }

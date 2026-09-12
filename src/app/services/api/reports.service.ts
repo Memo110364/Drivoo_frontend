@@ -96,6 +96,46 @@ export interface ConfirmationFunnel {
   attempts: { attempts: number; orders: number }[];
 }
 
+/** One order, as the detail report lists it. */
+export interface OrderRow {
+  id: number;
+  order_code: string;
+  /** ISO timestamp. */
+  date: string;
+  customer_name: string;
+  customer_phone: string;
+  city: string;
+  area: string;
+  store: string;
+  carrier: string;
+  items_count: number;
+  /** The group the report filters by: pending | confirmed | in_shipping | delivered | returned | cancelled. */
+  status: string;
+  /** The backend's own numeric status, kept so a row can be traced back. */
+  status_code: string;
+  goods_total: number;
+  shipping_cost: number;
+  /** What the customer pays on delivery. */
+  total: number;
+}
+
+/** Server-side paging, because this report lists every order in the period. */
+export interface OrdersPage {
+  page: number;
+  limit: number;
+  total: number;
+  data: OrderRow[];
+}
+
+export interface OrdersQuery extends ReportFilters {
+  page?: number;
+  limit?: number;
+  /** One of the status groups, or empty for every status. */
+  status?: string;
+  /** Matches order code, customer name or phone. */
+  search?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ReportsService extends BaseService {
   constructor(private http: HttpClient) {
@@ -146,6 +186,22 @@ export class ReportsService extends BaseService {
       `${this.baseUrl}reports/returns-by-reason`,
       { params: this.toParams(filters) }
     );
+  }
+
+  /**
+   * Every order in the period, at row level. Paged on the server because a busy
+   * merchant's period runs to thousands of rows; pass a `limit` of `total` to
+   * pull the whole set for an export.
+   */
+  getOrders(query: OrdersQuery): Observable<OrdersPage> {
+    const extra: Record<string, string> = {};
+    if (query.page) extra['page'] = String(query.page);
+    if (query.limit) extra['limit'] = String(query.limit);
+    if (query.status) extra['status'] = query.status;
+    if (query.search) extra['search'] = query.search;
+    return this.http.get<OrdersPage>(`${this.baseUrl}reports/orders`, {
+      params: this.toParams(query, extra),
+    });
   }
 
   getConfirmationFunnel(filters: ReportFilters): Observable<ConfirmationFunnel> {

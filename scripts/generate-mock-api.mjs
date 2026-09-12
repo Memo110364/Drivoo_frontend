@@ -13,6 +13,7 @@ import { dirname, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import {
   CONFIRMATION_FUNNEL,
+  ORDERS_PAGE,
   ORDERS_OVER_TIME,
   PERFORMANCE,
   RETURN_REASON_REPORT,
@@ -27,6 +28,7 @@ const ROUTES = [
   { method: 'get', endpoint: 'reports/status-breakdown', body: STATUS_BREAKDOWN },
   { method: 'get', endpoint: 'reports/returns-by-reason', body: RETURN_REASON_REPORT },
   { method: 'get', endpoint: 'reports/confirmation-funnel', body: CONFIRMATION_FUNNEL },
+  { method: 'get', endpoint: 'reports/orders', body: ORDERS_PAGE },
   ...Object.entries(PERFORMANCE).map(([dimension, data]) => ({
     method: 'get',
     endpoint: `reports/performance/${dimension}`,

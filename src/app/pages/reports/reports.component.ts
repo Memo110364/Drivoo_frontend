@@ -20,6 +20,7 @@ import {
   StatusBreakdown,
 } from 'src/app/services/api/reports.service';
 import { PerformanceTableComponent } from './shared/performance-table.component';
+import { OrdersReportComponent } from './orders-report/orders-report.component';
 import { downloadCsv } from './shared/csv-export';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -43,6 +44,7 @@ function toApiDate(date: Date): string {
     NgApexchartsModule,
     NgxSkeletonLoaderModule,
     PerformanceTableComponent,
+    OrdersReportComponent,
   ],
 })
 export class ReportsComponent implements OnInit {
@@ -107,6 +109,9 @@ export class ReportsComponent implements OnInit {
   private get filters(): ReportFilters {
     return { from: this.from(), to: this.to() };
   }
+
+  /** Handed to the orders tab, which paginates and filters on its own. */
+  orderFilters = computed<ReportFilters>(() => ({ from: this.from(), to: this.to() }));
 
   load(): void {
     this.isLoading.set(true);

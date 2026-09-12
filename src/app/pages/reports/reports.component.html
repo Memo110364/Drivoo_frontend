@@ -162,6 +162,13 @@
     </div>
   </mat-tab>
 
+  <!-- ── All orders ───────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.orders' | translate">
+    <div class="tab-body">
+      <app-orders-report [filters]="orderFilters()"></app-orders-report>
+    </div>
+  </mat-tab>
+
   <!-- ── Shipping ─────────────────────────────────────────────────────── -->
   <mat-tab [label]="'reports.tabs.shipping' | translate">
     <div class="tab-body">

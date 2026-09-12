@@ -98,7 +98,8 @@
       "products": "المنتجات",
       "geography": "الجغرافيا",
       "operations": "التشغيل",
-      "stores": "المتاجر"
+      "stores": "المتاجر",
+      "orders": "كل الطلبات"
     },
     "kpi": {
       "total_orders": "إجمالي الطلبات",
@@ -206,6 +207,25 @@
       "title": "تعذر تحميل التقارير",
       "subtitle": "تأكد أن الـ API متاح ثم حاول مرة أخرى.",
       "retry": "إعادة المحاولة"
+    },
+    "orders": {
+      "title": "كل الطلبات",
+      "subtitle": "كل طلبات الفترة بكل الحالات",
+      "order_code": "كود الطلب",
+      "date": "التاريخ",
+      "customer": "العميل",
+      "phone": "التليفون",
+      "destination": "الوجهة",
+      "items_count": "الأصناف",
+      "status": "الحالة",
+      "status_code": "كود الحالة",
+      "goods_total": "قيمة البضاعة",
+      "shipping_cost": "الشحن",
+      "total": "الإجمالي",
+      "shipping_short": "شحن",
+      "all_statuses": "كل الحالات",
+      "search": "بحث",
+      "search_hint": "كود الطلب أو الاسم أو التليفون"
     }
   }
 }

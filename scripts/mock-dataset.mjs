@@ -219,3 +219,102 @@ export const PERFORMANCE = {
   product: PRODUCTS,
   store: STORES,
 };
+
+// ---------------------------------------------------------------------------
+// Order detail rows
+//
+// The comparison tabs aggregate; this one lists. It is the report a merchant
+// opens to find a specific order, or to hand the whole period to a spreadsheet,
+// so it carries the order code, who it is for, where it went, its status and
+// what it is worth.
+// ---------------------------------------------------------------------------
+
+const CUSTOMER_NAMES = [
+  'رضا محمد هاشم', 'أحمد صفار', 'منى عبد الرحمن', 'كريم السيد', 'هبة فتحي',
+  'محمود الشناوي', 'سارة عادل', 'عمرو زكي', 'نورهان مصطفى', 'يوسف الجندي',
+  'دينا حلمي', 'طارق عبد العزيز', 'مريم شعبان', 'إسلام بدر', 'شيماء رمضان',
+];
+
+/** Cities paired with the areas that belong to them, so rows stay coherent. */
+const CITY_AREAS = {
+  'القاهرة': ['مدينة نصر', 'المعادي', 'مصر الجديدة', 'السادس من أكتوبر'],
+  'الإسكندرية': ['سموحة', 'برج العرب'],
+  'الجيزة': ['الدقي', 'الهرم'],
+  'بورسعيد': ['المناخ'],
+  'أسوان': ['الكورنيش'],
+  'الأقصر': ['الضفة الشرقية'],
+};
+
+/**
+ * The six statuses the reports group by, each with the backend status code it
+ * rolls up from. PROVISIONAL: the real system has nineteen numeric statuses;
+ * these are the ones the demo shows.
+ */
+const STATUS_POOL = [
+  { group: 'delivered', code: '9', weight: 55 },
+  { group: 'in_shipping', code: '7', weight: 14 },
+  { group: 'confirmed', code: '10', weight: 12 },
+  { group: 'pending', code: '1', weight: 9 },
+  { group: 'returned', code: '5', weight: 7 },
+  { group: 'cancelled', code: '4', weight: 3 },
+];
+
+function drawStatus() {
+  const total = STATUS_POOL.reduce((acc, s) => acc + s.weight, 0);
+  let roll = rand() * total;
+  for (const status of STATUS_POOL) {
+    roll -= status.weight;
+    if (roll <= 0) return status;
+  }
+  return STATUS_POOL[0];
+}
+
+const ORDER_PREFIXES = ['EGY', 'PCA', 'ALX', 'RRQ'];
+
+/** Sixty rows — enough to exercise paging, filtering and export in a demo. */
+export const ORDER_ROWS = Array.from({ length: 60 }, (_, index) => {
+  const cityNames = Object.keys(CITY_AREAS);
+  const city = cityNames[Math.floor(rand() * cityNames.length)];
+  const areas = CITY_AREAS[city];
+  const area = areas[Math.floor(rand() * areas.length)];
+  const status = drawStatus();
+  const carrier = CARRIERS[Math.floor(rand() * CARRIERS.length)];
+  const store = STORES[Math.floor(rand() * STORES.length)];
+
+  const created = new Date();
+  created.setHours(12, 0, 0, 0);
+  created.setDate(created.getDate() - between(0, 29));
+
+  const itemsCount = between(1, 4);
+  const goodsTotal = between(180, 2400);
+  const shippingCost = between(45, 120);
+
+  return {
+    id: 1000000 + index,
+    order_code: `${ORDER_PREFIXES[index % ORDER_PREFIXES.length]}${1000000 + index}`,
+    date: created.toISOString(),
+    customer_name: CUSTOMER_NAMES[Math.floor(rand() * CUSTOMER_NAMES.length)],
+    customer_phone: `011${between(10000000, 99999999)}`,
+    city,
+    area,
+    store: store.label,
+    carrier: carrier.label,
+    items_count: itemsCount,
+    /** The group the reports filter by. */
+    status: status.group,
+    /** The backend's own numeric status, kept so a row can be traced back. */
+    status_code: status.code,
+    goods_total: goodsTotal,
+    shipping_cost: shippingCost,
+    /** What the customer pays on delivery. */
+    total: goodsTotal + shippingCost,
+  };
+}).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+/** Paged envelope, matching what the real endpoint is expected to return. */
+export const ORDERS_PAGE = {
+  page: 1,
+  limit: ORDER_ROWS.length,
+  total: ORDER_ROWS.length,
+  data: ORDER_ROWS,
+};

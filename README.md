@@ -30,6 +30,7 @@ directly.
 | Tab | Shows |
 | --- | --- |
 | Overview | Period KPIs, orders over time, status breakdown |
+| All Orders | Every order in the period, any status — searchable, filterable, paged |
 | Shipping | Carrier comparison |
 | Returns | Return reasons, plus returns by product and by area |
 | Products | Sales and delivery outcome per product |
@@ -68,6 +69,7 @@ GET  reports/orders-over-time
 GET  reports/status-breakdown
 GET  reports/returns-by-reason
 GET  reports/confirmation-funnel
+GET  reports/orders                 paged: page, limit, status, search
 GET  reports/performance/{carrier|city|area|product|store}
 POST user/login
 POST auth/refresh
