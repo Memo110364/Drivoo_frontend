@@ -114,9 +114,11 @@ backend — only real values in place of the provisional store names.
 
 ## 7. Orders detail endpoint
 
-`GET reports/orders` lists every order in the period. Unlike the comparison
-endpoints it is **paged on the server**, because a busy merchant's month runs to
-thousands of rows.
+`GET reports/orders` lists every order in the period. It backs a **download**,
+not a table — the screen answers "how did the period go", this answers "which
+orders exactly", which is a spreadsheet job. It is still paged on the server so
+the endpoint stays usable if a screen ever needs it; the export passes a high
+`limit` to pull the whole filtered period in one request.
 
 ```
 GET reports/orders?from&to&page&limit&status&search
@@ -136,9 +138,9 @@ shipping cost and the total the customer pays.
 
 Every field already exists on the order except `carrier`, covered in section 1.
 
-**Note on the demo:** the static host ignores `limit`, so the table renders at
-most one page itself rather than trusting the response length. Against a real
-paging server that slice is a no-op.
+**Note on the demo:** the static host ignores every query parameter, so the
+downloaded file covers the whole demo dataset regardless of the period or status
+chosen. Against the real API both are honoured.
 
 ## Metrics and their formulas
 

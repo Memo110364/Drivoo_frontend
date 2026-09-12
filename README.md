@@ -24,13 +24,17 @@ Sign in with `admin` / `123456789`.
 
 ## Reports
 
-`/reports` is a tabbed screen; every tab exports to CSV, which Excel opens
-directly.
+`/reports` is a tabbed screen defaulting to the current month; every tab exports
+to CSV, which Excel opens directly.
+
+Overview is the period's summary: how many orders reached each status, what they
+were worth, and how that moved day to day. The order-by-order detail behind
+those totals is a **download** rather than a table — pick a status, or take them
+all, for whatever period is selected.
 
 | Tab | Shows |
 | --- | --- |
-| Overview | Period KPIs, orders over time, status breakdown |
-| All Orders | Every order in the period, any status — searchable, filterable, paged |
+| Overview | Period totals per status, sales, trend and breakdown — plus the detailed order export |
 | Shipping | Carrier comparison |
 | Returns | Return reasons, plus returns by product and by area |
 | Products | Sales and delivery outcome per product |
@@ -70,6 +74,7 @@ GET  reports/status-breakdown
 GET  reports/returns-by-reason
 GET  reports/confirmation-funnel
 GET  reports/orders                 paged: page, limit, status, search
+                                    (backs the detailed export)
 GET  reports/performance/{carrier|city|area|product|store}
 POST user/login
 POST auth/refresh

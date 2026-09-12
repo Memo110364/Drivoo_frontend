@@ -1,0 +1,34 @@
+.export-filter {
+  width: 170px;
+
+  // Toolbar height, with no reserved hint row beneath.
+  ::ng-deep .mat-mdc-form-field-infix {
+    min-height: 42px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  ::ng-deep .mat-mdc-floating-label:not(.mdc-floating-label--float-above) {
+    top: 21px;
+  }
+}
+
+.download-btn {
+  height: 42px;
+
+  // Material wraps projected content in a block-level label, which drops a flex
+  // icon onto its own line; this keeps icon and text on one centred row.
+  ::ng-deep .mdc-button__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.min-w-0 {
+  min-width: 0;
+}

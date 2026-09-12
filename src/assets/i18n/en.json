@@ -83,6 +83,8 @@
     "refresh": "Refresh",
     "no_data": "No data for this period",
     "presets": {
+      "this_month": "This month",
+      "last_month": "Last month",
       "last_7_days": "Last 7 days",
       "last_30_days": "Last 30 days",
       "last_90_days": "Last 90 days"
@@ -98,8 +100,7 @@
       "products": "Products",
       "geography": "Geography",
       "operations": "Operations",
-      "stores": "Stores",
-      "orders": "All Orders"
+      "stores": "Stores"
     },
     "kpi": {
       "total_orders": "Total Orders",
@@ -226,6 +227,16 @@
       "all_statuses": "All statuses",
       "search": "Search",
       "search_hint": "Order code, name or phone"
+    },
+    "detailed": {
+      "title": "Detailed order report",
+      "subtitle": "The orders behind these totals, as a spreadsheet",
+      "download": "Download",
+      "preparing": "Preparing…",
+      "note": "Covers {{from}} to {{to}} — the period selected above.",
+      "empty": "No orders matched this period and status.",
+      "failed": "Could not prepare the file. Please try again.",
+      "close": "Close"
     }
   }
 }

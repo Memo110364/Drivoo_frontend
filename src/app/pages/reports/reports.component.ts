@@ -20,7 +20,7 @@ import {
   StatusBreakdown,
 } from 'src/app/services/api/reports.service';
 import { PerformanceTableComponent } from './shared/performance-table.component';
-import { OrdersReportComponent } from './orders-report/orders-report.component';
+import { DetailedExportComponent } from './detailed-export/detailed-export.component';
 import { downloadCsv } from './shared/csv-export';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -44,7 +44,7 @@ function toApiDate(date: Date): string {
     NgApexchartsModule,
     NgxSkeletonLoaderModule,
     PerformanceTableComponent,
-    OrdersReportComponent,
+    DetailedExportComponent,
   ],
 })
 export class ReportsComponent implements OnInit {
@@ -71,15 +71,35 @@ export class ReportsComponent implements OnInit {
     store: [],
   });
 
-  readonly presets = [
-    { key: 'last_7_days', days: 7 },
-    { key: 'last_30_days', days: 30 },
-    { key: 'last_90_days', days: 90 },
+  /**
+   * Ranges a merchant actually reports on. Calendar months come first because
+   * that is how a period is settled and reconciled; rolling windows follow.
+   */
+  readonly presets: { key: string; range: () => { from: Date; to: Date } }[] = [
+    { key: 'this_month', range: () => ReportsComponent.monthRange(0) },
+    { key: 'last_month', range: () => ReportsComponent.monthRange(-1) },
+    { key: 'last_7_days', range: () => ReportsComponent.rollingRange(7) },
+    { key: 'last_30_days', range: () => ReportsComponent.rollingRange(30) },
+    { key: 'last_90_days', range: () => ReportsComponent.rollingRange(90) },
   ];
-  activePreset = signal<string>('last_30_days');
+  activePreset = signal<string>('this_month');
 
-  fromDate = signal<Date>(new Date(Date.now() - 29 * DAY_MS));
-  toDate = signal<Date>(new Date());
+  /** `offset` of 0 is the current month, -1 the previous one. */
+  private static monthRange(offset: number): { from: Date; to: Date } {
+    const now = new Date();
+    const from = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+    // A month still running ends today; a finished one ends on its last day.
+    const to =
+      offset === 0 ? now : new Date(now.getFullYear(), now.getMonth() + offset + 1, 0);
+    return { from, to };
+  }
+
+  private static rollingRange(days: number): { from: Date; to: Date } {
+    return { from: new Date(Date.now() - (days - 1) * DAY_MS), to: new Date() };
+  }
+
+  fromDate = signal<Date>(ReportsComponent.monthRange(0).from);
+  toDate = signal<Date>(ReportsComponent.monthRange(0).to);
   from = computed(() => toApiDate(this.fromDate()));
   to = computed(() => toApiDate(this.toDate()));
 
@@ -92,10 +112,11 @@ export class ReportsComponent implements OnInit {
     this.load();
   }
 
-  applyPreset(preset: { key: string; days: number }): void {
+  applyPreset(preset: { key: string; range: () => { from: Date; to: Date } }): void {
+    const { from, to } = preset.range();
     this.activePreset.set(preset.key);
-    this.toDate.set(new Date());
-    this.fromDate.set(new Date(Date.now() - (preset.days - 1) * DAY_MS));
+    this.fromDate.set(from);
+    this.toDate.set(to);
     this.load();
   }
 
@@ -110,8 +131,8 @@ export class ReportsComponent implements OnInit {
     return { from: this.from(), to: this.to() };
   }
 
-  /** Handed to the orders tab, which paginates and filters on its own. */
-  orderFilters = computed<ReportFilters>(() => ({ from: this.from(), to: this.to() }));
+  /** Handed to the detail export, which adds its own status filter. */
+  exportFilters = computed<ReportFilters>(() => ({ from: this.from(), to: this.to() }));
 
   load(): void {
     this.isLoading.set(true);
