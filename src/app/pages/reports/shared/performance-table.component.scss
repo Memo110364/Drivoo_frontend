@@ -7,9 +7,42 @@
     min-width: 760px;
   }
 
+  // Two more columns on the products table.
+  &.has-stock table {
+    min-width: 980px;
+  }
+
   th,
   td {
     white-space: nowrap;
+  }
+}
+
+// The stock pair answers "now", the columns after it answer "in the selected
+// period". A rule down both sides keeps those two readings apart, and `inline`
+// borders follow the writing direction so RTL needs no separate rule.
+.stock-col {
+  background-color: rgba(0, 0, 0, 0.015);
+
+  &--first {
+    border-inline-start: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  &--last {
+    border-inline-end: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+// The product name opens its stock ledger; every other dimension has none, so
+// the link only appears where it leads somewhere.
+.row-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    color: var(--mat-sys-primary, #635bff);
+    border-bottom-color: currentColor;
   }
 }
 

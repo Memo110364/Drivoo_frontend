@@ -16,6 +16,7 @@ import {
   CONFIRMATION_BY_PRODUCT,
   CONFIRMATION_FUNNEL,
   INVENTORY,
+  INVENTORY_MOVEMENTS,
   ORDERS_PAGE,
   ORDERS_OVER_TIME,
   PERFORMANCE,
@@ -39,6 +40,14 @@ const ROUTES = [
     method: 'get',
     endpoint: `reports/performance/${dimension}`,
     body: { group_by: dimension, data },
+  })),
+  // One route per product: a static host cannot read a path parameter, so the
+  // demo needs the ledger already split by product. The real API takes the id
+  // as a path segment on a single route.
+  ...Object.entries(INVENTORY_MOVEMENTS).map(([productId, body]) => ({
+    method: 'get',
+    endpoint: `reports/inventory-movements/${productId}`,
+    body,
   })),
   {
     method: 'post',

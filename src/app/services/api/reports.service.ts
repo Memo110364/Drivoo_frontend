@@ -39,6 +39,18 @@ export interface PerformanceRow {
   return_rate: number;
   avg_delivery_days: number;
   revenue: number;
+
+  // Stock, present only on the `product` dimension. Counted in PIECES, unlike
+  // every field above, which counts orders — one order can carry several
+  // pieces. PROVISIONAL apart from `current_stock`; see
+  // docs/backend-requirements.md §4.
+
+  /** Pieces received since the product was added — the warehouse's intake. */
+  total_stock?: number;
+  /** Pieces on the shelf right now. Point in time, not period-filtered. */
+  current_stock?: number;
+  /** The product's own low-stock threshold. */
+  warning_stock_number?: number;
 }
 
 export interface PerformanceReport {
@@ -96,14 +108,59 @@ export interface ConfirmationFunnel {
   attempts: { attempts: number; orders: number }[];
 }
 
-/** Stock on hand, as the products tab opens with. */
+/**
+ * The stock report the Products tab opens with.
+ *
+ * Every field counts PIECES except the four SKU counts at the end. The piece
+ * counts reconcile: `total_received = total_units + units_in_transit +
+ * units_sold`, and the three states sum to `total_products`.
+ *
+ * This is a point-in-time snapshot — it does not move with the period filter.
+ */
 export interface InventorySnapshot {
+  /** Distinct SKUs in the catalogue. */
   total_products: number;
-  /** Units across every SKU, not the SKU count. */
+  /** Pieces received since each product was added. */
+  total_received: number;
+  /** Pieces on the shelf right now. */
   total_units: number;
+  /** Pieces that left the warehouse and have not settled yet. */
+  units_in_transit: number;
+  /** Pieces that reached a customer. */
+  units_sold: number;
   in_stock: number;
   low_stock: number;
   out_of_stock: number;
+}
+
+/** One line of a product's stock ledger. */
+export interface InventoryMovementRow {
+  /** `YYYY-MM-DD`. */
+  date: string;
+  /** Backend enum code: `inbound`, `outbound_shipment`, `return_in`. */
+  type: string;
+  /** The backend's own label for the type; the UI translates `type` instead. */
+  type_label: string;
+  /** Pieces — positive onto the shelf, negative off it. */
+  quantity: number;
+  /** Running balance after this movement. */
+  balance: number;
+  /** Purchase order, shipment or return reference. */
+  reference: string;
+}
+
+/** A product's stock ledger, as the drill-down page reads it. */
+export interface InventoryMovementReport {
+  product: {
+    id: string;
+    label: string;
+    current_stock: number;
+    total_stock: number;
+    units_in_transit: number;
+    units_sold: number;
+    warning_stock_number: number;
+  };
+  data: InventoryMovementRow[];
 }
 
 /** Why orders were cancelled before they ever shipped. */
@@ -236,6 +293,17 @@ export class ReportsService extends BaseService {
 
   getInventory(): Observable<InventorySnapshot> {
     return this.http.get<InventorySnapshot>(`${this.baseUrl}reports/inventory`);
+  }
+
+  /**
+   * One product's stock ledger. Not period-filtered: a balance only makes sense
+   * read from the beginning, so the page shows the product's whole history and
+   * the period filter stays on the report it belongs to.
+   */
+  getInventoryMovements(productId: string): Observable<InventoryMovementReport> {
+    return this.http.get<InventoryMovementReport>(
+      `${this.baseUrl}reports/inventory-movements/${productId}`
+    );
   }
 
   getCancellationReasons(

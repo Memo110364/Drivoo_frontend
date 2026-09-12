@@ -106,7 +106,13 @@
   min-width: 0;
 }
 
-// Stock tiles sit five to a row and share a height, like the KPI row above.
+// Names the unit a row of tiles counts, so a piece count is never read as a
+// product count.
+.group-heading {
+  letter-spacing: 0.04em;
+}
+
+// Stock tiles share a height, like the KPI row above.
 .stock-tile {
   background-color: rgba(0, 0, 0, 0.02);
   height: 100%;

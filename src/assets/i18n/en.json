@@ -119,7 +119,11 @@
       "return_rate": "Return Rate",
       "avg_delivery_days": "Avg. Days",
       "revenue": "Revenue",
-      "share": "Share"
+      "share": "Share",
+      "total_stock": "Total Stock",
+      "current_stock": "Current Stock",
+      "since_added": "since the product was added",
+      "right_now": "right now"
     },
     "dimension": {
       "carrier": "Carrier",
@@ -240,11 +244,16 @@
     "inventory": {
       "title": "Stock on hand",
       "subtitle": "What is in the warehouse right now",
-      "total_units": "Units in stock",
+      "total_units": "On hand",
       "total_products": "Products (SKUs)",
       "in_stock": "In stock",
       "low_stock": "Low stock",
-      "out_of_stock": "Out of stock"
+      "out_of_stock": "Out of stock",
+      "pieces_heading": "By the piece",
+      "skus_heading": "By product count",
+      "total_received": "Received",
+      "units_in_transit": "In transit",
+      "units_sold": "Sold"
     },
     "cancellations": {
       "title": "Cancellation Reasons",
@@ -266,6 +275,27 @@
       "lost": "Lost",
       "rate": "Confirmation Rate",
       "avg_attempts": "Avg. Calls"
+    },
+    "movement": {
+      "title": "Stock Movement",
+      "subtitle": "Every piece that entered or left the warehouse",
+      "back": "Back to reports",
+      "ledger": "Movement ledger",
+      "ledger_sub": "Newest first — the balance after each movement",
+      "total_stock": "Total received",
+      "current_stock": "On hand now",
+      "units_in_transit": "In transit",
+      "units_sold": "Sold",
+      "date": "Date",
+      "type": "Movement",
+      "reference": "Reference",
+      "quantity": "Quantity",
+      "balance": "Balance"
+    },
+    "movement_type": {
+      "inbound": "Received into warehouse",
+      "outbound_shipment": "Left with a shipment",
+      "return_in": "Return back to warehouse"
     }
   }
 }

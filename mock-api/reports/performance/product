@@ -11,7 +11,13 @@
       "delivery_success_rate": 93,
       "return_rate": 7,
       "avg_delivery_days": 2.6,
-      "revenue": 144040
+      "revenue": 144040,
+      "current_stock": 320,
+      "warning_stock_number": 40,
+      "units_in_transit": 106,
+      "units_sold": 332,
+      "units_returned": 25,
+      "total_stock": 758
     },
     {
       "key": "p2",
@@ -23,7 +29,13 @@
       "delivery_success_rate": 89.9,
       "return_rate": 10.1,
       "avg_delivery_days": 2.9,
-      "revenue": 165020
+      "revenue": 165020,
+      "current_stock": 210,
+      "warning_stock_number": 30,
+      "units_in_transit": 91,
+      "units_sold": 245,
+      "units_returned": 28,
+      "total_stock": 546
     },
     {
       "key": "p3",
@@ -35,7 +47,13 @@
       "delivery_success_rate": 88.2,
       "return_rate": 11.8,
       "avg_delivery_days": 3,
-      "revenue": 86400
+      "revenue": 86400,
+      "current_stock": 0,
+      "warning_stock_number": 25,
+      "units_in_transit": 83,
+      "units_sold": 207,
+      "units_returned": 28,
+      "total_stock": 290
     },
     {
       "key": "p4",
@@ -47,7 +65,13 @@
       "delivery_success_rate": 94.6,
       "return_rate": 5.4,
       "avg_delivery_days": 2.5,
-      "revenue": 59210
+      "revenue": 59210,
+      "current_stock": 145,
+      "warning_stock_number": 50,
+      "units_in_transit": 78,
+      "units_sold": 267,
+      "units_returned": 15,
+      "total_stock": 490
     },
     {
       "key": "p5",
@@ -59,7 +83,13 @@
       "delivery_success_rate": 85.3,
       "return_rate": 14.7,
       "avg_delivery_days": 3.3,
-      "revenue": 77840
+      "revenue": 77840,
+      "current_stock": 12,
+      "warning_stock_number": 20,
+      "units_in_transit": 64,
+      "units_sold": 153,
+      "units_returned": 26,
+      "total_stock": 229
     },
     {
       "key": "p6",
@@ -71,7 +101,13 @@
       "delivery_success_rate": 83.2,
       "return_rate": 16.8,
       "avg_delivery_days": 3.5,
-      "revenue": 30160
+      "revenue": 30160,
+      "current_stock": 96,
+      "warning_stock_number": 25,
+      "units_in_transit": 65,
+      "units_sold": 135,
+      "units_returned": 27,
+      "total_stock": 296
     }
   ]
 }

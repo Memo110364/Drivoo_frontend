@@ -1,0 +1,101 @@
+{
+  "product": {
+    "id": "p3",
+    "label": "مكواة شعر سيراميك",
+    "current_stock": 0,
+    "total_stock": 290,
+    "units_in_transit": 83,
+    "units_sold": 207,
+    "warning_stock_number": 25
+  },
+  "data": [
+    {
+      "date": "2026-08-21",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -53,
+      "balance": 0,
+      "reference": "SH-P3-2005"
+    },
+    {
+      "date": "2026-08-20",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 14,
+      "balance": 53,
+      "reference": "RT-P3-3001"
+    },
+    {
+      "date": "2026-08-20",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 14,
+      "balance": 39,
+      "reference": "RT-P3-3000"
+    },
+    {
+      "date": "2026-07-30",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -53,
+      "balance": 25,
+      "reference": "SH-P3-2004"
+    },
+    {
+      "date": "2026-07-29",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 58,
+      "balance": 78,
+      "reference": "PO-P3-1002"
+    },
+    {
+      "date": "2026-07-08",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -53,
+      "balance": 20,
+      "reference": "SH-P3-2003"
+    },
+    {
+      "date": "2026-06-16",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -53,
+      "balance": 73,
+      "reference": "SH-P3-2002"
+    },
+    {
+      "date": "2026-06-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 87,
+      "balance": 126,
+      "reference": "PO-P3-1001"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -53,
+      "balance": 39,
+      "reference": "SH-P3-2001"
+    },
+    {
+      "date": "2026-05-03",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -53,
+      "balance": 92,
+      "reference": "SH-P3-2000"
+    },
+    {
+      "date": "2026-04-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 145,
+      "balance": 145,
+      "reference": "PO-P3-1000"
+    }
+  ]
+}

@@ -23,16 +23,52 @@
     } @else if (rows.length === 0) {
       <p class="text-muted f-s-14 text-center m-t-24 m-b-24">{{ 'reports.no_data' | translate }}</p>
     } @else {
-      <div class="table-responsive">
+      <div class="table-responsive" [class.has-stock]="showStock">
         <table mat-table [dataSource]="rows" class="w-100">
           <ng-container matColumnDef="label">
             <th mat-header-cell *matHeaderCellDef>{{ dimensionKey | translate }}</th>
             <td mat-cell *matCellDef="let row">
-              <span class="f-s-13 f-w-500" dir="auto" [title]="row.label">{{ row.label }}</span>
+              @if (rowLinkBase) {
+                <a class="f-s-13 f-w-500 row-link" dir="auto" [title]="row.label"
+                   [routerLink]="[rowLinkBase, row.key]">{{ row.label }}</a>
+              } @else {
+                <span class="f-s-13 f-w-500" dir="auto" [title]="row.label">{{ row.label }}</span>
+              }
               <div class="volume-bar m-t-4">
                 <span class="volume-bar__fill"
                       [style.width.%]="maxOrders() ? (row.orders / maxOrders()) * 100 : 0"></span>
               </div>
+            </td>
+          </ng-container>
+
+          <!--
+            Stock is a point-in-time count: it says what is in the warehouse
+            now, whatever period is selected above. `stock-col` draws the rule
+            that separates these two from the period columns, and the header
+            says "now" so the difference is stated, not implied.
+          -->
+          <ng-container matColumnDef="total_stock">
+            <th mat-header-cell *matHeaderCellDef class="stock-col stock-col--first">
+              {{ 'reports.table.total_stock' | translate }}
+              <small class="d-block f-s-11 text-muted f-w-400">
+                {{ 'reports.table.since_added' | translate }}
+              </small>
+            </th>
+            <td mat-cell *matCellDef="let row" class="stock-col stock-col--first">
+              {{ row.total_stock | number }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="current_stock">
+            <th mat-header-cell *matHeaderCellDef class="stock-col stock-col--last">
+              {{ 'reports.table.current_stock' | translate }}
+              <small class="d-block f-s-11 text-muted f-w-400">
+                {{ 'reports.table.right_now' | translate }}
+              </small>
+            </th>
+            <td mat-cell *matCellDef="let row" class="stock-col stock-col--last f-w-600"
+                [ngClass]="stockClass(row)">
+              {{ row.current_stock | number }}
             </td>
           </ng-container>
 

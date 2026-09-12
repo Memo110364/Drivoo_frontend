@@ -119,7 +119,11 @@
       "return_rate": "معدل الإرجاع",
       "avg_delivery_days": "متوسط الأيام",
       "revenue": "الإيرادات",
-      "share": "النسبة"
+      "share": "النسبة",
+      "total_stock": "إجمالي المخزون",
+      "current_stock": "المخزون الحالي",
+      "since_added": "من أول إضافة المنتج",
+      "right_now": "دلوقتي"
     },
     "dimension": {
       "carrier": "شركة الشحن",
@@ -240,11 +244,16 @@
     "inventory": {
       "title": "المخزون الحالي",
       "subtitle": "الموجود في المخزن دلوقتي",
-      "total_units": "إجمالي القطع",
+      "total_units": "المتاح حالياً",
       "total_products": "عدد المنتجات",
       "in_stock": "متوفر",
       "low_stock": "مخزون منخفض",
-      "out_of_stock": "نفد المخزون"
+      "out_of_stock": "نفد المخزون",
+      "pieces_heading": "بالقطعة",
+      "skus_heading": "بعدد المنتجات",
+      "total_received": "دخل المخزن",
+      "units_in_transit": "في الشحن",
+      "units_sold": "اتباع"
     },
     "cancellations": {
       "title": "أسباب الإلغاء",
@@ -266,6 +275,27 @@
       "lost": "ضاع",
       "rate": "نسبة التأكيد",
       "avg_attempts": "متوسط المكالمات"
+    },
+    "movement": {
+      "title": "حركة المخزون",
+      "subtitle": "كل قطعة دخلت المخزن أو خرجت منه",
+      "back": "رجوع للتقارير",
+      "ledger": "سجل الحركة",
+      "ledger_sub": "الأحدث أولاً — الرصيد بعد كل حركة",
+      "total_stock": "إجمالي اللي دخل",
+      "current_stock": "المتاح حالياً",
+      "units_in_transit": "في الشحن",
+      "units_sold": "اتباع",
+      "date": "التاريخ",
+      "type": "نوع الحركة",
+      "reference": "المرجع",
+      "quantity": "الكمية",
+      "balance": "الرصيد"
+    },
+    "movement_type": {
+      "inbound": "وارد للمخزن",
+      "outbound_shipment": "خرج مع شحنة",
+      "return_in": "مرتجع رجع للمخزن"
     }
   }
 }

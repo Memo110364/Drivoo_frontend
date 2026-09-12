@@ -421,8 +421,11 @@ export class ReportsComponent implements OnInit {
       `drivoo-inventory-${this.to()}`,
       [t('reports.export.metric'), t('reports.export.value')],
       [
-        [t('reports.inventory.total_products'), inv.total_products],
+        [t('reports.inventory.total_received'), inv.total_received],
         [t('reports.inventory.total_units'), inv.total_units],
+        [t('reports.inventory.units_in_transit'), inv.units_in_transit],
+        [t('reports.inventory.units_sold'), inv.units_sold],
+        [t('reports.inventory.total_products'), inv.total_products],
         [t('reports.inventory.in_stock'), inv.in_stock],
         [t('reports.inventory.low_stock'), inv.low_stock],
         [t('reports.inventory.out_of_stock'), inv.out_of_stock],

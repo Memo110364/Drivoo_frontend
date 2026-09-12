@@ -1,0 +1,101 @@
+{
+  "product": {
+    "id": "p5",
+    "label": "حقيبة ظهر مقاومة للماء",
+    "current_stock": 12,
+    "total_stock": 229,
+    "units_in_transit": 64,
+    "units_sold": 153,
+    "warning_stock_number": 20
+  },
+  "data": [
+    {
+      "date": "2026-08-21",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -38,
+      "balance": 12,
+      "reference": "SH-P5-2005"
+    },
+    {
+      "date": "2026-08-20",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 13,
+      "balance": 50,
+      "reference": "RT-P5-3001"
+    },
+    {
+      "date": "2026-08-20",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 13,
+      "balance": 37,
+      "reference": "RT-P5-3000"
+    },
+    {
+      "date": "2026-07-30",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -41,
+      "balance": 24,
+      "reference": "SH-P5-2004"
+    },
+    {
+      "date": "2026-07-29",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 45,
+      "balance": 65,
+      "reference": "PO-P5-1002"
+    },
+    {
+      "date": "2026-07-08",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -41,
+      "balance": 20,
+      "reference": "SH-P5-2003"
+    },
+    {
+      "date": "2026-06-16",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -41,
+      "balance": 61,
+      "reference": "SH-P5-2002"
+    },
+    {
+      "date": "2026-06-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 69,
+      "balance": 102,
+      "reference": "PO-P5-1001"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -41,
+      "balance": 33,
+      "reference": "SH-P5-2001"
+    },
+    {
+      "date": "2026-05-03",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -41,
+      "balance": 74,
+      "reference": "SH-P5-2000"
+    },
+    {
+      "date": "2026-04-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 115,
+      "balance": 115,
+      "reference": "PO-P5-1000"
+    }
+  ]
+}

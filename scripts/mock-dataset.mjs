@@ -76,13 +76,53 @@ export const AREAS = [
   row('303', 'الهرم', 200, 0.52, 0.13, 3.4, 600),
 ];
 
+/**
+ * Adds the stock side of a product row.
+ *
+ * PROVISIONAL. `current_stock` and `warning_stock_number` map onto fields the
+ * catalogue already has (`stock`, `warning_stock_number`); everything else here
+ * is a placeholder — see docs/backend-requirements.md §4.
+ *
+ * Stock is counted in PIECES while the performance columns count ORDERS, and
+ * one order can carry several pieces. `unitsPerOrder` is the bridge, and it is
+ * a demo assumption, not a business rule: the real API has to return the piece
+ * counts directly rather than let anyone multiply.
+ *
+ * The three piece counts are made to reconcile by construction, so the numbers
+ * on screen add up:
+ *
+ *   total_stock = current_stock + units_in_transit + units_sold
+ */
+function withStock(base, currentStock, warningStock, unitsPerOrder) {
+  const unitsSold = Math.round(base.delivered * unitsPerOrder);
+  // Shipped but not yet delivered or returned — pieces that have left the
+  // warehouse and are still moving.
+  const inTransit = Math.round(
+    Math.max(base.shipped - base.delivered - base.returned, 0) * unitsPerOrder
+  );
+  return {
+    ...base,
+    current_stock: currentStock,
+    warning_stock_number: warningStock,
+    units_in_transit: inTransit,
+    units_sold: unitsSold,
+    // Returned pieces left the warehouse and came back, so they cancel out of
+    // the balance — but they are still two real movements in the ledger.
+    units_returned: Math.round(base.returned * unitsPerOrder),
+    total_stock: currentStock + inTransit + unitsSold,
+  };
+}
+
 export const PRODUCTS = [
-  row('p1', 'سماعة بلوتوث لاسلكية', 420, 0.66, 0.05, 2.6, 520),
-  row('p2', 'ساعة يد رجالي كلاسيك', 360, 0.62, 0.07, 2.9, 740),
-  row('p3', 'مكواة شعر سيراميك', 300, 0.6, 0.08, 3.0, 480),
-  row('p4', 'شاحن سريع 65 وات', 280, 0.68, 0.04, 2.5, 310),
-  row('p5', 'حقيبة ظهر مقاومة للماء', 240, 0.58, 0.1, 3.3, 560),
-  row('p6', 'كريم مرطب بفيتامين C', 190, 0.55, 0.11, 3.5, 290),
+  withStock(row('p1', 'سماعة بلوتوث لاسلكية', 420, 0.66, 0.05, 2.6, 520), 320, 40, 1.2),
+  withStock(row('p2', 'ساعة يد رجالي كلاسيك', 360, 0.62, 0.07, 2.9, 740), 210, 30, 1.1),
+  // Out of stock, and the worst confirmation rate in the account — the tab is
+  // meant to put those two facts next to each other.
+  withStock(row('p3', 'مكواة شعر سيراميك', 300, 0.6, 0.08, 3.0, 480), 0, 25, 1.15),
+  withStock(row('p4', 'شاحن سريع 65 وات', 280, 0.68, 0.04, 2.5, 310), 145, 50, 1.4),
+  // Below its own warning threshold.
+  withStock(row('p5', 'حقيبة ظهر مقاومة للماء', 240, 0.58, 0.1, 3.3, 560), 12, 20, 1.1),
+  withStock(row('p6', 'كريم مرطب بفيتامين C', 190, 0.55, 0.11, 3.5, 290), 96, 25, 1.3),
 ];
 
 // PROVISIONAL — `store` identifies the merchant's own storefront, not a traffic
@@ -320,21 +360,168 @@ export const ORDERS_PAGE = {
 };
 
 // ---------------------------------------------------------------------------
-// Stock on hand
+// Stock report
 //
-// PROVISIONAL. Current stock exists per product in the catalogue, so the counts
-// below are derivable; the threshold that separates "low" from "in stock" is a
-// business rule that has to come from the backend, not be invented here.
+// Summed from PRODUCTS rather than written out, so the report and the table
+// beneath it can never disagree. Everything here is counted in PIECES except
+// the four SKU counts, which count products.
+//
+// PROVISIONAL beyond `current_stock`: see docs/backend-requirements.md §4.
 // ---------------------------------------------------------------------------
+const sum = (field) => PRODUCTS.reduce((total, product) => total + product[field], 0);
+
 export const INVENTORY = {
-  /** Distinct SKUs held. */
-  total_products: 120,
-  /** Units sitting in the warehouse right now, across every SKU. */
-  total_units: 4380,
-  in_stock: 96,
-  low_stock: 18,
-  out_of_stock: 6,
+  /** Distinct SKUs in the catalogue. */
+  total_products: PRODUCTS.length,
+  /** Pieces received since each product was added — the warehouse's intake. */
+  total_received: sum('total_stock'),
+  /** Pieces on the shelf right now. */
+  total_units: sum('current_stock'),
+  /** Pieces that left the warehouse and have not settled yet. */
+  units_in_transit: sum('units_in_transit'),
+  /** Pieces that reached a customer. */
+  units_sold: sum('units_sold'),
+  /** SKU counts, split by the product's own warning threshold. */
+  in_stock: PRODUCTS.filter((p) => p.current_stock > p.warning_stock_number).length,
+  low_stock: PRODUCTS.filter(
+    (p) => p.current_stock > 0 && p.current_stock <= p.warning_stock_number
+  ).length,
+  out_of_stock: PRODUCTS.filter((p) => p.current_stock === 0).length,
 };
+
+// ---------------------------------------------------------------------------
+// Stock movement, per product
+//
+// PROVISIONAL, and the whole of it — the backend exposes current stock but no
+// history at all, so every row below is invented shape, not invented policy:
+// it exists to pin down the contract the drill-down page needs, and the real
+// ledger has to replace it wholesale. See docs/backend-requirements.md §4.
+//
+// The log is built backwards from today's known balance so the running balance
+// lands exactly on `current_stock`, and the intake totals `total_stock`.
+// ---------------------------------------------------------------------------
+
+/** `days` back from today, as a plain YYYY-MM-DD date. */
+function daysAgo(days) {
+  return new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
+}
+
+const MOVEMENT_TYPES = {
+  inbound: 'وارد للمخزن',
+  outbound_shipment: 'خرج مع شحنة',
+  return_in: 'مرتجع رجع للمخزن',
+};
+
+function movementsFor(product) {
+  // Everything that left the shelf: delivered, still moving, and the pieces
+  // that were refused — those left too, before coming back.
+  const outboundTotal =
+    product.units_sold + product.units_in_transit + product.units_returned;
+
+  // Dispatches, spread evenly across the period.
+  const dispatches = [];
+  const shipments = 6;
+  let dispatched = 0;
+  for (let index = 0; index < shipments; index += 1) {
+    const quantity =
+      index === shipments - 1
+        ? outboundTotal - dispatched
+        : Math.round(outboundTotal / shipments);
+    dispatched += quantity;
+    dispatches.push({
+      day: 132 - index * 22,
+      type: 'outbound_shipment',
+      quantity: -quantity,
+      reference: `SH-${product.key.toUpperCase()}-${2000 + index}`,
+    });
+  }
+
+  // Pieces arrive two ways: a purchase order, or a refused delivery coming
+  // back. Both are queued and released just before the dispatch that needs
+  // them, so the running balance never goes negative — a warehouse cannot ship
+  // pieces it does not have. Intake is drawn on first; returns are what is
+  // left over.
+  const intake = [0.5, 0.3].map((share) => Math.round(product.total_stock * share));
+  intake.push(product.total_stock - intake[0] - intake[1]);
+
+  const topUps = intake.map((quantity, index) => ({
+    type: 'inbound',
+    quantity,
+    reference: `PO-${product.key.toUpperCase()}-${1000 + index}`,
+  }));
+  if (product.units_returned > 0) {
+    const first = Math.round(product.units_returned / 2);
+    [first, product.units_returned - first].forEach((quantity, index) => {
+      topUps.push({
+        type: 'return_in',
+        quantity,
+        reference: `RT-${product.key.toUpperCase()}-${3000 + index}`,
+      });
+    });
+  }
+
+  const events = [];
+  let balance = 0;
+  let next = 0;
+  const receive = (day) => {
+    const topUp = topUps[next];
+    next += 1;
+    events.push({ ...topUp, day });
+    balance += topUp.quantity;
+  };
+
+  receive(dispatches[0].day + 18);
+  for (const dispatch of dispatches) {
+    while (balance + dispatch.quantity < 0 && next < topUps.length) {
+      receive(dispatch.day + 1);
+    }
+    balance += dispatch.quantity;
+    events.push(dispatch);
+  }
+  // Anything not needed to cover a dispatch landed after the last one.
+  let tail = 6;
+  while (next < topUps.length) {
+    receive(tail);
+    tail -= 2;
+  }
+
+  let running = 0;
+  const rows = events
+    .slice()
+    .sort((a, b) => b.day - a.day)
+    .map((event) => {
+      running += event.quantity;
+      return {
+        date: daysAgo(event.day),
+        type: event.type,
+        type_label: MOVEMENT_TYPES[event.type],
+        quantity: event.quantity,
+        balance: running,
+        reference: event.reference,
+      };
+    });
+
+  // Newest first, the way a ledger is read.
+  return rows.reverse();
+}
+
+export const INVENTORY_MOVEMENTS = Object.fromEntries(
+  PRODUCTS.map((product) => [
+    product.key,
+    {
+      product: {
+        id: product.key,
+        label: product.label,
+        current_stock: product.current_stock,
+        total_stock: product.total_stock,
+        units_in_transit: product.units_in_transit,
+        units_sold: product.units_sold,
+        warning_stock_number: product.warning_stock_number,
+      },
+      data: movementsFor(product),
+    },
+  ])
+);
 
 // ---------------------------------------------------------------------------
 // Cancellations

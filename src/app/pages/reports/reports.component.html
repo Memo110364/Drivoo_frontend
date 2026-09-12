@@ -257,15 +257,56 @@
             </button>
           </div>
 
+          <!--
+            Two rows, because they count two different things. The first counts
+            PIECES and reconciles: received = on hand + in transit + sold. The
+            second counts PRODUCTS, and its three states sum to the catalogue.
+            One strip made a piece count look comparable to a SKU count, which
+            it is not.
+          -->
+          <span class="f-s-11 f-w-600 text-muted d-block m-b-8 group-heading">
+            {{ 'reports.inventory.pieces_heading' | translate }}
+          </span>
           <div class="row">
             @for (cell of [
-              { key: 'total_units',    value: inventory()?.total_units,    icon: 'solar:box-line-duotone',          color: 'primary' },
+              { key: 'total_received',   value: inventory()?.total_received,   icon: 'solar:inbox-in-line-duotone',     color: 'secondary' },
+              { key: 'total_units',      value: inventory()?.total_units,      icon: 'solar:box-line-duotone',          color: 'primary' },
+              { key: 'units_in_transit', value: inventory()?.units_in_transit, icon: 'solar:delivery-line-duotone',     color: 'warning' },
+              { key: 'units_sold',       value: inventory()?.units_sold,       icon: 'solar:check-circle-line-duotone', color: 'success' }
+            ]; track cell.key) {
+              <div class="col-lg-3 col-sm-6 m-b-12">
+                @if (isLoading()) {
+                  <ngx-skeleton-loader class="d-block" [theme]="{ height: '92px' }"></ngx-skeleton-loader>
+                } @else {
+                  <div class="stock-tile p-16 rounded">
+                    <div class="d-flex align-items-center gap-8 m-b-6">
+                      <div class="bg-light-{{ cell.color }} rounded icon-30 d-flex align-items-center justify-content-center">
+                        <i class="iconify f-s-16 d-flex text-{{ cell.color }}" [attr.data-icon]="cell.icon"></i>
+                      </div>
+                      <span class="f-s-12 text-muted lh-sm one-line">
+                        {{ 'reports.inventory.' + cell.key | translate }}
+                      </span>
+                    </div>
+                    <h4 class="f-s-20 f-w-600 m-b-0 lh-sm text-{{ cell.color }}">
+                      {{ cell.value ?? 0 | number }}
+                    </h4>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <span class="f-s-11 f-w-600 text-muted d-block m-t-8 m-b-8 group-heading">
+            {{ 'reports.inventory.skus_heading' | translate }}
+          </span>
+          <div class="row">
+            @for (cell of [
               { key: 'total_products', value: inventory()?.total_products, icon: 'solar:widget-2-line-duotone',     color: 'secondary' },
               { key: 'in_stock',       value: inventory()?.in_stock,       icon: 'solar:check-circle-line-duotone', color: 'success' },
               { key: 'low_stock',      value: inventory()?.low_stock,      icon: 'solar:danger-triangle-linear',    color: 'warning' },
               { key: 'out_of_stock',   value: inventory()?.out_of_stock,   icon: 'solar:close-circle-line-duotone', color: 'error' }
             ]; track cell.key) {
-              <div class="col-lg col-md-4 col-sm-6 m-b-12">
+              <div class="col-lg-3 col-sm-6 m-b-12">
                 @if (isLoading()) {
                   <ngx-skeleton-loader class="d-block" [theme]="{ height: '92px' }"></ngx-skeleton-loader>
                 } @else {
@@ -292,7 +333,8 @@
       <app-performance-table
         titleKey="reports.products.title" subtitleKey="reports.products.subtitle"
         dimensionKey="reports.dimension.product" exportName="drivoo-products"
-        [rows]="rows('product')" [loading]="isLoading()" [showRevenue]="true"></app-performance-table>
+        [rows]="rows('product')" [loading]="isLoading()" [showRevenue]="true"
+        [showStock]="true" rowLinkBase="/reports/product"></app-performance-table>
     </div>
   </mat-tab>
 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -14,7 +15,7 @@ import { downloadCsv } from './csv-export';
 @Component({
   selector: 'app-performance-table',
   standalone: true,
-  imports: [CommonModule, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
+  imports: [CommonModule, RouterLink, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
   templateUrl: './performance-table.component.html',
   styleUrl: './performance-table.component.scss',
 })
@@ -31,6 +32,16 @@ export class PerformanceTableComponent {
   @Input() loading = false;
   /** Adds the revenue column. Off elsewhere, because it crowds the rates. */
   @Input() showRevenue = false;
+  /**
+   * Adds the two stock columns, next to the dimension they belong to. Only the
+   * product dimension has stock — a city does not hold any.
+   */
+  @Input() showStock = false;
+  /**
+   * When set, each label links to `[rowLinkBase, row.key]` — the drill-down
+   * behind the row. Empty leaves the label as plain text.
+   */
+  @Input() rowLinkBase = '';
 
   private rowsSignal = signal<PerformanceRow[]>([]);
   @Input() set rows(value: PerformanceRow[]) {
@@ -41,7 +52,6 @@ export class PerformanceTableComponent {
   }
 
   private readonly baseColumns = [
-    'label',
     'orders',
     'shipped',
     'delivered',
@@ -52,7 +62,15 @@ export class PerformanceTableComponent {
   ];
 
   get columns(): string[] {
-    return this.showRevenue ? [...this.baseColumns, 'revenue'] : this.baseColumns;
+    // Stock sits right after the product, because it is what the merchant reads
+    // the row against: 300 orders means something different on 20 pieces than
+    // on 2,000.
+    return [
+      'label',
+      ...(this.showStock ? ['total_stock', 'current_stock'] : []),
+      ...this.baseColumns,
+      ...(this.showRevenue ? ['revenue'] : []),
+    ];
   }
 
   /** Widest row, so the inline volume bars stay comparable. */
@@ -65,10 +83,27 @@ export class PerformanceTableComponent {
     return 'text-error';
   }
 
+  /**
+   * Colours current stock against the product's own warning threshold, which
+   * the backend sets per product — there is no global "low" number to invent.
+   */
+  stockClass(row: PerformanceRow): string {
+    const stock = row.current_stock ?? 0;
+    if (stock === 0) return 'text-error';
+    if (row.warning_stock_number != null && stock <= row.warning_stock_number) {
+      return 'text-warning';
+    }
+    return 'text-success';
+  }
+
   exportCsv(): void {
     const t = (key: string) => this.translate.instant(key);
+    const stockHeader = this.showStock
+      ? [t('reports.table.total_stock'), t('reports.table.current_stock')]
+      : [];
     const header = [
       t(this.dimensionKey),
+      ...stockHeader,
       t('reports.table.orders'),
       t('reports.table.shipped'),
       t('reports.table.delivered'),
@@ -80,6 +115,7 @@ export class PerformanceTableComponent {
     ];
     const rows = this.rowsSignal().map((row) => [
       row.label,
+      ...(this.showStock ? [row.total_stock ?? '', row.current_stock ?? ''] : []),
       row.orders,
       row.shipped,
       row.delivered,

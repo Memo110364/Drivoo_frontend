@@ -1,0 +1,101 @@
+{
+  "product": {
+    "id": "p6",
+    "label": "كريم مرطب بفيتامين C",
+    "current_stock": 96,
+    "total_stock": 296,
+    "units_in_transit": 65,
+    "units_sold": 135,
+    "warning_stock_number": 25
+  },
+  "data": [
+    {
+      "date": "2026-09-10",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 13,
+      "balance": 96,
+      "reference": "RT-P6-3001"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 14,
+      "balance": 83,
+      "reference": "RT-P6-3000"
+    },
+    {
+      "date": "2026-09-06",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 59,
+      "balance": 69,
+      "reference": "PO-P6-1002"
+    },
+    {
+      "date": "2026-08-21",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -37,
+      "balance": 10,
+      "reference": "SH-P6-2005"
+    },
+    {
+      "date": "2026-07-30",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -38,
+      "balance": 47,
+      "reference": "SH-P6-2004"
+    },
+    {
+      "date": "2026-07-08",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -38,
+      "balance": 85,
+      "reference": "SH-P6-2003"
+    },
+    {
+      "date": "2026-07-07",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 89,
+      "balance": 123,
+      "reference": "PO-P6-1001"
+    },
+    {
+      "date": "2026-06-16",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -38,
+      "balance": 34,
+      "reference": "SH-P6-2002"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -38,
+      "balance": 72,
+      "reference": "SH-P6-2001"
+    },
+    {
+      "date": "2026-05-03",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -38,
+      "balance": 110,
+      "reference": "SH-P6-2000"
+    },
+    {
+      "date": "2026-04-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 148,
+      "balance": 148,
+      "reference": "PO-P6-1000"
+    }
+  ]
+}

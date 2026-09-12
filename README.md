@@ -37,9 +37,15 @@ all, for whatever period is selected.
 | Overview | Period totals per status, sales, trend and breakdown — plus the detailed order export |
 | Shipping | Carrier, city and area — wherever the delivery actually happens |
 | Returns | Return reasons, plus returns by product and by area |
-| Products | Stock on hand, then sales and delivery outcome per product |
+| Products | The stock report, then sales and delivery outcome per product |
 | Operations | Confirmation funnel, attempts, cancellation reasons and confirmation quality per product |
 | Stores | Performance per storefront |
+
+The products table carries two stock columns before the period columns —
+pieces received since the product was added, and pieces on the shelf now — and
+the product name opens `/reports/product/:id`, that product's stock ledger. The
+stock figures are a point in time: they say what is in the warehouse now,
+whatever period is selected, and the table says so rather than implying it.
 
 A merchant may use a single carrier, which leaves a carrier-only tab with one
 row to compare against nothing. Shipping therefore covers carrier, city and area
@@ -79,6 +85,7 @@ GET  reports/confirmation-funnel
 GET  reports/cancellation-reasons
 GET  reports/confirmation-by-product
 GET  reports/inventory
+GET  reports/inventory-movements/{product_id}
 GET  reports/orders                 paged: page, limit, status, search
                                     (backs the detailed export)
 GET  reports/performance/{carrier|city|area|product|store}

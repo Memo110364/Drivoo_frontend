@@ -82,25 +82,110 @@ built**. It needs, per settlement:
 
 ---
 
-## 4. Historical inventory movements
+## 4. Stock — piece counts and movement history
 
-Current stock is available; its history is not. Stock coverage ("how many days
-of stock is left at the current rate") and turnover cannot be computed without
-it, so neither is shown.
+The catalogue already carries **`stock`** (pieces on the shelf now),
+**`warning_stock_number`** (that product's own low threshold) and **`depot`**.
+Those three are real, and the Products tab uses them as they are. Everything
+else on the stock side is missing.
 
-The Products tab opens with a stock snapshot — `GET reports/inventory` — which is
-a point-in-time count, not a movement history, so it needs nothing from this
-section:
+### 4a. Stock counted in pieces, not orders
+
+Every reports endpoint today counts **orders**. Stock is counted in **pieces**,
+and one order can carry several. So a column reading "sold 277" next to one
+reading "in stock 320" is comparing two different units — which is exactly the
+kind of comparison a stock report exists to make.
+
+The demo bridges the two with an invented pieces-per-order factor. That factor
+is a demo assumption and nothing else: **it must not survive into production.**
+The API has to return the piece counts directly.
 
 ```
-{ total_products, total_units, in_stock, low_stock, out_of_stock }
+GET reports/inventory
+  -> { total_products, total_received, total_units,
+       units_in_transit, units_sold,
+       in_stock, low_stock, out_of_stock }
 ```
 
-`total_products` counts SKUs and `total_units` counts pieces on the shelf; the
-three state counts partition `total_products`. Only `total_units` may be missing
-today — if stock is held per SKU without a summed quantity, the backend can sum
-it, but the field has to come from the same source the warehouse uses or the
-tile contradicts the product list.
+| Field | Unit | Status |
+| --- | --- | --- |
+| `total_products` | products | Derivable — count the catalogue |
+| `total_received` | pieces | **Missing** — needs the intake ledger in 4b |
+| `total_units` | pieces | Derivable — sum of `stock` |
+| `units_in_transit` | pieces | **Missing** — pieces on shipped-but-unsettled orders |
+| `units_sold` | pieces | **Missing** — pieces on delivered orders |
+| `in_stock` / `low_stock` / `out_of_stock` | products | Derivable from `stock` vs `warning_stock_number` |
+
+Two invariants the frontend relies on, and the demo data is built to satisfy:
+
+```
+total_received = total_units + units_in_transit + units_sold
+in_stock + low_stock + out_of_stock = total_products
+```
+
+The same two piece counts are needed per product, since the products table
+shows them per row:
+
+```
+GET reports/performance/product
+  -> data: [{ …, total_stock, current_stock, warning_stock_number }]
+```
+
+`current_stock` and `warning_stock_number` map onto fields that exist.
+`total_stock` — pieces received since the product was added — does not.
+
+Both stock columns are **point in time**: they say what is in the warehouse
+now, whatever period is selected. The screen states that rather than implying
+it, and the API should not accept `from`/`to` on them.
+
+### 4b. The movement ledger
+
+Current stock exists; its history does not. Without it there is no answer to
+"where did this product's stock go", and stock coverage ("how many days of
+stock is left at the current rate") and turnover cannot be computed either.
+
+```
+GET reports/inventory-movements/{product_id}
+  -> { product: { id, label, current_stock, total_stock,
+                  units_in_transit, units_sold, warning_stock_number },
+       data: [{ date, type, quantity, balance, reference }] }
+```
+
+| Field | Notes |
+| --- | --- |
+| `type` | Stable enum — the UI translates it, so it must not be free text |
+| `quantity` | Pieces, signed: positive onto the shelf, negative off it |
+| `balance` | Running balance after this movement |
+| `reference` | The purchase order, shipment or return it belongs to |
+
+Provisional `type` values, standing in until the real ones arrive:
+
+| Provisional code | Meaning |
+| --- | --- |
+| `inbound` | Received into the warehouse |
+| `outbound_shipment` | Left with a shipment |
+| `return_in` | A refused delivery came back onto the shelf |
+
+The ledger is **not period-filtered**, deliberately: a running balance only
+means anything read from the first movement onwards. Slicing it to a month
+would show a balance that starts mid-air. If the history ever grows long enough
+to need paging, page it from the newest end and carry the opening balance in
+the response — do not filter it by date.
+
+Two invariants, again satisfied by the demo data:
+
+```
+sum(quantity)                     = current_stock
+sum(quantity where type=inbound)  = total_stock
+```
+
+and the running balance must never go negative — a warehouse cannot ship pieces
+it has not received.
+
+**This whole endpoint is invented shape, not invented policy.** It exists to
+pin down the contract the drill-down page needs; the real ledger replaces it
+wholesale, and whatever movement types the warehouse actually records should
+replace the three above.
 
 ---
 
