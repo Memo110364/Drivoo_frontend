@@ -1,0 +1,35 @@
+{
+  "total": 2470,
+  "data": [
+    {
+      "group": "pending",
+      "count": 89,
+      "percentage": 3.6
+    },
+    {
+      "group": "confirmed",
+      "count": 109,
+      "percentage": 4.4
+    },
+    {
+      "group": "in_shipping",
+      "count": 609,
+      "percentage": 24.7
+    },
+    {
+      "group": "delivered",
+      "count": 1495,
+      "percentage": 60.5
+    },
+    {
+      "group": "returned",
+      "count": 168,
+      "percentage": 6.8
+    },
+    {
+      "group": "cancelled",
+      "count": 0,
+      "percentage": 0
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+// The theme gives every card 30px of body padding and a 30px bottom margin, and
+// the grid a 30px gutter. That is generous for a content page but leaves a
+// reports screen sparse, so this page tightens all three — no theme file is
+// touched.
+:host ::ng-deep .mat-mdc-card {
+  margin-bottom: 0 !important;
+}
+
+:host ::ng-deep .mat-mdc-card > .mat-mdc-card-content {
+  padding: 20px !important;
+}
+
+:host ::ng-deep .row {
+  margin-right: -12px;
+  margin-left: -12px;
+}
+
+:host ::ng-deep .row > [class*='col-'] {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+// Tabs carry their own padding, so the panel adds only what the cards need.
+.tab-body {
+  padding-top: 20px;
+}
+
+.reports-tabs ::ng-deep .mat-mdc-tab-body-content {
+  overflow-x: hidden;
+}
+
+// Material's outline field is 56px with a hint row beneath. These sit in a
+// toolbar, so they match button height and drop the hint.
+.reports-filter {
+  width: 150px;
+
+  ::ng-deep .mat-mdc-form-field-infix {
+    min-height: 42px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  ::ng-deep .mat-mdc-floating-label:not(.mdc-floating-label--float-above) {
+    top: 21px;
+  }
+}
+
+.toolbar-btn {
+  height: 42px;
+  line-height: normal;
+}
+
+// Material wraps projected button content in a block-level label, which drops a
+// flex icon onto its own line; this keeps icon and text on one centred row and
+// `gap` follows the writing direction, so RTL needs no separate rule.
+.toolbar-btn ::ng-deep .mdc-button__label,
+.export-btn ::ng-deep .mdc-button__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.kpi-card {
+  height: 100%;
+}
+
+// Labels differ in length between locales; one line each keeps the six KPI
+// tiles a uniform height.
+.one-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.funnel-step {
+  background-color: rgba(0, 0, 0, 0.02);
+  height: 100%;
+}
+
+.funnel-bar {
+  height: 6px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  &__fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+  }
+}
+
+// Lets a flex child shrink below its content width so text-truncate can bite.
+.min-w-0 {
+  min-width: 0;
+}

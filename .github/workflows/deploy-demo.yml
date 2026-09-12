@@ -1,0 +1,65 @@
+# Publishes the demo build (its API served as static files alongside it) to
+# GitHub Pages.
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [Reports, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Turns Pages on for the repository on the first run, so the deploy job
+      # has somewhere to publish.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - run: npm ci
+
+      # Regenerated rather than trusted, so a stale commit cannot ship data that
+      # no longer matches the dataset.
+      - name: Generate the mock API
+        run: npm run mock:build
+
+      # Pages serves the site from /<repo>/, so the router needs a matching base.
+      - name: Build demo
+        run: npx ng build --configuration demo --base-href "/${GITHUB_REPOSITORY#*/}/"
+
+      # Pages has no SPA rewrite rule; a copy of index.html as 404.html gives us one.
+      - name: Add SPA fallback
+        run: |
+          cp dist/Matdash/browser/index.html dist/Matdash/browser/404.html
+          touch dist/Matdash/browser/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/Matdash/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

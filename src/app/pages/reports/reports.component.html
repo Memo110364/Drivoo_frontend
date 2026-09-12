@@ -1,0 +1,338 @@
+<!-- Filter bar — one period drives every tab -->
+<mat-card class="cardWithShadow m-b-20">
+  <mat-card-content class="p-20">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-12">
+      <div class="min-w-0">
+        <h4 class="f-s-18 f-w-600 m-0 lh-sm">{{ 'reports.title' | translate }}</h4>
+        <span class="f-s-13 text-muted">{{ 'reports.subtitle' | translate }}</span>
+      </div>
+
+      <div class="d-flex flex-wrap align-items-center gap-8">
+        @for (preset of presets; track preset.key) {
+          <button mat-stroked-button class="toolbar-btn"
+                  [color]="activePreset() === preset.key ? 'primary' : undefined"
+                  (click)="applyPreset(preset)">
+            {{ 'reports.presets.' + preset.key | translate }}
+          </button>
+        }
+
+        <mat-form-field appearance="outline" class="reports-filter">
+          <mat-label>{{ 'reports.filters.from' | translate }}</mat-label>
+          <input matInput [matDatepicker]="fromPicker" [value]="fromDate()"
+                 (dateChange)="onDateChange('from', $event.value)" />
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="reports-filter">
+          <mat-label>{{ 'reports.filters.to' | translate }}</mat-label>
+          <input matInput [matDatepicker]="toPicker" [value]="toDate()"
+                 (dateChange)="onDateChange('to', $event.value)" />
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+
+        <button mat-stroked-button class="toolbar-btn" (click)="load()" [disabled]="isLoading()"
+                [attr.aria-label]="'reports.refresh' | translate">
+          <span class="btn-content">
+            <i class="iconify f-s-16 d-flex" data-icon="solar:refresh-linear"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+@if (hasError()) {
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24 text-center">
+      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <h5 class="f-s-16 f-w-600">{{ 'reports.error.title' | translate }}</h5>
+      <p class="text-muted f-s-14">{{ 'reports.error.subtitle' | translate }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        {{ 'reports.error.retry' | translate }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+} @else {
+
+<mat-tab-group class="reports-tabs" animationDuration="0ms" mat-stretch-tabs="false">
+
+  <!-- ── Overview ─────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.overview' | translate">
+    <div class="tab-body">
+      <div class="row">
+        @for (kpi of [
+          { key: 'total_orders',      value: summary()?.total_orders,      icon: 'solar:cart-outline',        color: 'primary', suffix: '' },
+          { key: 'shipped',           value: summary()?.shipped,           icon: 'solar:box-line-duotone',    color: 'info',    suffix: '' },
+          { key: 'delivered',         value: summary()?.delivered,         icon: 'la:shipping-fast',          color: 'success', suffix: '' },
+          { key: 'returned',          value: summary()?.returned,          icon: 'tabler:arrow-back',         color: 'error',   suffix: '' },
+          { key: 'awaiting_shipment', value: summary()?.awaiting_shipment, icon: 'solar:clock-circle-broken', color: 'warning', suffix: '' },
+          { key: 'cod_collected',     value: summary()?.cod_collected,     icon: 'ic:sharp-attach-money',     color: 'secondary', suffix: '' }
+        ]; track kpi.key) {
+          <div class="col-lg-2 col-md-4 col-sm-6 m-b-20">
+            <mat-card class="cardWithShadow kpi-card">
+              <mat-card-content class="p-16">
+                <div class="bg-light-{{ kpi.color }} rounded icon-30 d-flex align-items-center justify-content-center">
+                  <i class="iconify f-s-18 d-flex text-{{ kpi.color }}" [attr.data-icon]="kpi.icon"></i>
+                </div>
+                <span class="f-s-13 f-w-500 text-muted d-block m-t-8 one-line">
+                  {{ 'reports.kpi.' + kpi.key | translate }}
+                </span>
+                @if (isLoading()) {
+                  <ngx-skeleton-loader [theme]="{ height: '24px', 'margin-bottom': '0' }"></ngx-skeleton-loader>
+                } @else {
+                  <h3 class="f-s-20 f-w-600 m-b-0 m-t-2 lh-sm one-line">{{ kpi.value ?? 0 | number }}</h3>
+                }
+              </mat-card-content>
+            </mat-card>
+          </div>
+        }
+      </div>
+
+      <div class="row">
+        @for (rate of [
+          { key: 'delivery_success_rate', value: summary()?.delivery_success_rate, suffix: '%' },
+          { key: 'return_rate',           value: summary()?.return_rate,           suffix: '%' },
+          { key: 'avg_delivery_days',     value: summary()?.avg_delivery_days,     suffix: '' },
+          { key: 'revenue',               value: summary()?.revenue,               suffix: '' }
+        ]; track rate.key) {
+          <div class="col-lg-3 col-sm-6 m-b-20">
+            <mat-card class="cardWithShadow h-full">
+              <mat-card-content class="p-16">
+                <span class="f-s-13 text-muted d-block one-line">
+                  {{ 'reports.table.' + rate.key | translate }}
+                </span>
+                <h3 class="f-s-22 f-w-600 m-b-0 m-t-4 lh-sm">
+                  {{ rate.value ?? 0 | number }}{{ rate.suffix }}
+                </h3>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        }
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 m-b-20">
+          <mat-card class="cardWithShadow h-full">
+            <mat-card-content class="p-24">
+              <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
+                <div class="min-w-0">
+                  <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.charts.orders_trend' | translate }}</h5>
+                  <span class="f-s-12 text-muted">{{ 'reports.charts.orders_trend_sub' | translate }}</span>
+                </div>
+                <button mat-stroked-button class="export-btn" (click)="exportSummary()" [disabled]="isLoading()">
+                  <span class="btn-content">
+                    <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+                    <span>{{ 'reports.export_excel' | translate }}</span>
+                  </span>
+                </button>
+              </div>
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '300px' }"></ngx-skeleton-loader>
+              } @else {
+                <apx-chart [series]="ordersChart.series" [chart]="ordersChart.chart"
+                           [colors]="ordersChart.colors" [stroke]="ordersChart.stroke"
+                           [dataLabels]="ordersChart.dataLabels" [legend]="ordersChart.legend"
+                           [grid]="ordersChart.grid" [xaxis]="ordersChart.xaxis"
+                           [yaxis]="ordersChart.yaxis" [tooltip]="ordersChart.tooltip"></apx-chart>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-4 m-b-20">
+          <mat-card class="cardWithShadow h-full">
+            <mat-card-content class="p-24">
+              <h5 class="f-s-15 f-w-600 m-0 m-b-8 lh-sm">
+                {{ 'reports.charts.status_breakdown' | translate }}
+              </h5>
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '300px' }"></ngx-skeleton-loader>
+              } @else {
+                <apx-chart [series]="statusChart.series" [labels]="statusChart.labels"
+                           [chart]="statusChart.chart" [colors]="statusChart.colors"
+                           [dataLabels]="statusChart.dataLabels" [legend]="statusChart.legend"
+                           [stroke]="statusChart.stroke" [plotOptions]="statusChart.plotOptions"
+                           [tooltip]="statusChart.tooltip"></apx-chart>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <!-- ── Shipping ─────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.shipping' | translate">
+    <div class="tab-body">
+      <app-performance-table
+        titleKey="reports.shipping.title" subtitleKey="reports.shipping.subtitle"
+        dimensionKey="reports.dimension.carrier" exportName="drivoo-carriers"
+        [rows]="rows('carrier')" [loading]="isLoading()"></app-performance-table>
+    </div>
+  </mat-tab>
+
+  <!-- ── Returns ──────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.returns' | translate">
+    <div class="tab-body">
+      <div class="row">
+        <div class="col-lg-6 m-b-20">
+          <mat-card class="cardWithShadow h-full">
+            <mat-card-content class="p-24">
+              <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
+                <div class="min-w-0">
+                  <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.returns.title' | translate }}</h5>
+                  <span class="f-s-12 text-muted">{{ 'reports.returns.subtitle' | translate }}</span>
+                </div>
+                <button mat-stroked-button class="export-btn" (click)="exportReturnReasons()"
+                        [disabled]="isLoading() || returnReasons().length === 0">
+                  <span class="btn-content">
+                    <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+                    <span>{{ 'reports.export_excel' | translate }}</span>
+                  </span>
+                </button>
+              </div>
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '300px' }"></ngx-skeleton-loader>
+              } @else if (returnReasons().length === 0) {
+                <p class="text-muted f-s-14 text-center m-t-24">{{ 'reports.no_data' | translate }}</p>
+              } @else {
+                <apx-chart [series]="reasonsChart.series" [chart]="reasonsChart.chart"
+                           [plotOptions]="reasonsChart.plotOptions" [colors]="reasonsChart.colors"
+                           [dataLabels]="reasonsChart.dataLabels" [legend]="reasonsChart.legend"
+                           [grid]="reasonsChart.grid" [xaxis]="reasonsChart.xaxis"
+                           [tooltip]="reasonsChart.tooltip"></apx-chart>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-lg-6 m-b-20">
+          <app-performance-table
+            titleKey="reports.returns.by_product" subtitleKey="reports.returns.by_product_sub"
+            dimensionKey="reports.dimension.product" exportName="drivoo-returns-by-product"
+            [rows]="rows('product')" [loading]="isLoading()"></app-performance-table>
+        </div>
+      </div>
+      <app-performance-table
+        titleKey="reports.returns.by_area" subtitleKey="reports.returns.by_area_sub"
+        dimensionKey="reports.dimension.area" exportName="drivoo-returns-by-area"
+        [rows]="rows('area')" [loading]="isLoading()"></app-performance-table>
+    </div>
+  </mat-tab>
+
+  <!-- ── Products ─────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.products' | translate">
+    <div class="tab-body">
+      <app-performance-table
+        titleKey="reports.products.title" subtitleKey="reports.products.subtitle"
+        dimensionKey="reports.dimension.product" exportName="drivoo-products"
+        [rows]="rows('product')" [loading]="isLoading()"></app-performance-table>
+    </div>
+  </mat-tab>
+
+  <!-- ── Geography ────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.geography' | translate">
+    <div class="tab-body">
+      <div class="m-b-20">
+        <app-performance-table
+          titleKey="reports.geography.cities" subtitleKey="reports.geography.cities_sub"
+          dimensionKey="reports.dimension.city" exportName="drivoo-cities"
+          [rows]="rows('city')" [loading]="isLoading()"></app-performance-table>
+      </div>
+      <app-performance-table
+        titleKey="reports.geography.areas" subtitleKey="reports.geography.areas_sub"
+        dimensionKey="reports.dimension.area" exportName="drivoo-areas"
+        [rows]="rows('area')" [loading]="isLoading()"></app-performance-table>
+    </div>
+  </mat-tab>
+
+  <!-- ── Operations ───────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.operations' | translate">
+    <div class="tab-body">
+      <mat-card class="cardWithShadow m-b-20">
+        <mat-card-content class="p-24">
+          <div class="d-flex align-items-center justify-content-between gap-8 m-b-16">
+            <div class="min-w-0">
+              <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.funnel.title' | translate }}</h5>
+              <span class="f-s-12 text-muted">{{ 'reports.funnel.subtitle' | translate }}</span>
+            </div>
+            <button mat-stroked-button class="export-btn" (click)="exportFunnel()" [disabled]="isLoading()">
+              <span class="btn-content">
+                <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+                <span>{{ 'reports.export_excel' | translate }}</span>
+              </span>
+            </button>
+          </div>
+
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block" [theme]="{ height: '120px' }"></ngx-skeleton-loader>
+          } @else {
+            <div class="row">
+              @for (step of [
+                { key: 'placed',    value: funnel()?.placed,    color: 'primary' },
+                { key: 'confirmed', value: funnel()?.confirmed, color: 'info' },
+                { key: 'shipped',   value: funnel()?.shipped,   color: 'secondary' },
+                { key: 'delivered', value: funnel()?.delivered, color: 'success' }
+              ]; track step.key) {
+                <div class="col-lg-3 col-sm-6 m-b-16">
+                  <div class="funnel-step p-16 rounded">
+                    <span class="f-s-12 text-muted d-block one-line">
+                      {{ 'reports.funnel.' + step.key | translate }}
+                    </span>
+                    <h4 class="f-s-20 f-w-600 m-b-0 m-t-4 lh-sm text-{{ step.color }}">
+                      {{ step.value ?? 0 | number }}
+                    </h4>
+                    <div class="funnel-bar m-t-8">
+                      <span class="funnel-bar__fill bg-{{ step.color }}"
+                            [style.width.%]="funnel()?.placed ? ((step.value ?? 0) / (funnel()!.placed)) * 100 : 0"></span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="d-flex align-items-center gap-8 m-t-8 f-s-13">
+              <i class="iconify f-s-16 d-flex text-error" data-icon="solar:danger-circle-line-duotone"></i>
+              <span dir="auto">
+                {{ 'reports.funnel.lost_note' | translate:
+                   { count: funnel()?.lost_at_confirmation ?? 0, percent: lostShare() } }}
+              </span>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="cardWithShadow">
+        <mat-card-content class="p-24">
+          <h5 class="f-s-15 f-w-600 m-0 m-b-2 lh-sm">{{ 'reports.attempts.title' | translate }}</h5>
+          <span class="f-s-12 text-muted d-block m-b-16">{{ 'reports.attempts.subtitle' | translate }}</span>
+
+          @if (isLoading()) {
+            <ngx-skeleton-loader class="d-block" [theme]="{ height: '120px' }"></ngx-skeleton-loader>
+          } @else {
+            @for (row of funnel()?.attempts ?? []; track row.attempts) {
+              <div class="d-flex align-items-center justify-content-between gap-12 p-y-6">
+                <span class="f-s-13 min-w-0 text-truncate">
+                  {{ 'reports.attempts.row' | translate: { count: row.attempts } }}
+                </span>
+                <span class="f-s-13 f-w-600 text-nowrap">{{ row.orders | number }}</span>
+              </div>
+            }
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+  <!-- ── Stores ───────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.stores' | translate">
+    <div class="tab-body">
+      <app-performance-table
+        titleKey="reports.stores.title" subtitleKey="reports.stores.subtitle"
+        dimensionKey="reports.dimension.store" exportName="drivoo-stores"
+        [rows]="rows('store')" [loading]="isLoading()"></app-performance-table>
+    </div>
+  </mat-tab>
+
+</mat-tab-group>
+}

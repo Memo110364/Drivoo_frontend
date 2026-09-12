@@ -1,7 +1,7 @@
 {
-  "system_messages":{
-    "no_orders":"لا يوجد طلبات",
-    "close":"إغلاق"
+  "system_messages": {
+    "no_orders": "لا يوجد طلبات",
+    "close": "إغلاق"
   },
   "dashboard": {
     "currentOrdersStatusTitle": "حالة الطلبات الحالية",
@@ -32,18 +32,18 @@
     "logout": "تسجيل الخروج"
   },
   "orders": {
-    "invoice":{
-      "back_to_invoices":"العودة إلى الفواتير",
-      "edit_invoice":"تعديل الفاتورة",
-      "order_number":"رقم الطلب",
-      "order_date":"تاريخ الطلب",
-      "order_status":"حالة الطلب",
-      "order_address":"عنوان الطلب",
-      "order_phone":"رقم الطلب",
-      "product":"المنتج",
-      "unit_price":"سعر الوحدة",
-      "quantity":"الكمية",
-      "total_cost":"التكلفة الإجمالية"
+    "invoice": {
+      "back_to_invoices": "العودة إلى الفواتير",
+      "edit_invoice": "تعديل الفاتورة",
+      "order_number": "رقم الطلب",
+      "order_date": "تاريخ الطلب",
+      "order_status": "حالة الطلب",
+      "order_address": "عنوان الطلب",
+      "order_phone": "رقم الطلب",
+      "product": "المنتج",
+      "unit_price": "سعر الوحدة",
+      "quantity": "الكمية",
+      "total_cost": "التكلفة الإجمالية"
     },
     "status": {
       "pending": "قيد الانتظار",
@@ -54,7 +54,7 @@
       "collected": "تم الجمع",
       "in_shipping": "في الشحن"
     },
-    "status_number":{
+    "status_number": {
       "1": "قيد الانتظار",
       "2": "قيد التنفيذ",
       "3": "تم الانتهاء",
@@ -73,8 +73,139 @@
       "16": "تم الإلغاء تلقائيا",
       "17": "تم التأكيد من قبل العميل",
       "18": "تبديل",
-      "19": "تحتاج إلى تحديث" 
+      "19": "تحتاج إلى تحديث"
     }
-
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "أداء التشغيل خلال الفترة المختارة",
+    "export_excel": "تصدير",
+    "refresh": "تحديث",
+    "no_data": "لا توجد بيانات في هذه الفترة",
+    "presets": {
+      "last_7_days": "آخر ٧ أيام",
+      "last_30_days": "آخر ٣٠ يوم",
+      "last_90_days": "آخر ٩٠ يوم"
+    },
+    "filters": {
+      "from": "من",
+      "to": "إلى"
+    },
+    "tabs": {
+      "overview": "نظرة عامة",
+      "shipping": "الشحن",
+      "returns": "المرتجعات",
+      "products": "المنتجات",
+      "geography": "الجغرافيا",
+      "operations": "التشغيل",
+      "stores": "المتاجر"
+    },
+    "kpi": {
+      "total_orders": "إجمالي الطلبات",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع",
+      "awaiting_shipment": "في انتظار الشحن",
+      "cod_collected": "المحصّل عند الاستلام",
+      "revenue": "الإيرادات"
+    },
+    "table": {
+      "orders": "الطلبات",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع",
+      "delivery_success_rate": "نسبة نجاح التوصيل",
+      "return_rate": "معدل الإرجاع",
+      "avg_delivery_days": "متوسط الأيام",
+      "revenue": "الإيرادات",
+      "share": "النسبة"
+    },
+    "dimension": {
+      "carrier": "شركة الشحن",
+      "city": "المدينة",
+      "area": "المنطقة",
+      "product": "المنتج",
+      "store": "المتجر"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "تم التأكيد",
+      "in_shipping": "في الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع",
+      "cancelled": "ملغي"
+    },
+    "series": {
+      "total": "إجمالي الطلبات",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع"
+    },
+    "charts": {
+      "orders_trend": "الطلبات عبر الوقت",
+      "orders_trend_sub": "الطلبات اليومية عبر المراحل الأساسية",
+      "status_breakdown": "توزيع حالات الطلبات"
+    },
+    "shipping": {
+      "title": "أداء شركات الشحن",
+      "subtitle": "قارن الشركات بنسبة نجاح التوصيل مش بعدد الشحنات"
+    },
+    "returns": {
+      "title": "المرتجعات حسب السبب",
+      "subtitle": "المرتجعات جاية منين فعلاً",
+      "reason": "السبب",
+      "by_product": "المرتجعات حسب المنتج",
+      "by_product_sub": "معدل الإرجاع أهم من العدد",
+      "by_area": "المرتجعات حسب المنطقة",
+      "by_area_sub": "منطقة مزحومة بمعدل إرجاع منخفض أحسن من هادية بمعدل عالي"
+    },
+    "products": {
+      "title": "أداء المنتجات",
+      "subtitle": "المبيعات ونتيجة التوصيل لكل منتج"
+    },
+    "geography": {
+      "cities": "أداء المدن",
+      "cities_sub": "نتيجة التوصيل لكل مدينة",
+      "areas": "أداء المناطق",
+      "areas_sub": "المناطق جوه المدينة الواحدة بتختلف كتير — هنا مكان القرار"
+    },
+    "stores": {
+      "title": "أداء المتاجر",
+      "subtitle": "نتيجة التوصيل لكل متجر"
+    },
+    "funnel": {
+      "title": "قمع التأكيد",
+      "subtitle": "الطلبات بتضيع فين قبل ما تتشحن أصلاً",
+      "placed": "تم الطلب",
+      "confirmed": "تم التأكيد",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "lost_at_confirmation": "ضاعت عند التأكيد",
+      "attempts": "محاولات",
+      "lost_note": "{{count}} طلب ({{percent}}%) ماعدّاش مرحلة التأكيد."
+    },
+    "attempts": {
+      "title": "محاولات التأكيد",
+      "subtitle": "كام مكالمة لحد ما العميل يرد",
+      "row": "{{count}} محاولة"
+    },
+    "return_reason": {
+      "customer_refused": "العميل رفض الاستلام",
+      "unreachable": "تعذر الوصول للعميل",
+      "postponed_expired": "تأجيل متكرر حتى انتهت المهلة",
+      "wrong_address": "عنوان غير صحيح",
+      "item_mismatch": "المنتج مخالف للطلب",
+      "damaged": "المنتج تالف",
+      "other": "أخرى"
+    },
+    "export": {
+      "metric": "المؤشر",
+      "value": "القيمة"
+    },
+    "error": {
+      "title": "تعذر تحميل التقارير",
+      "subtitle": "تأكد أن الـ API متاح ثم حاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
+    }
   }
 }

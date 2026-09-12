@@ -1,0 +1,77 @@
+{
+  "group_by": "product",
+  "data": [
+    {
+      "key": "p1",
+      "label": "سماعة بلوتوث لاسلكية",
+      "orders": 420,
+      "shipped": 386,
+      "delivered": 277,
+      "returned": 21,
+      "delivery_success_rate": 93,
+      "return_rate": 7,
+      "avg_delivery_days": 2.6,
+      "revenue": 144040
+    },
+    {
+      "key": "p2",
+      "label": "ساعة يد رجالي كلاسيك",
+      "orders": 360,
+      "shipped": 331,
+      "delivered": 223,
+      "returned": 25,
+      "delivery_success_rate": 89.9,
+      "return_rate": 10.1,
+      "avg_delivery_days": 2.9,
+      "revenue": 165020
+    },
+    {
+      "key": "p3",
+      "label": "مكواة شعر سيراميك",
+      "orders": 300,
+      "shipped": 276,
+      "delivered": 180,
+      "returned": 24,
+      "delivery_success_rate": 88.2,
+      "return_rate": 11.8,
+      "avg_delivery_days": 3,
+      "revenue": 86400
+    },
+    {
+      "key": "p4",
+      "label": "شاحن سريع 65 وات",
+      "orders": 280,
+      "shipped": 258,
+      "delivered": 191,
+      "returned": 11,
+      "delivery_success_rate": 94.6,
+      "return_rate": 5.4,
+      "avg_delivery_days": 2.5,
+      "revenue": 59210
+    },
+    {
+      "key": "p5",
+      "label": "حقيبة ظهر مقاومة للماء",
+      "orders": 240,
+      "shipped": 221,
+      "delivered": 139,
+      "returned": 24,
+      "delivery_success_rate": 85.3,
+      "return_rate": 14.7,
+      "avg_delivery_days": 3.3,
+      "revenue": 77840
+    },
+    {
+      "key": "p6",
+      "label": "كريم مرطب بفيتامين C",
+      "orders": 190,
+      "shipped": 175,
+      "delivered": 104,
+      "returned": 21,
+      "delivery_success_rate": 83.2,
+      "return_rate": 16.8,
+      "avg_delivery_days": 3.5,
+      "revenue": 30160
+    }
+  ]
+}

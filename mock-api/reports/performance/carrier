@@ -1,0 +1,41 @@
+{
+  "group_by": "carrier",
+  "data": [
+    {
+      "key": "c1",
+      "label": "شركة شحن ١",
+      "orders": 1180,
+      "shipped": 1086,
+      "delivered": 732,
+      "returned": 59,
+      "delivery_success_rate": 92.5,
+      "return_rate": 7.5,
+      "avg_delivery_days": 2.8,
+      "revenue": 468480
+    },
+    {
+      "key": "c2",
+      "label": "شركة شحن ٢",
+      "orders": 860,
+      "shipped": 791,
+      "delivered": 499,
+      "returned": 69,
+      "delivery_success_rate": 87.9,
+      "return_rate": 12.1,
+      "avg_delivery_days": 3.6,
+      "revenue": 304390
+    },
+    {
+      "key": "c3",
+      "label": "شركة شحن ٣",
+      "orders": 430,
+      "shipped": 396,
+      "delivered": 215,
+      "returned": 52,
+      "delivery_success_rate": 80.5,
+      "return_rate": 19.5,
+      "avg_delivery_days": 4.4,
+      "revenue": 126850
+    }
+  ]
+}

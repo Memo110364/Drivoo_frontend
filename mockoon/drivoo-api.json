@@ -1,0 +1,479 @@
+{
+  "uuid": "8db2f909-8a81-4af6-a719-610168899368",
+  "lastMigration": 33,
+  "name": "Drivoo Reports API",
+  "endpointPrefix": "api/v1/",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "08add766-59a7-451f-9562-ed74830080af",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/summary",
+      "responses": [
+        {
+          "uuid": "b4fe860e-fe8d-473c-a1e6-b6373b3f942b",
+          "body": "{\n  \"total_orders\": 2470,\n  \"shipped\": 2272,\n  \"delivered\": 1495,\n  \"returned\": 168,\n  \"awaiting_shipment\": 198,\n  \"cancelled\": 0,\n  \"revenue\": 945640,\n  \"cod_collected\": 926727,\n  \"delivery_success_rate\": 89.9,\n  \"return_rate\": 10.1,\n  \"avg_delivery_days\": 3.1\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d38a6754-5cf1-4576-b251-5dab6c94e222",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/orders-over-time",
+      "responses": [
+        {
+          "uuid": "9940bda4-a5b8-41ce-9383-1bcf58ee4169",
+          "body": "{\n  \"labels\": [\n    \"2026-08-14\",\n    \"2026-08-15\",\n    \"2026-08-16\",\n    \"2026-08-17\",\n    \"2026-08-18\",\n    \"2026-08-19\",\n    \"2026-08-20\",\n    \"2026-08-21\",\n    \"2026-08-22\",\n    \"2026-08-23\",\n    \"2026-08-24\",\n    \"2026-08-25\",\n    \"2026-08-26\",\n    \"2026-08-27\",\n    \"2026-08-28\",\n    \"2026-08-29\",\n    \"2026-08-30\",\n    \"2026-08-31\",\n    \"2026-09-01\",\n    \"2026-09-02\",\n    \"2026-09-03\",\n    \"2026-09-04\",\n    \"2026-09-05\",\n    \"2026-09-06\",\n    \"2026-09-07\",\n    \"2026-09-08\",\n    \"2026-09-09\",\n    \"2026-09-10\",\n    \"2026-09-11\",\n    \"2026-09-12\"\n  ],\n  \"total\": [\n    33,\n    53,\n    51,\n    65,\n    57,\n    70,\n    77,\n    34,\n    59,\n    64,\n    63,\n    68,\n    75,\n    86,\n    48,\n    77,\n    70,\n    81,\n    81,\n    94,\n    86,\n    61,\n    72,\n    75,\n    74,\n    74,\n    91,\n    76,\n    54,\n    70\n  ],\n  \"shipped\": [\n    30,\n    48,\n    46,\n    59,\n    51,\n    63,\n    69,\n    31,\n    53,\n    58,\n    57,\n    61,\n    68,\n    77,\n    43,\n    69,\n    63,\n    73,\n    73,\n    85,\n    77,\n    55,\n    65,\n    68,\n    67,\n    67,\n    82,\n    68,\n    49,\n    63\n  ],\n  \"delivered\": [\n    20,\n    31,\n    30,\n    36,\n    33,\n    39,\n    47,\n    20,\n    33,\n    36,\n    35,\n    38,\n    43,\n    49,\n    26,\n    41,\n    44,\n    50,\n    45,\n    51,\n    51,\n    34,\n    45,\n    42,\n    45,\n    41,\n    55,\n    44,\n    30,\n    41\n  ],\n  \"returned\": [\n    1,\n    2,\n    3,\n    3,\n    4,\n    2,\n    3,\n    1,\n    3,\n    3,\n    4,\n    2,\n    4,\n    4,\n    2,\n    2,\n    3,\n    3,\n    5,\n    3,\n    4,\n    3,\n    4,\n    4,\n    2,\n    3,\n    3,\n    3,\n    3,\n    4\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "90c14bb3-0845-4a05-8075-1381bc1dfe02",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/status-breakdown",
+      "responses": [
+        {
+          "uuid": "2ce4a107-6553-4b37-98dd-5f38ec6a1c69",
+          "body": "{\n  \"total\": 2470,\n  \"data\": [\n    {\n      \"group\": \"pending\",\n      \"count\": 89,\n      \"percentage\": 3.6\n    },\n    {\n      \"group\": \"confirmed\",\n      \"count\": 109,\n      \"percentage\": 4.4\n    },\n    {\n      \"group\": \"in_shipping\",\n      \"count\": 609,\n      \"percentage\": 24.7\n    },\n    {\n      \"group\": \"delivered\",\n      \"count\": 1495,\n      \"percentage\": 60.5\n    },\n    {\n      \"group\": \"returned\",\n      \"count\": 168,\n      \"percentage\": 6.8\n    },\n    {\n      \"group\": \"cancelled\",\n      \"count\": 0,\n      \"percentage\": 0\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "1241edc2-052c-4f12-a1b4-bcfb745fe148",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/returns-by-reason",
+      "responses": [
+        {
+          "uuid": "177fe3c4-f365-4214-94c0-868d5784e51a",
+          "body": "{\n  \"total\": 248,\n  \"data\": [\n    {\n      \"code\": \"customer_refused\",\n      \"count\": 84,\n      \"percentage\": 33.9\n    },\n    {\n      \"code\": \"unreachable\",\n      \"count\": 61,\n      \"percentage\": 24.6\n    },\n    {\n      \"code\": \"postponed_expired\",\n      \"count\": 38,\n      \"percentage\": 15.3\n    },\n    {\n      \"code\": \"wrong_address\",\n      \"count\": 27,\n      \"percentage\": 10.9\n    },\n    {\n      \"code\": \"item_mismatch\",\n      \"count\": 19,\n      \"percentage\": 7.7\n    },\n    {\n      \"code\": \"damaged\",\n      \"count\": 8,\n      \"percentage\": 3.2\n    },\n    {\n      \"code\": \"other\",\n      \"count\": 11,\n      \"percentage\": 4.4\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "fa88d3e3-2f59-4ff6-97d6-e7658ca6fabf",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/confirmation-funnel",
+      "responses": [
+        {
+          "uuid": "86aa31d7-5052-481b-b865-ae1f513f38aa",
+          "body": "{\n  \"placed\": 2470,\n  \"confirmed\": 2124,\n  \"shipped\": 2272,\n  \"delivered\": 1495,\n  \"lost_at_confirmation\": 346,\n  \"attempts\": [\n    {\n      \"attempts\": 0,\n      \"orders\": 346\n    },\n    {\n      \"attempts\": 1,\n      \"orders\": 1232\n    },\n    {\n      \"attempts\": 2,\n      \"orders\": 573\n    },\n    {\n      \"attempts\": 3,\n      \"orders\": 234\n    },\n    {\n      \"attempts\": 4,\n      \"orders\": 85\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b42e8cd3-5bb9-458b-bb37-942172298603",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/performance/carrier",
+      "responses": [
+        {
+          "uuid": "db47d339-7688-4f2b-9f0b-2782411cfcd5",
+          "body": "{\n  \"group_by\": \"carrier\",\n  \"data\": [\n    {\n      \"key\": \"c1\",\n      \"label\": \"شركة شحن ١\",\n      \"orders\": 1180,\n      \"shipped\": 1086,\n      \"delivered\": 732,\n      \"returned\": 59,\n      \"delivery_success_rate\": 92.5,\n      \"return_rate\": 7.5,\n      \"avg_delivery_days\": 2.8,\n      \"revenue\": 468480\n    },\n    {\n      \"key\": \"c2\",\n      \"label\": \"شركة شحن ٢\",\n      \"orders\": 860,\n      \"shipped\": 791,\n      \"delivered\": 499,\n      \"returned\": 69,\n      \"delivery_success_rate\": 87.9,\n      \"return_rate\": 12.1,\n      \"avg_delivery_days\": 3.6,\n      \"revenue\": 304390\n    },\n    {\n      \"key\": \"c3\",\n      \"label\": \"شركة شحن ٣\",\n      \"orders\": 430,\n      \"shipped\": 396,\n      \"delivered\": 215,\n      \"returned\": 52,\n      \"delivery_success_rate\": 80.5,\n      \"return_rate\": 19.5,\n      \"avg_delivery_days\": 4.4,\n      \"revenue\": 126850\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "bd9f82b9-d6ff-49c8-b38a-a794d9dfd0e5",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/performance/city",
+      "responses": [
+        {
+          "uuid": "ba6e7b4a-1912-4bb4-9c39-6fc507e6f155",
+          "body": "{\n  \"group_by\": \"city\",\n  \"data\": [\n    {\n      \"key\": \"1\",\n      \"label\": \"القاهرة\",\n      \"orders\": 890,\n      \"shipped\": 819,\n      \"delivered\": 570,\n      \"returned\": 44,\n      \"delivery_success_rate\": 92.8,\n      \"return_rate\": 7.2,\n      \"avg_delivery_days\": 2.4,\n      \"revenue\": 370500\n    },\n    {\n      \"key\": \"2\",\n      \"label\": \"الإسكندرية\",\n      \"orders\": 540,\n      \"shipped\": 497,\n      \"delivered\": 324,\n      \"returned\": 38,\n      \"delivery_success_rate\": 89.5,\n      \"return_rate\": 10.5,\n      \"avg_delivery_days\": 3.1,\n      \"revenue\": 200880\n    },\n    {\n      \"key\": \"3\",\n      \"label\": \"الجيزة\",\n      \"orders\": 620,\n      \"shipped\": 570,\n      \"delivered\": 385,\n      \"returned\": 37,\n      \"delivery_success_rate\": 91.2,\n      \"return_rate\": 8.8,\n      \"avg_delivery_days\": 2.6,\n      \"revenue\": 246400\n    },\n    {\n      \"key\": \"4\",\n      \"label\": \"بورسعيد\",\n      \"orders\": 180,\n      \"shipped\": 166,\n      \"delivered\": 99,\n      \"returned\": 18,\n      \"delivery_success_rate\": 84.6,\n      \"return_rate\": 15.4,\n      \"avg_delivery_days\": 4,\n      \"revenue\": 59400\n    },\n    {\n      \"key\": \"5\",\n      \"label\": \"أسوان\",\n      \"orders\": 120,\n      \"shipped\": 110,\n      \"delivered\": 57,\n      \"returned\": 17,\n      \"delivery_success_rate\": 77,\n      \"return_rate\": 23,\n      \"avg_delivery_days\": 5.2,\n      \"revenue\": 33060\n    },\n    {\n      \"key\": \"6\",\n      \"label\": \"الأقصر\",\n      \"orders\": 120,\n      \"shipped\": 110,\n      \"delivered\": 60,\n      \"returned\": 14,\n      \"delivery_success_rate\": 81.1,\n      \"return_rate\": 18.9,\n      \"avg_delivery_days\": 4.8,\n      \"revenue\": 35400\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "5dd8bad3-ac31-43ae-86b8-25c79b9d3e30",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/performance/area",
+      "responses": [
+        {
+          "uuid": "0b4c41d4-80a0-40ba-a8a8-9ba2a7b680d3",
+          "body": "{\n  \"group_by\": \"area\",\n  \"data\": [\n    {\n      \"key\": \"101\",\n      \"label\": \"مدينة نصر\",\n      \"orders\": 310,\n      \"shipped\": 285,\n      \"delivered\": 211,\n      \"returned\": 12,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.1,\n      \"revenue\": 139260\n    },\n    {\n      \"key\": \"102\",\n      \"label\": \"المعادي\",\n      \"orders\": 240,\n      \"shipped\": 221,\n      \"delivered\": 158,\n      \"returned\": 12,\n      \"delivery_success_rate\": 92.9,\n      \"return_rate\": 7.1,\n      \"avg_delivery_days\": 2.3,\n      \"revenue\": 102700\n    },\n    {\n      \"key\": \"103\",\n      \"label\": \"مصر الجديدة\",\n      \"orders\": 190,\n      \"shipped\": 175,\n      \"delivered\": 122,\n      \"returned\": 9,\n      \"delivery_success_rate\": 93.1,\n      \"return_rate\": 6.9,\n      \"avg_delivery_days\": 2.4,\n      \"revenue\": 78080\n    },\n    {\n      \"key\": \"105\",\n      \"label\": \"السادس من أكتوبر\",\n      \"orders\": 150,\n      \"shipped\": 138,\n      \"delivered\": 87,\n      \"returned\": 13,\n      \"delivery_success_rate\": 87,\n      \"return_rate\": 13,\n      \"avg_delivery_days\": 3.2,\n      \"revenue\": 53940\n    },\n    {\n      \"key\": \"201\",\n      \"label\": \"سموحة\",\n      \"orders\": 210,\n      \"shipped\": 193,\n      \"delivered\": 130,\n      \"returned\": 13,\n      \"delivery_success_rate\": 90.9,\n      \"return_rate\": 9.1,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 81900\n    },\n    {\n      \"key\": \"204\",\n      \"label\": \"برج العرب\",\n      \"orders\": 90,\n      \"shipped\": 83,\n      \"delivered\": 45,\n      \"returned\": 12,\n      \"delivery_success_rate\": 78.9,\n      \"return_rate\": 21.1,\n      \"avg_delivery_days\": 4.6,\n      \"revenue\": 26550\n    },\n    {\n      \"key\": \"301\",\n      \"label\": \"الدقي\",\n      \"orders\": 260,\n      \"shipped\": 239,\n      \"delivered\": 175,\n      \"returned\": 10,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.2,\n      \"revenue\": 114625\n    },\n    {\n      \"key\": \"303\",\n      \"label\": \"الهرم\",\n      \"orders\": 200,\n      \"shipped\": 184,\n      \"delivered\": 104,\n      \"returned\": 26,\n      \"delivery_success_rate\": 80,\n      \"return_rate\": 20,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 62400\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "68a61dde-8caa-4b46-bd43-f46a63796555",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/performance/product",
+      "responses": [
+        {
+          "uuid": "1e80d8a0-5346-4ddb-a4b9-ba587c08c189",
+          "body": "{\n  \"group_by\": \"product\",\n  \"data\": [\n    {\n      \"key\": \"p1\",\n      \"label\": \"سماعة بلوتوث لاسلكية\",\n      \"orders\": 420,\n      \"shipped\": 386,\n      \"delivered\": 277,\n      \"returned\": 21,\n      \"delivery_success_rate\": 93,\n      \"return_rate\": 7,\n      \"avg_delivery_days\": 2.6,\n      \"revenue\": 144040\n    },\n    {\n      \"key\": \"p2\",\n      \"label\": \"ساعة يد رجالي كلاسيك\",\n      \"orders\": 360,\n      \"shipped\": 331,\n      \"delivered\": 223,\n      \"returned\": 25,\n      \"delivery_success_rate\": 89.9,\n      \"return_rate\": 10.1,\n      \"avg_delivery_days\": 2.9,\n      \"revenue\": 165020\n    },\n    {\n      \"key\": \"p3\",\n      \"label\": \"مكواة شعر سيراميك\",\n      \"orders\": 300,\n      \"shipped\": 276,\n      \"delivered\": 180,\n      \"returned\": 24,\n      \"delivery_success_rate\": 88.2,\n      \"return_rate\": 11.8,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 86400\n    },\n    {\n      \"key\": \"p4\",\n      \"label\": \"شاحن سريع 65 وات\",\n      \"orders\": 280,\n      \"shipped\": 258,\n      \"delivered\": 191,\n      \"returned\": 11,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.5,\n      \"revenue\": 59210\n    },\n    {\n      \"key\": \"p5\",\n      \"label\": \"حقيبة ظهر مقاومة للماء\",\n      \"orders\": 240,\n      \"shipped\": 221,\n      \"delivered\": 139,\n      \"returned\": 24,\n      \"delivery_success_rate\": 85.3,\n      \"return_rate\": 14.7,\n      \"avg_delivery_days\": 3.3,\n      \"revenue\": 77840\n    },\n    {\n      \"key\": \"p6\",\n      \"label\": \"كريم مرطب بفيتامين C\",\n      \"orders\": 190,\n      \"shipped\": 175,\n      \"delivered\": 104,\n      \"returned\": 21,\n      \"delivery_success_rate\": 83.2,\n      \"return_rate\": 16.8,\n      \"avg_delivery_days\": 3.5,\n      \"revenue\": 30160\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "ef2a6692-7c2f-46f0-bcdb-279e782f2cbf",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/performance/store",
+      "responses": [
+        {
+          "uuid": "a87507da-f9f7-4c13-a876-5d543c13181c",
+          "body": "{\n  \"group_by\": \"store\",\n  \"data\": [\n    {\n      \"key\": \"s1\",\n      \"label\": \"المتجر الإلكتروني\",\n      \"orders\": 1680,\n      \"shipped\": 1546,\n      \"delivered\": 1041,\n      \"returned\": 101,\n      \"delivery_success_rate\": 91.2,\n      \"return_rate\": 8.8,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 655830\n    },\n    {\n      \"key\": \"s2\",\n      \"label\": \"طلبات الكول سنتر\",\n      \"orders\": 790,\n      \"shipped\": 727,\n      \"delivered\": 458,\n      \"returned\": 71,\n      \"delivery_success_rate\": 86.6,\n      \"return_rate\": 13.4,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 279380\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "251b2786-3c6b-46ff-aea2-c196eb99248b",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "user/login",
+      "responses": [
+        {
+          "uuid": "812c1d53-62c2-441c-932c-ab7f72544fa3",
+          "body": "{\n  \"id\": \"123324\",\n  \"name\": \"ahmed\",\n  \"email\": \"ahmed.safar@gmail.com\",\n  \"phone\": \"01000000000\",\n  \"accessToken\": \"demo-access-token\",\n  \"refreshToken\": \"demo-refresh-token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "8e712c1a-7ee1-4b59-83f0-738f5759641e",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/refresh",
+      "responses": [
+        {
+          "uuid": "5355728c-6b3f-4fd5-bae1-be14d7825c8c",
+          "body": "{\n  \"accessToken\": \"demo-access-token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": true,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "08add766-59a7-451f-9562-ed74830080af"
+    },
+    {
+      "type": "route",
+      "uuid": "d38a6754-5cf1-4576-b251-5dab6c94e222"
+    },
+    {
+      "type": "route",
+      "uuid": "90c14bb3-0845-4a05-8075-1381bc1dfe02"
+    },
+    {
+      "type": "route",
+      "uuid": "1241edc2-052c-4f12-a1b4-bcfb745fe148"
+    },
+    {
+      "type": "route",
+      "uuid": "fa88d3e3-2f59-4ff6-97d6-e7658ca6fabf"
+    },
+    {
+      "type": "route",
+      "uuid": "b42e8cd3-5bb9-458b-bb37-942172298603"
+    },
+    {
+      "type": "route",
+      "uuid": "bd9f82b9-d6ff-49c8-b38a-a794d9dfd0e5"
+    },
+    {
+      "type": "route",
+      "uuid": "5dd8bad3-ac31-43ae-86b8-25c79b9d3e30"
+    },
+    {
+      "type": "route",
+      "uuid": "68a61dde-8caa-4b46-bd43-f46a63796555"
+    },
+    {
+      "type": "route",
+      "uuid": "ef2a6692-7c2f-46f0-bcdb-279e782f2cbf"
+    },
+    {
+      "type": "route",
+      "uuid": "251b2786-3c6b-46ff-aea2-c196eb99248b"
+    },
+    {
+      "type": "route",
+      "uuid": "8e712c1a-7ee1-4b59-83f0-738f5759641e"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

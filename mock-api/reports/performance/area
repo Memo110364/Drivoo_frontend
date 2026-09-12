@@ -1,0 +1,101 @@
+{
+  "group_by": "area",
+  "data": [
+    {
+      "key": "101",
+      "label": "مدينة نصر",
+      "orders": 310,
+      "shipped": 285,
+      "delivered": 211,
+      "returned": 12,
+      "delivery_success_rate": 94.6,
+      "return_rate": 5.4,
+      "avg_delivery_days": 2.1,
+      "revenue": 139260
+    },
+    {
+      "key": "102",
+      "label": "المعادي",
+      "orders": 240,
+      "shipped": 221,
+      "delivered": 158,
+      "returned": 12,
+      "delivery_success_rate": 92.9,
+      "return_rate": 7.1,
+      "avg_delivery_days": 2.3,
+      "revenue": 102700
+    },
+    {
+      "key": "103",
+      "label": "مصر الجديدة",
+      "orders": 190,
+      "shipped": 175,
+      "delivered": 122,
+      "returned": 9,
+      "delivery_success_rate": 93.1,
+      "return_rate": 6.9,
+      "avg_delivery_days": 2.4,
+      "revenue": 78080
+    },
+    {
+      "key": "105",
+      "label": "السادس من أكتوبر",
+      "orders": 150,
+      "shipped": 138,
+      "delivered": 87,
+      "returned": 13,
+      "delivery_success_rate": 87,
+      "return_rate": 13,
+      "avg_delivery_days": 3.2,
+      "revenue": 53940
+    },
+    {
+      "key": "201",
+      "label": "سموحة",
+      "orders": 210,
+      "shipped": 193,
+      "delivered": 130,
+      "returned": 13,
+      "delivery_success_rate": 90.9,
+      "return_rate": 9.1,
+      "avg_delivery_days": 3,
+      "revenue": 81900
+    },
+    {
+      "key": "204",
+      "label": "برج العرب",
+      "orders": 90,
+      "shipped": 83,
+      "delivered": 45,
+      "returned": 12,
+      "delivery_success_rate": 78.9,
+      "return_rate": 21.1,
+      "avg_delivery_days": 4.6,
+      "revenue": 26550
+    },
+    {
+      "key": "301",
+      "label": "الدقي",
+      "orders": 260,
+      "shipped": 239,
+      "delivered": 175,
+      "returned": 10,
+      "delivery_success_rate": 94.6,
+      "return_rate": 5.4,
+      "avg_delivery_days": 2.2,
+      "revenue": 114625
+    },
+    {
+      "key": "303",
+      "label": "الهرم",
+      "orders": 200,
+      "shipped": 184,
+      "delivered": 104,
+      "returned": 26,
+      "delivery_success_rate": 80,
+      "return_rate": 20,
+      "avg_delivery_days": 3.4,
+      "revenue": 62400
+    }
+  ]
+}

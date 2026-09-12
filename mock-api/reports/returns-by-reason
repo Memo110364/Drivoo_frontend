@@ -1,0 +1,40 @@
+{
+  "total": 248,
+  "data": [
+    {
+      "code": "customer_refused",
+      "count": 84,
+      "percentage": 33.9
+    },
+    {
+      "code": "unreachable",
+      "count": 61,
+      "percentage": 24.6
+    },
+    {
+      "code": "postponed_expired",
+      "count": 38,
+      "percentage": 15.3
+    },
+    {
+      "code": "wrong_address",
+      "count": 27,
+      "percentage": 10.9
+    },
+    {
+      "code": "item_mismatch",
+      "count": 19,
+      "percentage": 7.7
+    },
+    {
+      "code": "damaged",
+      "count": 8,
+      "percentage": 3.2
+    },
+    {
+      "code": "other",
+      "count": 11,
+      "percentage": 4.4
+    }
+  ]
+}

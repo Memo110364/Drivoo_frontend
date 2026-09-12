@@ -1,0 +1,43 @@
+// Eight columns do not fit a narrow card: scroll rather than squeeze, which
+// would clip the figures.
+.table-responsive {
+  overflow-x: auto;
+
+  table {
+    min-width: 760px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+}
+
+// Inline volume bar under each label, so relative size reads at a glance
+// without a second chart.
+.volume-bar {
+  height: 5px;
+  max-width: 110px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+
+  &__fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background-color: var(--mat-sys-primary, #635bff);
+  }
+}
+
+// Material wraps projected button content in a block-level label, which drops a
+// flex icon onto its own line; this keeps icon and text on one centred row.
+.export-btn__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
