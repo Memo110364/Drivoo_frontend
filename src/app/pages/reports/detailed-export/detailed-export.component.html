@@ -1,38 +1,51 @@
-<mat-card class="cardWithShadow h-full">
+<!--
+  A full-width toolbar rather than a card in a column: the controls read left to
+  right in one line — what to include, which period, download — the same shape
+  as the period bar at the top of the page.
+-->
+<mat-card class="cardWithShadow">
   <mat-card-content class="p-20">
-    <div class="d-flex align-items-center gap-10 m-b-4">
-      <div class="bg-light-primary rounded icon-32 d-flex align-items-center justify-content-center">
-        <i class="iconify f-s-16 d-flex text-primary" data-icon="solar:file-download-linear"></i>
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-12">
+      <div class="d-flex align-items-center gap-10 min-w-0">
+        <div class="bg-light-primary rounded icon-32 d-flex align-items-center justify-content-center flex-shrink-0">
+          <i class="iconify f-s-16 d-flex text-primary" data-icon="solar:file-download-linear"></i>
+        </div>
+        <div class="min-w-0">
+          <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.detailed.title' | translate }}</h5>
+          <span class="f-s-12 text-muted">{{ 'reports.detailed.subtitle' | translate }}</span>
+        </div>
       </div>
-      <h5 class="f-s-15 f-w-600 m-0 lh-sm min-w-0">{{ 'reports.detailed.title' | translate }}</h5>
-    </div>
-    <span class="f-s-12 text-muted d-block m-b-16">{{ 'reports.detailed.subtitle' | translate }}</span>
 
-    <div class="d-flex flex-wrap align-items-center gap-8">
-      <mat-form-field appearance="outline" class="export-filter">
-        <mat-label>{{ 'reports.orders.status' | translate }}</mat-label>
-        <mat-select [ngModel]="status()" (ngModelChange)="status.set($event)">
-          <mat-option value="">{{ 'reports.orders.all_statuses' | translate }}</mat-option>
-          @for (group of statuses; track group) {
-            <mat-option [value]="group">{{ 'reports.status.' + group | translate }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <div class="d-flex flex-wrap align-items-center gap-8">
+        <mat-form-field appearance="outline" class="export-filter">
+          <mat-label>{{ 'reports.orders.status' | translate }}</mat-label>
+          <mat-select [ngModel]="status()" (ngModelChange)="status.set($event)">
+            <mat-option value="">{{ 'reports.orders.all_statuses' | translate }}</mat-option>
+            @for (group of statuses; track group) {
+              <mat-option [value]="group">{{ 'reports.status.' + group | translate }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
 
-      <button mat-flat-button color="primary" class="download-btn" (click)="download()"
-              [disabled]="isExporting()">
-        <span class="btn-content">
-          <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
-          <span>
-            {{ (isExporting() ? 'reports.detailed.preparing' : 'reports.detailed.download')
-               | translate }}
-          </span>
+        <!-- The period is the page's, not this control's, so it is shown rather
+             than edited — the merchant sees what the file will cover. -->
+        <span class="period-chip d-flex align-items-center gap-6 f-s-13">
+          <i class="iconify f-s-16 d-flex text-muted" data-icon="solar:calendar-linear"></i>
+          <span class="text-muted">{{ 'reports.detailed.period' | translate }}</span>
+          <span class="f-w-500" dir="ltr">{{ filters.from }} → {{ filters.to }}</span>
         </span>
-      </button>
-    </div>
 
-    <span class="f-s-11 text-muted d-block m-t-12" dir="auto">
-      {{ 'reports.detailed.note' | translate: { from: filters.from, to: filters.to } }}
-    </span>
+        <button mat-flat-button color="primary" class="download-btn" (click)="download()"
+                [disabled]="isExporting()">
+          <span class="btn-content">
+            <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+            <span>
+              {{ (isExporting() ? 'reports.detailed.preparing' : 'reports.detailed.download')
+                 | translate }}
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>

@@ -113,7 +113,7 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-5 m-b-20">
+        <div class="col-12 m-b-20">
           <app-detailed-export [filters]="exportFilters()"></app-detailed-export>
         </div>
       </div>
@@ -168,13 +168,25 @@
     </div>
   </mat-tab>
 
-  <!-- ── Shipping ─────────────────────────────────────────────────────── -->
+  <!-- ── Shipping (carriers, cities and areas) ────────────────────────── -->
   <mat-tab [label]="'reports.tabs.shipping' | translate">
     <div class="tab-body">
+      <div class="m-b-20">
+        <app-performance-table
+          titleKey="reports.shipping.title" subtitleKey="reports.shipping.subtitle"
+          dimensionKey="reports.dimension.carrier" exportName="drivoo-carriers"
+          [rows]="rows('carrier')" [loading]="isLoading()"></app-performance-table>
+      </div>
+      <div class="m-b-20">
+        <app-performance-table
+          titleKey="reports.geography.cities" subtitleKey="reports.geography.cities_sub"
+          dimensionKey="reports.dimension.city" exportName="drivoo-cities"
+          [rows]="rows('city')" [loading]="isLoading()"></app-performance-table>
+      </div>
       <app-performance-table
-        titleKey="reports.shipping.title" subtitleKey="reports.shipping.subtitle"
-        dimensionKey="reports.dimension.carrier" exportName="drivoo-carriers"
-        [rows]="rows('carrier')" [loading]="isLoading()"></app-performance-table>
+        titleKey="reports.geography.areas" subtitleKey="reports.geography.areas_sub"
+        dimensionKey="reports.dimension.area" exportName="drivoo-areas"
+        [rows]="rows('area')" [loading]="isLoading()"></app-performance-table>
     </div>
   </mat-tab>
 
@@ -226,29 +238,61 @@
     </div>
   </mat-tab>
 
-  <!-- ── Products ─────────────────────────────────────────────────────── -->
+  <!-- ── Products (stock on hand, then sales) ─────────────────────────── -->
   <mat-tab [label]="'reports.tabs.products' | translate">
     <div class="tab-body">
+      <mat-card class="cardWithShadow m-b-20">
+        <mat-card-content class="p-24">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-8 m-b-16">
+            <div class="min-w-0">
+              <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.inventory.title' | translate }}</h5>
+              <span class="f-s-12 text-muted">{{ 'reports.inventory.subtitle' | translate }}</span>
+            </div>
+            <button mat-stroked-button class="export-btn" (click)="exportInventory()"
+                    [disabled]="isLoading()">
+              <span class="btn-content">
+                <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+                <span>{{ 'reports.export_excel' | translate }}</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="row">
+            @for (cell of [
+              { key: 'total_units',    value: inventory()?.total_units,    icon: 'solar:box-line-duotone',          color: 'primary' },
+              { key: 'total_products', value: inventory()?.total_products, icon: 'solar:widget-2-line-duotone',     color: 'secondary' },
+              { key: 'in_stock',       value: inventory()?.in_stock,       icon: 'solar:check-circle-line-duotone', color: 'success' },
+              { key: 'low_stock',      value: inventory()?.low_stock,      icon: 'solar:danger-triangle-linear',    color: 'warning' },
+              { key: 'out_of_stock',   value: inventory()?.out_of_stock,   icon: 'solar:close-circle-line-duotone', color: 'error' }
+            ]; track cell.key) {
+              <div class="col-lg col-md-4 col-sm-6 m-b-12">
+                @if (isLoading()) {
+                  <ngx-skeleton-loader class="d-block" [theme]="{ height: '92px' }"></ngx-skeleton-loader>
+                } @else {
+                  <div class="stock-tile p-16 rounded">
+                    <div class="d-flex align-items-center gap-8 m-b-6">
+                      <div class="bg-light-{{ cell.color }} rounded icon-30 d-flex align-items-center justify-content-center">
+                        <i class="iconify f-s-16 d-flex text-{{ cell.color }}" [attr.data-icon]="cell.icon"></i>
+                      </div>
+                      <span class="f-s-12 text-muted lh-sm one-line">
+                        {{ 'reports.inventory.' + cell.key | translate }}
+                      </span>
+                    </div>
+                    <h4 class="f-s-20 f-w-600 m-b-0 lh-sm text-{{ cell.color }}">
+                      {{ cell.value ?? 0 | number }}
+                    </h4>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+
       <app-performance-table
         titleKey="reports.products.title" subtitleKey="reports.products.subtitle"
         dimensionKey="reports.dimension.product" exportName="drivoo-products"
-        [rows]="rows('product')" [loading]="isLoading()"></app-performance-table>
-    </div>
-  </mat-tab>
-
-  <!-- ── Geography ────────────────────────────────────────────────────── -->
-  <mat-tab [label]="'reports.tabs.geography' | translate">
-    <div class="tab-body">
-      <div class="m-b-20">
-        <app-performance-table
-          titleKey="reports.geography.cities" subtitleKey="reports.geography.cities_sub"
-          dimensionKey="reports.dimension.city" exportName="drivoo-cities"
-          [rows]="rows('city')" [loading]="isLoading()"></app-performance-table>
-      </div>
-      <app-performance-table
-        titleKey="reports.geography.areas" subtitleKey="reports.geography.areas_sub"
-        dimensionKey="reports.dimension.area" exportName="drivoo-areas"
-        [rows]="rows('area')" [loading]="isLoading()"></app-performance-table>
+        [rows]="rows('product')" [loading]="isLoading()" [showRevenue]="true"></app-performance-table>
     </div>
   </mat-tab>
 
@@ -308,22 +352,124 @@
         </mat-card-content>
       </mat-card>
 
+      <div class="row">
+        <div class="col-lg-6 m-b-20">
+          <mat-card class="cardWithShadow h-full">
+            <mat-card-content class="p-24">
+              <h5 class="f-s-15 f-w-600 m-0 m-b-2 lh-sm">{{ 'reports.attempts.title' | translate }}</h5>
+              <span class="f-s-12 text-muted d-block m-b-16">{{ 'reports.attempts.subtitle' | translate }}</span>
+
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '160px' }"></ngx-skeleton-loader>
+              } @else {
+                @for (row of funnel()?.attempts ?? []; track row.attempts) {
+                  <div class="d-flex align-items-center justify-content-between gap-12 p-y-6">
+                    <span class="f-s-13 min-w-0 text-truncate">
+                      {{ 'reports.attempts.row' | translate: { count: row.attempts } }}
+                    </span>
+                    <span class="f-s-13 f-w-600 text-nowrap">{{ row.orders | number }}</span>
+                  </div>
+                }
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Why orders were cancelled before they ever shipped -->
+        <div class="col-lg-6 m-b-20">
+          <mat-card class="cardWithShadow h-full">
+            <mat-card-content class="p-24">
+              <div class="d-flex align-items-center justify-content-between gap-8 m-b-8">
+                <div class="min-w-0">
+                  <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.cancellations.title' | translate }}</h5>
+                  <span class="f-s-12 text-muted">{{ 'reports.cancellations.subtitle' | translate }}</span>
+                </div>
+                <button mat-stroked-button class="export-btn" (click)="exportCancellationReasons()"
+                        [disabled]="isLoading() || cancellationReasons().length === 0">
+                  <span class="btn-content">
+                    <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+                    <span>{{ 'reports.export_excel' | translate }}</span>
+                  </span>
+                </button>
+              </div>
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '300px' }"></ngx-skeleton-loader>
+              } @else if (cancellationReasons().length === 0) {
+                <p class="text-muted f-s-14 text-center m-t-24">{{ 'reports.no_data' | translate }}</p>
+              } @else {
+                <apx-chart [series]="cancellationChart.series" [chart]="cancellationChart.chart"
+                           [plotOptions]="cancellationChart.plotOptions" [colors]="cancellationChart.colors"
+                           [dataLabels]="cancellationChart.dataLabels" [legend]="cancellationChart.legend"
+                           [grid]="cancellationChart.grid" [xaxis]="cancellationChart.xaxis"
+                           [tooltip]="cancellationChart.tooltip"></apx-chart>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- A product whose orders keep dying on the confirmation call -->
       <mat-card class="cardWithShadow">
         <mat-card-content class="p-24">
-          <h5 class="f-s-15 f-w-600 m-0 m-b-2 lh-sm">{{ 'reports.attempts.title' | translate }}</h5>
-          <span class="f-s-12 text-muted d-block m-b-16">{{ 'reports.attempts.subtitle' | translate }}</span>
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-8 m-b-16">
+            <div class="min-w-0">
+              <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.confirm_product.title' | translate }}</h5>
+              <span class="f-s-12 text-muted">{{ 'reports.confirm_product.subtitle' | translate }}</span>
+            </div>
+            <button mat-stroked-button class="export-btn" (click)="exportProductConfirmations()"
+                    [disabled]="isLoading() || productConfirmations().length === 0">
+              <span class="btn-content">
+                <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+                <span>{{ 'reports.export_excel' | translate }}</span>
+              </span>
+            </button>
+          </div>
 
           @if (isLoading()) {
-            <ngx-skeleton-loader class="d-block" [theme]="{ height: '120px' }"></ngx-skeleton-loader>
-          } @else {
-            @for (row of funnel()?.attempts ?? []; track row.attempts) {
-              <div class="d-flex align-items-center justify-content-between gap-12 p-y-6">
-                <span class="f-s-13 min-w-0 text-truncate">
-                  {{ 'reports.attempts.row' | translate: { count: row.attempts } }}
-                </span>
-                <span class="f-s-13 f-w-600 text-nowrap">{{ row.orders | number }}</span>
-              </div>
+            @for (placeholder of [].constructor(6); track $index) {
+              <ngx-skeleton-loader class="d-block" [theme]="{ height: '40px' }"></ngx-skeleton-loader>
             }
+          } @else if (productConfirmations().length === 0) {
+            <p class="text-muted f-s-14 text-center p-y-24">{{ 'reports.no_data' | translate }}</p>
+          } @else {
+            <div class="table-responsive">
+              <table mat-table [dataSource]="productConfirmations()" class="w-100">
+                <ng-container matColumnDef="label">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.dimension.product' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <span class="f-s-13 f-w-500" dir="auto" [title]="row.label">{{ row.label }}</span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="placed">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.funnel.placed' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">{{ row.placed | number }}</td>
+                </ng-container>
+                <ng-container matColumnDef="confirmed">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.funnel.confirmed' | translate }}</th>
+                  <td mat-cell *matCellDef="let row" class="text-success">{{ row.confirmed | number }}</td>
+                </ng-container>
+                <ng-container matColumnDef="lost">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.confirm_product.lost' | translate }}</th>
+                  <td mat-cell *matCellDef="let row" class="text-error">{{ row.lost | number }}</td>
+                </ng-container>
+                <ng-container matColumnDef="confirmation_rate">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'reports.confirm_product.rate' | translate }}</th>
+                  <td mat-cell *matCellDef="let row" class="f-w-600"
+                      [ngClass]="confirmationClass(row.confirmation_rate)">
+                    {{ row.confirmation_rate }}%
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="avg_attempts">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'reports.confirm_product.avg_attempts' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.avg_attempts }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="confirmProductColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: confirmProductColumns"></tr>
+              </table>
+            </div>
           }
         </mat-card-content>
       </mat-card>

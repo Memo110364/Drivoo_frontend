@@ -96,6 +96,36 @@ export interface ConfirmationFunnel {
   attempts: { attempts: number; orders: number }[];
 }
 
+/** Stock on hand, as the products tab opens with. */
+export interface InventorySnapshot {
+  total_products: number;
+  /** Units across every SKU, not the SKU count. */
+  total_units: number;
+  in_stock: number;
+  low_stock: number;
+  out_of_stock: number;
+}
+
+/** Why orders were cancelled before they ever shipped. */
+export interface CancellationReasonRow {
+  /** Backend enum code; the UI translates it. */
+  code: string;
+  count: number;
+  percentage: number;
+}
+
+/** Confirmation quality for one product. */
+export interface ProductConfirmationRow {
+  id: string;
+  label: string;
+  placed: number;
+  confirmed: number;
+  lost: number;
+  confirmation_rate: number;
+  /** Average calls before the customer answered. */
+  avg_attempts: number;
+}
+
 /** One order, as the detail report lists it. */
 export interface OrderRow {
   id: number;
@@ -202,6 +232,29 @@ export class ReportsService extends BaseService {
     return this.http.get<OrdersPage>(`${this.baseUrl}reports/orders`, {
       params: this.toParams(query, extra),
     });
+  }
+
+  getInventory(): Observable<InventorySnapshot> {
+    return this.http.get<InventorySnapshot>(`${this.baseUrl}reports/inventory`);
+  }
+
+  getCancellationReasons(
+    filters: ReportFilters
+  ): Observable<{ total: number; data: CancellationReasonRow[] }> {
+    return this.http.get<{ total: number; data: CancellationReasonRow[] }>(
+      `${this.baseUrl}reports/cancellation-reasons`,
+      { params: this.toParams(filters) }
+    );
+  }
+
+  /** Surfaces a product whose orders keep dying on the confirmation call. */
+  getConfirmationByProduct(
+    filters: ReportFilters
+  ): Observable<{ data: ProductConfirmationRow[] }> {
+    return this.http.get<{ data: ProductConfirmationRow[] }>(
+      `${this.baseUrl}reports/confirmation-by-product`,
+      { params: this.toParams(filters) }
+    );
   }
 
   getConfirmationFunnel(filters: ReportFilters): Observable<ConfirmationFunnel> {

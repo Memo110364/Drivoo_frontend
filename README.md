@@ -35,12 +35,15 @@ all, for whatever period is selected.
 | Tab | Shows |
 | --- | --- |
 | Overview | Period totals per status, sales, trend and breakdown — plus the detailed order export |
-| Shipping | Carrier comparison |
+| Shipping | Carrier, city and area — wherever the delivery actually happens |
 | Returns | Return reasons, plus returns by product and by area |
-| Products | Sales and delivery outcome per product |
-| Geography | City and area performance |
-| Operations | Confirmation funnel and attempt histogram |
+| Products | Stock on hand, then sales and delivery outcome per product |
+| Operations | Confirmation funnel, attempts, cancellation reasons and confirmation quality per product |
 | Stores | Performance per storefront |
+
+A merchant may use a single carrier, which leaves a carrier-only tab with one
+row to compare against nothing. Shipping therefore covers carrier, city and area
+together — the three ways of asking where delivery goes wrong.
 
 Every comparison table carries the same columns — orders, shipped, delivered,
 returned, delivery success rate, return rate, average days — because a count
@@ -73,6 +76,9 @@ GET  reports/orders-over-time
 GET  reports/status-breakdown
 GET  reports/returns-by-reason
 GET  reports/confirmation-funnel
+GET  reports/cancellation-reasons
+GET  reports/confirmation-by-product
+GET  reports/inventory
 GET  reports/orders                 paged: page, limit, status, search
                                     (backs the detailed export)
 GET  reports/performance/{carrier|city|area|product|store}

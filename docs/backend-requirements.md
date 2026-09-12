@@ -88,6 +88,20 @@ Current stock is available; its history is not. Stock coverage ("how many days
 of stock is left at the current rate") and turnover cannot be computed without
 it, so neither is shown.
 
+The Products tab opens with a stock snapshot — `GET reports/inventory` — which is
+a point-in-time count, not a movement history, so it needs nothing from this
+section:
+
+```
+{ total_products, total_units, in_stock, low_stock, out_of_stock }
+```
+
+`total_products` counts SKUs and `total_units` counts pieces on the shelf; the
+three state counts partition `total_products`. Only `total_units` may be missing
+today — if stock is held per SKU without a summed quantity, the backend can sum
+it, but the field has to come from the same source the warehouse uses or the
+tile contradicts the product list.
+
 ---
 
 ## 5. Status transition timestamps
@@ -141,6 +155,59 @@ Every field already exists on the order except `carrier`, covered in section 1.
 **Note on the demo:** the static host ignores every query parameter, so the
 downloaded file covers the whole demo dataset regardless of the period or status
 chosen. Against the real API both are honoured.
+
+## 8. Cancellation reason — separate from return reason
+
+The Operations tab shows why orders were cancelled **before** they ever shipped.
+That is a different question from section 2: a return reason explains a delivery
+that was attempted and refused, a cancellation reason explains an order that
+never left the warehouse. One field cannot answer both, so this is a second
+field, not a reuse.
+
+```
+GET reports/cancellation-reasons -> { data: [{ code, count }] }
+```
+
+`code` must be a stable enum, not free text, or the chart cannot group. The
+provisional values standing in until the real ones arrive:
+
+| Provisional code | Meaning |
+| --- | --- |
+| `unreachable` | The confirmation calls never got an answer |
+| `customer_changed_mind` | Reached, and no longer wanted it |
+| `price_objection` | Reached, and objected to the price |
+| `duplicate_order` | The same customer ordered twice |
+| `wrong_number` | The phone number was not the customer's |
+| `out_of_stock` | The item could not be fulfilled |
+| `other` | Anything the list above does not cover |
+
+If the backend has no such field, cancellations can still be counted — the
+reasons chart is the part that is blocked, and it is the part a merchant acts
+on.
+
+---
+
+## 9. Confirmation outcome per product
+
+The confirmation funnel already exists for the account as a whole. Splitting it
+by product is what makes it actionable: a merchant can stop stocking a product
+whose orders keep dying on the confirmation call, but only once they can see
+which product that is.
+
+```
+GET reports/confirmation-by-product
+  -> { data: [{ id, label, placed, confirmed, lost, confirmation_rate, avg_attempts }] }
+```
+
+Every field is derivable from data the backend already holds — orders carry a
+product and a confirmation outcome — so this is an aggregation to write, not a
+field to add. It is listed here because the aggregation does not exist yet.
+
+`lost = placed - confirmed`, and `confirmation_rate = confirmed / placed * 100`.
+The API returns the rate rather than leaving the frontend to divide, for the
+same reason as the delivery rates below.
+
+---
 
 ## Metrics and their formulas
 

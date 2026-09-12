@@ -1,0 +1,40 @@
+{
+  "total": 190,
+  "data": [
+    {
+      "code": "unreachable",
+      "count": 71,
+      "percentage": 37.4
+    },
+    {
+      "code": "customer_changed_mind",
+      "count": 46,
+      "percentage": 24.2
+    },
+    {
+      "code": "price_objection",
+      "count": 24,
+      "percentage": 12.6
+    },
+    {
+      "code": "duplicate_order",
+      "count": 18,
+      "percentage": 9.5
+    },
+    {
+      "code": "wrong_number",
+      "count": 15,
+      "percentage": 7.9
+    },
+    {
+      "code": "out_of_stock",
+      "count": 9,
+      "percentage": 4.7
+    },
+    {
+      "code": "other",
+      "count": 7,
+      "percentage": 3.7
+    }
+  ]
+}

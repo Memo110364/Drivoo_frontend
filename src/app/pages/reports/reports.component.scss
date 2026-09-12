@@ -58,11 +58,13 @@
   line-height: normal;
 }
 
-// Material wraps projected button content in a block-level label, which drops a
-// flex icon onto its own line; this keeps icon and text on one centred row and
-// `gap` follows the writing direction, so RTL needs no separate rule.
-.toolbar-btn ::ng-deep .mdc-button__label,
-.export-btn ::ng-deep .mdc-button__label {
+// Material wraps projected button content in a single block-level label, so
+// laying that out as a row does nothing — its one child is the `.btn-content`
+// wrapper. The row has to be the wrapper itself, or the icon's own
+// `display: flex` makes it block-level and it lands above the text instead of
+// beside it. `gap` follows the writing direction, so RTL needs no separate rule.
+.toolbar-btn .btn-content,
+.export-btn .btn-content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -102,4 +104,24 @@
 // Lets a flex child shrink below its content width so text-truncate can bite.
 .min-w-0 {
   min-width: 0;
+}
+
+// Stock tiles sit five to a row and share a height, like the KPI row above.
+.stock-tile {
+  background-color: rgba(0, 0, 0, 0.02);
+  height: 100%;
+}
+
+// The per-product confirmation table needs room for six columns.
+.table-responsive {
+  overflow-x: auto;
+
+  table {
+    min-width: 700px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
 }

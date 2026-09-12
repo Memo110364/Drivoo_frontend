@@ -17,18 +17,36 @@
   }
 }
 
+// Reads as part of the control row, so it matches the fields' height and
+// rounding without pretending to be editable.
+.period-chip {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
+  white-space: nowrap;
+}
+
 .download-btn {
   height: 42px;
 
-  // Material wraps projected content in a block-level label, which drops a flex
-  // icon onto its own line; this keeps icon and text on one centred row.
-  ::ng-deep .mdc-button__label {
+  // Material wraps projected content in a single block-level label, so laying
+  // that out as a row does nothing — its one child is the wrapper below. The
+  // row has to be the wrapper itself, or the icon's own `display: flex` makes
+  // it block-level and it lands above the text instead of beside it. `gap`
+  // follows the writing direction, so RTL needs no separate rule.
+  .btn-content {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
   }
 }
 
 .min-w-0 {
   min-width: 0;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
 }

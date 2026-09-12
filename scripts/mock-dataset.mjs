@@ -318,3 +318,75 @@ export const ORDERS_PAGE = {
   total: ORDER_ROWS.length,
   data: ORDER_ROWS,
 };
+
+// ---------------------------------------------------------------------------
+// Stock on hand
+//
+// PROVISIONAL. Current stock exists per product in the catalogue, so the counts
+// below are derivable; the threshold that separates "low" from "in stock" is a
+// business rule that has to come from the backend, not be invented here.
+// ---------------------------------------------------------------------------
+export const INVENTORY = {
+  /** Distinct SKUs held. */
+  total_products: 120,
+  /** Units sitting in the warehouse right now, across every SKU. */
+  total_units: 4380,
+  in_stock: 96,
+  low_stock: 18,
+  out_of_stock: 6,
+};
+
+// ---------------------------------------------------------------------------
+// Cancellations
+//
+// PROVISIONAL codes. A cancellation happens *before* shipping and is a
+// different event from a return, so it needs its own field — see
+// docs/backend-requirements.md.
+// ---------------------------------------------------------------------------
+const CANCELLATION_REASONS = [
+  { code: 'unreachable', count: 71 },
+  { code: 'customer_changed_mind', count: 46 },
+  { code: 'price_objection', count: 24 },
+  { code: 'duplicate_order', count: 18 },
+  { code: 'wrong_number', count: 15 },
+  { code: 'out_of_stock', count: 9 },
+  { code: 'other', count: 7 },
+];
+
+export const CANCELLATION_REASON_REPORT = (() => {
+  const total = CANCELLATION_REASONS.reduce((acc, r) => acc + r.count, 0);
+  return {
+    total,
+    data: CANCELLATION_REASONS.map((r) => ({
+      ...r,
+      percentage: total ? Number(((r.count / total) * 100).toFixed(1)) : 0,
+    })),
+  };
+})();
+
+// ---------------------------------------------------------------------------
+// Confirmation quality per product
+//
+// A product whose orders rarely survive the confirmation call is costing the
+// merchant before anything ever ships — a listing problem, a pricing problem or
+// a bad audience. The period totals hide that; this splits it out.
+// ---------------------------------------------------------------------------
+export const CONFIRMATION_BY_PRODUCT = {
+  data: PRODUCTS.map((product, index) => {
+    const placed = product.orders;
+    // Deliberately uneven: one product confirms far worse than the rest, which
+    // is exactly the case this report exists to surface.
+    const rate = [0.91, 0.88, 0.62, 0.9, 0.84, 0.79][index] ?? 0.85;
+    const confirmed = Math.round(placed * rate);
+    return {
+      id: product.key,
+      label: product.label,
+      placed,
+      confirmed,
+      lost: placed - confirmed,
+      confirmation_rate: Number((rate * 100).toFixed(1)),
+      /** Average calls before the customer answered. */
+      avg_attempts: Number((1.4 + (1 - rate) * 3).toFixed(1)),
+    };
+  }).sort((a, b) => a.confirmation_rate - b.confirmation_rate),
+};

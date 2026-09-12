@@ -29,6 +29,8 @@ export class PerformanceTableComponent {
   /** Used for the exported file name. */
   @Input({ required: true }) exportName = '';
   @Input() loading = false;
+  /** Adds the revenue column. Off elsewhere, because it crowds the rates. */
+  @Input() showRevenue = false;
 
   private rowsSignal = signal<PerformanceRow[]>([]);
   @Input() set rows(value: PerformanceRow[]) {
@@ -38,7 +40,7 @@ export class PerformanceTableComponent {
     return this.rowsSignal();
   }
 
-  readonly columns = [
+  private readonly baseColumns = [
     'label',
     'orders',
     'shipped',
@@ -48,6 +50,10 @@ export class PerformanceTableComponent {
     'return_rate',
     'avg_delivery_days',
   ];
+
+  get columns(): string[] {
+    return this.showRevenue ? [...this.baseColumns, 'revenue'] : this.baseColumns;
+  }
 
   /** Widest row, so the inline volume bars stay comparable. */
   maxOrders = computed(() => this.rowsSignal().reduce((max, row) => Math.max(max, row.orders), 0));

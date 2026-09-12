@@ -9,7 +9,10 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { forkJoin } from 'rxjs';
 import { CoreService } from 'src/app/services/core.service';
 import {
+  CancellationReasonRow,
   ConfirmationFunnel,
+  InventorySnapshot,
+  ProductConfirmationRow,
   OrdersOverTime,
   PerformanceDimension,
   PerformanceRow,
@@ -61,6 +64,9 @@ export class ReportsComponent implements OnInit {
   breakdown = signal<StatusBreakdown | null>(null);
   returnReasons = signal<ReturnReasonRow[]>([]);
   funnel = signal<ConfirmationFunnel | null>(null);
+  cancellationReasons = signal<CancellationReasonRow[]>([]);
+  productConfirmations = signal<ProductConfirmationRow[]>([]);
+  inventory = signal<InventorySnapshot | null>(null);
 
   /** One bucket of rows per comparison dimension, all from `reports/performance`. */
   performance = signal<Record<PerformanceDimension, PerformanceRow[]>>({
@@ -103,9 +109,19 @@ export class ReportsComponent implements OnInit {
   from = computed(() => toApiDate(this.fromDate()));
   to = computed(() => toApiDate(this.toDate()));
 
+  readonly confirmProductColumns = [
+    'label',
+    'placed',
+    'confirmed',
+    'lost',
+    'confirmation_rate',
+    'avg_attempts',
+  ];
+
   ordersChart: any = this.buildOrdersChart([], [], [], [], []);
   statusChart: any = this.buildStatusChart([], []);
   reasonsChart: any = this.buildReasonsChart([], []);
+  cancellationChart: any = this.buildReasonsChart([], []);
 
   ngOnInit(): void {
     this.dateAdapter.setLocale(this.coreService.getLanguage() === 'ar' ? 'ar-EG' : 'en-GB');
@@ -145,6 +161,9 @@ export class ReportsComponent implements OnInit {
       breakdown: this.reportsService.getStatusBreakdown(filters),
       reasons: this.reportsService.getReturnReasons(filters),
       funnel: this.reportsService.getConfirmationFunnel(filters),
+      cancellations: this.reportsService.getCancellationReasons(filters),
+      productConfirmations: this.reportsService.getConfirmationByProduct(filters),
+      inventory: this.reportsService.getInventory(),
       carrier: this.reportsService.getPerformance(filters, 'carrier'),
       city: this.reportsService.getPerformance(filters, 'city'),
       area: this.reportsService.getPerformance(filters, 'area'),
@@ -157,6 +176,9 @@ export class ReportsComponent implements OnInit {
         this.breakdown.set(res.breakdown);
         this.returnReasons.set(res.reasons.data ?? []);
         this.funnel.set(res.funnel);
+        this.cancellationReasons.set(res.cancellations.data ?? []);
+        this.productConfirmations.set(res.productConfirmations.data ?? []);
+        this.inventory.set(res.inventory);
         this.performance.set({
           carrier: res.carrier.data ?? [],
           city: res.city.data ?? [],
@@ -183,6 +205,13 @@ export class ReportsComponent implements OnInit {
             this.translate.instant(`reports.return_reason.${row.code}`)
           ),
           (res.reasons.data ?? []).map((row) => row.count)
+        );
+        this.cancellationChart = this.buildReasonsChart(
+          (res.cancellations.data ?? []).map((row) =>
+            this.translate.instant(`reports.cancellation_reason.${row.code}`)
+          ),
+          (res.cancellations.data ?? []).map((row) => row.count),
+          '#ffae1f'
         );
         this.isLoading.set(false);
       },
@@ -341,7 +370,67 @@ export class ReportsComponent implements OnInit {
     };
   }
 
-  private buildReasonsChart(categories: string[], series: number[]) {
+  /** Green above 85%, amber 70-85, red below — the thresholds used elsewhere. */
+  confirmationClass(rate: number): string {
+    if (rate >= 85) return 'text-success';
+    if (rate >= 70) return 'text-warning';
+    return 'text-error';
+  }
+
+  exportCancellationReasons(): void {
+    const t = (key: string) => this.translate.instant(key);
+    downloadCsv(
+      `drivoo-cancellation-reasons-${this.from()}-to-${this.to()}`,
+      [t('reports.returns.reason'), t('reports.cancellations.count'), t('reports.table.share')],
+      this.cancellationReasons().map((row) => [
+        t(`reports.cancellation_reason.${row.code}`),
+        row.count,
+        `${row.percentage}%`,
+      ])
+    );
+  }
+
+  exportProductConfirmations(): void {
+    const t = (key: string) => this.translate.instant(key);
+    downloadCsv(
+      `drivoo-confirmation-by-product-${this.from()}-to-${this.to()}`,
+      [
+        t('reports.dimension.product'),
+        t('reports.funnel.placed'),
+        t('reports.funnel.confirmed'),
+        t('reports.confirm_product.lost'),
+        t('reports.confirm_product.rate'),
+        t('reports.confirm_product.avg_attempts'),
+      ],
+      this.productConfirmations().map((row) => [
+        row.label,
+        row.placed,
+        row.confirmed,
+        row.lost,
+        `${row.confirmation_rate}%`,
+        row.avg_attempts,
+      ])
+    );
+  }
+
+  exportInventory(): void {
+    const inv = this.inventory();
+    if (!inv) return;
+    const t = (key: string) => this.translate.instant(key);
+    downloadCsv(
+      `drivoo-inventory-${this.to()}`,
+      [t('reports.export.metric'), t('reports.export.value')],
+      [
+        [t('reports.inventory.total_products'), inv.total_products],
+        [t('reports.inventory.total_units'), inv.total_units],
+        [t('reports.inventory.in_stock'), inv.in_stock],
+        [t('reports.inventory.low_stock'), inv.low_stock],
+        [t('reports.inventory.out_of_stock'), inv.out_of_stock],
+      ]
+    );
+  }
+
+  private buildReasonsChart(categories: string[], series: number[], color = '#fa896b') {
     return {
       series: [{ name: this.translate.instant('reports.table.returned'), data: series }],
       chart: {
@@ -353,7 +442,7 @@ export class ReportsComponent implements OnInit {
       },
       // Horizontal bars keep long Arabic reason labels readable.
       plotOptions: { bar: { horizontal: true, borderRadius: 5, barHeight: '55%' } },
-      colors: ['#fa896b'],
+      colors: [color],
       dataLabels: { enabled: true, style: { fontSize: '11px' } },
       legend: { show: false },
       grid: { borderColor: 'rgba(0,0,0,0.05)' },

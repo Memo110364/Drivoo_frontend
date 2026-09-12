@@ -12,7 +12,10 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import {
+  CANCELLATION_REASON_REPORT,
+  CONFIRMATION_BY_PRODUCT,
   CONFIRMATION_FUNNEL,
+  INVENTORY,
   ORDERS_PAGE,
   ORDERS_OVER_TIME,
   PERFORMANCE,
@@ -29,6 +32,9 @@ const ROUTES = [
   { method: 'get', endpoint: 'reports/returns-by-reason', body: RETURN_REASON_REPORT },
   { method: 'get', endpoint: 'reports/confirmation-funnel', body: CONFIRMATION_FUNNEL },
   { method: 'get', endpoint: 'reports/orders', body: ORDERS_PAGE },
+  { method: 'get', endpoint: 'reports/inventory', body: INVENTORY },
+  { method: 'get', endpoint: 'reports/cancellation-reasons', body: CANCELLATION_REASON_REPORT },
+  { method: 'get', endpoint: 'reports/confirmation-by-product', body: CONFIRMATION_BY_PRODUCT },
   ...Object.entries(PERFORMANCE).map(([dimension, data]) => ({
     method: 'get',
     endpoint: `reports/performance/${dimension}`,

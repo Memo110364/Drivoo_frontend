@@ -98,7 +98,6 @@
       "shipping": "Shipping",
       "returns": "Returns",
       "products": "Products",
-      "geography": "Geography",
       "operations": "Operations",
       "stores": "Stores"
     },
@@ -150,7 +149,7 @@
     },
     "shipping": {
       "title": "Carrier Performance",
-      "subtitle": "Compare carriers on delivery success, not volume alone"
+      "subtitle": "Carrier, city and area — wherever the delivery actually happens"
     },
     "returns": {
       "title": "Returns by Reason",
@@ -233,10 +232,40 @@
       "subtitle": "The orders behind these totals, as a spreadsheet",
       "download": "Download",
       "preparing": "Preparing…",
-      "note": "Covers {{from}} to {{to}} — the period selected above.",
+      "period": "Period",
       "empty": "No orders matched this period and status.",
       "failed": "Could not prepare the file. Please try again.",
       "close": "Close"
+    },
+    "inventory": {
+      "title": "Stock on hand",
+      "subtitle": "What is in the warehouse right now",
+      "total_units": "Units in stock",
+      "total_products": "Products (SKUs)",
+      "in_stock": "In stock",
+      "low_stock": "Low stock",
+      "out_of_stock": "Out of stock"
+    },
+    "cancellations": {
+      "title": "Cancellation Reasons",
+      "subtitle": "Why orders were cancelled before they ever shipped",
+      "count": "Cancelled"
+    },
+    "cancellation_reason": {
+      "unreachable": "Customer unreachable",
+      "customer_changed_mind": "Customer changed their mind",
+      "price_objection": "Objected to the price",
+      "duplicate_order": "Duplicate order",
+      "wrong_number": "Wrong phone number",
+      "out_of_stock": "Item out of stock",
+      "other": "Other"
+    },
+    "confirm_product": {
+      "title": "Confirmation Quality by Product",
+      "subtitle": "A product whose orders keep dying on the confirmation call",
+      "lost": "Lost",
+      "rate": "Confirmation Rate",
+      "avg_attempts": "Avg. Calls"
     }
   }
 }
