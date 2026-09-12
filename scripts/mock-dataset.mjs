@@ -87,9 +87,14 @@ export const PRODUCTS = [
 
 // PROVISIONAL — `store` identifies the merchant's own storefront, not a traffic
 // source; confirm with the backend whether a merchant can have more than one.
+// A merchant can run more than one storefront, so this tab compares them.
+// `store` is the storefront itself, not a traffic source — no acquisition
+// channel can be inferred from it. Order counts total the same as every other
+// dimension, so the tabs reconcile.
 export const STORES = [
-  row('s1', 'المتجر الرئيسي', 1680, 0.62, 0.06, 3.0, 630),
-  row('s2', 'المتجر الثاني', 790, 0.58, 0.09, 3.4, 610),
+  row('s1', 'المتجر الرئيسي', 1180, 0.63, 0.05, 2.9, 640),
+  row('s2', 'متجر الأزياء', 790, 0.58, 0.09, 3.4, 610),
+  row('s3', 'متجر الإلكترونيات', 500, 0.6, 0.07, 3.1, 680),
 ];
 
 // PROVISIONAL — codes await the real backend enum.

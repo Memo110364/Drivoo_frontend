@@ -4,18 +4,18 @@
     {
       "key": "s1",
       "label": "المتجر الرئيسي",
-      "orders": 1680,
-      "shipped": 1546,
-      "delivered": 1041,
-      "returned": 101,
-      "delivery_success_rate": 91.2,
-      "return_rate": 8.8,
-      "avg_delivery_days": 3,
-      "revenue": 655830
+      "orders": 1180,
+      "shipped": 1086,
+      "delivered": 743,
+      "returned": 59,
+      "delivery_success_rate": 92.6,
+      "return_rate": 7.4,
+      "avg_delivery_days": 2.9,
+      "revenue": 475520
     },
     {
       "key": "s2",
-      "label": "المتجر الثاني",
+      "label": "متجر الأزياء",
       "orders": 790,
       "shipped": 727,
       "delivered": 458,
@@ -24,6 +24,18 @@
       "return_rate": 13.4,
       "avg_delivery_days": 3.4,
       "revenue": 279380
+    },
+    {
+      "key": "s3",
+      "label": "متجر الإلكترونيات",
+      "orders": 500,
+      "shipped": 460,
+      "delivered": 300,
+      "returned": 35,
+      "delivery_success_rate": 89.6,
+      "return_rate": 10.4,
+      "avg_delivery_days": 3.1,
+      "revenue": 204000
     }
   ]
 }

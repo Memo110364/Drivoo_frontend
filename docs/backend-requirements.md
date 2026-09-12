@@ -98,13 +98,17 @@ reported.
 
 ---
 
-## 6. Store dimension — needs confirmation
+## 6. Store dimension — confirmed
 
-`store` identifies the merchant's own storefront, **not** a traffic source, so
-no acquisition-channel report is possible from it. The Stores tab is only
-meaningful for a merchant with more than one storefront.
+A merchant can run more than one storefront, so the Stores tab compares them and
+stays.
 
-**Open question:** can a merchant have more than one store? If not, drop the tab.
+`store` identifies the storefront itself, **not** a traffic source, so no
+acquisition-channel report can be built from it. Any question of the form "which
+channel should I spend on" needs a field that does not exist yet.
+
+The field is already on the order, so this tab needs nothing new from the
+backend — only real values in place of the provisional store names.
 
 ---
 

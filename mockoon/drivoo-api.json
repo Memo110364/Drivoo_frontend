@@ -9,14 +9,14 @@
   "folders": [],
   "routes": [
     {
-      "uuid": "6aa80d49-e350-4850-82a3-04dc1fa26fb7",
+      "uuid": "08781417-3690-4bd2-9efe-301940781ecf",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/summary",
       "responses": [
         {
-          "uuid": "ffbabcda-ca2a-4d43-9543-d16ca0e9d3f4",
+          "uuid": "6be9ce14-0bb6-4618-9d12-a3e32f3ee596",
           "body": "{\n  \"total_orders\": 2470,\n  \"shipped\": 2272,\n  \"delivered\": 1495,\n  \"returned\": 168,\n  \"awaiting_shipment\": 198,\n  \"cancelled\": 0,\n  \"revenue\": 945640,\n  \"cod_collected\": 926727,\n  \"delivery_success_rate\": 89.9,\n  \"return_rate\": 10.1,\n  \"avg_delivery_days\": 3.1\n}",
           "latency": 0,
           "statusCode": 200,
@@ -40,14 +40,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "b4c1d1be-cbae-45e3-8c5d-5f12420b3c46",
+      "uuid": "548324ad-82b2-455c-9788-2b931e027e26",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/orders-over-time",
       "responses": [
         {
-          "uuid": "7afe79f3-1cd8-4252-a17d-b638a2d45adf",
+          "uuid": "8073f1d6-62f7-46c4-aa33-54ed7d42fd1f",
           "body": "{\n  \"labels\": [\n    \"2026-08-14\",\n    \"2026-08-15\",\n    \"2026-08-16\",\n    \"2026-08-17\",\n    \"2026-08-18\",\n    \"2026-08-19\",\n    \"2026-08-20\",\n    \"2026-08-21\",\n    \"2026-08-22\",\n    \"2026-08-23\",\n    \"2026-08-24\",\n    \"2026-08-25\",\n    \"2026-08-26\",\n    \"2026-08-27\",\n    \"2026-08-28\",\n    \"2026-08-29\",\n    \"2026-08-30\",\n    \"2026-08-31\",\n    \"2026-09-01\",\n    \"2026-09-02\",\n    \"2026-09-03\",\n    \"2026-09-04\",\n    \"2026-09-05\",\n    \"2026-09-06\",\n    \"2026-09-07\",\n    \"2026-09-08\",\n    \"2026-09-09\",\n    \"2026-09-10\",\n    \"2026-09-11\",\n    \"2026-09-12\"\n  ],\n  \"total\": [\n    33,\n    53,\n    51,\n    65,\n    57,\n    70,\n    77,\n    34,\n    59,\n    64,\n    63,\n    68,\n    75,\n    86,\n    48,\n    77,\n    70,\n    81,\n    81,\n    94,\n    86,\n    61,\n    72,\n    75,\n    74,\n    74,\n    91,\n    76,\n    54,\n    70\n  ],\n  \"shipped\": [\n    30,\n    48,\n    46,\n    59,\n    51,\n    63,\n    69,\n    31,\n    53,\n    58,\n    57,\n    61,\n    68,\n    77,\n    43,\n    69,\n    63,\n    73,\n    73,\n    85,\n    77,\n    55,\n    65,\n    68,\n    67,\n    67,\n    82,\n    68,\n    49,\n    63\n  ],\n  \"delivered\": [\n    20,\n    31,\n    30,\n    36,\n    33,\n    39,\n    47,\n    20,\n    33,\n    36,\n    35,\n    38,\n    43,\n    49,\n    26,\n    41,\n    44,\n    50,\n    45,\n    51,\n    51,\n    34,\n    45,\n    42,\n    45,\n    41,\n    55,\n    44,\n    30,\n    41\n  ],\n  \"returned\": [\n    1,\n    2,\n    3,\n    3,\n    4,\n    2,\n    3,\n    1,\n    3,\n    3,\n    4,\n    2,\n    4,\n    4,\n    2,\n    2,\n    3,\n    3,\n    5,\n    3,\n    4,\n    3,\n    4,\n    4,\n    2,\n    3,\n    3,\n    3,\n    3,\n    4\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -71,14 +71,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "2173e002-11f9-4c6a-a849-47b2371931ac",
+      "uuid": "20306ec6-70f1-4f24-9b07-d5639cde9220",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/status-breakdown",
       "responses": [
         {
-          "uuid": "a1003828-66dd-4305-832a-cee30f3b9979",
+          "uuid": "7234619c-c2ce-4820-bc24-17808172a9e5",
           "body": "{\n  \"total\": 2470,\n  \"data\": [\n    {\n      \"group\": \"pending\",\n      \"count\": 89,\n      \"percentage\": 3.6\n    },\n    {\n      \"group\": \"confirmed\",\n      \"count\": 109,\n      \"percentage\": 4.4\n    },\n    {\n      \"group\": \"in_shipping\",\n      \"count\": 609,\n      \"percentage\": 24.7\n    },\n    {\n      \"group\": \"delivered\",\n      \"count\": 1495,\n      \"percentage\": 60.5\n    },\n    {\n      \"group\": \"returned\",\n      \"count\": 168,\n      \"percentage\": 6.8\n    },\n    {\n      \"group\": \"cancelled\",\n      \"count\": 0,\n      \"percentage\": 0\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -102,14 +102,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "80b161eb-0805-4203-9f7c-112f5f0ff308",
+      "uuid": "336b15b6-57f0-4c85-9852-cb509e55b9be",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/returns-by-reason",
       "responses": [
         {
-          "uuid": "16d63ee0-873e-4053-9a3c-724442fc641f",
+          "uuid": "be91ca0c-eaad-47fb-98c3-f962c6d4e6bf",
           "body": "{\n  \"total\": 248,\n  \"data\": [\n    {\n      \"code\": \"customer_refused\",\n      \"count\": 84,\n      \"percentage\": 33.9\n    },\n    {\n      \"code\": \"unreachable\",\n      \"count\": 61,\n      \"percentage\": 24.6\n    },\n    {\n      \"code\": \"postponed_expired\",\n      \"count\": 38,\n      \"percentage\": 15.3\n    },\n    {\n      \"code\": \"wrong_address\",\n      \"count\": 27,\n      \"percentage\": 10.9\n    },\n    {\n      \"code\": \"item_mismatch\",\n      \"count\": 19,\n      \"percentage\": 7.7\n    },\n    {\n      \"code\": \"damaged\",\n      \"count\": 8,\n      \"percentage\": 3.2\n    },\n    {\n      \"code\": \"other\",\n      \"count\": 11,\n      \"percentage\": 4.4\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -133,14 +133,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "a57b54fa-e21a-462f-af96-e9e982c9b7d9",
+      "uuid": "a22e02bb-f73d-4a3e-8080-a897d5555b2d",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/confirmation-funnel",
       "responses": [
         {
-          "uuid": "a7203e6e-c8b5-4300-ab51-47336f9c2042",
+          "uuid": "6790fbae-417b-4bae-9e73-3fef2a7a7095",
           "body": "{\n  \"placed\": 2470,\n  \"confirmed\": 2124,\n  \"shipped\": 2272,\n  \"delivered\": 1495,\n  \"lost_at_confirmation\": 346,\n  \"attempts\": [\n    {\n      \"attempts\": 0,\n      \"orders\": 346\n    },\n    {\n      \"attempts\": 1,\n      \"orders\": 1232\n    },\n    {\n      \"attempts\": 2,\n      \"orders\": 573\n    },\n    {\n      \"attempts\": 3,\n      \"orders\": 234\n    },\n    {\n      \"attempts\": 4,\n      \"orders\": 85\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -164,14 +164,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "327e7076-9203-4b21-a0d9-cd1f9e1e5c06",
+      "uuid": "718317f0-462b-42b1-92e0-cd8ce3245e28",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/performance/carrier",
       "responses": [
         {
-          "uuid": "e9467e81-e61b-4888-b379-41c55b846d37",
+          "uuid": "2ea8c557-07e1-46a2-9c70-0bdb43961852",
           "body": "{\n  \"group_by\": \"carrier\",\n  \"data\": [\n    {\n      \"key\": \"c1\",\n      \"label\": \"سريع إكسبرس\",\n      \"orders\": 1180,\n      \"shipped\": 1086,\n      \"delivered\": 732,\n      \"returned\": 59,\n      \"delivery_success_rate\": 92.5,\n      \"return_rate\": 7.5,\n      \"avg_delivery_days\": 2.8,\n      \"revenue\": 468480\n    },\n    {\n      \"key\": \"c2\",\n      \"label\": \"كارجو النيل\",\n      \"orders\": 860,\n      \"shipped\": 791,\n      \"delivered\": 499,\n      \"returned\": 69,\n      \"delivery_success_rate\": 87.9,\n      \"return_rate\": 12.1,\n      \"avg_delivery_days\": 3.6,\n      \"revenue\": 304390\n    },\n    {\n      \"key\": \"c3\",\n      \"label\": \"دلتا لوجيستكس\",\n      \"orders\": 430,\n      \"shipped\": 396,\n      \"delivered\": 215,\n      \"returned\": 52,\n      \"delivery_success_rate\": 80.5,\n      \"return_rate\": 19.5,\n      \"avg_delivery_days\": 4.4,\n      \"revenue\": 126850\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -195,14 +195,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "82dc4dd7-bfbb-4812-9e8a-2296fc411d42",
+      "uuid": "85bced90-7025-438b-bfb5-303d5064c464",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/performance/city",
       "responses": [
         {
-          "uuid": "622f715c-97d6-4ae6-895a-30fd188aa5cf",
+          "uuid": "024847ae-5bbe-4505-864b-bf33d6773c9b",
           "body": "{\n  \"group_by\": \"city\",\n  \"data\": [\n    {\n      \"key\": \"1\",\n      \"label\": \"القاهرة\",\n      \"orders\": 890,\n      \"shipped\": 819,\n      \"delivered\": 570,\n      \"returned\": 44,\n      \"delivery_success_rate\": 92.8,\n      \"return_rate\": 7.2,\n      \"avg_delivery_days\": 2.4,\n      \"revenue\": 370500\n    },\n    {\n      \"key\": \"2\",\n      \"label\": \"الإسكندرية\",\n      \"orders\": 540,\n      \"shipped\": 497,\n      \"delivered\": 324,\n      \"returned\": 38,\n      \"delivery_success_rate\": 89.5,\n      \"return_rate\": 10.5,\n      \"avg_delivery_days\": 3.1,\n      \"revenue\": 200880\n    },\n    {\n      \"key\": \"3\",\n      \"label\": \"الجيزة\",\n      \"orders\": 620,\n      \"shipped\": 570,\n      \"delivered\": 385,\n      \"returned\": 37,\n      \"delivery_success_rate\": 91.2,\n      \"return_rate\": 8.8,\n      \"avg_delivery_days\": 2.6,\n      \"revenue\": 246400\n    },\n    {\n      \"key\": \"4\",\n      \"label\": \"بورسعيد\",\n      \"orders\": 180,\n      \"shipped\": 166,\n      \"delivered\": 99,\n      \"returned\": 18,\n      \"delivery_success_rate\": 84.6,\n      \"return_rate\": 15.4,\n      \"avg_delivery_days\": 4,\n      \"revenue\": 59400\n    },\n    {\n      \"key\": \"5\",\n      \"label\": \"أسوان\",\n      \"orders\": 120,\n      \"shipped\": 110,\n      \"delivered\": 57,\n      \"returned\": 17,\n      \"delivery_success_rate\": 77,\n      \"return_rate\": 23,\n      \"avg_delivery_days\": 5.2,\n      \"revenue\": 33060\n    },\n    {\n      \"key\": \"6\",\n      \"label\": \"الأقصر\",\n      \"orders\": 120,\n      \"shipped\": 110,\n      \"delivered\": 60,\n      \"returned\": 14,\n      \"delivery_success_rate\": 81.1,\n      \"return_rate\": 18.9,\n      \"avg_delivery_days\": 4.8,\n      \"revenue\": 35400\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -226,14 +226,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "9e2b8d3c-8ae7-4205-87e2-5e4d236578cb",
+      "uuid": "80e093e2-ad42-430a-a546-1605cf115ba2",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/performance/area",
       "responses": [
         {
-          "uuid": "de1f4d07-3cd1-4589-84b5-f5dd9deb6b2b",
+          "uuid": "d2d19a1d-79e5-4f57-9597-8f6ea572f853",
           "body": "{\n  \"group_by\": \"area\",\n  \"data\": [\n    {\n      \"key\": \"101\",\n      \"label\": \"مدينة نصر\",\n      \"orders\": 310,\n      \"shipped\": 285,\n      \"delivered\": 211,\n      \"returned\": 12,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.1,\n      \"revenue\": 139260\n    },\n    {\n      \"key\": \"102\",\n      \"label\": \"المعادي\",\n      \"orders\": 240,\n      \"shipped\": 221,\n      \"delivered\": 158,\n      \"returned\": 12,\n      \"delivery_success_rate\": 92.9,\n      \"return_rate\": 7.1,\n      \"avg_delivery_days\": 2.3,\n      \"revenue\": 102700\n    },\n    {\n      \"key\": \"103\",\n      \"label\": \"مصر الجديدة\",\n      \"orders\": 190,\n      \"shipped\": 175,\n      \"delivered\": 122,\n      \"returned\": 9,\n      \"delivery_success_rate\": 93.1,\n      \"return_rate\": 6.9,\n      \"avg_delivery_days\": 2.4,\n      \"revenue\": 78080\n    },\n    {\n      \"key\": \"105\",\n      \"label\": \"السادس من أكتوبر\",\n      \"orders\": 150,\n      \"shipped\": 138,\n      \"delivered\": 87,\n      \"returned\": 13,\n      \"delivery_success_rate\": 87,\n      \"return_rate\": 13,\n      \"avg_delivery_days\": 3.2,\n      \"revenue\": 53940\n    },\n    {\n      \"key\": \"201\",\n      \"label\": \"سموحة\",\n      \"orders\": 210,\n      \"shipped\": 193,\n      \"delivered\": 130,\n      \"returned\": 13,\n      \"delivery_success_rate\": 90.9,\n      \"return_rate\": 9.1,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 81900\n    },\n    {\n      \"key\": \"204\",\n      \"label\": \"برج العرب\",\n      \"orders\": 90,\n      \"shipped\": 83,\n      \"delivered\": 45,\n      \"returned\": 12,\n      \"delivery_success_rate\": 78.9,\n      \"return_rate\": 21.1,\n      \"avg_delivery_days\": 4.6,\n      \"revenue\": 26550\n    },\n    {\n      \"key\": \"301\",\n      \"label\": \"الدقي\",\n      \"orders\": 260,\n      \"shipped\": 239,\n      \"delivered\": 175,\n      \"returned\": 10,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.2,\n      \"revenue\": 114625\n    },\n    {\n      \"key\": \"303\",\n      \"label\": \"الهرم\",\n      \"orders\": 200,\n      \"shipped\": 184,\n      \"delivered\": 104,\n      \"returned\": 26,\n      \"delivery_success_rate\": 80,\n      \"return_rate\": 20,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 62400\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -257,14 +257,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "186d5651-6ab7-49db-b653-22e2af3bfb73",
+      "uuid": "aca23c30-9059-4c26-a27b-1731caad617f",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/performance/product",
       "responses": [
         {
-          "uuid": "4127953a-20c9-42a1-8bdb-1896d2eb8609",
+          "uuid": "b08838de-1d00-4a24-a52a-4d797134bc02",
           "body": "{\n  \"group_by\": \"product\",\n  \"data\": [\n    {\n      \"key\": \"p1\",\n      \"label\": \"سماعة بلوتوث لاسلكية\",\n      \"orders\": 420,\n      \"shipped\": 386,\n      \"delivered\": 277,\n      \"returned\": 21,\n      \"delivery_success_rate\": 93,\n      \"return_rate\": 7,\n      \"avg_delivery_days\": 2.6,\n      \"revenue\": 144040\n    },\n    {\n      \"key\": \"p2\",\n      \"label\": \"ساعة يد رجالي كلاسيك\",\n      \"orders\": 360,\n      \"shipped\": 331,\n      \"delivered\": 223,\n      \"returned\": 25,\n      \"delivery_success_rate\": 89.9,\n      \"return_rate\": 10.1,\n      \"avg_delivery_days\": 2.9,\n      \"revenue\": 165020\n    },\n    {\n      \"key\": \"p3\",\n      \"label\": \"مكواة شعر سيراميك\",\n      \"orders\": 300,\n      \"shipped\": 276,\n      \"delivered\": 180,\n      \"returned\": 24,\n      \"delivery_success_rate\": 88.2,\n      \"return_rate\": 11.8,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 86400\n    },\n    {\n      \"key\": \"p4\",\n      \"label\": \"شاحن سريع 65 وات\",\n      \"orders\": 280,\n      \"shipped\": 258,\n      \"delivered\": 191,\n      \"returned\": 11,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.5,\n      \"revenue\": 59210\n    },\n    {\n      \"key\": \"p5\",\n      \"label\": \"حقيبة ظهر مقاومة للماء\",\n      \"orders\": 240,\n      \"shipped\": 221,\n      \"delivered\": 139,\n      \"returned\": 24,\n      \"delivery_success_rate\": 85.3,\n      \"return_rate\": 14.7,\n      \"avg_delivery_days\": 3.3,\n      \"revenue\": 77840\n    },\n    {\n      \"key\": \"p6\",\n      \"label\": \"كريم مرطب بفيتامين C\",\n      \"orders\": 190,\n      \"shipped\": 175,\n      \"delivered\": 104,\n      \"returned\": 21,\n      \"delivery_success_rate\": 83.2,\n      \"return_rate\": 16.8,\n      \"avg_delivery_days\": 3.5,\n      \"revenue\": 30160\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -288,15 +288,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "7c450a6c-49a3-42fb-a2cc-35bd1c2f3555",
+      "uuid": "0ef3eac3-e646-49e7-9382-70431ce37b86",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "reports/performance/store",
       "responses": [
         {
-          "uuid": "43346a54-d6c5-4e0f-8be0-545761488cc3",
-          "body": "{\n  \"group_by\": \"store\",\n  \"data\": [\n    {\n      \"key\": \"s1\",\n      \"label\": \"المتجر الرئيسي\",\n      \"orders\": 1680,\n      \"shipped\": 1546,\n      \"delivered\": 1041,\n      \"returned\": 101,\n      \"delivery_success_rate\": 91.2,\n      \"return_rate\": 8.8,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 655830\n    },\n    {\n      \"key\": \"s2\",\n      \"label\": \"المتجر الثاني\",\n      \"orders\": 790,\n      \"shipped\": 727,\n      \"delivered\": 458,\n      \"returned\": 71,\n      \"delivery_success_rate\": 86.6,\n      \"return_rate\": 13.4,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 279380\n    }\n  ]\n}",
+          "uuid": "8a8e043f-5f44-4b8c-b5cb-003a1d9fb892",
+          "body": "{\n  \"group_by\": \"store\",\n  \"data\": [\n    {\n      \"key\": \"s1\",\n      \"label\": \"المتجر الرئيسي\",\n      \"orders\": 1180,\n      \"shipped\": 1086,\n      \"delivered\": 743,\n      \"returned\": 59,\n      \"delivery_success_rate\": 92.6,\n      \"return_rate\": 7.4,\n      \"avg_delivery_days\": 2.9,\n      \"revenue\": 475520\n    },\n    {\n      \"key\": \"s2\",\n      \"label\": \"متجر الأزياء\",\n      \"orders\": 790,\n      \"shipped\": 727,\n      \"delivered\": 458,\n      \"returned\": 71,\n      \"delivery_success_rate\": 86.6,\n      \"return_rate\": 13.4,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 279380\n    },\n    {\n      \"key\": \"s3\",\n      \"label\": \"متجر الإلكترونيات\",\n      \"orders\": 500,\n      \"shipped\": 460,\n      \"delivered\": 300,\n      \"returned\": 35,\n      \"delivery_success_rate\": 89.6,\n      \"return_rate\": 10.4,\n      \"avg_delivery_days\": 3.1,\n      \"revenue\": 204000\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -319,14 +319,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "2c85cb75-07ed-4614-a1e9-93cfdfcb8115",
+      "uuid": "b866e0b9-cd04-4b4a-89d4-7ada85e2ebcf",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "user/login",
       "responses": [
         {
-          "uuid": "5516578f-c8ba-4d74-b6de-5283551a2c83",
+          "uuid": "baf33420-48a2-4c2a-8b00-578e011fd6d4",
           "body": "{\n  \"id\": \"123324\",\n  \"name\": \"ahmed\",\n  \"email\": \"ahmed.safar@gmail.com\",\n  \"phone\": \"01000000000\",\n  \"accessToken\": \"demo-access-token\",\n  \"refreshToken\": \"demo-refresh-token\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -350,14 +350,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "919f0736-b152-4a53-bbad-c47b4749b687",
+      "uuid": "1e92ec98-7d3a-40e5-be20-d6dea20aa616",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "auth/refresh",
       "responses": [
         {
-          "uuid": "47969a97-2efb-493a-8529-b72b5f7e90b6",
+          "uuid": "404e4043-9545-49cb-b182-c6c26948a00c",
           "body": "{\n  \"accessToken\": \"demo-access-token\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -384,51 +384,51 @@
   "rootChildren": [
     {
       "type": "route",
-      "uuid": "6aa80d49-e350-4850-82a3-04dc1fa26fb7"
+      "uuid": "08781417-3690-4bd2-9efe-301940781ecf"
     },
     {
       "type": "route",
-      "uuid": "b4c1d1be-cbae-45e3-8c5d-5f12420b3c46"
+      "uuid": "548324ad-82b2-455c-9788-2b931e027e26"
     },
     {
       "type": "route",
-      "uuid": "2173e002-11f9-4c6a-a849-47b2371931ac"
+      "uuid": "20306ec6-70f1-4f24-9b07-d5639cde9220"
     },
     {
       "type": "route",
-      "uuid": "80b161eb-0805-4203-9f7c-112f5f0ff308"
+      "uuid": "336b15b6-57f0-4c85-9852-cb509e55b9be"
     },
     {
       "type": "route",
-      "uuid": "a57b54fa-e21a-462f-af96-e9e982c9b7d9"
+      "uuid": "a22e02bb-f73d-4a3e-8080-a897d5555b2d"
     },
     {
       "type": "route",
-      "uuid": "327e7076-9203-4b21-a0d9-cd1f9e1e5c06"
+      "uuid": "718317f0-462b-42b1-92e0-cd8ce3245e28"
     },
     {
       "type": "route",
-      "uuid": "82dc4dd7-bfbb-4812-9e8a-2296fc411d42"
+      "uuid": "85bced90-7025-438b-bfb5-303d5064c464"
     },
     {
       "type": "route",
-      "uuid": "9e2b8d3c-8ae7-4205-87e2-5e4d236578cb"
+      "uuid": "80e093e2-ad42-430a-a546-1605cf115ba2"
     },
     {
       "type": "route",
-      "uuid": "186d5651-6ab7-49db-b653-22e2af3bfb73"
+      "uuid": "aca23c30-9059-4c26-a27b-1731caad617f"
     },
     {
       "type": "route",
-      "uuid": "7c450a6c-49a3-42fb-a2cc-35bd1c2f3555"
+      "uuid": "0ef3eac3-e646-49e7-9382-70431ce37b86"
     },
     {
       "type": "route",
-      "uuid": "2c85cb75-07ed-4614-a1e9-93cfdfcb8115"
+      "uuid": "b866e0b9-cd04-4b4a-89d4-7ada85e2ebcf"
     },
     {
       "type": "route",
-      "uuid": "919f0736-b152-4a53-bbad-c47b4749b687"
+      "uuid": "1e92ec98-7d3a-40e5-be20-d6dea20aa616"
     }
   ],
   "proxyMode": false,
