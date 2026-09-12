@@ -3,7 +3,7 @@
   "data": [
     {
       "key": "c1",
-      "label": "شركة شحن ١",
+      "label": "سريع إكسبرس",
       "orders": 1180,
       "shipped": 1086,
       "delivered": 732,
@@ -15,7 +15,7 @@
     },
     {
       "key": "c2",
-      "label": "شركة شحن ٢",
+      "label": "كارجو النيل",
       "orders": 860,
       "shipped": 791,
       "delivered": 499,
@@ -27,7 +27,7 @@
     },
     {
       "key": "c3",
-      "label": "شركة شحن ٣",
+      "label": "دلتا لوجيستكس",
       "orders": 430,
       "shipped": 396,
       "delivered": 215,

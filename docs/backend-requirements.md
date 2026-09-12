@@ -21,8 +21,12 @@ The shipping report compares carriers, and no order currently carries one.
 
 Needed on the order, so results can be grouped by carrier over a date range.
 
-**Provisional values:** `شركة شحن ١/٢/٣` — deliberate placeholders. Replace with
-the real carrier list; do not read anything into the names.
+**Provisional values:** `سريع إكسبرس`, `كارجو النيل`, `دلتا لوجيستكس` — invented
+names, not real companies, chosen only so the tab reads naturally in a demo.
+Replace with the real carrier list; do not read anything into them.
+
+Their figures differ on purpose: the carrier with the most orders has the
+second-best success rate, which is the point the tab exists to make.
 
 ---
 

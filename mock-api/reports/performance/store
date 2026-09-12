@@ -3,7 +3,7 @@
   "data": [
     {
       "key": "s1",
-      "label": "المتجر الإلكتروني",
+      "label": "المتجر الرئيسي",
       "orders": 1680,
       "shipped": 1546,
       "delivered": 1041,
@@ -15,7 +15,7 @@
     },
     {
       "key": "s2",
-      "label": "طلبات الكول سنتر",
+      "label": "المتجر الثاني",
       "orders": 790,
       "shipped": 727,
       "delivered": 458,

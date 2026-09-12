@@ -47,11 +47,13 @@ function row(key, label, orders, deliveredShare, returnShare, avgDays, unitReven
   };
 }
 
-// PROVISIONAL — placeholder names. The real carrier list comes from the backend.
+// PROVISIONAL — invented names, not real companies, standing in until the
+// backend exposes the carrier list. The figures deliberately differ so the tab
+// demonstrates its point: the busiest carrier is not the best performing one.
 export const CARRIERS = [
-  row('c1', 'شركة شحن ١', 1180, 0.62, 0.05, 2.8, 640),
-  row('c2', 'شركة شحن ٢', 860, 0.58, 0.08, 3.6, 610),
-  row('c3', 'شركة شحن ٣', 430, 0.5, 0.12, 4.4, 590),
+  row('c1', 'سريع إكسبرس', 1180, 0.62, 0.05, 2.8, 640),
+  row('c2', 'كارجو النيل', 860, 0.58, 0.08, 3.6, 610),
+  row('c3', 'دلتا لوجيستكس', 430, 0.5, 0.12, 4.4, 590),
 ];
 
 export const CITIES = [
@@ -86,8 +88,8 @@ export const PRODUCTS = [
 // PROVISIONAL — `store` identifies the merchant's own storefront, not a traffic
 // source; confirm with the backend whether a merchant can have more than one.
 export const STORES = [
-  row('s1', 'المتجر الإلكتروني', 1680, 0.62, 0.06, 3.0, 630),
-  row('s2', 'طلبات الكول سنتر', 790, 0.58, 0.09, 3.4, 610),
+  row('s1', 'المتجر الرئيسي', 1680, 0.62, 0.06, 3.0, 630),
+  row('s2', 'المتجر الثاني', 790, 0.58, 0.09, 3.4, 610),
 ];
 
 // PROVISIONAL — codes await the real backend enum.
