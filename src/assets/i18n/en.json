@@ -1,7 +1,7 @@
 {
-  "system_messages":{
-    "no_orders":"No Orders",
-    "close":"Close"
+  "system_messages": {
+    "no_orders": "No Orders",
+    "close": "Close"
   },
   "dashboard": {
     "currentOrdersStatusTitle": "Current Orders Status",
@@ -32,19 +32,18 @@
     "logout": "Logout"
   },
   "orders": {
-    
-    "invoice":{
-      "back_to_invoices":"Back to Invoices",
-      "edit_invoice":"Edit Invoice",
-      "order_number":"Order Number",
-      "order_date":"Order Date",
-      "order_status":"Order Status",
-      "order_address":"Order Address",
-      "order_phone":"Order Phone",
-      "product":"Product",
-      "unit_price":"Unit Price",
-      "quantity":"Quantity",
-      "total_cost":"Total Cost"
+    "invoice": {
+      "back_to_invoices": "Back to Invoices",
+      "edit_invoice": "Edit Invoice",
+      "order_number": "Order Number",
+      "order_date": "Order Date",
+      "order_status": "Order Status",
+      "order_address": "Order Address",
+      "order_phone": "Order Phone",
+      "product": "Product",
+      "unit_price": "Unit Price",
+      "quantity": "Quantity",
+      "total_cost": "Total Cost"
     },
     "status": {
       "pending": "Pending",
@@ -55,7 +54,7 @@
       "collected": "Collected",
       "in_shipping": "In Shipping"
     },
-    "status_number":{
+    "status_number": {
       "1": "Pending",
       "2": "In Progress",
       "3": "Done",
@@ -74,8 +73,229 @@
       "16": "Cancelled Automatically",
       "17": "Confirm By Client",
       "18": "Exchange",
-      "19": "Need Update" 
+      "19": "Need Update"
     }
-
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Operational performance across the selected period",
+    "export_excel": "Export",
+    "refresh": "Refresh",
+    "no_data": "No data for this period",
+    "presets": {
+      "this_month": "This month",
+      "last_month": "Last month",
+      "last_7_days": "Last 7 days",
+      "last_30_days": "Last 30 days",
+      "last_90_days": "Last 90 days"
+    },
+    "filters": {
+      "from": "From",
+      "to": "To"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "shipping": "Shipping",
+      "returns": "Returns",
+      "products": "Products",
+      "operations": "Operations",
+      "stores": "Stores"
+    },
+    "kpi": {
+      "total_orders": "Total Orders",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "awaiting_shipment": "Awaiting Shipment",
+      "cod_collected": "COD Collected",
+      "revenue": "Revenue"
+    },
+    "table": {
+      "orders": "Orders",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "delivery_success_rate": "Delivery Success Rate",
+      "return_rate": "Return Rate",
+      "avg_delivery_days": "Avg. Days",
+      "revenue": "Revenue",
+      "share": "Share",
+      "total_stock": "Total Stock",
+      "current_stock": "Current Stock",
+      "since_added": "since the product was added",
+      "right_now": "right now"
+    },
+    "dimension": {
+      "carrier": "Carrier",
+      "city": "City",
+      "area": "Area",
+      "product": "Product",
+      "store": "Store"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "in_shipping": "In Shipping",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "cancelled": "Cancelled"
+    },
+    "series": {
+      "total": "Total Orders",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "returned": "Returned"
+    },
+    "charts": {
+      "orders_trend": "Orders Over Time",
+      "orders_trend_sub": "Daily orders across key stages",
+      "status_breakdown": "Order Status Breakdown"
+    },
+    "shipping": {
+      "title": "Carrier Performance",
+      "subtitle": "Carrier, city and area — wherever the delivery actually happens"
+    },
+    "returns": {
+      "title": "Returns by Reason",
+      "subtitle": "Where returns actually come from",
+      "reason": "Reason",
+      "by_product": "Returns by Product",
+      "by_product_sub": "Return rate matters more than the count",
+      "by_area": "Returns by Area",
+      "by_area_sub": "A busy area with a low return rate beats a quiet one with a high rate"
+    },
+    "products": {
+      "title": "Product Performance",
+      "subtitle": "Sales and delivery outcome per product"
+    },
+    "geography": {
+      "cities": "City Performance",
+      "cities_sub": "Delivery outcome per city",
+      "areas": "Area Performance",
+      "areas_sub": "Areas within a city can differ sharply — this is where to act"
+    },
+    "stores": {
+      "title": "Store Performance",
+      "subtitle": "Delivery outcome per storefront"
+    },
+    "funnel": {
+      "title": "Confirmation Funnel",
+      "subtitle": "Where orders are lost before they ever ship",
+      "placed": "Placed",
+      "confirmed": "Confirmed",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "lost_at_confirmation": "Lost at confirmation",
+      "attempts": "Attempts",
+      "lost_note": "{{count}} orders ({{percent}}%) never got past confirmation."
+    },
+    "attempts": {
+      "title": "Confirmation Attempts",
+      "subtitle": "How many calls it takes before a customer answers",
+      "row": "{{count}} attempts"
+    },
+    "return_reason": {
+      "customer_refused": "Customer refused",
+      "unreachable": "Customer unreachable",
+      "postponed_expired": "Postponed until expired",
+      "wrong_address": "Wrong address",
+      "item_mismatch": "Item did not match order",
+      "damaged": "Item damaged",
+      "other": "Other"
+    },
+    "export": {
+      "metric": "Metric",
+      "value": "Value"
+    },
+    "error": {
+      "title": "Could not load the reports",
+      "subtitle": "Check that the API is reachable, then try again.",
+      "retry": "Retry"
+    },
+    "orders": {
+      "title": "All Orders",
+      "subtitle": "Every order in the period, whatever its status",
+      "order_code": "Order Code",
+      "date": "Date",
+      "customer": "Customer",
+      "phone": "Phone",
+      "destination": "Destination",
+      "items_count": "Items",
+      "status": "Status",
+      "status_code": "Status Code",
+      "goods_total": "Goods",
+      "shipping_cost": "Shipping",
+      "total": "Total",
+      "shipping_short": "shipping",
+      "all_statuses": "All statuses",
+      "search": "Search",
+      "search_hint": "Order code, name or phone"
+    },
+    "detailed": {
+      "title": "Detailed order report",
+      "subtitle": "The orders behind these totals, as a spreadsheet",
+      "download": "Download",
+      "preparing": "Preparing…",
+      "period": "Period",
+      "empty": "No orders matched this period and status.",
+      "failed": "Could not prepare the file. Please try again.",
+      "close": "Close"
+    },
+    "inventory": {
+      "title": "Stock on hand",
+      "subtitle": "What is in the warehouse right now",
+      "total_units": "On hand",
+      "total_products": "Products (SKUs)",
+      "in_stock": "In stock",
+      "low_stock": "Low stock",
+      "out_of_stock": "Out of stock",
+      "pieces_heading": "By the piece",
+      "skus_heading": "By product count",
+      "total_received": "Received",
+      "units_in_transit": "In transit",
+      "units_sold": "Sold"
+    },
+    "cancellations": {
+      "title": "Cancellation Reasons",
+      "subtitle": "Why orders were cancelled before they ever shipped",
+      "count": "Cancelled"
+    },
+    "cancellation_reason": {
+      "unreachable": "Customer unreachable",
+      "customer_changed_mind": "Customer changed their mind",
+      "price_objection": "Objected to the price",
+      "duplicate_order": "Duplicate order",
+      "wrong_number": "Wrong phone number",
+      "out_of_stock": "Item out of stock",
+      "other": "Other"
+    },
+    "confirm_product": {
+      "title": "Confirmation Quality by Product",
+      "subtitle": "A product whose orders keep dying on the confirmation call",
+      "lost": "Lost",
+      "rate": "Confirmation Rate",
+      "avg_attempts": "Avg. Calls"
+    },
+    "movement": {
+      "title": "Stock Movement",
+      "subtitle": "Every piece that entered or left the warehouse",
+      "back": "Back to reports",
+      "ledger": "Movement ledger",
+      "ledger_sub": "Newest first — the balance after each movement",
+      "total_stock": "Total received",
+      "current_stock": "On hand now",
+      "units_in_transit": "In transit",
+      "units_sold": "Sold",
+      "date": "Date",
+      "type": "Movement",
+      "reference": "Reference",
+      "quantity": "Quantity",
+      "balance": "Balance"
+    },
+    "movement_type": {
+      "inbound": "Received into warehouse",
+      "outbound_shipment": "Left with a shipment",
+      "return_in": "Return back to warehouse"
+    }
   }
 }

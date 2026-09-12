@@ -1,0 +1,101 @@
+{
+  "product": {
+    "id": "p4",
+    "label": "شاحن سريع 65 وات",
+    "current_stock": 145,
+    "total_stock": 490,
+    "units_in_transit": 78,
+    "units_sold": 267,
+    "warning_stock_number": 50
+  },
+  "data": [
+    {
+      "date": "2026-09-10",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 7,
+      "balance": 145,
+      "reference": "RT-P4-3001"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 8,
+      "balance": 138,
+      "reference": "RT-P4-3000"
+    },
+    {
+      "date": "2026-09-06",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 98,
+      "balance": 130,
+      "reference": "PO-P4-1002"
+    },
+    {
+      "date": "2026-08-21",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -60,
+      "balance": 32,
+      "reference": "SH-P4-2005"
+    },
+    {
+      "date": "2026-07-30",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -60,
+      "balance": 92,
+      "reference": "SH-P4-2004"
+    },
+    {
+      "date": "2026-07-29",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 147,
+      "balance": 152,
+      "reference": "PO-P4-1001"
+    },
+    {
+      "date": "2026-07-08",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -60,
+      "balance": 5,
+      "reference": "SH-P4-2003"
+    },
+    {
+      "date": "2026-06-16",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -60,
+      "balance": 65,
+      "reference": "SH-P4-2002"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -60,
+      "balance": 125,
+      "reference": "SH-P4-2001"
+    },
+    {
+      "date": "2026-05-03",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -60,
+      "balance": 185,
+      "reference": "SH-P4-2000"
+    },
+    {
+      "date": "2026-04-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 245,
+      "balance": 245,
+      "reference": "PO-P4-1000"
+    }
+  ]
+}

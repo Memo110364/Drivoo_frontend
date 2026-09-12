@@ -1,10 +1,15 @@
 {
-  "name": "matdash",
+  "name": "drivoo-frontend",
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:demo": "ng serve --configuration demo",
+    "dev": "concurrently -n mock,web -c magenta,cyan \"npm:mock\" \"npm:start\"",
+    "mock": "mockoon-cli start --data mockoon/drivoo-api.json --port 3000",
+    "mock:build": "node scripts/generate-mock-api.mjs",
     "build": "ng build",
+    "build:demo": "ng build --configuration demo",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -44,8 +49,10 @@
     "@angular/build": "^21.0.4",
     "@angular/cli": "^21.2.20",
     "@angular/compiler-cli": "^21.0.6",
+    "@mockoon/cli": "^9.8.0",
     "@types/date-fns": "^2.6.3",
     "@types/jasmine": "~5.1.13",
+    "concurrently": "^10.0.5",
     "jasmine-core": "~5.13.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",

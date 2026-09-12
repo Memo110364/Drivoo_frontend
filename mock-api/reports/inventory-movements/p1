@@ -1,0 +1,101 @@
+{
+  "product": {
+    "id": "p1",
+    "label": "سماعة بلوتوث لاسلكية",
+    "current_stock": 320,
+    "total_stock": 758,
+    "units_in_transit": 106,
+    "units_sold": 332,
+    "warning_stock_number": 40
+  },
+  "data": [
+    {
+      "date": "2026-09-10",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 12,
+      "balance": 320,
+      "reference": "RT-P1-3001"
+    },
+    {
+      "date": "2026-09-08",
+      "type": "return_in",
+      "type_label": "مرتجع رجع للمخزن",
+      "quantity": 13,
+      "balance": 308,
+      "reference": "RT-P1-3000"
+    },
+    {
+      "date": "2026-09-06",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 152,
+      "balance": 295,
+      "reference": "PO-P1-1002"
+    },
+    {
+      "date": "2026-08-21",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -78,
+      "balance": 143,
+      "reference": "SH-P1-2005"
+    },
+    {
+      "date": "2026-07-30",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -77,
+      "balance": 221,
+      "reference": "SH-P1-2004"
+    },
+    {
+      "date": "2026-07-29",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 227,
+      "balance": 298,
+      "reference": "PO-P1-1001"
+    },
+    {
+      "date": "2026-07-08",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -77,
+      "balance": 71,
+      "reference": "SH-P1-2003"
+    },
+    {
+      "date": "2026-06-16",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -77,
+      "balance": 148,
+      "reference": "SH-P1-2002"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -77,
+      "balance": 225,
+      "reference": "SH-P1-2001"
+    },
+    {
+      "date": "2026-05-03",
+      "type": "outbound_shipment",
+      "type_label": "خرج مع شحنة",
+      "quantity": -77,
+      "balance": 302,
+      "reference": "SH-P1-2000"
+    },
+    {
+      "date": "2026-04-15",
+      "type": "inbound",
+      "type_label": "وارد للمخزن",
+      "quantity": 379,
+      "balance": 379,
+      "reference": "PO-P1-1000"
+    }
+  ]
+}

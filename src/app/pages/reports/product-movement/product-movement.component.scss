@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+// Same tightening as the reports screen: the theme's 30px card padding and
+// bottom margin leave a data page sparse. No theme file is touched.
+:host ::ng-deep .mat-mdc-card {
+  margin-bottom: 0 !important;
+}
+
+:host ::ng-deep .mat-mdc-card > .mat-mdc-card-content {
+  padding: 20px !important;
+}
+
+.toolbar-btn {
+  height: 42px;
+  line-height: normal;
+}
+
+// Material wraps projected button content in a single block-level label, so
+// laying that out as a row does nothing — its one child is the `.btn-content`
+// wrapper. The row has to be the wrapper itself, or the icon's own
+// `display: flex` makes it block-level and it lands above the text.
+.toolbar-btn .btn-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+
+  table {
+    min-width: 640px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.one-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

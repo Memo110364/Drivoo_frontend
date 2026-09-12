@@ -14,6 +14,11 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
+        path: 'reports',
+        loadChildren: () =>
+          import('./pages/reports/reports.routes').then((r) => r.ReportsRoutes),
+      },
+      {
         path: 'dashboard',
         loadChildren: () =>
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
