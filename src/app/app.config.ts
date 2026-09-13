@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { routes } from './app.routes';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling, } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,7 +20,8 @@ import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //interceptors
 import { loadingInterceptor } from './interceptors/loading.interceptor';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { authInterceptor } from './interceptors/auth.interceptor';
+import { mockApiInterceptor } from './mock/mock-api.interceptor';
 
 export class CustomLoader implements TranslateLoader {
   constructor(private http: HttpClient, private prefix: string, private suffix: string) { }
@@ -38,6 +40,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(), // required animations providers
+    provideNativeDateAdapter(), // MatDatepicker needs a DateAdapter to parse and format
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
@@ -47,9 +50,9 @@ export const appConfig: ApplicationConfig = {
       }),
       withComponentInputBinding()
     ),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    provideHttpClient(
+      withInterceptors([loadingInterceptor, authInterceptor, mockApiInterceptor])
+    ),
     provideClientHydration(),
     provideAnimationsAsync(),
     importProvidersFrom(

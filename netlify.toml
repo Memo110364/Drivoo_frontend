@@ -1,3 +1,13 @@
+# Netlify deploys the demo build: production output wired to the in-app mock
+# backend, so the published site needs no API server behind it.
+[build]
+  command = "npm run build:demo"
+  publish = "dist/Matdash/browser"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# The Angular router owns every path; hand all of them back to index.html.
 [[redirects]]
   from = "/*"
   to = "/index.html"

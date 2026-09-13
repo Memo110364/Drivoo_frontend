@@ -79,7 +79,10 @@ export class AppHorizontalHeaderComponent {
     public dialog: MatDialog,
     private translate: TranslateService
   ) {
-    translate.setDefaultLang('en');
+    // AppComponent already picked the language; just reflect it in the switcher.
+    this.selectedLanguage =
+      this.languages.find((lang) => lang.code === this.settings.getLanguage()) ??
+      this.selectedLanguage;
   }
 
   openDialog() {
@@ -92,6 +95,7 @@ export class AppHorizontalHeaderComponent {
 
   changeLanguage(lang: any): void {
     this.translate.use(lang.code);
+    this.settings.setLanguage(lang.code);
     this.selectedLanguage = lang;
     this.options.dir = lang.code === 'ar' ? 'rtl' : 'ltr';
     this.emitOptions();

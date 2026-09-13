@@ -181,6 +181,16 @@ export class FullComponent implements OnInit {
     // Initialize project theme with options
     this.receiveOptions(this.options);
 
+    // The language can change at any time from the header, and the layout's
+    // `dir` binding reads this object. Only the direction is copied across, so
+    // the sidenav state held here is left alone.
+    this.settings.notify.subscribe((updated) => {
+      const dir = updated['dir'];
+      if (dir && dir !== this.options.dir) {
+        this.options.dir = dir;
+      }
+    });
+
     // This is for scroll to top
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

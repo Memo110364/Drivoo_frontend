@@ -1,22 +1,35 @@
-<mat-card class="cardWithShadow text-center">
-      <mat-card-content class="p-24">
-        <div class="d-flex align-items-center">
-           <div
-          class="bg-light-{{color}} rounded icon-48 d-flex align-items-center justify-content-center"
-        >
-          <i
-            class="iconify f-s-24 d-flex text-{{color}}"
-            [attr.data-icon]="icon"
-          ></i>
-        </div>
-          <div class="m-l-12 text-left">
-            <h4 class="f-s-20 f-w-400 m-t-8">
-              {{ title }}
-            </h4>
-            <h2 class="m-t-4 f-s-24 f-w-400 m-t-8 text-gray-600">
-              {{ subtitle }} <span class="text-success ml-2 f-w-600">{{percentage}}</span>
-            </h2>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+<mat-card class="cardWithShadow kpi-card">
+  <mat-card-content class="p-14">
+    <div
+      class="bg-light-{{ color }} rounded icon-30 d-flex align-items-center justify-content-center"
+    >
+      <i class="iconify f-s-18 d-flex text-{{ color }}" [attr.data-icon]="icon"></i>
+    </div>
+
+    <span class="f-s-13 f-w-500 text-muted d-block m-t-8 kpi-line" [title]="title">
+      {{ title }}
+    </span>
+
+    <h3 class="f-s-20 f-w-600 m-b-0 m-t-2 lh-sm kpi-value" dir="auto">{{ subtitle }}</h3>
+
+    @if (delta !== null || percentage) {
+      <span class="f-s-12 f-w-500 d-flex align-items-center gap-4 m-t-2 kpi-line">
+        @if (delta !== null) {
+          <span class="d-flex align-items-center gap-2" [ngClass]="deltaClass">
+            <i class="iconify f-s-14 d-flex" [attr.data-icon]="deltaIcon"></i>
+            {{ delta > 0 ? '+' : '' }}{{ delta }}{{ deltaUnit }}
+          </span>
+        }
+        @if (percentage) {
+          <span class="text-success f-w-600">{{ percentage }}</span>
+        }
+      </span>
+    }
+
+    @if (note) {
+      <span class="f-s-11 text-muted d-block m-t-2 kpi-line" [title]="note" dir="auto">
+        {{ note }}
+      </span>
+    }
+  </mat-card-content>
+</mat-card>

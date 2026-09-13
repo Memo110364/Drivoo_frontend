@@ -16,7 +16,6 @@ import { LoadingService } from '../../../services/loading.service';
   selector: 'app-side-login',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
   templateUrl: './side-login.component.html',
-  providers: [AuthService],
 })
 export class AppSideLoginComponent {
   options = this.settings.getOptions();

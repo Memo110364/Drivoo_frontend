@@ -1,0 +1,1073 @@
+{
+  "uuid": "8db2f909-8a81-4af6-a719-610168899368",
+  "lastMigration": 33,
+  "name": "Drivoo API",
+  "endpointPrefix": "api/v1/",
+  "latency": 500,
+  "port": 3000,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "57e38ec0-c80e-416b-b2ee-6506c853f694",
+      "name": "orders",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "6822611b-b2d5-469b-ac6f-dac048f8fba3"
+        },
+        {
+          "type": "route",
+          "uuid": "90760f13-907d-469d-be54-e6b688351017"
+        },
+        {
+          "type": "route",
+          "uuid": "d640cbe7-5ead-43f9-9090-0f2162ca09cf"
+        },
+        {
+          "type": "route",
+          "uuid": "53435875-2e5c-425e-9a24-24936eaba227"
+        },
+        {
+          "type": "route",
+          "uuid": "7ed8a4cd-334e-4ec0-b430-89795f37bb2e"
+        },
+        {
+          "type": "route",
+          "uuid": "ac12d10b-06e9-480a-95eb-ffb581fc96e4"
+        }
+      ]
+    },
+    {
+      "uuid": "31ff9275-f094-4b9c-812c-9278cca76a23",
+      "name": "logistics",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "7f49d989-6966-4b31-be56-07280576b96f"
+        }
+      ]
+    },
+    {
+      "uuid": "1900272e-a814-4ce5-91ea-2ecc88bb009f",
+      "name": "products",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "8e5e1a17-4f67-4506-b03f-164a8fbb5b8c"
+        },
+        {
+          "type": "route",
+          "uuid": "eea06997-e9fd-4612-8412-794add077505"
+        },
+        {
+          "type": "route",
+          "uuid": "2a2cd92a-2fd2-493e-9d66-39f682aa1f58"
+        },
+        {
+          "type": "route",
+          "uuid": "1fccb18c-62be-45bb-9886-3234561a2dfc"
+        },
+        {
+          "type": "route",
+          "uuid": "dd007422-02d6-46a9-9f49-44d4ae8042de"
+        },
+        {
+          "type": "route",
+          "uuid": "7ede6ffb-2ede-4907-8ec6-b33afa1676ac"
+        }
+      ]
+    },
+    {
+      "uuid": "ca584585-b2d7-4d49-b294-a064bcedada1",
+      "name": "reports",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "42c60324-3709-4f3d-b00c-e8090c4c67ff"
+        },
+        {
+          "type": "route",
+          "uuid": "528bf0ce-0e77-421a-b9ae-1bfeda543eed"
+        },
+        {
+          "type": "route",
+          "uuid": "a78ae241-b5ef-4b11-980d-4c21cdeb3ce8"
+        },
+        {
+          "type": "route",
+          "uuid": "ef7aee7c-8a3f-447d-8b2b-59e4e79ecd71"
+        },
+        {
+          "type": "route",
+          "uuid": "d999375d-6716-4ce4-b370-3fef0f6f6bc2"
+        },
+        {
+          "type": "route",
+          "uuid": "e716e089-59a4-410a-9b8d-e913a0a2ee5c"
+        },
+        {
+          "type": "route",
+          "uuid": "e3d69bbc-ba45-4edb-9f41-316a3861437b"
+        },
+        {
+          "type": "route",
+          "uuid": "70c19c11-a13a-4120-9f62-ba2dfefedc0b"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "b25866f1-0766-4925-97db-73e4cb2583bf",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "user/login",
+      "responses": [
+        {
+          "uuid": "4ce4d3cc-f977-4364-ad29-14bf392121a6",
+          "body": "{\n  \"id\": \"123324\",\n  \"name\": \"ahmed\",\n  \"email\": \"ahmed.safar@gmail.com\",\n  \"phone\": \"01000000000\",\n  \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTc4NTk0NjU5MX0.U0DlCY9kZPXhT2lRyvZAXNCGVEOL1SHLYJflgLx-YXU\",\n  \"refreshToken\": \"8606ebb1-7e2c-493c-93b2-50a1a44701f5\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "method",
+              "modifier": "",
+              "value": "post",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "username",
+              "value": "admin",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "123456789",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "7ce356ab-d402-44f5-8331-eb20dd14a778",
+          "body": "{\n  \"message\":\"unauthorized\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "method",
+              "modifier": "",
+              "value": "post",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "username",
+              "value": "admin",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "password",
+              "value": "123456789",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "43685ce3-d1cf-4828-9782-bfcd0e72a1f7",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "dashboard",
+      "responses": [
+        {
+          "uuid": "56d85902-30bf-4768-9e45-6da74efb1e74",
+          "body": "{\n    \"total_orders\": 1490,\n    \"revenue\": 11472,\n    \"delivery_rate\": \"52.7%\",\n    \"return_rate\": \"38.1%\",\n    \"average_delivery\": 50,\n    \"net_profit\":45896\n  }",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f9ce8514-e865-44cd-b590-b1cddcc122cc",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/orders-status",
+      "responses": [
+        {
+          "uuid": "8cbce3a3-d522-464d-b469-2626befe2209",
+          "body": "{\n  \"status\": [\n    {\"name\":\"pending\",\"value\":\"152\"},\n    {\"name\":\"in_shipping\",\"value\":\"576\"},\n    {\"name\":\"delivered\",\"value\":\"243\"},\n    {\"name\":\"returned\",\"value\":\"76\"},\n    {\"name\":\"collected\",\"value\":\"379\"}\n  ],\n  \"total\":\"1426\"\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "c9e98aab-d530-4ca6-9efb-55ab56b4d10d",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/orders-last-thirty-days",
+      "responses": [
+        {
+          "uuid": "a13e3670-8822-4210-9c29-790060bec64e",
+          "body": "{\n  \"orders\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,215,52,722,256,774,458,364] \n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6822611b-b2d5-469b-ac6f-dac048f8fba3",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "orders",
+      "responses": [
+        {
+          "uuid": "27e97373-2d1c-436a-8f5b-98e6ac841b68",
+          "body": "{\"draw\":2,\"recordsTotal\":3357688,\"recordsFiltered\":3357688,\"data\":[\n  {{#repeat 10 10 comma=true}}\n  {\"id\":{{int 100 10000000}},\"Name\":\"\\u0631\\u0636\\u0627 \\u0645\\u062d\\u0645\\u062f \\u0647\\u0627\\u0634\\u0645\",\"Phone\":\"01127282608\",\"order_code\":\"PCA\",\"status\":\"{{int 1 19}}\",\"date\":\"2026-08-31T13:24:34.000000Z\",\"city\":{\"id\":15,\"city_name\":\"\\u0627\\u0644\\u0645\\u0646\\u064a\\u0627\"},\"Exchange\":null,\"status_color\":{\"color\":\"00cfe8\",\"text_color\":\"ffffff\",\"class\":\"badge badge-info\"}}\n  {{/repeat}}\n  ]}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "90760f13-907d-469d-be54-e6b688351017",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "orders/count-by-status",
+      "responses": [
+        {
+          "uuid": "1fc577e5-c67a-4176-a25c-9c429306ba0e",
+          "body": "{\n  {{#repeat 19 comma=true}}\n  \"{{add 1 @index }}\":{{int 10 250}}\n  {{/repeat}}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d640cbe7-5ead-43f9-9090-0f2162ca09cf",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "orders/:id",
+      "responses": [
+        {
+          "uuid": "e02c05b4-1ede-4551-aa6b-76eb05b49f5b",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"success\",\n  \"data\": {\n    \"id\": 1000000,\n    \"Name\": \"ahmed\",\n    \"collected\": null,\n    \"Phone\": \"01000000000\",\n    \"order_code\": \"EGY1000000\",\n    \"Address\": \"test\",\n    \"date\": \"2025-01-14T10:31:23.000000Z\",\n    \"city\": {\n      \"id\": 3,\n      \"city_name\": \"الجيزة\",\n      \"default_price\": 80\n    },\n    \"store\": \"Online Store\",\n    \"notes\": null,\n    \"confirm_attempted\": 1,\n    \"status_color\": {\n      \"color\": \"b50000\",\n      \"text_color\": \"ffffff\",\n      \"class\": \"badge badge-danger\"\n    },\n    \"area\": {\n      \"id\": 302,\n      \"Name\": \"6 October\",\n      \"price\": 80\n    },\n    \"items\": [\n      {\n        \"id\": 4299886,\n        \"product_name\": \"test2\",\n        \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/RRQ35/item_L_33105085_138298590.jpg\",\n        \"quantity\": 1,\n        \"option\": \"XL-43\",\n        \"status\": \"REFUNDED\",\n        \"status_code\": 6,\n        \"rate\": 190,\n        \"commission\": 20,\n        \"price_effect\": 0,\n        \"bonus\": 10,\n        \"amount\": 210\n      }\n    ],\n    \"is_editable\": true,\n    \"is_cancelable\": false,\n    \"is_reactiveable\": false,\n    \"status_text\": \"REFUNDED\",\n    \"status\": \"5\",\n    \"timeline\": {\n      \"create\": \"14-01-2025\",\n      \"shipping\": \"14-01-2025\",\n      \"refunded\": \"28-01-2025\"\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7f49d989-6966-4b31-be56-07280576b96f",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "logistics/cities",
+      "responses": [
+        {
+          "uuid": "94a79698-1170-4f29-b48f-53ca8bd6faec",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"تم جلب المدن والمناطق بنجاح\",\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"name_en\": \"Cairo\",\n      \"name_ar\": \"القاهرة\",\n      \"shipping_cost\": 50,\n      \"delivery_time\": \"1-2 أيام\",\n      \"areas\": [\n        {\n          \"id\": 101,\n          \"name_en\": \"Nasr City\",\n          \"name_ar\": \"مدينة نصر\",\n          \"shipping_cost\": 50,\n          \"is_active\": true\n        },\n        {\n          \"id\": 102,\n          \"name_en\": \"Maadi\",\n          \"name_ar\": \"المعادي\",\n          \"shipping_cost\": 55,\n          \"is_active\": true\n        },\n        {\n          \"id\": 103,\n          \"name_en\": \"Heliopolis\",\n          \"name_ar\": \"مصر الجديدة\",\n          \"shipping_cost\": 50,\n          \"is_active\": true\n        },\n        {\n          \"id\": 104,\n          \"name_en\": \"Downtown\",\n          \"name_ar\": \"وسط البلد\",\n          \"shipping_cost\": 45,\n          \"is_active\": false\n        },\n        {\n          \"id\": 105,\n          \"name_en\": \"October 6th\",\n          \"name_ar\": \"السادس من أكتوبر\",\n          \"shipping_cost\": 70,\n          \"is_active\": true\n        }\n      ]\n    },\n    {\n      \"id\": \"2\",\n      \"name_en\": \"Alexandria\",\n      \"name_ar\": \"الإسكندرية\",\n      \"shipping_cost\": 75,\n      \"delivery_time\": \"2-3 أيام\",\n      \"areas\": [\n        {\n          \"id\": 201,\n          \"name_en\": \"Smouha\",\n          \"name_ar\": \"سموحة\",\n          \"shipping_cost\": 70,\n          \"is_active\": true\n        },\n        {\n          \"id\": 202,\n          \"name_en\": \"Stanley\",\n          \"name_ar\": \"ستانلي\",\n          \"shipping_cost\": 75,\n          \"is_active\": true\n        },\n        {\n          \"id\": 203,\n          \"name_en\": \"Montaza\",\n          \"name_ar\": \"المنتزه\",\n          \"shipping_cost\": 80,\n          \"is_active\": false\n        },\n        {\n          \"id\": 204,\n          \"name_en\": \"Borg El Arab\",\n          \"name_ar\": \"برج العرب\",\n          \"shipping_cost\": 90,\n          \"is_active\": true\n        }\n      ]\n    },\n    {\n      \"id\": \"3\",\n      \"name_en\": \"Giza\",\n      \"name_ar\": \"الجيزة\",\n      \"shipping_cost\": 50,\n      \"delivery_time\": \"1-2 أيام\",\n      \"areas\": [\n        {\n          \"id\": 301,\n          \"name_en\": \"Dokki\",\n          \"name_ar\": \"الدقي\",\n          \"shipping_cost\": 45,\n          \"is_active\": true\n        },\n        {\n          \"id\": 302,\n          \"name_en\": \"Mohandessin\",\n          \"name_ar\": \"المهندسين\",\n          \"shipping_cost\": 45,\n          \"is_active\": true\n        },\n        {\n          \"id\": 303,\n          \"name_en\": \"Haram\",\n          \"name_ar\": \"الهرم\",\n          \"shipping_cost\": 55,\n          \"is_active\": true\n        },\n        {\n          \"id\": 304,\n          \"name_en\": \"Sheikh Zayed\",\n          \"name_ar\": \"الشيخ زايد\",\n          \"shipping_cost\": 65,\n          \"is_active\": true\n        }\n      ]\n    },\n    {\n      \"id\": \"4\",\n      \"name_en\": \"Port Said\",\n      \"name_ar\": \"بورسعيد\",\n      \"shipping_cost\": 85,\n      \"delivery_time\": \"3-4 أيام\",\n      \"areas\": [\n        {\n          \"id\": 401,\n          \"name_en\": \"Al Manakh\",\n          \"name_ar\": \"المناخ\",\n          \"shipping_cost\": 80,\n          \"is_active\": true\n        },\n        {\n          \"id\": 402,\n          \"name_en\": \"Al Arab\",\n          \"name_ar\": \"العرب\",\n          \"shipping_cost\": 85,\n          \"is_active\": false\n        }\n      ]\n    },\n    {\n      \"id\": \"5\",\n      \"name_en\": \"Aswan\",\n      \"name_ar\": \"أسوان\",\n      \"shipping_cost\": 120,\n      \"delivery_time\": \"4-5 أيام\",\n      \"areas\": [\n        {\n          \"id\": 501,\n          \"name_en\": \"Corniche\",\n          \"name_ar\": \"الكورنيش\",\n          \"shipping_cost\": 120,\n          \"is_active\": true\n        },\n        {\n          \"id\": 502,\n          \"name_en\": \"Elephantine\",\n          \"name_ar\": \"الفنتين\",\n          \"shipping_cost\": 130,\n          \"is_active\": true\n        }\n      ]\n    },\n    {\n      \"id\": \"6\",\n      \"name_en\": \"Luxor\",\n      \"name_ar\": \"الأقصر\",\n      \"shipping_cost\": 110,\n      \"delivery_time\": \"4-5 أيام\",\n      \"areas\": [\n        {\n          \"id\": 601,\n          \"name_en\": \"East Bank\",\n          \"name_ar\": \"الضفة الشرقية\",\n          \"shipping_cost\": 110,\n          \"is_active\": true\n        },\n        {\n          \"id\": 602,\n          \"name_en\": \"West Bank\",\n          \"name_ar\": \"الضفة الغربية\",\n          \"shipping_cost\": 115,\n          \"is_active\": true\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "8e5e1a17-4f67-4506-b03f-164a8fbb5b8c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "products/list",
+      "responses": [
+        {
+          "uuid": "e9d90c45-23a7-4415-a8a5-101e67703c54",
+          "body": "{\n  \"success\": true,\n  \"message\": \"success\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Product Name\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/UnXeJfcanWlfNcf45VP7zKjzAM2c5VDyDYYClLw1.jpg\",\n      \"price\": 100,\n      \"stock\": 10,\n      \"warning_stock_number\": 5,\n      \"display_stock\": true,\n      \"bonus\": 2,\n      \"net_commission\": 10,\n      \"favorite\": false,\n      \"depot\": {\n        \"id\": 1,\n        \"name\": \"المخزن الرئيسي\"\n      },\n      \"offers\": [\n        {\n          \"id\": 1,\n          \"name\": \"Offer Name\",\n          \"discount\": 10,\n          \"start_date\": \"2025-01-01T22:00:00.000000Z\",\n          \"end_date\": null,\n          \"rules\": [\n            {\n              \"minQ\": 3,\n              \"bonus\": 5,\n              \"price\": 250,\n              \"commission\": 30\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Product Name\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/XBN2491/N4PXsRQkropZ7BaB21orNzp6vyZUWYaqaGILCN1F.jpg\",\n      \"price\": 100,\n      \"stock\": 10,\n      \"warning_stock_number\": 5,\n      \"display_stock\": true,\n      \"bonus\": 2,\n      \"net_commission\": 10,\n      \"favorite\": false,\n      \"depot\": {\n        \"id\": 1,\n        \"name\": \"المخزن الرئيسي\"\n      },\n      \"offers\": [\n        {\n          \"id\": 1,\n          \"name\": \"Offer Name\",\n          \"discount\": 10,\n          \"start_date\": \"2025-01-01T22:00:00.000000Z\",\n          \"end_date\": null,\n          \"rules\": [\n            {\n              \"minQ\": 3,\n              \"bonus\": 5,\n              \"price\": 250,\n              \"commission\": 30\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": 3,\n      \"name\":\"سوت چيب 3 قطع\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/h3x8nkQ626FiGRFjiNngXZMiRXYVz9Kguu2YlDZQ.jpg\",\n      \"price\": 100,\n      \"stock\": 10,\n      \"warning_stock_number\": 5,\n      \"display_stock\": true,\n      \"bonus\": 2,\n      \"net_commission\": 10,\n      \"favorite\": false,\n      \"depot\": {\n        \"id\": 1,\n        \"name\": \"المخزن الرئيسي\"\n      },\n      \"offers\": [\n        {\n          \"id\": 1,\n          \"name\": \"Offer Name\",\n          \"discount\": 10,\n          \"start_date\": \"2025-01-01T22:00:00.000000Z\",\n          \"end_date\": null,\n          \"rules\": [\n            {\n              \"minQ\": 3,\n              \"bonus\": 5,\n              \"price\": 250,\n              \"commission\": 30\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": 1,\n      \"name\": \"غسول الوجه الرغوي المنقي Gravity\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/HStsJQktkllwZp49Ilg3M1nQvewG5E7p9dYBsW1r.jpg\",\n      \"price\": 100,\n      \"stock\": 10,\n      \"warning_stock_number\": 5,\n      \"display_stock\": true,\n      \"bonus\": 2,\n      \"net_commission\": 10,\n      \"favorite\": false,\n      \"depot\": {\n        \"id\": 1,\n        \"name\": \"المخزن الرئيسي\"\n      },\n      \"offers\": [\n        {\n          \"id\": 1,\n          \"name\": \"Offer Name\",\n          \"discount\": 10,\n          \"start_date\": \"2025-01-01T22:00:00.000000Z\",\n          \"end_date\": null,\n          \"rules\": [\n            {\n              \"minQ\": 3,\n              \"bonus\": 5,\n              \"price\": 250,\n              \"commission\": 30\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": 1,\n      \"image\": \"VGR  V-071\",\n      \"img\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/gEb4VwtDkqUBLWm5x05qndTGoUWPrd9X2C32UdLY.jpg\",\n      \"price\": 100,\n      \"stock\": 10,\n      \"warning_stock_number\": 5,\n      \"display_stock\": true,\n      \"bonus\": 2,\n      \"net_commission\": 10,\n      \"favorite\": false,\n      \"depot\": {\n        \"id\": 1,\n        \"name\": \"المخزن الرئيسي\"\n      },\n      \"offers\": [\n        {\n          \"id\": 1,\n          \"name\": \"Offer Name\",\n          \"discount\": 10,\n          \"start_date\": \"2025-01-01T22:00:00.000000Z\",\n          \"end_date\": null,\n          \"rules\": [\n            {\n              \"minQ\": 3,\n              \"bonus\": 5,\n              \"price\": 250,\n              \"commission\": 30\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": 1,\n      \"name\": \" AK - بـندقيه خرز\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/XBN2491/wzy5IkG4gS8blCJVuUMflyZR9It5KIjxVOsGWaUn.jpg\",\n      \"price\": 100,\n      \"stock\": 10,\n      \"warning_stock_number\": 5,\n      \"display_stock\": true,\n      \"bonus\": 2,\n      \"net_commission\": 10,\n      \"favorite\": false,\n      \"depot\": {\n        \"id\": 1,\n        \"name\": \"المخزن الرئيسي\"\n      },\n      \"offers\": [\n        {\n          \"id\": 1,\n          \"name\": \"Offer Name\",\n          \"discount\": 10,\n          \"start_date\": \"2025-01-01T22:00:00.000000Z\",\n          \"end_date\": null,\n          \"rules\": [\n            {\n              \"minQ\": 3,\n              \"bonus\": 5,\n              \"price\": 250,\n              \"commission\": 30\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"pagination\": {\n    \"current_page\": 1,\n    \"total_pages\": 10,\n    \"per_page\": 24,\n    \"total_items\": 240\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "42c60324-3709-4f3d-b00c-e8090c4c67ff",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/summary",
+      "responses": [
+        {
+          "uuid": "94c9cfbe-edb3-4250-8bb1-8549c8d1a9f1",
+          "body": "{\n  \"total_orders\": 279,\n  \"delivered\": 168,\n  \"shipped\": 54,\n  \"pending\": 46,\n  \"failed\": 11,\n  \"confirmed\": 28,\n  \"returned\": 9,\n  \"cancelled\": 2,\n  \"goods_total\": 743563,\n  \"shipping_cost\": 19955,\n  \"commission\": 41614,\n  \"revenue\": 402983,\n  \"net_profit\": 19685,\n  \"cod_collected\": 374166,\n  \"cod_success_rate\": 98.1,\n  \"delivery_rate\": 94.9,\n  \"return_rate\": 5.1,\n  \"avg_delivery_days\": 3.3,\n  \"trends\": {\n    \"total_orders\": 12.0, \"revenue\": 22.4, \"net_profit\": 8.6, \"cod_collected\": 22.0,\n    \"delivered\": 18.0, \"shipped\": 6.0, \"pending\": -25.0, \"returned\": -10.0,\n    \"delivery_rate\": 4.2, \"return_rate\": -1.1, \"avg_delivery_days\": -0.4,\n    \"cod_success_rate\": 0.8\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "528bf0ce-0e77-421a-b9ae-1bfeda543eed",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/orders-over-time",
+      "responses": [
+        {
+          "uuid": "12a04592-80cf-447a-a9f1-29fc1828d7e3",
+          "body": "{\n  \"labels\": [\n    {{#repeat 30 comma=true}}\"{{dateTimeShift date=(now) days=(subtract @index 29) format='yyyy-MM-dd'}}\"{{/repeat}}\n  ],\n  \"total\": [{{#repeat 30 comma=true}}{{int 8 22}}{{/repeat}}],\n  \"shipped\": [{{#repeat 30 comma=true}}{{int 2 9}}{{/repeat}}],\n  \"delivered\": [{{#repeat 30 comma=true}}{{int 4 14}}{{/repeat}}],\n  \"failed\": [{{#repeat 30 comma=true}}{{int 0 4}}{{/repeat}}]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "a78ae241-b5ef-4b11-980d-4c21cdeb3ce8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/status-breakdown",
+      "responses": [
+        {
+          "uuid": "6b9134ac-553e-4b50-8da1-6ea312929f9c",
+          "body": "{\n  \"total\": 279,\n  \"data\": [\n    { \"group\": \"pending\",     \"count\": 18,   \"percentage\": 6.5 },\n    { \"group\": \"confirmed\",   \"count\": 28, \"percentage\": 10.0 },\n    { \"group\": \"in_shipping\", \"count\": 54,  \"percentage\": 19.4 },\n    { \"group\": \"delivered\",   \"count\": 168, \"percentage\": 60.2 },\n    { \"group\": \"returned\",    \"count\": 9,  \"percentage\": 3.2 },\n    { \"group\": \"cancelled\",   \"count\": 2, \"percentage\": 0.7 }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "ef7aee7c-8a3f-447d-8b2b-59e4e79ecd71",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/top-products",
+      "responses": [
+        {
+          "uuid": "c35f2801-eb7a-4fa7-ab01-7f9b760cc2ab",
+          "body": "{\n  \"data\": [\n    {{#repeat (queryParam 'limit' 8) comma=true}}\n    {\n      \"id\": {{add 1 @index}},\n      \"name\": \"\\u0645\\u0646\\u062a\\u062c \\u0631\\u0642\\u0645 {{add 1 @index}}\",\n      \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/UnXeJfcanWlfNcf45VP7zKjzAM2c5VDyDYYClLw1.jpg\",\n      \"quantity\": {{int 10 60}},\n      \"orders\": {{int 20 120}},\n      \"revenue\": {{int 5000 60000}}\n    }\n    {{/repeat}}\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "d999375d-6716-4ce4-b370-3fef0f6f6bc2",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/cities-performance",
+      "responses": [
+        {
+          "uuid": "ee00a10b-51bc-4371-b801-1c94929abd31",
+          "body": "{\n  \"data\": [\n    {{#repeat 6 comma=true}}\n    {\n      \"city_id\": \"{{add 1 @index}}\",\n      \"city_name\": \"{{oneOf (array '\\u0627\\u0644\\u0642\\u0627\\u0647\\u0631\\u0629' '\\u0627\\u0644\\u0625\\u0633\\u0643\\u0646\\u062f\\u0631\\u064a\\u0629' '\\u0627\\u0644\\u062c\\u064a\\u0632\\u0629' '\\u0628\\u0648\\u0631\\u0633\\u0639\\u064a\\u062f' '\\u0623\\u0633\\u0648\\u0627\\u0646' '\\u0627\\u0644\\u0623\\u0642\\u0635\\u0631')}}\",\n      \"city_name_en\": \"City {{add 1 @index}}\",\n      \"orders\": {{int 20 60}},\n      \"delivered\": {{int 10 40}},\n      \"failed\": {{int 1 8}},\n      \"revenue\": {{int 30000 95000}},\n      \"net_profit\": {{int 1000 6000}},\n      \"delivery_rate\": {{int 70 95}}.{{int 0 9}},\n      \"avg_delivery_days\": {{int 2 5}}.{{int 0 9}}\n    }\n    {{/repeat}}\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "53435875-2e5c-425e-9a24-24936eaba227",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "orders",
+      "responses": [
+        {
+          "uuid": "22090e72-e6fc-4b97-9a48-b39ea11513e5",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"\\u062a\\u0645 \\u0625\\u0646\\u0634\\u0627\\u0621 \\u0627\\u0644\\u0637\\u0644\\u0628 \\u0628\\u0646\\u062c\\u0627\\u062d\",\n  \"data\": { \"id\": {{int 1000000 1099999}} }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7ed8a4cd-334e-4ec0-b430-89795f37bb2e",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "orders/:id",
+      "responses": [
+        {
+          "uuid": "9e020db7-d02c-4410-9825-ef41042349ea",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"\\u062a\\u0645 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0628 \\u0628\\u0646\\u062c\\u0627\\u062d\",\n  \"data\": { \"id\": {{int 1000000 1099999}} }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "ac12d10b-06e9-480a-95eb-ffb581fc96e4",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "orders/:id",
+      "responses": [
+        {
+          "uuid": "8ae3095b-c3e6-45ed-80a5-75aa2acd7842",
+          "body": "{\n  \"status\": 200,\n  \"message\": \"\\u062a\\u0645 \\u062d\\u0630\\u0641 \\u0627\\u0644\\u0637\\u0644\\u0628 \\u0628\\u0646\\u062c\\u0627\\u062d\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "eea06997-e9fd-4612-8412-794add077505",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "products/count-by-status",
+      "responses": [
+        {
+          "uuid": "6c790e93-716e-4763-81e0-1b2daf943cf1",
+          "body": "{\n  \"in_stock\": {{int 20 40}},\n  \"low_stock\": {{int 3 10}},\n  \"out_of_stock\": {{int 1 6}},\n  \"all\": {{int 30 50}}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "2a2cd92a-2fd2-493e-9d66-39f682aa1f58",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "bcc6ede7-d2e9-4a89-8a6d-a4210d4f6d8f",
+          "body": "{\n  \"success\": true,\n  \"message\": \"success\",\n  \"data\": {\n    \"id\": {{urlParam 'id'}},\n    \"name\": \"\\u0645\\u0646\\u062a\\u062c \\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\",\n    \"image\": \"https://angazny.fra1.cdn.digitaloceanspaces.com/imgs/SZY17787/UnXeJfcanWlfNcf45VP7zKjzAM2c5VDyDYYClLw1.jpg\",\n    \"price\": {{int 90 1400}},\n    \"stock\": {{int 0 140}},\n    \"warning_stock_number\": 15,\n    \"display_stock\": true,\n    \"bonus\": {{int 0 8}},\n    \"net_commission\": {{int 10 90}},\n    \"favorite\": false,\n    \"depot\": { \"id\": 1, \"name\": \"\\u0627\\u0644\\u0645\\u062e\\u0632\\u0646 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\" },\n    \"offers\": []\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "1fccb18c-62be-45bb-9886-3234561a2dfc",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "products",
+      "responses": [
+        {
+          "uuid": "0c9d31b8-d82e-4269-b75f-6ac7e7f0bc7a",
+          "body": "{\n  \"success\": true,\n  \"message\": \"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0641\\u0638 \\u0628\\u0646\\u062c\\u0627\\u062d\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "dd007422-02d6-46a9-9f49-44d4ae8042de",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "33dd7f72-f5ea-4b82-a946-bebdad12a153",
+          "body": "{\n  \"success\": true,\n  \"message\": \"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0641\\u0638 \\u0628\\u0646\\u062c\\u0627\\u062d\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7ede6ffb-2ede-4907-8ec6-b33afa1676ac",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "0140860c-cf94-414e-9762-c36e844494fe",
+          "body": "{\n  \"success\": true,\n  \"message\": \"\\u062a\\u0645 \\u062d\\u0630\\u0641 \\u0627\\u0644\\u0645\\u0646\\u062a\\u062c \\u0628\\u0646\\u062c\\u0627\\u062d\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "ae2f73f2-72cd-4e8e-89d3-29b1a1d0b322",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/refresh",
+      "responses": [
+        {
+          "uuid": "477c5278-a2c2-49ec-b110-73b1ae70f75b",
+          "body": "{\n  \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshed.token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e716e089-59a4-410a-9b8d-e913a0a2ee5c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/orders-aging",
+      "responses": [
+        {
+          "uuid": "a1c47919-5560-4450-9352-5b2afaa508a6",
+          "body": "{\n  \"total\": 100,\n  \"data\": [\n    { \"bucket\": \"0_2\",    \"count\": 55 },\n    { \"bucket\": \"3_5\",    \"count\": 28 },\n    { \"bucket\": \"6_7\",    \"count\": 12 },\n    { \"bucket\": \"over_7\", \"count\": 5 }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e3d69bbc-ba45-4edb-9f41-316a3861437b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/attention",
+      "responses": [
+        {
+          "uuid": "993e541c-c81f-4d99-a4de-2622904ea6ba",
+          "body": "{\n  \"data\": [\n    {\"key\": \"delayed_orders\",          \"count\": {{int 5 25}}, \"severity\": \"high\",   \"route\": \"/orders\"},\n    {\"key\": \"pending_confirmation\",    \"count\": {{int 2 15}}, \"severity\": \"medium\", \"route\": \"/orders\"},\n    {\"key\": \"returns_pending_receipt\", \"count\": {{int 1 10}}, \"severity\": \"medium\", \"route\": \"/orders\"},\n    {\"key\": \"low_stock_products\",      \"count\": {{int 1 8}},  \"severity\": \"low\",    \"route\": \"/products\"}\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "70c19c11-a13a-4120-9f62-ba2dfefedc0b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "reports/dashboard/inventory",
+      "responses": [
+        {
+          "uuid": "ee3532ac-b09b-496d-83ad-af8582ae311b",
+          "body": "{\n  \"total_products\": 120,\n  \"in_stock\": 96,\n  \"low_stock\": 18,\n  \"out_of_stock\": 6\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "b25866f1-0766-4925-97db-73e4cb2583bf"
+    },
+    {
+      "type": "route",
+      "uuid": "43685ce3-d1cf-4828-9782-bfcd0e72a1f7"
+    },
+    {
+      "type": "route",
+      "uuid": "f9ce8514-e865-44cd-b590-b1cddcc122cc"
+    },
+    {
+      "type": "route",
+      "uuid": "c9e98aab-d530-4ca6-9efb-55ab56b4d10d"
+    },
+    {
+      "type": "folder",
+      "uuid": "57e38ec0-c80e-416b-b2ee-6506c853f694"
+    },
+    {
+      "type": "folder",
+      "uuid": "31ff9275-f094-4b9c-812c-9278cca76a23"
+    },
+    {
+      "type": "folder",
+      "uuid": "1900272e-a814-4ce5-91ea-2ecc88bb009f"
+    },
+    {
+      "type": "route",
+      "uuid": "ae2f73f2-72cd-4e8e-89d3-29b1a1d0b322"
+    },
+    {
+      "type": "folder",
+      "uuid": "ca584585-b2d7-4d49-b294-a064bcedada1"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
