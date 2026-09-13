@@ -23,6 +23,7 @@ import {TablerIconsModule} from 'angular-tabler-icons';
 import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-edit-invoice',
+  styleUrl: './edit-order.component.scss',
   templateUrl: './edit-order.component.html',
   imports: [
     MaterialModule,
@@ -172,7 +173,7 @@ export class EditOrderComponent implements OnInit{
       width: '90%',
       maxWidth: '95vw',
       maxHeight: '95vh',
-      height: '90vh',
+      height: '90%',
       // scrollStrategy
       data: {
         items: this.invoice()?.orders
@@ -180,11 +181,30 @@ export class EditOrderComponent implements OnInit{
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        this.invoice.set(result);
-        this.buildForm(result);
+        const currentInvoice = { ...(this.invoice() || {}) };
+        if (!currentInvoice.items) {
+          currentInvoice.items = [];
+        }
+
+        let newItem: any = null;
+        if (result.product_name || result.name || result.product) {
+          newItem = {
+            product_name: result.product_name || result.name || result.product?.name || result.product?.product_name || '',
+            rate: result.rate ?? result.cost ?? result.price ?? result.product?.price ?? 0,
+            quantity: result.quantity ?? result.sold ?? 1
+          };
+        }
+
+        if (newItem) {
+          currentInvoice.items.push(newItem);
+          this.invoice.set(currentInvoice);
+          this.buildForm(currentInvoice);
+        } else if (result.id || result.items) {
+          this.invoice.set(result);
+          this.buildForm(result);
+        }
       }
     });
-  
   }
 
 

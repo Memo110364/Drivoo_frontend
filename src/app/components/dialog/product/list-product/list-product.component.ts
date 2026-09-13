@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  Optional,
   Signal,
   signal,
 } from '@angular/core';
@@ -13,12 +14,13 @@ import { MaterialModule } from 'src/app/material.module';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService as ProductApiService } from 'src/app/services/api/product.service';
 import { ProductService} from 'src/app/services/apps/product/product.service';
 import { Product } from 'src/app/pages/products/product.object';
-
+import { ViewProductComponent } from '../view-product/view-product.component';
+import {MatSliderModule} from '@angular/material/slider';
 export interface Section {
   name: string;
   icon: string;
@@ -32,11 +34,15 @@ export interface Section {
     CommonModule,
     FormsModule,
     NgScrollbarModule,
+    ViewProductComponent,
+    MatSliderModule,
   ],
   templateUrl: './list-product.component.html',
   styleUrl: './list-product.component.scss',
 })
 export class ListProductComponent implements OnInit {
+  selectedProduct = signal<Product | null>(null);
+
   
   mobileQuery: MediaQueryList;
   private mediaMatcher: MediaQueryList = matchMedia(`(max-width: 1199px)`);
@@ -47,14 +53,16 @@ export class ListProductComponent implements OnInit {
   pageLimit: number = 24;
   sort_by:{field:string,direction:string}|null=null;
   isProductLoading=signal<boolean>(true);
-  
+  private debounceTimer: any;
+  readonly DEFAULT_START = 0;
+  readonly DEFAULT_END = 10000;
+
+  startValue = this.DEFAULT_START;
+  endValue = this.DEFAULT_END;
+
   filteredCards: Product[] = [];
   folders: Section[] = [
     { name: 'all', icon: 'users' },
-    { name: 'fashion', icon: 'hanger' },
-    { name: 'books', icon: 'book' },
-    { name: 'toys', icon: 'mood-smile' },
-    { name: 'electronics', icon: 'device-laptop' },
   ];
   selectedCategory: string = this.folders[0].name;
   notes: Section[] = [
@@ -66,22 +74,8 @@ export class ListProductComponent implements OnInit {
   selectedSortBy: string = this.notes[0].name;
   selectedColor: string | null = null;
   isMobileView = false;
-  selectedGender: string = 'all';
-  genderOptions = [
-    { label: 'All', value: 'all' },
-    { label: 'Men', value: 'men' },
-    { label: 'Women', value: 'women' },
-    { label: 'Kids', value: 'kids' },
-  ];
 
-  selectedPrice: string = 'all';
-  priceOptions = [
-    { label: 'All', value: 'all' },
-    { label: '0 - 50', value: '0-50' },
-    { label: '50 - 100', value: '50-100' },
-    { label: '100 - 200', value: '100-200' },
-    { label: 'Over 200', value: 'over-200' },
-  ];
+
   constructor(
     private dialog: MatDialog,
     private productApiService: ProductApiService,
@@ -89,7 +83,8 @@ export class ListProductComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
     private media: MediaMatcher,
-    private productService: ProductService
+    private productService: ProductService,
+    @Optional() public dialogRef?: MatDialogRef<ListProductComponent>
   ) {
     this.mobileQuery = this.media.matchMedia('(max-width: 1199px)');
     this.isMobileView = this.mobileQuery.matches;
@@ -98,21 +93,45 @@ export class ListProductComponent implements OnInit {
       this.isMobileView = e.matches;
     });
   }
-  ngOnInit(): void {
-    this.getProductList();
-  }
 
+  ngOnInit(): void {
+    this.getAllCategories();
+    this.getProductList();
+
+  }
+    getAllCategories() {
+      this.productApiService.getCategories().subscribe({
+        next: (res) => {
+          const allCategories = res.data.map((category: any) => {
+            return {
+              name: category.name,
+              icon: category.icon
+            };
+          });
+          this.folders = [{ name: 'all', icon: 'users' }, ...allCategories];
+        },  
+        error: (err) => {
+          console.error('Error fetching categories:', err);
+        }
+      });
+    }
   getProductList() {
     this.isProductLoading.set(true);
     const page = this.currentPage;
     const limit = this.pageLimit;
     const Filter = this.filterProducts;
     const searchQuery = this.searchText;
-    const sort_by = this.sort_by;
+    const sort_by = this.sort_by;    
     
-    this.productApiService.getAllProducts(page, limit, Filter,sort_by,searchQuery).subscribe((res) => {
-      this.filteredCards = res.data;
-      // this.isProductLoading.set(false);
+    this.productApiService.getAllProducts(page, limit, Filter,sort_by,searchQuery).subscribe({
+      next: (res) => {
+        this.filteredCards = res.data;
+        this.isProductLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching products:', err);
+        this.isProductLoading.set(false);
+      }
     });
   }
 
@@ -124,6 +143,7 @@ export class ListProductComponent implements OnInit {
   getCategory(name: string): void {
     this.currentPage = 1;
     this.filterProducts['category'] = name;
+    this.selectedCategory = name;
     this.getProductList();
   }
   
@@ -131,18 +151,19 @@ export class ListProductComponent implements OnInit {
     this.currentPage = 1;
     const nameLower = name.toLowerCase();
     this.selectedSortBy=name;
+    
     switch (nameLower) {
       case 'newest':
         this.sort_by = {field:'created_at',direction:'desc'};
         break;
 
-      case 'base_price: hiah-low':
-      case 'base_price: high-low':
+      case 'price: hiah-low':
+      case 'price: high-low':
         this.sort_by = {field:'price',direction:'desc'};
         break;
 
-      case 'base_price: low-hiah':
-      case 'base_price: low-high':
+      case 'price: low-hiah':
+      case 'price: low-high':
         this.sort_by = {field:'price',direction:'asc'};
         break;
 
@@ -158,49 +179,59 @@ export class ListProductComponent implements OnInit {
  this.getProductList();
     }
   
-  
+  formatLabel(value: number): string {
+    console.log("value: ",value);
+    
+    if (value == 10000) {
+      // return infinity
+      return "∞";
+    }else if (value >= 1000) {
+      //format price to be like 4.5k or 1.1k
+      const roundedValue = Math.round(value / 100) / 10;
+      return roundedValue.toString() + 'k';
+      
+    }
 
-  getGender(value: string): void {
- 
+    return value.toString();
   }
-  getPricing(base_priceRange: string): void {
-    this.selectedPrice = base_priceRange;
 
-    switch (base_priceRange) {
-      case '0-50':
-        this.filterProducts['min_price'] = 0;
-        this.filterProducts['max_price'] = 50;
-        break;
 
-      case '50-100':
-        this.filterProducts['min_price'] = 50;
-        this.filterProducts['max_price'] = 100;
-        break;
-
-      case '100-200':
-        this.filterProducts['min_price'] = 100;
-        this.filterProducts['max_price'] = 200;
-        break;
-
-      case 'over-200':
-        this.filterProducts['min_price'] = 200;
-        this.filterProducts['max_price'] = 9999999;
-        break;
-
-      case 'all':
-      default:
-        this.filterProducts['min_price'] = 0;
-        this.filterProducts['max_price'] = 9999999;
-        break;
+  getPricing(event: Event, type: 'start' | 'end'): void {
+    const value=Number((event.target as HTMLInputElement).value)
+    if (type=="start") {
+      if (!isNaN(value) && value>0) {
+        this.filterProducts['price_start']=value
+      }else{
+        //remove price_start if exist
+        if (this.filterProducts['price_start']) {
+          delete this.filterProducts['price_start']
+        }
       }
-      this.currentPage = 1;
-      this.getProductList();
+    }else if(type=="end"){
+      if (!isNaN(value) && value<10000) {
+        this.filterProducts['price_end']=value
+      }else{
+        //remove price_end if exist
+        if (this.filterProducts['price_end']) {
+          delete this.filterProducts['price_end']
+        }
+      }
+    }
+
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+          this.currentPage = 1;
+          this.getProductList();
+    }, 500); 
   }
   getRestFilter() {
     this.currentPage = 1;
     this.filterProducts = {};
+    this.selectedCategory = 'all';
     this.sort_by = null;
     this.selectedSortBy = this.notes[0].name;
+    this.startValue = this.DEFAULT_START;
+    this.endValue = this.DEFAULT_END;
     this.getProductList();
   }
 
@@ -210,14 +241,10 @@ export class ListProductComponent implements OnInit {
   }
 
   isOver(): boolean {
-    return false
+    // return false
     return this.mediaMatcher.matches;
   }
 
-
-  openDialog(idOrIds: number | number[]): void {
-   
-  }
   getDeletedById(id: number) {
   }
   openSnackBar(message: string) {
@@ -229,15 +256,18 @@ export class ListProductComponent implements OnInit {
   }
   getviewDetails(productcardDetails: Product) {
     this.productService.setProduct(productcardDetails);
-    this.router.navigate(['apps/product/product-details']);
+    this.selectedProduct.set(productcardDetails);
+  }
+
+  onAddProductFromView(event: any) {
+    if (this.dialogRef) {
+      this.dialogRef.close(event);
+    }
   }
   toggleColor(color: string): void {
     this.selectedColor = this.selectedColor === color ? null : color;
   }
-  getEditedProduct(productcardDetails: Product) {
-    this.productService.setProduct(productcardDetails);
-    this.router.navigate(['apps/product/edit-product']);
-  }
+ 
   getStarClass(index: number, rating?: number): string {
     const safeRating = rating ?? 0 ; // Fallback if undefined
     const fullStars = Math.floor(safeRating); // Full stars

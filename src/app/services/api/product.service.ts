@@ -11,11 +11,20 @@ export class ProductService extends BaseService {
         super();
     }
 
-    getAllProducts(page: number = 1, limit: number = 24, statusFilter:string[],sort_by:{field:string,direction:string}|null=null,searchQuery:string): Observable<any> {
+    getAllProducts(page: number = 1, limit: number = 24, filters:any,sort_by:{field:string,direction:string}|null=null,searchQuery:string): Observable<any> {
         let query=``;
-        if(statusFilter.length>0){
-            query+=`&statusFilter=${statusFilter.join(',')}`;
-        }
+        console.log("filters:",filters);
+        /*if(filters.length>0){
+            
+            query+=`&statusFilter=${filters.statusFilter.join(',')}`;
+        }*/
+       for(const key in filters){
+         if(Array.isArray(filters[key])){
+            query+=`&filter[${key}]=${filters[key].join(',')}`;
+         }else{
+            query+=`&filter[${key}]=${filters[key]}`;
+         }
+       }
         if(searchQuery){
             query+=`&searchQuery=${searchQuery}`;
         }
@@ -41,5 +50,10 @@ export class ProductService extends BaseService {
 
     updateProduct(id: string, product: any): Observable<any> {
         return this.http.put(this.baseUrl + `products/${id}`, product);
+    }
+
+
+    getCategories(): Observable<any> {
+        return this.http.get(this.baseUrl + `products/categories/list?status=true`);
     }
 }
