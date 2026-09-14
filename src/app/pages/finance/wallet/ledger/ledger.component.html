@@ -48,18 +48,20 @@
         }
 
         <button mat-stroked-button class="toolbar-btn" (click)="exportCsv()"
-                [disabled]="isLoading() || visibleRows().length === 0">
+                [disabled]="isLoading() || isExporting() || filteredRows().length === 0">
           <span class="btn-content">
             <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
-            <span>{{ 'wallet.export_excel' | translate }}</span>
+            <span>
+              {{ (isExporting() ? 'wallet.ledger.exporting' : 'wallet.export_excel') | translate }}
+            </span>
           </span>
         </button>
       </div>
     </div>
 
     <!-- What the filtered period adds up to, so the column need not be summed by hand. -->
-    @if (!isLoading() && visibleRows().length > 0) {
-      <div class="d-flex flex-wrap gap-12 m-b-16">
+    @if (!isLoading() && filteredRows().length > 0) {
+      <div class="d-flex flex-wrap gap-12 m-b-12">
         @for (cell of [
           { key: 'credit', value: summary().credit, color: 'success' },
           { key: 'debit',  value: summary().debit,  color: 'error' },
@@ -74,6 +76,32 @@
           </div>
         }
       </div>
+
+      <!--
+        Where the outgoings went. With six kinds of charge on the ledger, one
+        "out" figure stopped being an answer — this is the merchant asking what
+        they paid Drivoo this period, and on what. Withdrawals are excluded:
+        that is their own money moving, not a cost.
+      -->
+      @if (feeBreakdown().length > 0) {
+        <div class="fees p-12 rounded m-b-16">
+          <div class="d-flex flex-wrap align-items-center gap-8">
+            <span class="f-s-12 f-w-600">
+              {{ 'wallet.ledger.fees_title' | translate }}
+            </span>
+            <span class="f-s-13 f-w-600 text-error" dir="auto">{{ feeTotal() | number }}</span>
+            <span class="f-s-11 text-muted">{{ currency }}</span>
+          </div>
+          <div class="d-flex flex-wrap gap-8 m-t-8">
+            @for (fee of feeBreakdown(); track fee.type) {
+              <span class="fee-chip f-s-11">
+                {{ 'wallet.ledger_type.' + fee.type | translate }}
+                <b class="f-w-600" dir="auto">{{ fee.amount | number }}</b>
+              </span>
+            }
+          </div>
+        </div>
+      }
     }
 
     @if (isLoading()) {
@@ -82,7 +110,7 @@
       }
     } @else if (hasError()) {
       <p class="text-muted f-s-14 text-center m-t-24 m-b-24">{{ 'wallet.error.subtitle' | translate }}</p>
-    } @else if (visibleRows().length === 0) {
+    } @else if (filteredRows().length === 0) {
       <div class="text-center m-t-32 m-b-32">
         <i class="iconify f-s-40 text-muted d-block m-b-8" data-icon="solar:inbox-linear"></i>
         <p class="text-muted f-s-14 m-0">
@@ -140,6 +168,11 @@
           <tr mat-row *matRowDef="let row; columns: columns"></tr>
         </table>
       </div>
+
+      <!-- Twenty-five at a time: the ledger is the one list that grows without limit. -->
+      <mat-paginator [length]="filteredRows().length" [pageSize]="pageSize"
+                     [pageIndex]="pageIndex()" [hidePageSize]="true"
+                     (page)="onPageChange($event)"></mat-paginator>
     }
   </mat-card-content>
 </mat-card>

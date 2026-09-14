@@ -10,27 +10,27 @@ Values marked **PROVISIONAL** are placeholders in the demo dataset
 
 ---
 
-## 1. When the pending balance is released — blocks the headline question
+## 1. When the pending balance is released — not built
 
 `GET wallet/balance` returns three figures, and `total = pending + available`
-holds today. The third field is the one that does not exist:
+holds today:
 
 ```
-{ currency, total, pending, available,
-  pending_releases: [{ date, amount, orders }] }
+{ currency, total, pending, available }
 ```
 
-A merchant's first question about a wallet is not "how much is pending" but
-**"when does it arrive"**. The old screen showed 81,500 pending, in red, with
-no date attached to it — which is why this is first on the list.
+A release schedule — which delivered orders settle on which date, and for how
+much — would answer the merchant's obvious next question. It is **not built**,
+because the carrier settlement cycle is not exposed, and a date on a money
+screen that was invented is worse than no date at all.
 
-`pending_releases` needs the carrier settlement cycle: which delivered orders
-settle on which date, and for how much. Settlements land 2–3 times a week per
-the carrier contract, so the answer exists in the business; it is not exposed.
+If the cycle can be resolved per order, the field to add is:
 
-**PROVISIONAL:** three invented release dates. If the cycle cannot be resolved
-per order, a single next-settlement date is still far better than nothing —
-but the amount has to be real, or the screen is lying about money.
+```
+pending_releases: [{ date, amount, orders }]
+```
+
+Even a single next-settlement date would do, provided the amount is real.
 
 ---
 
@@ -68,9 +68,39 @@ Three things the old screen got wrong, and what they require:
 Filtering by `from`, `to` and `type` has to be done server-side; the screen
 repeats it on what comes back only so the static demo behaves.
 
-**PROVISIONAL:** the `type` values `order_payout`, `withdrawal`,
-`shipping_fee`, `return_shipping` and `opening_balance`. Whatever the ledger
-actually records replaces them.
+### Movement types
+
+Drivoo bills the merchant for more than shipping, and every charge moves the
+wallet, so every one belongs on the ledger:
+
+| `type` | Direction |
+| --- | --- |
+| `order_payout` | In — a delivered order's goods value |
+| `withdrawal` | Out — held the moment the request is made |
+| `shipping_fee` | Out |
+| `return_shipping` | Out |
+| `confirmation_fee` | Out |
+| `packaging_fee` | Out — custom packaging |
+| `storage_fee` | Out |
+| `other_service` | **Either** — a charge, or a credit back |
+| `opening_balance` | In — the starting point, not a movement |
+
+`other_service` going both ways is why **the direction has to live on the
+amount's sign, not on the type**. Nothing on the screen special-cases it.
+
+**PROVISIONAL:** every code above. Whatever the ledger actually records
+replaces them, but the signed-amount rule should survive.
+
+### Paging
+
+The ledger is the one list that grows without limit, so the screen asks for 25
+at a time and `total` drives the paginator. It is also the only tab that is not
+loaded when the wallet opens — nothing should fetch a merchant's whole history
+because they came to check a withdrawal.
+
+The export is separate and deliberately unpaged: it asks for the filtered
+period with a high `limit`, because a merchant asking for their statement means
+all of it.
 
 ---
 

@@ -17,7 +17,7 @@
       <div class="row">
         @for (placeholder of [].constructor(3); track $index) {
           <div class="col-lg-4 col-sm-6 m-b-16">
-            <ngx-skeleton-loader class="d-block" [theme]="{ height: '150px' }"></ngx-skeleton-loader>
+            <ngx-skeleton-loader class="d-block" [theme]="{ height: '168px' }"></ngx-skeleton-loader>
           </div>
         }
       </div>
@@ -33,36 +33,56 @@
       <div class="row">
         @for (method of rows; track method.id) {
           <div class="col-lg-4 col-sm-6 m-b-16">
-            <div class="method p-16 rounded h-full d-flex flex-column"
-                 [class.method--default]="method.is_default">
-              <div class="d-flex align-items-start gap-10 m-b-10">
+            <div class="method rounded" [class.method--default]="method.is_default">
+
+              <!-- Header: what it is, whose it is, and the star that picks it. -->
+              <div class="method__head d-flex align-items-start gap-10">
                 <div class="bg-light-{{ statusClass(method.status) }} rounded icon-36 d-flex align-items-center justify-content-center flex-shrink-0">
                   <i class="iconify f-s-18 d-flex text-{{ statusClass(method.status) }}"
                      [attr.data-icon]="methodIcons[method.type]"></i>
                 </div>
+
                 <div class="min-w-0 flex-1">
                   <span class="f-s-11 text-muted d-block lh-sm">
                     {{ 'wallet.method_type.' + method.type | translate }}
                   </span>
-                  <span class="f-s-14 f-w-600 d-block text-truncate" dir="auto" [title]="method.label">
-                    {{ method.label }}
+                  <span class="f-s-14 f-w-600 d-block text-truncate" [title]="method.label">
+                    <bdi>{{ method.label }}</bdi>
                   </span>
-                  <!-- Only the last digits: the full number has no business on screen. -->
                   @if (method.masked_identifier) {
                     <span class="f-s-12 text-muted d-block" dir="ltr">{{ method.masked_identifier }}</span>
                   }
                 </div>
-                @if (method.is_default) {
-                  <span class="badge badge--default f-s-10 f-w-600 flex-shrink-0">
-                    {{ 'wallet.methods.default' | translate }}
-                  </span>
-                }
+
+                <!--
+                  Filled star: this is the one transfers go to. Outline star:
+                  press to make it so. A bare star says nothing on its own, so
+                  it carries a tooltip and a label for assistive tech.
+                -->
+                <button class="star flex-shrink-0" [class.star--on]="method.is_default"
+                        [disabled]="method.is_default || method.status !== 'active' || busyId === method.id"
+                        (click)="setDefault(method)"
+                        [matTooltip]="(method.is_default ? 'wallet.methods.is_default' : 'wallet.methods.make_default') | translate"
+                        [attr.aria-label]="(method.is_default ? 'wallet.methods.is_default' : 'wallet.methods.make_default') | translate">
+                  <i class="iconify f-s-18 d-flex"
+                     [attr.data-icon]="method.is_default ? 'solar:star-bold' : 'solar:star-linear'"></i>
+                </button>
               </div>
 
-              @for (pair of detailPairs(method); track pair.key) {
-                <span class="f-s-12 text-muted d-block" dir="auto">
-                  {{ 'wallet.method_detail.' + pair.key | translate }}: {{ pair.value }}
-                </span>
+              <!-- Details: one per line, whatever the type carries. -->
+              @if (detailPairs(method).length > 0) {
+                <div class="method__details">
+                  @for (pair of detailPairs(method); track pair.key) {
+                    <div class="d-flex gap-6 f-s-12">
+                      <span class="text-muted flex-shrink-0">
+                        {{ 'wallet.method_detail.' + pair.key | translate }}
+                      </span>
+                      <span class="min-w-0 text-truncate" [title]="pair.value">
+                        <bdi>{{ pair.value }}</bdi>
+                      </span>
+                    </div>
+                  }
+                </div>
               }
 
               <!--
@@ -70,29 +90,17 @@
                 letting a withdrawal be sent to it and fail later.
               -->
               @if (method.status !== 'active') {
-                <span class="f-s-12 text-{{ statusClass(method.status) }} d-flex align-items-center gap-4 m-t-8">
-                  <i class="iconify f-s-14 d-flex" data-icon="solar:info-circle-linear"></i>
-                  {{ 'wallet.method_status.' + method.status | translate }}
-                </span>
+                <div class="method__status f-s-12 text-{{ statusClass(method.status) }} d-flex align-items-start gap-6">
+                  <i class="iconify f-s-14 d-flex flex-shrink-0 m-t-2" data-icon="solar:info-circle-linear"></i>
+                  <span>{{ 'wallet.method_status.' + method.status | translate }}</span>
+                </div>
               }
 
-              <span class="f-s-11 text-muted d-block m-t-8">
-                {{ 'wallet.methods.added_on' | translate }}
-                <span dir="ltr">{{ formatDate(method.created_at) }}</span>
-              </span>
-
-              <!-- Named buttons, not bare icons: a star on its own says nothing. -->
-              <div class="d-flex flex-wrap gap-8 m-t-12 pt-auto">
-                @if (!method.is_default) {
-                  <button mat-stroked-button class="card-btn"
-                          [disabled]="busyId === method.id || method.status !== 'active'"
-                          (click)="setDefault(method)">
-                    <span class="btn-content">
-                      <i class="iconify f-s-14 d-flex" data-icon="solar:star-linear"></i>
-                      <span>{{ 'wallet.methods.make_default' | translate }}</span>
-                    </span>
-                  </button>
-                }
+              <div class="method__foot d-flex align-items-center justify-content-between gap-8">
+                <span class="f-s-11 text-muted">
+                  {{ 'wallet.methods.added_on' | translate }}
+                  <span dir="ltr">{{ formatDate(method.created_at) }}</span>
+                </span>
                 <button mat-stroked-button class="card-btn card-btn--danger"
                         [disabled]="busyId === method.id" (click)="remove(method)">
                   <span class="btn-content">

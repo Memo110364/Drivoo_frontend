@@ -21,11 +21,6 @@ export interface WalletBalance {
   pending: number;
   /** Settled and withdrawable today. */
   available: number;
-  /**
-   * When the pending side becomes available, and how much of it. The single
-   * most-asked question about a wallet, and the old screen could not answer it.
-   */
-  pending_releases: { date: string; amount: number; orders: number }[];
 }
 
 /** One line of the wallet ledger. */

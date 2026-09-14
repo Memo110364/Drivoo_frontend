@@ -13,17 +13,19 @@ different question about the same money.
 
 | Tab | Shows |
 | --- | --- |
-| Wallet ledger | Every movement in and out, with the balance after each one |
 | Withdrawals | Each request, the stage it has reached, its fee and what landed |
 | Payout methods | Bank account, Vodafone Cash, InstaPay, or cash from a branch |
+| Wallet ledger | Every movement in and out, with the balance after each one |
 
 Two things the screen insists on:
 
-- **The pending balance says when it arrives.** A figure with no date attached
-  is the merchant's first question left unanswered.
 - **A blocked withdrawal says why, and what to do.** The reason is a code from
   the server, so the screen can name the open request, the minimum, or the
   missing payout method — and link to whatever fixes it.
+- **Nothing loads that nobody asked for.** Each tab body sits in an
+  `ng-template matTabContent`, so the ledger fetches its history only when it
+  is opened — and then 25 rows at a time. Without that, Material builds all
+  three tabs the moment the page opens.
 
 Every list exports to CSV that Excel opens directly, Arabic included.
 

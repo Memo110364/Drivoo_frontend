@@ -33,16 +33,33 @@ export class LedgerComponent {
 
   rows = signal<LedgerEntry[]>([]);
   isLoading = signal(true);
+  isExporting = signal(false);
   hasError = signal(false);
+  /** What the server says the filtered set holds, for the paginator. */
+  total = signal(0);
 
-  /** The movement types the ledger can be narrowed to; `''` is every type. */
+  /**
+   * The movement types the ledger can be narrowed to; `''` is every type.
+   *
+   * `other_service` is the one that goes both ways — a charge for something
+   * extra, or a credit back. Nothing here special-cases it, because the
+   * direction lives on the amount's sign rather than on the type.
+   */
   readonly types = [
     'order_payout',
     'withdrawal',
     'shipping_fee',
     'return_shipping',
+    'confirmation_fee',
+    'packaging_fee',
+    'storage_fee',
+    'other_service',
     'opening_balance',
   ];
+
+  /** A page of movements; the ledger is the one list that grows without limit. */
+  readonly pageSize = 25;
+  pageIndex = signal(0);
 
   readonly columns = ['date', 'type', 'reference', 'amount', 'balance'];
 
@@ -59,7 +76,7 @@ export class LedgerComponent {
    * without the merchant adding the column up themselves.
    */
   summary = computed(() => {
-    const rows = this.visibleRows();
+    const rows = this.filteredRows();
     // An opening balance is a starting point, not money that moved, so it is
     // left out of both totals — including it would double-count the period.
     const moved = rows.filter((row) => row.type !== 'opening_balance');
@@ -69,11 +86,33 @@ export class LedgerComponent {
   });
 
   /**
+   * What the merchant paid Drivoo in the filtered period, and on what.
+   *
+   * The ledger now carries six kinds of charge, so "out: 138,730" on its own
+   * stopped being an answer. Withdrawals are left out — that is the merchant's
+   * own money moving, not a cost.
+   */
+  feeBreakdown = computed(() => {
+    const totals = new Map<string, number>();
+    for (const row of this.filteredRows()) {
+      if (row.amount >= 0 || row.type === 'withdrawal') continue;
+      totals.set(row.type, (totals.get(row.type) ?? 0) - row.amount);
+    }
+    return [...totals.entries()]
+      .map(([type, amount]) => ({ type, amount }))
+      .sort((a, b) => b.amount - a.amount);
+  });
+
+  feeTotal = computed(() =>
+    this.feeBreakdown().reduce((total, fee) => total + fee.amount, 0)
+  );
+
+  /**
    * The server filters; this repeats the filter on what came back so the demo,
    * whose static host ignores every query parameter, still behaves. Against a
    * real API the rows already match and this is a no-op.
    */
-  visibleRows = computed(() => {
+  filteredRows = computed(() => {
     const type = this.type();
     const term = this.search().trim().toLowerCase();
     const from = this.fromDate()?.getTime();
@@ -89,6 +128,16 @@ export class LedgerComponent {
     });
   });
 
+  /**
+   * One page of the filtered rows. The request already asks the server for a
+   * page; this slice is what makes the demo behave, since a static host returns
+   * everything it has. Against a real paging API it is a no-op.
+   */
+  visibleRows = computed(() => {
+    const start = this.pageIndex() * this.pageSize;
+    return this.filteredRows().slice(start, start + this.pageSize);
+  });
+
   constructor() {
     this.load();
   }
@@ -101,12 +150,13 @@ export class LedgerComponent {
         type: this.type(),
         from: this.asIsoDate(this.fromDate()),
         to: this.asIsoDate(this.toDate()),
-        page: 1,
-        limit: 500,
+        page: this.pageIndex() + 1,
+        limit: this.pageSize,
       })
       .subscribe({
         next: (page) => {
           this.rows.set(page.data ?? []);
+          this.total.set(page.total ?? page.data?.length ?? 0);
           this.isLoading.set(false);
         },
         error: () => {
@@ -117,6 +167,14 @@ export class LedgerComponent {
   }
 
   onFilterChange(): void {
+    // A new filter means a new first page; staying on page 4 of a shorter
+    // result would show nothing.
+    this.pageIndex.set(0);
+    this.load();
+  }
+
+  onPageChange(event: { pageIndex: number }): void {
+    this.pageIndex.set(event.pageIndex);
     this.load();
   }
 
@@ -125,6 +183,7 @@ export class LedgerComponent {
     this.search.set('');
     this.fromDate.set(null);
     this.toDate.set(null);
+    this.pageIndex.set(0);
     this.load();
   }
 
@@ -132,7 +191,36 @@ export class LedgerComponent {
     () => !!this.type() || !!this.search() || !!this.fromDate() || !!this.toDate()
   );
 
+  /**
+   * Downloads the whole filtered period, not the twenty-five rows on screen —
+   * a merchant asking for their statement means all of it. The screen is paged
+   * for speed; the file is not.
+   */
   exportCsv(): void {
+    this.isExporting.set(true);
+    this.walletService
+      .getLedger({
+        type: this.type(),
+        from: this.asIsoDate(this.fromDate()),
+        to: this.asIsoDate(this.toDate()),
+        page: 1,
+        limit: 100000,
+      })
+      .subscribe({
+        next: (page) => {
+          this.isExporting.set(false);
+          this.writeCsv(page.data ?? []);
+        },
+        // Falling back to what is already loaded still produces a file, which
+        // beats a button that silently does nothing.
+        error: () => {
+          this.isExporting.set(false);
+          this.writeCsv(this.filteredRows());
+        },
+      });
+  }
+
+  private writeCsv(rows: LedgerEntry[]): void {
     const t = (key: string) => this.translate.instant(key);
     const header = [
       t('wallet.ledger.date'),
@@ -141,14 +229,14 @@ export class LedgerComponent {
       t('wallet.ledger.amount'),
       t('wallet.ledger.balance'),
     ];
-    const rows = this.visibleRows().map((row) => [
+    const body = rows.map((row) => [
       this.formatDateTime(row.date),
       t(`wallet.ledger_type.${row.type}`),
       row.reference,
       row.amount,
       row.balance,
     ]);
-    downloadCsv('drivoo-wallet-ledger', header, rows);
+    downloadCsv('drivoo-wallet-ledger', header, body);
   }
 
   private asIsoDate(date: Date | null): string {

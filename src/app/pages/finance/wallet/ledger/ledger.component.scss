@@ -1,3 +1,5 @@
+@use '../../shared/utilities';
+
 // Material's outline field is 56px with a hint row beneath. These sit in a
 // toolbar, so they match button height and drop the hint.
 .filter-field {
@@ -36,6 +38,20 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+}
+
+// The outgoings, split by what they were for.
+.fees {
+  background-color: rgba(250, 137, 107, 0.06);
+  border: 1px solid rgba(250, 137, 107, 0.15);
+}
+
+.fee-chip {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
 }
 
 .summary-chip {

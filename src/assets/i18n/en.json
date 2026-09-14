@@ -89,12 +89,6 @@
       "available": "Available balance",
       "available_hint": "Withdrawable today"
     },
-    "releases": {
-      "title": "When the pending balance becomes available",
-      "subtitle": "The dates this money moves into the available balance",
-      "orders": "{{count}} orders",
-      "none": "Nothing is pending right now."
-    },
     "tabs": {
       "ledger": "Wallet ledger",
       "withdrawals": "Withdrawals",
@@ -123,13 +117,19 @@
       "net": "Net",
       "count": "Movements",
       "empty": "Nothing has moved through the wallet yet.",
-      "no_match": "No movements match these filters."
+      "no_match": "No movements match these filters.",
+      "fees_title": "Charges this period:",
+      "exporting": "Preparing…"
     },
     "ledger_type": {
       "order_payout": "Order payout",
       "withdrawal": "Withdrawal",
       "shipping_fee": "Shipping fee",
       "return_shipping": "Return shipping",
+      "confirmation_fee": "Confirmation fee",
+      "packaging_fee": "Custom packaging",
+      "storage_fee": "Storage fee",
+      "other_service": "Other services",
       "opening_balance": "Opening balance"
     },
     "withdrawals": {
@@ -196,7 +196,7 @@
       "subtitle": "Where you can be paid",
       "add": "Add method",
       "default": "Default",
-      "make_default": "Make default",
+      "make_default": "Press to make this the default",
       "remove": "Remove",
       "added_on": "Added",
       "empty": "No payout methods yet. Add one so you can withdraw.",
@@ -206,7 +206,8 @@
       "failed": "That did not work. Please try again.",
       "remove_title": "Remove payout method",
       "remove_message": "This removes “{{label}}”. Transfers already sent to it are unaffected.",
-      "remove_confirm": "Remove"
+      "remove_confirm": "Remove",
+      "is_default": "This is the default payout method"
     },
     "method_type": {
       "bank_account": "Bank account",

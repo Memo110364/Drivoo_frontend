@@ -39,7 +39,7 @@
               </div>
               <div class="min-w-0">
                 <div class="d-flex flex-wrap align-items-center gap-8">
-                  <span class="f-s-14 f-w-600" dir="auto">{{ request.method.label }}</span>
+                  <span class="f-s-14 f-w-600"><bdi>{{ request.method.label }}</bdi></span>
                   @if (request.method.masked_identifier) {
                     <span class="f-s-12 text-muted" dir="ltr">{{ request.method.masked_identifier }}</span>
                   }
@@ -78,7 +78,7 @@
                 <span class="f-s-13 f-w-600 text-error d-block">
                   {{ 'wallet.withdrawal_status.rejected' | translate }}
                 </span>
-                <span class="f-s-12 text-muted d-block" dir="auto">{{ request.rejection_reason }}</span>
+                <span class="f-s-12 text-muted d-block"><bdi>{{ request.rejection_reason }}</bdi></span>
               </div>
             </div>
           } @else {

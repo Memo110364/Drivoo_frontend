@@ -1,22 +1,71 @@
+@use '../../shared/utilities';
+
+// The card is a column of stacked sections. It used to rely on the theme's
+// `flex-column`, which computes to `flex-direction: row` — so the details,
+// the date and the buttons all lined up beside each other. The layout is
+// stated here instead of trusted to a utility that does not exist.
 .method {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   background-color: rgba(0, 0, 0, 0.01);
 
-  // The default method is the one a withdrawal goes to unless told otherwise,
-  // so it is marked on the card itself, not only by a badge.
+  // The default method is where a withdrawal goes unless told otherwise, so
+  // the whole card carries the mark, not just the star.
   &--default {
     border-color: var(--mat-sys-primary, #635bff);
     background-color: rgba(99, 91, 255, 0.03);
   }
+
+  &__details {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__status {
+    margin-top: 12px;
+  }
+
+  // Pushed to the bottom so cards of differing detail line up.
+  &__foot {
+    margin-top: auto;
+    padding-top: 14px;
+  }
 }
 
-.badge {
-  padding: 2px 8px;
-  border-radius: 999px;
+// Filled and gold when it is the default; outline and quiet otherwise.
+.star {
+  border: none;
+  background: transparent;
+  padding: 2px;
+  line-height: 0;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.3);
+  transition: color 0.15s, transform 0.15s;
 
-  &--default {
-    color: var(--mat-sys-primary, #635bff);
-    background-color: rgba(99, 91, 255, 0.1);
+  &:hover:not(:disabled) {
+    color: #ffae1f;
+    transform: scale(1.12);
+  }
+
+  &--on {
+    color: #ffae1f;
+  }
+
+  // The default one is already chosen, so pressing it does nothing — but it
+  // still has to look chosen rather than disabled.
+  &--on:disabled {
+    color: #ffae1f;
+    cursor: default;
+  }
+
+  &:disabled:not(&--on) {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
 }
 
@@ -26,7 +75,7 @@
 }
 
 .card-btn {
-  height: 34px;
+  height: 32px;
   line-height: normal;
   font-size: 12px;
 
@@ -43,12 +92,6 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-}
-
-// Pushes the actions to the bottom so cards of differing detail line up.
-.pt-auto {
-  margin-top: auto;
-  padding-top: 4px;
 }
 
 .icon-36 {
@@ -68,9 +111,6 @@
   flex-shrink: 0;
 }
 
-// The theme ships no `text-truncate`, so the one place that needs it says so.
-.text-truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.m-t-2 {
+  margin-top: 2px;
 }

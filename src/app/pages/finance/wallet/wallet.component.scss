@@ -1,3 +1,5 @@
+@use '../shared/utilities';
+
 :host {
   display: block;
 }
@@ -32,20 +34,16 @@
   overflow-x: hidden;
 }
 
-// The one thing a merchant comes here to do. `w-100` loses to Material's own
-// button styling, so the width is set here where it wins.
-.withdraw-cta {
-  max-width: 340px;
-  flex: 1 1 260px;
+// The one thing a merchant comes here to do, so it sits beside the figures it
+// acts on. `w-100` loses to Material's own button styling, so the width is set
+// here where it wins.
+.action-card {
+  background-color: rgba(0, 0, 0, 0.015);
 }
 
 .action-btn {
   height: 44px;
   width: 100%;
-}
-
-.releases {
-  flex: 1 1 380px;
 }
 
 // Material wraps projected button content in a single block-level label, so
@@ -58,12 +56,6 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-}
-
-.release-chip {
-  background-color: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  min-width: 150px;
 }
 
 .m-t-2 {

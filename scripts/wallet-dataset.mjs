@@ -131,12 +131,20 @@ const OPENING = 5000;
 function buildLedger() {
   const rand = seeded(20260914);
 
-  // What leaves the wallet, and roughly when.
+  // What leaves the wallet, and roughly when. Drivoo bills the merchant for
+  // more than shipping, and every one of those charges moves the wallet, so
+  // every one belongs in the ledger.
   const debits = [
     { day: 44, type: 'shipping_fee', amount: 1850, reference: 'INV-2026-07', reference_type: 'invoice' },
     { day: 14, type: 'shipping_fee', amount: 2100, reference: 'INV-2026-08', reference_type: 'invoice' },
+    { day: 44, type: 'confirmation_fee', amount: 640, reference: 'INV-2026-07', reference_type: 'invoice' },
+    { day: 14, type: 'confirmation_fee', amount: 720, reference: 'INV-2026-08', reference_type: 'invoice' },
+    { day: 44, type: 'storage_fee', amount: 900, reference: 'INV-2026-07', reference_type: 'invoice' },
+    { day: 14, type: 'storage_fee', amount: 900, reference: 'INV-2026-08', reference_type: 'invoice' },
+    { day: 30, type: 'packaging_fee', amount: 480, reference: 'INV-2026-08', reference_type: 'invoice' },
     { day: 36, type: 'return_shipping', amount: 140, reference: 'GZC3360164', reference_type: 'order' },
     { day: 11, type: 'return_shipping', amount: 140, reference: 'EGY3362736', reference_type: 'order' },
+    { day: 21, type: 'other_service', amount: 350, reference: 'SRV-2026-0118', reference_type: 'service' },
     { day: 55, type: 'withdrawal', amount: 16500, reference: '109958', reference_type: 'withdrawal' },
     { day: 39, type: 'withdrawal', amount: 30000, reference: '110185', reference_type: 'withdrawal' },
     { day: 26, type: 'withdrawal', amount: 30000, reference: '110333', reference_type: 'withdrawal' },
@@ -146,7 +154,16 @@ function buildLedger() {
     // otherwise the same money could be requested twice.
     { day: 2, type: 'withdrawal', amount: 20000, reference: '110641', reference_type: 'withdrawal' },
   ];
+
+  // `other_service` goes both ways — a charge for something extra, or a credit
+  // back when Drivoo owes the merchant. The sign lives on the amount, not on
+  // the type, so the screen needs no special case for it.
+  const serviceCredits = [
+    { day: 7, type: 'other_service', amount: 300, reference: 'SRV-2026-0143', reference_type: 'service' },
+  ];
+
   const debitTotal = debits.reduce((total, entry) => total + entry.amount, 0);
+  const creditAdjustments = serviceCredits.reduce((total, entry) => total + entry.amount, 0);
 
   // Payouts have to cover the opening balance, everything that left, and what
   // is left over — so their total is solved, not guessed.
@@ -155,7 +172,7 @@ function buildLedger() {
     // Not every day settles an order; roughly four days in five do.
     if (rand() < 0.8) payoutDays.push(day);
   }
-  const payoutTotal = AVAILABLE - OPENING + debitTotal;
+  const payoutTotal = AVAILABLE - OPENING + debitTotal - creditAdjustments;
 
   // Weights give the amounts a believable spread, then scale to the total.
   const weights = payoutDays.map(() => 0.6 + rand() * 1.4);
@@ -184,6 +201,7 @@ function buildLedger() {
   const credits = [
     { day: 60, type: 'opening_balance', amount: OPENING, reference: '', reference_type: '' },
     ...payouts,
+    ...serviceCredits,
   ];
   const placed = [];
   for (const debit of [...debits].sort((a, b) => b.day - a.day)) {
@@ -200,12 +218,23 @@ function buildLedger() {
     ...placed.map((entry) => ({ ...entry, amount: -entry.amount })),
   ].sort((a, b) => b.day - a.day);
 
+  // Timestamps have to agree with the order the events are in, or two entries
+  // on the same day read as though the later one came first — and the running
+  // balance beside them then looks wrong even though it is not.
+  //
+  // `events` runs oldest to newest here (the list is reversed at the end), so
+  // within a day each successive entry gets a *later* hour.
+  let sameDayRank = 0;
+  let previousDay = null;
+
   let balance = 0;
   const rows = events.map((event, index) => {
+    sameDayRank = event.day === previousDay ? sameDayRank + 1 : 0;
+    previousDay = event.day;
     balance += event.amount;
     return {
       id: `wl-${index}-${event.reference || 'open'}`,
-      date: daysAgo(event.day, 10 + (index % 9), (index * 13) % 60),
+      date: daysAgo(event.day, Math.min(9 + sameDayRank * 3, 21), (index * 7) % 60),
       type: event.type,
       /** Signed: positive into the wallet, negative out of it. */
       amount: event.amount,
@@ -233,17 +262,15 @@ export const LEDGER = {
 // Balances
 //
 // The pending side is money from orders that are delivered but not yet settled
-// by the carrier. PROVISIONAL: the release dates need the settlement cycle,
-// which the backend does not expose — see docs/backend-requirements.md.
+// by the carrier.
+//
+// There is deliberately no release schedule here. Telling the merchant when
+// each pending amount lands needs the carrier settlement cycle, which the
+// backend does not expose — so any date shown would be invented. It is
+// recorded in docs/backend-requirements.md instead.
 // ---------------------------------------------------------------------------
 
-const PENDING_RELEASES = [
-  { date: daysAhead(2), amount: 32000, orders: 64 },
-  { date: daysAhead(5), amount: 31500, orders: 59 },
-  { date: daysAhead(9), amount: 18000, orders: 37 },
-];
-
-const PENDING = PENDING_RELEASES.reduce((total, release) => total + release.amount, 0);
+const PENDING = 81500;
 
 export const BALANCE = {
   currency: 'EGP',
@@ -253,8 +280,6 @@ export const BALANCE = {
   pending: PENDING,
   /** Settled and withdrawable today. */
   available: AVAILABLE,
-  /** When the pending side becomes available, and how much of it. */
-  pending_releases: PENDING_RELEASES,
 };
 
 // ---------------------------------------------------------------------------

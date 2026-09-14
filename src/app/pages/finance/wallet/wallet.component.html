@@ -4,11 +4,11 @@
 -->
 <div class="row">
   @for (tile of tiles(); track tile.key) {
-    <div class="col-lg-4 col-sm-6 m-b-20">
+    <div class="col-lg-3 col-sm-6 m-b-20">
       @if (isLoading()) {
         <ngx-skeleton-loader class="d-block" [theme]="{ height: '104px' }"></ngx-skeleton-loader>
       } @else {
-        <mat-card class="cardWithShadow h-full">
+        <mat-card class="cardWithShadow h-100">
           <mat-card-content class="p-20">
             <div class="d-flex align-items-center gap-8 m-b-6">
               <div class="bg-light-{{ tile.color }} rounded icon-32 d-flex align-items-center justify-content-center">
@@ -29,52 +29,16 @@
     </div>
   }
 
-</div>
-
-<!--
-  One bar for "when does the rest arrive" and "get it out", because they are
-  the same question. The old screen answered neither: the pending balance sat
-  in red with no date, and the withdrawal was refused with no reason.
--->
-@if (!isLoading()) {
-  <mat-card class="cardWithShadow m-b-20">
-    <mat-card-content class="p-20">
-      <div class="d-flex flex-wrap align-items-center justify-content-between gap-16">
-        <div class="min-w-0 releases">
-          <div class="d-flex align-items-center gap-8 m-b-10">
-            <i class="iconify f-s-18 d-flex text-warning" data-icon="solar:calendar-linear"></i>
-            <div>
-              <h5 class="f-s-14 f-w-600 m-0 lh-sm">{{ 'wallet.releases.title' | translate }}</h5>
-              <span class="f-s-12 text-muted">{{ 'wallet.releases.subtitle' | translate }}</span>
-            </div>
-          </div>
-
-          @if ((balance()?.pending_releases ?? []).length > 0) {
-            <div class="d-flex flex-wrap gap-12">
-              @for (release of balance()!.pending_releases; track release.date) {
-                <div class="release-chip p-12 rounded">
-                  <span class="f-s-11 text-muted d-block" dir="ltr">{{ release.date }}</span>
-                  <span class="f-s-17 f-w-600 d-block lh-sm m-t-2" dir="auto">
-                    {{ release.amount | number }}
-                    <span class="f-s-11 f-w-400 text-muted">{{ balance()?.currency }}</span>
-                  </span>
-                  <span class="f-s-11 text-muted d-block m-t-2">
-                    {{ 'wallet.releases.orders' | translate: { count: release.orders } }}
-                  </span>
-                </div>
-              }
-            </div>
-          } @else {
-            <span class="f-s-12 text-muted">{{ 'wallet.releases.none' | translate }}</span>
-          }
-        </div>
-
-        <!--
-          A blocked action names its reason and, where there is one, the way
-          out. The reason needs room to say so, which is why this sits in a
-          full-width bar rather than a tile.
-        -->
-        <div class="withdraw-cta">
+  <!--
+    The one thing a merchant comes here to do, beside the figures it acts on.
+    A blocked withdrawal names its reason and, where there is one, the way out.
+  -->
+  <div class="col-lg-3 col-sm-6 m-b-20">
+    @if (isLoading()) {
+      <ngx-skeleton-loader class="d-block" [theme]="{ height: '104px' }"></ngx-skeleton-loader>
+    } @else {
+      <mat-card class="cardWithShadow h-100 action-card">
+        <mat-card-content class="p-20">
           <button mat-flat-button color="primary" class="action-btn"
                   [disabled]="!options()?.eligibility?.can_request"
                   (click)="openWithdrawDialog()">
@@ -85,12 +49,12 @@
           </button>
 
           @if (options()?.eligibility?.can_request) {
-            <span class="f-s-12 text-muted d-block m-t-8" dir="auto">
+            <span class="f-s-11 text-muted d-block m-t-8" dir="auto">
               {{ 'wallet.withdraw.next_transfer' | translate:
                  { date: formatDate(options()!.eligibility.next_transfer_date) } }}
             </span>
           } @else {
-            <span class="f-s-12 text-warning d-flex align-items-start gap-6 m-t-8" dir="auto">
+            <span class="f-s-11 text-warning d-flex align-items-start gap-6 m-t-8" dir="auto">
               <i class="iconify f-s-14 d-flex m-t-2 flex-shrink-0" data-icon="solar:info-circle-linear"></i>
               <span>
                 {{ 'wallet.withdraw.blocked.' + (options()?.eligibility?.reason ?? 'unknown')
@@ -98,11 +62,11 @@
               </span>
             </span>
           }
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-}
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</div>
 
 @if (hasError()) {
   <mat-card class="cardWithShadow">
@@ -116,26 +80,39 @@
     </mat-card-content>
   </mat-card>
 } @else {
+  <!--
+    Withdrawals first, because that is what a merchant opens the wallet to do.
+    The ledger is last and, crucially, every tab body sits in an
+    `ng-template matTabContent` — without it Material builds all three the
+    moment the page opens, so the ledger would fetch its history whether or not
+    anyone looked at it.
+  -->
   <mat-tab-group class="wallet-tabs" animationDuration="0ms" mat-stretch-tabs="false"
                  [selectedIndex]="selectedTab()" (selectedIndexChange)="selectedTab.set($event)">
-    <mat-tab [label]="'wallet.tabs.ledger' | translate">
-      <div class="tab-body">
-        <app-wallet-ledger [currency]="balance()?.currency ?? ''"></app-wallet-ledger>
-      </div>
-    </mat-tab>
-
     <mat-tab [label]="'wallet.tabs.withdrawals' | translate">
-      <div class="tab-body">
-        <app-wallet-withdrawals [rows]="withdrawals()" [loading]="isLoading()"
-                                [currency]="balance()?.currency ?? ''"></app-wallet-withdrawals>
-      </div>
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-withdrawals [rows]="withdrawals()" [loading]="isLoading()"
+                                  [currency]="balance()?.currency ?? ''"></app-wallet-withdrawals>
+        </div>
+      </ng-template>
     </mat-tab>
 
     <mat-tab [label]="'wallet.tabs.methods' | translate">
-      <div class="tab-body">
-        <app-wallet-payment-methods [rows]="methods()" [loading]="isLoading()"
-                                    (changed)="onMethodsChanged()"></app-wallet-payment-methods>
-      </div>
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-payment-methods [rows]="methods()" [loading]="isLoading()"
+                                      (changed)="onMethodsChanged()"></app-wallet-payment-methods>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [label]="'wallet.tabs.ledger' | translate">
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-ledger [currency]="balance()?.currency ?? ''"></app-wallet-ledger>
+        </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 }
