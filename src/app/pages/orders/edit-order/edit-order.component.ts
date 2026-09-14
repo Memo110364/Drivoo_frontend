@@ -7,9 +7,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {forkJoin} from 'rxjs';
 import {ListProductComponent} from 'src/app/components/dialog/product/list-product/list-product.component';
 import {
-  UntypedFormGroup,
-  UntypedFormArray,
-  UntypedFormBuilder,
+  FormBuilder,
   Validators,
   FormsModule,
   ReactiveFormsModule,
@@ -44,7 +42,6 @@ export class EditOrderComponent implements OnInit{
   subTotal = signal<number>(0);
   vat = signal<number>(0);
   grandTotal = signal<number>(0);
-  addForm: UntypedFormGroup | any;
   invoice = signal<OrderFullDetails | any>(null);
   areaList: { [key: string]: any[] } = {};
 
@@ -53,22 +50,27 @@ export class EditOrderComponent implements OnInit{
     private orderService: OrderService,
     private logisticsService: LogisticsService,
     private router: Router,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     public translate: TranslateModule
   ) {
     this.id.set(activatedRouter.snapshot.paramMap.get('id'));
     
-    this.addForm = this.fb.group({
-      item: this.fb.array([this.itemControl()]),
-    });
-
-    this.fillAddControls();
   }
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  updateTotals(): void {
+    let subTotal = 0;
+    this.editForm.get('items')?.value.forEach((item: any) => {
+      subTotal += (item.itemCost ?? 0) * (item.itemQty ?? 0);
+    });
+    //this.subTotal.set(subTotal);
+    //this.vat.set(subTotal * 0.15);
+    this.grandTotal.set(subTotal);
   }
 
   loadData(): void {
@@ -82,8 +84,9 @@ export class EditOrderComponent implements OnInit{
         for (const city of citiesList) {
           this.areaList[city.id] = city.areas || [];
         }
-
-        const invoiceData = invoiceRes?.data;
+        //filter items where status_code = 1
+        invoiceRes.data.items = invoiceRes?.data?.items.filter((item: any) => item.status_code == 1);
+        const invoiceData = invoiceRes?.data;        
         this.invoice.set(invoiceData);
         if (invoiceData) {
           this.buildForm(invoiceData);
@@ -96,12 +99,6 @@ export class EditOrderComponent implements OnInit{
     });
   }
 
-  loadInvoice(): void {
-    this.orderService.getOrderById(this.id()).subscribe((res) => {
-      this.invoice.set(res.data);
-      this.buildForm(res.data);
-    });
-  }
 
   loadCities(): void {
     this.logisticsService.getCities().subscribe((res) => {
@@ -128,7 +125,7 @@ export class EditOrderComponent implements OnInit{
 
     // Set initial areas signal based on the invoice's city
     this.areas.set(this.getAreasForCity(cityId));
-
+    let totalIvoice = 0;
     this.editForm = this.fb.group({
       name: [invoice.Name || invoice.name || '', Validators.required],
       phone: [invoice.Phone || invoice.phone || '', Validators.required],
@@ -136,17 +133,29 @@ export class EditOrderComponent implements OnInit{
       area_id: [areaId ? areaId.toString() : '', Validators.required],
       address: [invoice.Address || invoice.address || '', Validators.required],
       items: this.fb.array(
-        (invoice.items || []).map((item: any) =>
-          this.fb.group({
+        (invoice.items || []).map((item: any) => {
+          if(item.status_code==1){
+          totalIvoice += (item.rate ?? item.cost ?? 0) * (item.quantity ?? item.sold ?? 0);
+          return this.fb.group({
+            item_id: [item.id || null, Validators.nullValidator],
             itemName: [item.product_name || item.name || '', Validators.required],
+            itemImage: [item.image || '', Validators.nullValidator],
+            itemOption: [item.option || '', Validators.required],
             itemCost: [item.rate ?? item.cost ?? 0, Validators.required],
-            itemSold: [item.quantity ?? item.sold ?? 0, Validators.required],
+            itemQty: [item.quantity ?? item.sold ?? 0, Validators.required],
             itemTotal: [{ value: (item.rate ?? item.cost ?? 0) * (item.quantity ?? item.sold ?? 0), disabled: true }]
-          })
-        )
+          });
+        }else{
+          return null
+        }
+        }).filter((item: any) => item !== null),
+        [Validators.required, Validators.minLength(1)]
       )
     });
-
+    this.grandTotal.set(totalIvoice);
+    this.editForm.get('items')?.valueChanges.subscribe(() => {
+      this.updateTotals();
+    });
     this.editForm.get('city_id')?.valueChanges.subscribe(newCityId => {
       this.onCityChange(newCityId);
     });
@@ -179,35 +188,61 @@ export class EditOrderComponent implements OnInit{
         items: this.invoice()?.orders
       }
     });
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe((result: any) => {      
       if (result) {
         const currentInvoice = { ...(this.invoice() || {}) };
         if (!currentInvoice.items) {
           currentInvoice.items = [];
         }
-
+        console.log('result',result);
+        
         let newItem: any = null;
         if (result.product_name || result.name || result.product) {
+          let optionValue = '';
+          if (result.selectedOptions ) {
+            const optionsArray = Object.values(result.selectedOptions);
+            optionValue = optionsArray.map((opt: any) => opt.value).join(' - ');
+          } 
           newItem = {
-            product_name: result.product_name || result.name || result.product?.name || result.product?.product_name || '',
-            rate: result.rate ?? result.cost ?? result.price ?? result.product?.price ?? 0,
-            quantity: result.quantity ?? result.sold ?? 1
+            
+        id: null,
+        product_name: result.product_name || '',
+        image: result.product?.image || '',
+        quantity: result.quantity ?? 0,
+        option: optionValue || '',
+        status: "PENDING",
+        status_code: 1,
+        rate: result.rate ?? 0,
+        commission: 0,
+        price_effect:  0,
+        bonus: 0,
+        amount: 0
+      
+    
           };
-        }
-
+        }        
         if (newItem) {
           currentInvoice.items.push(newItem);
           this.invoice.set(currentInvoice);
           this.buildForm(currentInvoice);
-        } else if (result.id || result.items) {
-          this.invoice.set(result);
-          this.buildForm(result);
         }
       }
     });
   }
 
 
+onQuantityChange(event: any, index: number): void {
+ 
+}
+removeRow(index: number): void {
+      const currentInvoice = { ...(this.invoice() || {}) };
+        if (!currentInvoice.items) {
+          currentInvoice.items = [];
+        }
+      currentInvoice.items.splice(index, 1);
+      this.invoice.set(currentInvoice);
+      this.buildForm(currentInvoice);
+    } 
 
 
 
@@ -227,77 +262,19 @@ export class EditOrderComponent implements OnInit{
 
 
 
-
-
-
-  itemControl(): UntypedFormGroup {
-    return this.fb.group({
-      itemName: ['', Validators.required],
-      itemCost: ['', Validators.required],
-      itemSold: ['', Validators.required],
-      itemTotal: [{value: 0, disabled: true}]
-    });
-  }
-
-  fillAddControls(): void {
-    // this.addForm.setControl('item', this.setItem(this.invoice()?.orders));
-  }
-
-  setItem(order: any): UntypedFormArray {
-    const fa = new UntypedFormArray([]);
-    order?.forEach((s: any) => {
-      fa.push(
-        this.fb.group({
-          itemName: s.itemName,
-          itemCost: s.unitPrice,
-          itemSold: s.units,
-          itemTotal: s.unitTotalPrice,
-        })
-      );
-    });
-    return fa;
-  }
-
-  btnAddItemClick(): void {
-    (<UntypedFormArray>this.addForm.get('item')).push(this.itemControl());
-  }
-
-  btnRemoveClick(i: number): void {
-    const totalCostOfItem =
-      this.addForm.get('item')?.value[i].itemCost *
-      this.addForm.get('item')?.value[i].itemSold;
-
-    this.subTotal.set(this.subTotal() - totalCostOfItem);
-    this.vat.set(this.subTotal() / 10);
-    this.grandTotal.set(this.subTotal() + this.vat());
-
-    (<UntypedFormArray>this.addForm.get('item')).removeAt(i);
-  }
-
-  itemsChanged(): void {
-    let total = 0;
-    for (
-      let t = 0;
-      t < (<UntypedFormArray>this.addForm.get('item')).length;
-      t++
-    ) {
-      if (
-        this.addForm.get('item')?.value[t].itemCost != '' &&
-        this.addForm.get('item')?.value[t].itemSold
-      ) {
-        total +=
-          this.addForm.get('item')?.value[t].itemCost *
-          this.addForm.get('item')?.value[t].itemSold;
-      }
-    }
-    this.subTotal.set(total);
-    this.vat.set(this.subTotal() / 10);
-    this.grandTotal.set(this.subTotal() + this.vat());
-  }
 
   saveDetail(): void {
     const currentInvoice = this.invoice();
-    if (currentInvoice) {
+    let valid = true;
+Object.keys(this.editForm.controls).forEach(key => {
+  const controlErrors = this.editForm.get(key)?.errors;
+  if (controlErrors != null) {
+    valid = false;
+    this.showSnackbar('field ' + key + ' is required');    
+  }
+});    
+    
+    if (currentInvoice && valid) {
       // currentInvoice.grandTotal = this.grandTotal();
       // currentInvoice.totalCost = this.subTotal();
       // currentInvoice.vat = this.vat();
@@ -317,7 +294,7 @@ export class EditOrderComponent implements OnInit{
       // }
       this.dialog.open(OkDialogComponent);
       // this.orderService.updateInvoice(currentInvoice.id, currentInvoice);
-      this.router.navigate(['/apps/invoice']);
+     // this.router.navigate(['/apps/invoice']);
       this.showSnackbar('Invoice updated  successfully!');
     }
   }

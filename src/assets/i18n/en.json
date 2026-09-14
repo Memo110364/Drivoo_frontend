@@ -76,6 +76,24 @@
       "18": "Exchange",
       "19": "Need Update" 
     }
+  },
+    "product":{
+      "available": "Available",
+      "not_available": "Not Available",
+      "in_stock": "In Stock",
+      "out_of_stock": "Out of Stock",
+      "add_to_order": "Add to Order",
+      "price": "Price",
+      "code": "Code",
+      "description": "Description",
+      "quantity": "Quantity",
+      "notes": "Notes",
+      "add_to_order_confirm": "Add to Order Confirm",
+      "product_info": "Product Information",
+      "product_price": "Product Price",
+      "product_quantity": "Product Quantity",
+      "product_notes": "Product Notes",
+      "product_add_to_order": "Add Product to Order"
+    }
 
-  }
 }

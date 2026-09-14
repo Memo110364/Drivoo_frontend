@@ -1,0 +1,16 @@
+.option_selector {
+  border: 1px solid #ccc;
+  color: var(--mat-sys-disabled);
+  padding: 10px;
+}
+.active {
+  color: var(--mat-button-outlined-label-text-color, var(--mat-sys-primary));
+}
+.selected {
+    // use the shadow of the primary color
+    box-shadow: 0 0 0 2px var(--mat-sys-primary);
+    //expand the size to the left and right by 2px
+    transform: scale(1.1);
+    
+
+}

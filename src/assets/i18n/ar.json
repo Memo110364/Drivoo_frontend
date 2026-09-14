@@ -75,6 +75,24 @@
       "18": "تبديل",
       "19": "تحتاج إلى تحديث" 
     }
+  },
+    "product":{
+      "available": "متوفر",
+      "not_available": "غير متوفر",
+      "in_stock": "في المخزون",
+      "out_of_stock": "نفذ من المخزون",
+      "add_to_order": "أضافة إلى الطلب",
+      "price": "السعر",
+      "code": "الكود",
+      "description": "الوصف",
+      "quantity": "الكمية",
+      "notes": "الملاحظات",
+      "add_to_order_confirm": "تأكيد إضافة الطلب",
+      "product_info": "معلومات المنتج",
+      "product_price": "سعر المنتج",
+      "product_quantity": "كمية المنتج",
+      "product_notes": "ملاحظات المنتج",
+      "product_add_to_order": "إضافة المنتج إلى الطلب"
+    }
 
-  }
 }
