@@ -1,5 +1,5 @@
 import { Injectable, signal, inject } from '@angular/core';
-import { OrderList } from 'src/app/pages/orders/order-objects';
+import { OrderFullDetails, OrderList } from 'src/app/pages/orders/order-objects';
 import { invoceLists } from 'src/app/pages/orders/invoiceData';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -33,15 +33,7 @@ export class OrderService {
     // this.invoiceList.update((invoices) => [...invoices, invoice]);
   }
 
-  public updateInvoice(id: number, invoice: OrderList): void {
-    // this.invoiceList.update((invoices) => {
-    //   const index = invoices.findIndex((x) => x.id === id);
-    //   if (index !== -1) {
-    //     const updatedInvoices = [...invoices];
-    //     updatedInvoices[index] = invoice; // Update the invoice at the found index
-    //     return updatedInvoices;
-    //   }
-    //   return invoices; // Return the original list if not found
-    // });
+  public updateInvoice(id: string, invoice: any): Observable<any> {
+    return this.api.updateOrder(id, invoice);
   }
 }

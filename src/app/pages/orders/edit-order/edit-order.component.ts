@@ -12,6 +12,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
   FormGroup,
+  AbstractControl,
+  ValidationErrors
 } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {OkDialogComponent} from './ok-dialog/ok-dialog.component';
@@ -19,6 +21,8 @@ import {MaterialModule} from 'src/app/material.module';
 import {CommonModule} from '@angular/common';
 import {TablerIconsModule} from 'angular-tabler-icons';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
 @Component({
   selector: 'app-edit-invoice',
   styleUrl: './edit-order.component.scss',
@@ -45,6 +49,10 @@ export class EditOrderComponent implements OnInit{
   invoice = signal<OrderFullDetails | any>(null);
   areaList: { [key: string]: any[] } = {};
 
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  phoneNumbers: string[] = [];
+  readonly phoneRegex = /^(?:\+2|002)?01[0125]\d{8}$/;
+
   constructor(
     activatedRouter: ActivatedRoute,
     private orderService: OrderService,
@@ -61,6 +69,63 @@ export class EditOrderComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  phoneListValidator(control: AbstractControl): ValidationErrors | null {
+    if (!this.phoneNumbers || this.phoneNumbers.length === 0) {
+      return { required: true };
+    }
+    const allValid = this.phoneNumbers.every((p) => this.phoneRegex.test(p));
+    return allValid ? null : { invalidPhone: true };
+  }
+
+  addPhone(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      const numbers = value.split(/[\s,]+/).map((p) => p.trim()).filter((p) => p.length > 0);
+      const invalidNumbers: string[] = [];
+
+      for (const phone of numbers) {
+        if (this.phoneRegex.test(phone)) {
+          if (!this.phoneNumbers.includes(phone)) {
+            this.phoneNumbers.push(phone);
+          }
+        } else {
+          invalidNumbers.push(phone);
+        }
+      }
+
+      this.updatePhoneControl();
+
+      if (invalidNumbers.length > 0) {
+        this.showSnackbar('Please enter valed phone number');
+        if (event.chipInput && event.chipInput.inputElement) {
+          event.chipInput.inputElement.value = invalidNumbers.join(', ');
+        }
+      } else {
+        if (event.chipInput) {
+          event.chipInput.clear();
+        }
+      }
+    }
+  }
+
+  removePhone(phone: string): void {
+    const index = this.phoneNumbers.indexOf(phone);
+    if (index >= 0) {
+      this.phoneNumbers.splice(index, 1);
+      this.updatePhoneControl();
+    }
+  }
+
+  updatePhoneControl(): void {
+    const phoneCtrl = this.editForm?.get('phone');
+    if (phoneCtrl) {
+      const phoneVal = this.phoneNumbers.length > 0 ? this.phoneNumbers.join(', ') : '';
+      phoneCtrl.setValue(phoneVal);
+      phoneCtrl.updateValueAndValidity();
+      phoneCtrl.markAsTouched();
+    }
   }
 
   updateTotals(): void {
@@ -123,12 +188,28 @@ export class EditOrderComponent implements OnInit{
     const cityId = invoice.city?.id ?? invoice.city_id ?? '';
     const areaId = invoice.area?.id ?? invoice.area_id ?? '';
 
+    const rawPhone = (invoice.Phone || invoice.phone || '').toString();
+    if (rawPhone) {
+      this.phoneNumbers = rawPhone
+        .split(/[\s,]+/)
+        .map((p: string) => p.trim())
+        .filter((p: string) => p.length > 0 && this.phoneRegex.test(p));
+      if (this.phoneNumbers.length === 0 && rawPhone.trim()) {
+        this.phoneNumbers = [rawPhone.trim()];
+      }
+    } else {
+      this.phoneNumbers = [];
+    }
+
     // Set initial areas signal based on the invoice's city
     this.areas.set(this.getAreasForCity(cityId));
     let totalIvoice = 0;
     this.editForm = this.fb.group({
       name: [invoice.Name || invoice.name || '', Validators.required],
-      phone: [invoice.Phone || invoice.phone || '', Validators.required],
+      phone: [
+        this.phoneNumbers.length > 0 ? this.phoneNumbers.join(', ') : '',
+        [Validators.required, this.phoneListValidator.bind(this)]
+      ],
       city_id: [cityId ? cityId.toString() : '', Validators.required],
       area_id: [areaId ? areaId.toString() : '', Validators.required],
       address: [invoice.Address || invoice.address || '', Validators.required],
@@ -150,7 +231,9 @@ export class EditOrderComponent implements OnInit{
         }
         }).filter((item: any) => item !== null),
         [Validators.required, Validators.minLength(1)]
-      )
+      ),
+      notes: [invoice.notes || '', Validators.nullValidator],
+      deletedItems: []
     });
     this.grandTotal.set(totalIvoice);
     this.editForm.get('items')?.valueChanges.subscribe(() => {
@@ -239,6 +322,12 @@ removeRow(index: number): void {
         if (!currentInvoice.items) {
           currentInvoice.items = [];
         }
+        if(this.invoice()?.items[index].id){
+          if(!currentInvoice.deletedItems){
+            currentInvoice.deletedItems = [];
+          }
+          currentInvoice.deletedItems?.push(this.invoice()?.items[index].id);
+        }
       currentInvoice.items.splice(index, 1);
       this.invoice.set(currentInvoice);
       this.buildForm(currentInvoice);
@@ -262,40 +351,31 @@ removeRow(index: number): void {
 
 
 
-
   saveDetail(): void {
+    this.updatePhoneControl();
+    this.editForm.markAllAsTouched();
     const currentInvoice = this.invoice();
-    let valid = true;
-Object.keys(this.editForm.controls).forEach(key => {
-  const controlErrors = this.editForm.get(key)?.errors;
-  if (controlErrors != null) {
-    valid = false;
-    this.showSnackbar('field ' + key + ' is required');    
-  }
-});    
-    
-    if (currentInvoice && valid) {
-      // currentInvoice.grandTotal = this.grandTotal();
-      // currentInvoice.totalCost = this.subTotal();
-      // currentInvoice.vat = this.vat();
-      // currentInvoice.orders = [];
+    let valid = true;    
+    Object.keys(this.editForm.controls).forEach((key) => {
+      const controlErrors = this.editForm.get(key)?.errors;
+      if (controlErrors != null) {
+        valid = false;
+        this.showSnackbar('field ' + key + ' is required');
+      }
+    });
 
-      // for (
-      //   let t = 0;
-      //   t < (<UntypedFormArray>this.addForm.get('item')).length;
-      //   t++
-      // ) {
-      //   const o: order = new order();
-      //   o.itemName = this.addForm.get('item')?.value[t].itemName;
-      //   o.unitPrice = this.addForm.get('item')?.value[t].itemCost;
-      //   o.units = this.addForm.get('item')?.value[t].itemSold;
-      //   o.unitTotalPrice = o.units * o.unitPrice;
-      //   currentInvoice.orders.push(o);
-      // }
-      this.dialog.open(OkDialogComponent);
-      // this.orderService.updateInvoice(currentInvoice.id, currentInvoice);
-     // this.router.navigate(['/apps/invoice']);
-      this.showSnackbar('Invoice updated  successfully!');
+    if (currentInvoice && valid && this.editForm.valid) {
+      this.orderService.updateInvoice(currentInvoice.id, currentInvoice).subscribe({
+        next: (res) => {
+          this.showSnackbar('Invoice updated  successfully!');
+          // this.dialog.open(OkDialogComponent);
+          this.router.navigate(['/orders/view/', currentInvoice.id]);
+        },
+        error: (err) => {
+          console.error('Error loading data:', err);
+          this.showSnackbar('Error updating order');
+        }
+      });      
     }
   }
 

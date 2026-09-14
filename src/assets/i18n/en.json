@@ -32,6 +32,9 @@
     "logout": "Logout"
   },
   "orders": {
+    "annotation":{
+      "this_order_is_not_editable":"This order is not editable"
+    },
     
     "invoice":{
       "back_to_invoices":"Back to Invoices",

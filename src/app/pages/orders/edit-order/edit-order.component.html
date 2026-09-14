@@ -1,6 +1,7 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
     @if (invoice()?.id != null && cities().length>0) {
+      @if(invoice()?.is_editable === true) {
       <form [formGroup]="editForm" (ngSubmit)="saveDetail()">
       <span>
           <div class="row m-b-24">
@@ -63,16 +64,37 @@
                   placeholder="Client name"
                   formControlName="name"
                 />
+                @if (editForm.get('name')?.touched && editForm.get('name')?.hasError('required')) {
+                  <mat-error>Name is required</mat-error>
+                }
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Phone</mat-label>
-                <input
-                  matInput
-                  placeholder="Enter Phone"
-                  formControlName="phone"
-                />
+                <mat-chip-grid #chipGrid formControlName="phone" aria-label="Phone numbers">
+                  @for (phone of phoneNumbers; track phone) {
+                    <mat-chip-row (removed)="removePhone(phone)">
+                      {{ phone }}
+                      <button matChipRemove [attr.aria-label]="'remove ' + phone">
+                        <i-tabler name="x" class="icon-14"></i-tabler>
+                      </button>
+                    </mat-chip-row>
+                  }
+                  <input
+                    placeholder="Enter Phone"
+                    [matChipInputFor]="chipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="addPhone($event)"
+                  />
+                </mat-chip-grid>
+                @if (editForm.get('phone')?.touched && editForm.get('phone')?.hasError('required')) {
+                  <mat-error>Phone number is required</mat-error>
+                }
+                @if (editForm.get('phone')?.touched && editForm.get('phone')?.hasError('invalidPhone')) {
+                  <mat-error>رقم الهاتف غير صحيح (010, 011, 012, 015 ومكون من 11 رقم أو بكود البلد)</mat-error>
+                }
               </mat-form-field>
             </div>
             <div class="col-sm-6">
@@ -206,11 +228,25 @@
             <h3 class="m-b-0 p-t-20 f-s-18">Grand Total: {{ grandTotal() }}</h3>
           </div>
         </div>
-      </form>
+      </form>}@else {
+        <div class="text-center">
+          <i
+          class="iconify m-auto size-12 f-s-48  d-flex"
+          data-icon="famicons:warning-outline"
+        ></i>
+          <p class="text-muted my-3">{{"orders.annotation.this_order_is_not_editable" | translate}}</p>
+          <a
+                routerLink="/orders"
+                mat-flat-button
+                class="bg-error text-white m-r-10"
+              >{{'orders.invoice.back_to_invoices' | translate}}</a>
+        </div>
+      }
     } @else {
       <div class="text-center">
         <mat-spinner class="m-auto" diameter="50"></mat-spinner>
       </div>
-    }
+    
+  }
   </mat-card-content>
 </mat-card>

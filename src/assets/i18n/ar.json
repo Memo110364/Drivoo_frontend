@@ -32,6 +32,9 @@
     "logout": "تسجيل الخروج"
   },
   "orders": {
+    "annotation":{
+      "this_order_is_not_editable":"هذا الطلب لا يمكن تعديله"
+    },
     "invoice":{
       "back_to_invoices":"العودة إلى الفواتير",
       "edit_invoice":"تعديل الفاتورة",
