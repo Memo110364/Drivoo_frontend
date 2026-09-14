@@ -10,17 +10,17 @@
                 #{{ invoice()?.order_code ?? "" + invoice()?.id }}
               </h4>
             </div>
-            <div class="col-sm-8 text-right">
+            <div class="col-sm-8 text-end">
               <a
                 routerLink="/apps/invoice/list"
                 mat-flat-button
                 class="bg-error text-white m-r-10"
               >
-                Cancel
+                {{"system_messages.cancel" | translate }} 
               </a>
 
               <button mat-flat-button color="primary" type="submit">
-                Save Invoice
+                {{ "system_messages.save" | translate }}
               </button>
             </div>
           </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="col-sm-6 d-flex align-items-center justify-content-end">
               <div class="text-right">
-                <span class="f-w-600 f-s-15 m-b-8"> Order Date </span>
+                <span class="f-w-600 f-s-15 m-b-8"> {{ "orders.invoice.order_date" | translate }}:</span>
                 <!-- <h6 name="date" class="m-t-5 m-b-0 f-w-500 f-s-14 f-s-16" [(ngModel)]="invoice().orderDate"
                 ngDefaultControl> -->
                 {{ invoice()?.date | date: "fullDate" }}
@@ -58,7 +58,7 @@
           <div class="row m-y-24 p-t-24">
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Name</mat-label>
+                <mat-label>{{"orders.invoice.order_name" | translate }}</mat-label>
                 <input
                   matInput
                   placeholder="Client name"
@@ -71,7 +71,7 @@
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Phone</mat-label>
+                <mat-label>{{"orders.invoice.order_phone" | translate }}</mat-label>
                 <mat-chip-grid #chipGrid formControlName="phone" aria-label="Phone numbers">
                   @for (phone of phoneNumbers; track phone) {
                     <mat-chip-row (removed)="removePhone(phone)">
@@ -92,14 +92,12 @@
                 @if (editForm.get('phone')?.touched && editForm.get('phone')?.hasError('required')) {
                   <mat-error>Phone number is required</mat-error>
                 }
-                @if (editForm.get('phone')?.touched && editForm.get('phone')?.hasError('invalidPhone')) {
-                  <mat-error>رقم الهاتف غير صحيح (010, 011, 012, 015 ومكون من 11 رقم أو بكود البلد)</mat-error>
-                }
+                
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>City</mat-label>
+                <mat-label>{{"orders.invoice.order_city" | translate}}</mat-label>
                 <mat-select
                   formControlName="city_id"
                   [compareWith]="compareById"
@@ -116,7 +114,7 @@
 
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Areas</mat-label>
+                <mat-label>{{"orders.invoice.order_area" | translate}}</mat-label>
                 <mat-select
                   formControlName="area_id"
                   [compareWith]="compareById"
@@ -133,7 +131,7 @@
 
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Enter Address</mat-label>
+                <mat-label> {{"orders.invoice.order_address"|translate}}</mat-label>
                 <input
                   matInput
                   placeholder="Enter Address"
@@ -144,19 +142,21 @@
           </div>
         
       </span>
-      <button type="button" class="my-4" mat-flat-button color="primary" (click)="addItem()">Add Item</button>
+      <div class="text-end">
+        <button type="button" class="my-4" mat-flat-button color="primary" (click)="addItem()">{{"system_messages.add_item" | translate}}</button>
+      </div>
         <div class="table-responsive">
           <table
             id="tblAdd"
-            class="table table-hover b-1 no-wrap w-100 rounded text-left"
+            class="table table-hover b-1 no-wrap w-100 rounded text-start"
           >
             <thead>
               <tr>
                 <th class="p-16">#</th>
-                <th class="p-16">Item Name</th>
-                <th class="p-16">Unit Price</th>
-                <th class="p-16">Units</th>
-                <th class="p-16">Unit Total Price</th>
+                <th class="p-16">{{"orders.invoice.product" | translate}}</th>
+                <th class="p-16">{{"orders.invoice.unit_price" | translate}}</th>
+                <th class="p-16">{{"orders.invoice.quantity" | translate}}</th>
+                <th class="p-16">{{"orders.invoice.total_cost" | translate}}</th>
                 <th class="p-16"></th>
               </tr>
             </thead>
@@ -178,7 +178,7 @@
                 </td>
                 <td class="p-16">
                   <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Unit Price</mat-label>
+                    <mat-label>{{"orders.invoice.unit_price" | translate}}</mat-label>
                     <input
                       
                       type="number"
@@ -189,7 +189,7 @@
                 </td>
                 <td class="p-16">
                   <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Quantity</mat-label>
+                    <mat-label>{{"orders.invoice.quantity" | translate}}</mat-label>
                     <input
                       type="number"
                       matInput
@@ -225,7 +225,7 @@
             
 
             <mat-divider></mat-divider>
-            <h3 class="m-b-0 p-t-20 f-s-18">Grand Total: {{ grandTotal() }}</h3>
+            <h3 class="m-b-0 p-t-20 f-s-18">{{"orders.invoice.grand_total" | translate}}: {{ grandTotal() }}</h3>
           </div>
         </div>
       </form>}@else {

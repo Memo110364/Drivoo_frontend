@@ -29,8 +29,8 @@ export class OrderService {
     // );
   }
 
-  public addInvoice(invoice: OrderList): void {
-    // this.invoiceList.update((invoices) => [...invoices, invoice]);
+  public createInvoice(invoice: OrderList): Observable<any> {
+    return this.api.createOrder(invoice);
   }
 
   public updateInvoice(id: string, invoice: any): Observable<any> {

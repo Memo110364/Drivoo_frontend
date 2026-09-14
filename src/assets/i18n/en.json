@@ -1,7 +1,18 @@
 {
   "system_messages":{
     "no_orders":"No Orders",
-    "close":"Close"
+    "close":"Close",
+    "save":"Save",
+    "cancel":"Cancel",
+    "add_item":"Add Item",
+    "valdate":{
+      "name_is_required":"Name is required",
+      "phone_is_required":"Phone is required",
+      "city_is_required":"City is required",
+      "area_is_required":"Area is required",
+      "product_is_required":"Product is required",
+      "quantity_is_required":"Quantity is required"
+    }
   },
   "dashboard": {
     "currentOrdersStatusTitle": "Current Orders Status",
@@ -44,10 +55,14 @@
       "order_status":"Order Status",
       "order_address":"Order Address",
       "order_phone":"Order Phone",
+      "order_name":"Client Name",
+      "order_city":"City",
+      "order_area":"Area",
       "product":"Product",
       "unit_price":"Unit Price",
       "quantity":"Quantity",
-      "total_cost":"Total Cost"
+      "total_cost":"Total Cost",
+      "grand_total":"Grand Total"
     },
     "status": {
       "pending": "Pending",

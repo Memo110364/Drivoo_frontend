@@ -1,0 +1,14 @@
+#tblAdd th:nth-child(2) {
+    width: 30%;
+}
+#tblAdd th:nth-child(3) {
+    width: 10%;
+}
+.product-thumb{
+    width: 64px; 
+    height: 64px; 
+    border-radius: 50%; 
+    border: 1px solid #ccc;
+    background-size: cover; 
+    background-position: center;
+}

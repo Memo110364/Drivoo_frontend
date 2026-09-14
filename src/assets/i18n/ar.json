@@ -1,7 +1,14 @@
 {
   "system_messages":{
     "no_orders":"لا يوجد طلبات",
-    "close":"إغلاق"
+    "close":"إغلاق",
+    "save":"حفظ",
+    "cancel":"إلغاء",
+    "add_item":"إضافة عنصر",
+    "valdate":{
+      "name_is_required":"الاسم مطلوب",
+      "phone_is_required":"رقم الهاتف مطلوب"
+    }
   },
   "dashboard": {
     "currentOrdersStatusTitle": "حالة الطلبات الحالية",
@@ -42,11 +49,15 @@
       "order_date":"تاريخ الطلب",
       "order_status":"حالة الطلب",
       "order_address":"عنوان الطلب",
-      "order_phone":"رقم الطلب",
+      "order_phone":"رقم العميل",
+      "order_name":"اسم العميل",
+      "order_city":"المدينة",
+      "order_area":"المنطقة",
       "product":"المنتج",
       "unit_price":"سعر الوحدة",
       "quantity":"الكمية",
-      "total_cost":"التكلفة الإجمالية"
+      "total_cost":"التكلفة الإجمالية",
+      "grand_total":"الإجمالي الكلي"
     },
     "status": {
       "pending": "قيد الانتظار",
