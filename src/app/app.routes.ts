@@ -26,6 +26,10 @@ export const routes: Routes = [
         path: 'orders',
         loadChildren: () => import('./pages/orders/orders.routes').then((r) => r.OrdersRoutes),
       },
+      {
+        path: 'finance',
+        loadChildren: () => import('./pages/finance/finance.routes').then((r) => r.FinanceRoutes),
+      },
       // {
       //   path: 'starter',
       //   loadChildren: () =>

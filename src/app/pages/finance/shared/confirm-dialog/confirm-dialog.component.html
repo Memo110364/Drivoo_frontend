@@ -1,0 +1,13 @@
+<h2 mat-dialog-title class="f-s-17 f-w-600">{{ data.titleKey | translate }}</h2>
+<mat-dialog-content>
+  <p class="f-s-14 text-muted m-0" dir="auto">
+    {{ data.messageKey | translate: data.params }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'wallet.cancel' | translate }}</button>
+  <button mat-flat-button [color]="data.destructive ? 'warn' : 'primary'" cdkFocusInitial
+          (click)="confirm()">
+    {{ (data.confirmKey ?? 'wallet.confirm') | translate }}
+  </button>
+</mat-dialog-actions>

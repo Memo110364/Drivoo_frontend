@@ -1,7 +1,7 @@
 {
-  "system_messages":{
-    "no_orders":"لا يوجد طلبات",
-    "close":"إغلاق"
+  "system_messages": {
+    "no_orders": "لا يوجد طلبات",
+    "close": "إغلاق"
   },
   "dashboard": {
     "currentOrdersStatusTitle": "حالة الطلبات الحالية",
@@ -32,18 +32,18 @@
     "logout": "تسجيل الخروج"
   },
   "orders": {
-    "invoice":{
-      "back_to_invoices":"العودة إلى الفواتير",
-      "edit_invoice":"تعديل الفاتورة",
-      "order_number":"رقم الطلب",
-      "order_date":"تاريخ الطلب",
-      "order_status":"حالة الطلب",
-      "order_address":"عنوان الطلب",
-      "order_phone":"رقم الطلب",
-      "product":"المنتج",
-      "unit_price":"سعر الوحدة",
-      "quantity":"الكمية",
-      "total_cost":"التكلفة الإجمالية"
+    "invoice": {
+      "back_to_invoices": "العودة إلى الفواتير",
+      "edit_invoice": "تعديل الفاتورة",
+      "order_number": "رقم الطلب",
+      "order_date": "تاريخ الطلب",
+      "order_status": "حالة الطلب",
+      "order_address": "عنوان الطلب",
+      "order_phone": "رقم الطلب",
+      "product": "المنتج",
+      "unit_price": "سعر الوحدة",
+      "quantity": "الكمية",
+      "total_cost": "التكلفة الإجمالية"
     },
     "status": {
       "pending": "قيد الانتظار",
@@ -54,7 +54,7 @@
       "collected": "تم الجمع",
       "in_shipping": "في الشحن"
     },
-    "status_number":{
+    "status_number": {
       "1": "قيد الانتظار",
       "2": "قيد التنفيذ",
       "3": "تم الانتهاء",
@@ -73,8 +73,189 @@
       "16": "تم الإلغاء تلقائيا",
       "17": "تم التأكيد من قبل العميل",
       "18": "تبديل",
-      "19": "تحتاج إلى تحديث" 
+      "19": "تحتاج إلى تحديث"
     }
-
+  },
+  "wallet": {
+    "close": "إغلاق",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "export_excel": "تصدير",
+    "balance": {
+      "total": "إجمالي الرصيد",
+      "total_hint": "المعلّق + المتاح",
+      "pending": "رصيد معلّق",
+      "pending_hint": "اتوصل ولسه ما اتحصّلش",
+      "available": "رصيد متاح",
+      "available_hint": "تقدر تسحبه دلوقتي"
+    },
+    "releases": {
+      "title": "الرصيد المعلّق هيتاح إمتى",
+      "subtitle": "المواعيد اللي الفلوس بتتحول فيها للرصيد المتاح",
+      "orders": "{{count}} طلب",
+      "none": "مفيش رصيد معلّق دلوقتي."
+    },
+    "tabs": {
+      "ledger": "سجل المحفظة",
+      "withdrawals": "طلبات السحب",
+      "methods": "وسائل الاستلام"
+    },
+    "error": {
+      "title": "تعذّر تحميل المحفظة",
+      "subtitle": "فيه مشكلة في الاتصال بالسيرفر. حاول تاني.",
+      "retry": "إعادة المحاولة"
+    },
+    "ledger": {
+      "title": "سجل المحفظة",
+      "subtitle": "كل حركة دخلت المحفظة أو خرجت منها، والرصيد بعد كل حركة",
+      "date": "التاريخ",
+      "type": "نوع الحركة",
+      "reference": "المرجع",
+      "amount": "المبلغ",
+      "balance": "الرصيد بعدها",
+      "search": "بحث بالمرجع",
+      "from": "من",
+      "to": "إلى",
+      "all_types": "كل الحركات",
+      "clear": "مسح الفلاتر",
+      "credit": "داخل",
+      "debit": "خارج",
+      "net": "الصافي",
+      "count": "عدد الحركات",
+      "empty": "مفيش حركات في المحفظة لسه.",
+      "no_match": "مفيش حركات مطابقة للفلاتر المختارة."
+    },
+    "ledger_type": {
+      "order_payout": "تحصيل طلب",
+      "withdrawal": "سحب",
+      "shipping_fee": "رسوم شحن",
+      "return_shipping": "شحن مرتجع",
+      "opening_balance": "رصيد افتتاحي"
+    },
+    "withdrawals": {
+      "title": "طلبات السحب",
+      "subtitle": "الطلبات اللي اتحولت والمعلّقة، وفي أي مرحلة كل واحد",
+      "code": "كود الطلب",
+      "date": "التاريخ",
+      "method": "وسيلة الاستلام",
+      "amount": "المبلغ",
+      "fee": "الرسوم",
+      "net": "الصافي",
+      "status": "الحالة",
+      "rejection_reason": "سبب الرفض",
+      "net_after_fee": "رسوم {{fee}} · الصافي {{net}}",
+      "expected": "متوقع يوصل {{date}}",
+      "empty": "مفيش طلبات سحب لسه."
+    },
+    "withdrawal_status": {
+      "submitted": "تم الإرسال",
+      "under_review": "قيد المراجعة",
+      "transferring": "جاري التحويل",
+      "completed": "تم التحويل",
+      "rejected": "مرفوض"
+    },
+    "withdrawal_stage": {
+      "submitted": "تم الإرسال",
+      "under_review": "قيد المراجعة",
+      "transferring": "جاري التحويل",
+      "completed": "تم التحويل"
+    },
+    "withdraw": {
+      "action": "اطلب سحب",
+      "title": "طلب سحب جديد",
+      "available": "الرصيد المتاح للسحب: {{amount}}",
+      "amount": "المبلغ",
+      "use_all": "كل الرصيد",
+      "destination": "وسيلة الاستلام",
+      "requested": "المبلغ المطلوب",
+      "fee": "رسوم التحويل",
+      "net": "الصافي اللي هيوصلك",
+      "submit": "إرسال الطلب",
+      "submitting": "جاري الإرسال…",
+      "submitted": "تم إرسال طلب السحب",
+      "expected_note": "التحويل بياخد حوالي {{days}} يوم عمل بعد الموافقة.",
+      "next_transfer": "أقرب موعد تحويل: {{date}}",
+      "blocked": {
+        "request_in_progress": "عندك طلب سحب رقم {{code}} بمبلغ {{amount}} لسه تحت التنفيذ. تقدر تطلب تاني بعد ما يتحول.",
+        "below_minimum": "الحد الأدنى للسحب {{minimum}} — رصيدك المتاح {{available}}.",
+        "no_payment_method": "لازم تضيف وسيلة استلام الأول من تاب وسائل الاستلام.",
+        "unknown": "السحب مش متاح دلوقتي."
+      },
+      "errors": {
+        "no_method": "اختار وسيلة الاستلام.",
+        "no_amount": "اكتب المبلغ المطلوب.",
+        "below_minimum": "الحد الأدنى للسحب {{minimum}}.",
+        "above_available": "المبلغ أكبر من رصيدك المتاح ({{available}}).",
+        "above_maximum": "الحد الأقصى للسحب {{maximum}}.",
+        "below_fee": "المبلغ لازم يكون أكبر من رسوم التحويل ({{fee}}).",
+        "failed": "تعذّر إرسال الطلب. حاول تاني."
+      }
+    },
+    "methods": {
+      "title": "وسائل الاستلام",
+      "subtitle": "الأماكن اللي تقدر تستلم فلوسك فيها",
+      "add": "إضافة وسيلة",
+      "default": "الافتراضية",
+      "make_default": "اجعلها الافتراضية",
+      "remove": "حذف",
+      "added_on": "اتضافت في",
+      "empty": "مفيش وسائل استلام مسجلة. ضيف واحدة عشان تقدر تسحب.",
+      "added": "تمت إضافة وسيلة الاستلام",
+      "removed": "تم حذف وسيلة الاستلام",
+      "default_set": "تم ضبط الوسيلة الافتراضية",
+      "failed": "تعذّر تنفيذ العملية. حاول تاني.",
+      "remove_title": "حذف وسيلة الاستلام",
+      "remove_message": "هتحذف «{{label}}». الطلبات اللي اتحولت عليها قبل كده مش هتتأثر.",
+      "remove_confirm": "حذف"
+    },
+    "method_type": {
+      "bank_account": "حساب بنكي",
+      "vodafone_cash": "فودافون كاش",
+      "instapay": "انستا باي",
+      "cash": "استلام كاش"
+    },
+    "method_status": {
+      "active": "مفعّلة",
+      "pending_verification": "تحت المراجعة — مش هتقدر تسحب عليها لحد ما تتفعّل",
+      "disabled": "موقوفة"
+    },
+    "method_detail": {
+      "bank_name": "البنك",
+      "branch": "الفرع",
+      "address": "العنوان"
+    },
+    "add_method": {
+      "title": "إضافة وسيلة استلام",
+      "pick_type": "اختار نوع الوسيلة الأول",
+      "change_type": "تغيير النوع",
+      "holder_name": "الاسم",
+      "bank_name": "اسم البنك",
+      "account_number": "رقم الحساب / IBAN",
+      "account_number_hint": "زي ما هو مكتوب في كشف الحساب",
+      "branch_optional": "الفرع (اختياري)",
+      "phone": "رقم المحفظة",
+      "phone_hint": "١١ رقم يبدأ بـ 010 أو 011 أو 012 أو 015",
+      "instapay": "عنوان انستا باي",
+      "instapay_hint": "زي name@instapay أو رقم موبايل",
+      "branch": "فرع الاستلام",
+      "save": "حفظ",
+      "saving": "جاري الحفظ…",
+      "hint": {
+        "bank_account": "تحويل على حسابك في البنك",
+        "vodafone_cash": "تحويل على محفظة فودافون كاش",
+        "instapay": "تحويل فوري عن طريق انستا باي",
+        "cash": "استلام كاش من فرع دريفو"
+      },
+      "errors": {
+        "no_type": "اختار نوع الوسيلة.",
+        "holder_name": "اكتب الاسم.",
+        "bank_name": "اكتب اسم البنك.",
+        "account_number": "رقم الحساب قصير أوي — راجعه.",
+        "phone": "رقم المحفظة لازم يكون ١١ رقم ويبدأ بـ 010 أو 011 أو 012 أو 015.",
+        "instapay": "اكتب عنوان انستا باي صحيح أو رقم موبايل.",
+        "branch": "اختار فرع الاستلام.",
+        "failed": "تعذّر حفظ الوسيلة. حاول تاني."
+      }
+    }
   }
 }

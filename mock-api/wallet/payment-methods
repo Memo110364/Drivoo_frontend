@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "id": "pm1",
+      "type": "bank_account",
+      "label": "محمود حسن عبد الله",
+      "masked_identifier": "••••9382",
+      "details": {
+        "bank_name": "البنك الأهلي المصري",
+        "branch": "مدينة نصر"
+      },
+      "is_default": true,
+      "status": "active",
+      "created_at": "2026-07-04T12:00:00.000Z"
+    },
+    {
+      "id": "pm2",
+      "type": "vodafone_cash",
+      "label": "محمود حسن",
+      "masked_identifier": "••••7841",
+      "details": {},
+      "is_default": false,
+      "status": "active",
+      "created_at": "2026-08-05T12:00:00.000Z"
+    },
+    {
+      "id": "pm3",
+      "type": "instapay",
+      "label": "mahmoud.hassan@instapay",
+      "masked_identifier": "mah••••@instapay",
+      "details": {},
+      "is_default": false,
+      "status": "pending_verification",
+      "created_at": "2026-09-11T12:00:00.000Z"
+    },
+    {
+      "id": "pm4",
+      "type": "cash",
+      "label": "استلام من فرع مدينة نصر",
+      "masked_identifier": "",
+      "details": {
+        "branch": "فرع مدينة نصر",
+        "address": "١٢ شارع عباس العقاد، مدينة نصر"
+      },
+      "is_default": false,
+      "status": "active",
+      "created_at": "2026-08-30T12:00:00.000Z"
+    }
+  ]
+}

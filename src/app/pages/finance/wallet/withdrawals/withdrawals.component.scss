@@ -1,0 +1,71 @@
+.request {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.rejection {
+  background-color: rgba(250, 137, 107, 0.08);
+}
+
+// A four-step progress rail. `flex-1` keeps the steps even whatever the label
+// lengths, and the bars read left-to-right or right-to-left with the page.
+.stages {
+  gap: 6px;
+}
+
+.flex-1 {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.stage {
+  &__bar {
+    height: 4px;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+
+  &--done &__bar,
+  &--done .stage__bar {
+    background-color: var(--mat-sys-tertiary, #13deb9);
+  }
+}
+
+.stage--done .stage__bar {
+  background-color: var(--mat-sys-tertiary, #13deb9);
+}
+
+.toolbar-btn {
+  height: 42px;
+  line-height: normal;
+}
+
+// Material wraps projected button content in a single block-level label, so
+// the row has to be the `.btn-content` wrapper itself — see the wallet shell.
+.toolbar-btn .btn-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.icon-36 {
+  width: 36px;
+  height: 36px;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.m-t-2 {
+  margin-top: 2px;
+}
+
+.m-t-10 {
+  margin-top: 10px;
+}

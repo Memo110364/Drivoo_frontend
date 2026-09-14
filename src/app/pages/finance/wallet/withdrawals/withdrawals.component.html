@@ -1,0 +1,110 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content class="p-20">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-12 m-b-16">
+      <div class="min-w-0">
+        <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'wallet.withdrawals.title' | translate }}</h5>
+        <span class="f-s-12 text-muted">{{ 'wallet.withdrawals.subtitle' | translate }}</span>
+      </div>
+      <button mat-stroked-button class="toolbar-btn" (click)="exportCsv()"
+              [disabled]="loading || rows.length === 0">
+        <span class="btn-content">
+          <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+          <span>{{ 'wallet.export_excel' | translate }}</span>
+        </span>
+      </button>
+    </div>
+
+    @if (loading) {
+      @for (placeholder of [].constructor(4); track $index) {
+        <ngx-skeleton-loader class="d-block" [theme]="{ height: '96px' }"></ngx-skeleton-loader>
+      }
+    } @else if (rows.length === 0) {
+      <div class="text-center m-t-32 m-b-32">
+        <i class="iconify f-s-40 text-muted d-block m-b-8" data-icon="uil:money-withdraw"></i>
+        <p class="text-muted f-s-14 m-0">{{ 'wallet.withdrawals.empty' | translate }}</p>
+      </div>
+    } @else {
+      <!--
+        A card per request rather than a table row: a request carries a stage,
+        a fee, a net amount and sometimes a rejection reason, and none of that
+        fits a cell.
+      -->
+      @for (request of rows; track request.id) {
+        <div class="request p-16 rounded m-b-12">
+          <div class="d-flex flex-wrap align-items-start justify-content-between gap-12">
+            <div class="d-flex align-items-center gap-10 min-w-0">
+              <div class="bg-light-{{ statusClass(request.status) }} rounded icon-36 d-flex align-items-center justify-content-center flex-shrink-0">
+                <i class="iconify f-s-18 d-flex text-{{ statusClass(request.status) }}"
+                   [attr.data-icon]="methodIcons[request.method.type]"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="d-flex flex-wrap align-items-center gap-8">
+                  <span class="f-s-14 f-w-600" dir="auto">{{ request.method.label }}</span>
+                  @if (request.method.masked_identifier) {
+                    <span class="f-s-12 text-muted" dir="ltr">{{ request.method.masked_identifier }}</span>
+                  }
+                </div>
+                <span class="f-s-12 text-muted d-block">
+                  {{ 'wallet.method_type.' + request.method.type | translate }}
+                  · <span dir="ltr">{{ request.code }}</span>
+                  · {{ formatDateTime(request.created_at) }}
+                </span>
+              </div>
+            </div>
+
+            <!--
+              The gross amount is what leaves the wallet; the net is what lands.
+              Showing only one of them leaves the merchant to discover the fee
+              when the money arrives short.
+            -->
+            <div class="text-end flex-shrink-0">
+              <span class="f-s-18 f-w-600 d-block lh-sm" dir="auto">
+                {{ request.amount | number }}
+                <span class="f-s-11 f-w-400 text-muted">{{ currency }}</span>
+              </span>
+              @if (request.fee > 0) {
+                <span class="f-s-11 text-muted d-block m-t-2" dir="auto">
+                  {{ 'wallet.withdrawals.net_after_fee' | translate:
+                     { fee: request.fee, net: request.net_amount } }}
+                </span>
+              }
+            </div>
+          </div>
+
+          @if (request.status === 'rejected') {
+            <div class="rejection p-12 rounded m-t-12 d-flex align-items-start gap-8">
+              <i class="iconify f-s-16 d-flex text-error flex-shrink-0" data-icon="solar:close-circle-linear"></i>
+              <div class="min-w-0">
+                <span class="f-s-13 f-w-600 text-error d-block">
+                  {{ 'wallet.withdrawal_status.rejected' | translate }}
+                </span>
+                <span class="f-s-12 text-muted d-block" dir="auto">{{ request.rejection_reason }}</span>
+              </div>
+            </div>
+          } @else {
+            <!-- Where the money has got to, instead of one "Success" pill. -->
+            <div class="stages d-flex m-t-16">
+              @for (stage of stages; track stage; let index = $index) {
+                <div class="stage flex-1" [class.stage--done]="index <= reachedIndex(request)">
+                  <div class="stage__bar"></div>
+                  <span class="f-s-11 d-block m-t-6"
+                        [ngClass]="index <= reachedIndex(request) ? 'f-w-600' : 'text-muted'">
+                    {{ 'wallet.withdrawal_stage.' + stage | translate }}
+                  </span>
+                  <span class="f-s-10 text-muted d-block" dir="ltr">{{ stageAt(request, stage) }}</span>
+                </div>
+              }
+            </div>
+
+            @if (request.expected_at && request.status !== 'completed') {
+              <span class="f-s-12 text-muted d-flex align-items-center gap-4 m-t-10" dir="auto">
+                <i class="iconify f-s-14 d-flex" data-icon="solar:clock-circle-linear"></i>
+                {{ 'wallet.withdrawals.expected' | translate: { date: formatDate(request.expected_at) } }}
+              </span>
+            }
+          }
+        </div>
+      }
+    }
+  </mat-card-content>
+</mat-card>

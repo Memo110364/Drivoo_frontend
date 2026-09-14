@@ -6,7 +6,12 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "start:demo": "ng serve --configuration demo",
+    "build:demo": "npm run mock:build && ng build --configuration demo",
+    "build:prod": "ng build --configuration production",
+    "mock:build": "node scripts/generate-mock-api.mjs",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
   },
   "private": true,
   "dependencies": {

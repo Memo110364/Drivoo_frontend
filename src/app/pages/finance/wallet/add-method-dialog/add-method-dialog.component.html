@@ -1,0 +1,127 @@
+<h2 mat-dialog-title class="f-s-17 f-w-600">{{ 'wallet.add_method.title' | translate }}</h2>
+
+<mat-dialog-content>
+  @if (!type()) {
+    <!-- The type decides which fields apply, so it is asked first. -->
+    <span class="f-s-12 text-muted d-block m-b-16">{{ 'wallet.add_method.pick_type' | translate }}</span>
+    <div class="row">
+      @for (option of types; track option) {
+        <div class="col-6 m-b-12">
+          <button class="type-tile p-16 rounded w-100 text-start" (click)="selectType(option)"
+                  [disabled]="option === 'cash' && branches().length === 0">
+            <i class="iconify f-s-22 d-flex text-primary m-b-8" [attr.data-icon]="methodIcons[option]"></i>
+            <span class="f-s-13 f-w-600 d-block lh-sm">
+              {{ 'wallet.method_type.' + option | translate }}
+            </span>
+            <span class="f-s-11 text-muted d-block m-t-2">
+              {{ 'wallet.add_method.hint.' + option | translate }}
+            </span>
+          </button>
+        </div>
+      }
+    </div>
+  } @else {
+    <button mat-stroked-button class="link-btn m-b-16" (click)="back()">
+      <span class="btn-content">
+        <i class="iconify f-s-14 d-flex" data-icon="solar:arrow-right-linear"></i>
+        <span>{{ 'wallet.add_method.change_type' | translate }}</span>
+      </span>
+    </button>
+
+    <div class="chosen p-12 rounded m-b-16 d-flex align-items-center gap-8">
+      <i class="iconify f-s-18 d-flex text-primary" [attr.data-icon]="methodIcons[type()]"></i>
+      <span class="f-s-13 f-w-600">{{ 'wallet.method_type.' + type() | translate }}</span>
+    </div>
+
+    <!-- Every type needs a name; only the name is shared. -->
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'wallet.add_method.holder_name' | translate }}</mat-label>
+      <input matInput dir="auto" [ngModel]="holderName()" (ngModelChange)="holderName.set($event)" />
+    </mat-form-field>
+
+    @switch (type()) {
+      @case ('bank_account') {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'wallet.add_method.bank_name' | translate }}</mat-label>
+          <input matInput dir="auto" [ngModel]="bankName()" (ngModelChange)="bankName.set($event)" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'wallet.add_method.account_number' | translate }}</mat-label>
+          <input matInput dir="ltr" [ngModel]="accountNumber()"
+                 (ngModelChange)="accountNumber.set($event)" />
+          <mat-hint class="f-s-11">{{ 'wallet.add_method.account_number_hint' | translate }}</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100 m-t-12">
+          <mat-label>{{ 'wallet.add_method.branch_optional' | translate }}</mat-label>
+          <input matInput dir="auto" [ngModel]="branchName()" (ngModelChange)="branchName.set($event)" />
+        </mat-form-field>
+      }
+
+      @case ('vodafone_cash') {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'wallet.add_method.phone' | translate }}</mat-label>
+          <input matInput dir="ltr" inputmode="numeric" maxlength="11" [ngModel]="phone()"
+                 (ngModelChange)="phone.set($event)" />
+          <mat-hint class="f-s-11">{{ 'wallet.add_method.phone_hint' | translate }}</mat-hint>
+        </mat-form-field>
+      }
+
+      @case ('instapay') {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'wallet.add_method.instapay' | translate }}</mat-label>
+          <input matInput dir="ltr" [ngModel]="instapayAddress()"
+                 (ngModelChange)="instapayAddress.set($event)" />
+          <mat-hint class="f-s-11">{{ 'wallet.add_method.instapay_hint' | translate }}</mat-hint>
+        </mat-form-field>
+      }
+
+      @case ('cash') {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'wallet.add_method.branch' | translate }}</mat-label>
+          <mat-select [ngModel]="cashBranchId()" (ngModelChange)="cashBranchId.set($event)">
+            @for (branch of branches(); track branch.id) {
+              <mat-option [value]="branch.id">{{ branch.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Collecting cash means going somewhere, so the where and when are shown. -->
+        @for (branch of branches(); track branch.id) {
+          @if (branch.id === cashBranchId()) {
+            <div class="branch p-12 rounded m-t-12">
+              <span class="f-s-12 d-block" dir="auto">
+                <i class="iconify f-s-14 d-flex-inline" data-icon="solar:map-point-linear"></i>
+                {{ branch.address }}
+              </span>
+              <span class="f-s-12 text-muted d-block m-t-4" dir="auto">
+                <i class="iconify f-s-14 d-flex-inline" data-icon="solar:clock-circle-linear"></i>
+                {{ branch.hours }}
+              </span>
+            </div>
+          }
+        }
+      }
+    }
+
+    @if (!isValid()) {
+      <span class="f-s-12 text-muted d-flex align-items-start gap-4 m-t-8" dir="auto">
+        <i class="iconify f-s-14 d-flex m-t-2" data-icon="solar:info-circle-linear"></i>
+        <span>{{ validationKey() | translate }}</span>
+      </span>
+    }
+
+    @if (serverError()) {
+      <span class="f-s-12 text-error d-block m-t-12" dir="auto">{{ serverError() | translate }}</span>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'wallet.cancel' | translate }}</button>
+  @if (type()) {
+    <button mat-flat-button color="primary" [disabled]="!isValid() || isSubmitting()"
+            (click)="submit()">
+      {{ (isSubmitting() ? 'wallet.add_method.saving' : 'wallet.add_method.save') | translate }}
+    </button>
+  }
+</mat-dialog-actions>

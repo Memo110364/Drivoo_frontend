@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+
+// The theme gives every card 30px of body padding and a 30px bottom margin, and
+// the grid a 30px gutter. That is generous for a content page but leaves a
+// figures screen sparse, so this page tightens all three — no theme file is
+// touched.
+:host ::ng-deep .mat-mdc-card {
+  margin-bottom: 0 !important;
+}
+
+:host ::ng-deep .mat-mdc-card > .mat-mdc-card-content {
+  padding: 20px !important;
+}
+
+:host ::ng-deep .row {
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+:host ::ng-deep .row > [class*='col-'] {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.tab-body {
+  padding-top: 20px;
+}
+
+.wallet-tabs ::ng-deep .mat-mdc-tab-body-content {
+  overflow-x: hidden;
+}
+
+// The one thing a merchant comes here to do. `w-100` loses to Material's own
+// button styling, so the width is set here where it wins.
+.withdraw-cta {
+  max-width: 340px;
+  flex: 1 1 260px;
+}
+
+.action-btn {
+  height: 44px;
+  width: 100%;
+}
+
+.releases {
+  flex: 1 1 380px;
+}
+
+// Material wraps projected button content in a single block-level label, so
+// laying that out as a row does nothing — its one child is the `.btn-content`
+// wrapper. The row has to be the wrapper itself, or the icon's own
+// `display: flex` makes it block-level and it lands above the text. `gap`
+// follows the writing direction, so RTL needs no separate rule.
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.release-chip {
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  min-width: 150px;
+}
+
+.m-t-2 {
+  margin-top: 2px;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}

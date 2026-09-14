@@ -1,0 +1,467 @@
+{
+  "uuid": "e3ba9966-9848-450e-a2b0-15d76e449b05",
+  "lastMigration": 33,
+  "name": "Drivoo Wallet API",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "b02ef0a8-7cd4-4701-a63c-b4cfb268c59c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/wallet/balance",
+      "responses": [
+        {
+          "uuid": "0abf18c0-0e57-47a4-a4d5-796fa91dc9e5",
+          "body": "{\n  \"currency\": \"EGP\",\n  \"total\": 108270,\n  \"pending\": 81500,\n  \"available\": 26770,\n  \"pending_releases\": [\n    {\n      \"date\": \"2026-09-16\",\n      \"amount\": 32000,\n      \"orders\": 64\n    },\n    {\n      \"date\": \"2026-09-19\",\n      \"amount\": 31500,\n      \"orders\": 59\n    },\n    {\n      \"date\": \"2026-09-23\",\n      \"amount\": 18000,\n      \"orders\": 37\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "22f9d617-b0c0-454c-bb47-ec0858133bc4",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/wallet/ledger",
+      "responses": [
+        {
+          "uuid": "534939af-cdca-4862-ae43-0d1c5787e2ef",
+          "body": "{\n  \"page\": 1,\n  \"limit\": 60,\n  \"total\": 60,\n  \"data\": [\n    {\n      \"id\": \"wl-59-NIO3363824\",\n      \"date\": \"2026-09-13T15:47:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3000,\n      \"balance\": 26770,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-58-110641\",\n      \"date\": \"2026-09-12T14:34:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -20000,\n      \"balance\": 23770,\n      \"reference\": \"110641\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-57-BPF3363821\",\n      \"date\": \"2026-09-12T13:21:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1750,\n      \"balance\": 43770,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-56-GKZ3362343\",\n      \"date\": \"2026-09-11T12:08:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4950,\n      \"balance\": 42020,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-55-IYR3361196\",\n      \"date\": \"2026-09-09T11:55:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4300,\n      \"balance\": 37070,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-54-BHK3359755\",\n      \"date\": \"2026-09-08T10:42:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2250,\n      \"balance\": 32770,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-53-MKX3364781\",\n      \"date\": \"2026-09-07T18:29:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3050,\n      \"balance\": 30520,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-52-PLS3364633\",\n      \"date\": \"2026-09-05T17:16:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4450,\n      \"balance\": 27470,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-51-110500\",\n      \"date\": \"2026-09-04T16:03:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -38000,\n      \"balance\": 23020,\n      \"reference\": \"110500\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-50-JDH3364510\",\n      \"date\": \"2026-09-04T15:50:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 61020,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-49-EGY3362736\",\n      \"date\": \"2026-09-03T14:37:00.000Z\",\n      \"type\": \"return_shipping\",\n      \"amount\": -140,\n      \"balance\": 58420,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-48-VNB3364402\",\n      \"date\": \"2026-09-03T13:24:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2150,\n      \"balance\": 58560,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-47-TRF3364198\",\n      \"date\": \"2026-09-01T12:11:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3250,\n      \"balance\": 56410,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-46-INV-2026-08\",\n      \"date\": \"2026-08-31T11:58:00.000Z\",\n      \"type\": \"shipping_fee\",\n      \"amount\": -2100,\n      \"balance\": 53160,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-45-QWM3364011\",\n      \"date\": \"2026-08-31T10:45:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1850,\n      \"balance\": 55260,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-44-EGY3362736\",\n      \"date\": \"2026-08-30T18:32:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3500,\n      \"balance\": 53410,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-43-GZC3360164\",\n      \"date\": \"2026-08-29T17:19:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4700,\n      \"balance\": 49910,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-42-LOO3363830\",\n      \"date\": \"2026-08-28T16:06:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2550,\n      \"balance\": 45210,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-41-RLT3363826\",\n      \"date\": \"2026-08-27T15:53:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4900,\n      \"balance\": 42660,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-40-NIO3363824\",\n      \"date\": \"2026-08-26T14:40:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3000,\n      \"balance\": 37760,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-39-BPF3363821\",\n      \"date\": \"2026-08-25T13:27:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3550,\n      \"balance\": 34760,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-38-GKZ3362343\",\n      \"date\": \"2026-08-24T12:14:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3400,\n      \"balance\": 31210,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-37-IYR3361196\",\n      \"date\": \"2026-08-23T11:01:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4650,\n      \"balance\": 27810,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-36-BHK3359755\",\n      \"date\": \"2026-08-22T10:48:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2050,\n      \"balance\": 23160,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-35-MKX3364781\",\n      \"date\": \"2026-08-20T18:35:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1550,\n      \"balance\": 21110,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-34-110333\",\n      \"date\": \"2026-08-19T17:22:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -30000,\n      \"balance\": 19560,\n      \"reference\": \"110333\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-33-PLS3364633\",\n      \"date\": \"2026-08-19T16:09:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3750,\n      \"balance\": 49560,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-32-JDH3364510\",\n      \"date\": \"2026-08-18T15:56:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2900,\n      \"balance\": 45810,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-31-VNB3364402\",\n      \"date\": \"2026-08-16T14:43:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2000,\n      \"balance\": 42910,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-30-TRF3364198\",\n      \"date\": \"2026-08-15T13:30:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3350,\n      \"balance\": 40910,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-29-QWM3364011\",\n      \"date\": \"2026-08-14T12:17:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3450,\n      \"balance\": 37560,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-28-EGY3362736\",\n      \"date\": \"2026-08-13T11:04:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4950,\n      \"balance\": 34110,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-27-GZC3360164\",\n      \"date\": \"2026-08-12T10:51:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2250,\n      \"balance\": 29160,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-26-LOO3363830\",\n      \"date\": \"2026-08-11T18:38:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3500,\n      \"balance\": 26910,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-25-GZC3360164\",\n      \"date\": \"2026-08-09T17:25:00.000Z\",\n      \"type\": \"return_shipping\",\n      \"amount\": -140,\n      \"balance\": 23410,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-24-RLT3363826\",\n      \"date\": \"2026-08-09T16:12:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 23550,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-23-NIO3363824\",\n      \"date\": \"2026-08-08T15:59:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3050,\n      \"balance\": 20950,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-22-BPF3363821\",\n      \"date\": \"2026-08-07T14:46:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4100,\n      \"balance\": 17900,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-21-110185\",\n      \"date\": \"2026-08-06T13:33:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -30000,\n      \"balance\": 13800,\n      \"reference\": \"110185\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-20-GKZ3362343\",\n      \"date\": \"2026-08-06T12:20:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2900,\n      \"balance\": 43800,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-19-IYR3361196\",\n      \"date\": \"2026-08-05T11:07:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1550,\n      \"balance\": 40900,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-18-BHK3359755\",\n      \"date\": \"2026-08-04T10:54:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4900,\n      \"balance\": 39350,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-17-MKX3364781\",\n      \"date\": \"2026-08-03T18:41:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1950,\n      \"balance\": 34450,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-16-PLS3364633\",\n      \"date\": \"2026-08-02T17:28:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4300,\n      \"balance\": 32500,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-15-INV-2026-07\",\n      \"date\": \"2026-08-01T16:15:00.000Z\",\n      \"type\": \"shipping_fee\",\n      \"amount\": -1850,\n      \"balance\": 28200,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-14-JDH3364510\",\n      \"date\": \"2026-08-01T15:02:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2150,\n      \"balance\": 30050,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-13-VNB3364402\",\n      \"date\": \"2026-07-30T14:49:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2550,\n      \"balance\": 27900,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-12-TRF3364198\",\n      \"date\": \"2026-07-28T13:36:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4050,\n      \"balance\": 25350,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-11-QWM3364011\",\n      \"date\": \"2026-07-27T12:23:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4800,\n      \"balance\": 21300,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-10-EGY3362736\",\n      \"date\": \"2026-07-26T11:10:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2250,\n      \"balance\": 16500,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-9-GZC3360164\",\n      \"date\": \"2026-07-25T10:57:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2450,\n      \"balance\": 14250,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-8-LOO3363830\",\n      \"date\": \"2026-07-23T18:44:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3000,\n      \"balance\": 11800,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-7-RLT3363826\",\n      \"date\": \"2026-07-22T17:31:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2400,\n      \"balance\": 8800,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-6-109958\",\n      \"date\": \"2026-07-21T16:18:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -16500,\n      \"balance\": 6400,\n      \"reference\": \"109958\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-5-NIO3363824\",\n      \"date\": \"2026-07-21T15:05:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2550,\n      \"balance\": 22900,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-4-BPF3363821\",\n      \"date\": \"2026-07-20T14:52:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4150,\n      \"balance\": 20350,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-3-GKZ3362343\",\n      \"date\": \"2026-07-19T13:39:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4750,\n      \"balance\": 16200,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-2-IYR3361196\",\n      \"date\": \"2026-07-18T12:26:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3550,\n      \"balance\": 11450,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-1-BHK3359755\",\n      \"date\": \"2026-07-17T11:13:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2900,\n      \"balance\": 7900,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-0-open\",\n      \"date\": \"2026-07-16T10:00:00.000Z\",\n      \"type\": \"opening_balance\",\n      \"amount\": 5000,\n      \"balance\": 5000,\n      \"reference\": \"\",\n      \"reference_type\": \"\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "a2acbcab-8244-4067-881c-7549d9361f3c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/wallet/payment-methods",
+      "responses": [
+        {
+          "uuid": "6e2a93dc-876a-4c28-82e4-42ad3a2f4144",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"pm1\",\n      \"type\": \"bank_account\",\n      \"label\": \"محمود حسن عبد الله\",\n      \"masked_identifier\": \"••••9382\",\n      \"details\": {\n        \"bank_name\": \"البنك الأهلي المصري\",\n        \"branch\": \"مدينة نصر\"\n      },\n      \"is_default\": true,\n      \"status\": \"active\",\n      \"created_at\": \"2026-07-04T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm2\",\n      \"type\": \"vodafone_cash\",\n      \"label\": \"محمود حسن\",\n      \"masked_identifier\": \"••••7841\",\n      \"details\": {},\n      \"is_default\": false,\n      \"status\": \"active\",\n      \"created_at\": \"2026-08-05T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm3\",\n      \"type\": \"instapay\",\n      \"label\": \"mahmoud.hassan@instapay\",\n      \"masked_identifier\": \"mah••••@instapay\",\n      \"details\": {},\n      \"is_default\": false,\n      \"status\": \"pending_verification\",\n      \"created_at\": \"2026-09-11T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm4\",\n      \"type\": \"cash\",\n      \"label\": \"استلام من فرع مدينة نصر\",\n      \"masked_identifier\": \"\",\n      \"details\": {\n        \"branch\": \"فرع مدينة نصر\",\n        \"address\": \"١٢ شارع عباس العقاد، مدينة نصر\"\n      },\n      \"is_default\": false,\n      \"status\": \"active\",\n      \"created_at\": \"2026-08-30T12:00:00.000Z\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "194524be-f489-4c34-918e-81f2d918013f",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/wallet/cash-branches",
+      "responses": [
+        {
+          "uuid": "91a27098-1242-45a5-855c-a2e603ae6c7d",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"br1\",\n      \"label\": \"فرع مدينة نصر\",\n      \"address\": \"١٢ شارع عباس العقاد، مدينة نصر\",\n      \"hours\": \"السبت–الخميس ١٠ص–٦م\"\n    },\n    {\n      \"id\": \"br2\",\n      \"label\": \"فرع الإسكندرية\",\n      \"address\": \"٤٤ طريق الحرية، سموحة\",\n      \"hours\": \"السبت–الخميس ١٠ص–٦م\"\n    },\n    {\n      \"id\": \"br3\",\n      \"label\": \"فرع أكتوبر\",\n      \"address\": \"المحور المركزي، الحي الأول\",\n      \"hours\": \"السبت–الخميس ١٠ص–٦م\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "056c6bc4-f02e-499a-89ce-1befb1e684ff",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/wallet/withdrawals",
+      "responses": [
+        {
+          "uuid": "345cdd93-3a40-4fe8-8183-9f7922189dac",
+          "body": "{\n  \"page\": 1,\n  \"limit\": 6,\n  \"total\": 6,\n  \"data\": [\n    {\n      \"id\": \"wd-110641\",\n      \"code\": \"110641\",\n      \"amount\": 20000,\n      \"fee\": 15,\n      \"net_amount\": 19985,\n      \"status\": \"transferring\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-09-13T11:12:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-09-13T11:12:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-09-14T11:12:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-09-15T11:12:00.000Z\"\n        }\n      ],\n      \"expected_at\": \"2026-09-15\"\n    },\n    {\n      \"id\": \"wd-110500\",\n      \"code\": \"110500\",\n      \"amount\": 38000,\n      \"fee\": 15,\n      \"net_amount\": 37985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-09-04T17:21:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-09-04T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-09-05T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-09-06T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-09-07T17:21:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110333\",\n      \"code\": \"110333\",\n      \"amount\": 30000,\n      \"fee\": 15,\n      \"net_amount\": 29985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-08-19T14:57:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-19T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-20T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-08-21T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-08-22T14:57:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110185\",\n      \"code\": \"110185\",\n      \"amount\": 30000,\n      \"fee\": 15,\n      \"net_amount\": 29985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-08-06T13:37:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-06T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-07T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-08-08T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-08-09T13:37:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110102\",\n      \"code\": \"110102\",\n      \"amount\": 12000,\n      \"fee\": 10,\n      \"net_amount\": 11990,\n      \"status\": \"rejected\",\n      \"method\": {\n        \"id\": \"pm2\",\n        \"type\": \"vodafone_cash\",\n        \"label\": \"محمود حسن\",\n        \"masked_identifier\": \"••••7841\"\n      },\n      \"created_at\": \"2026-07-28T12:04:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-07-28T12:04:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-07-29T12:04:00.000Z\"\n        }\n      ],\n      \"rejection_reason\": \"رقم المحفظة غير مسجل باسم صاحب الحساب\"\n    },\n    {\n      \"id\": \"wd-109958\",\n      \"code\": \"109958\",\n      \"amount\": 16500,\n      \"fee\": 15,\n      \"net_amount\": 16485,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-07-21T16:27:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-07-21T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-07-22T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-07-23T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-07-24T16:27:00.000Z\"\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "45731cce-8cc8-400c-9b47-9d6f4c0d2abd",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/wallet/withdrawal-options",
+      "responses": [
+        {
+          "uuid": "728aec57-bf33-4979-ac09-0d3402abe736",
+          "body": "{\n  \"rules\": {\n    \"minimum_amount\": 500,\n    \"maximum_amount\": null,\n    \"fees\": {\n      \"bank_account\": 15,\n      \"vodafone_cash\": 10,\n      \"instapay\": 0,\n      \"cash\": 0\n    },\n    \"allow_concurrent_requests\": false,\n    \"transfer_days\": [\n      0,\n      2,\n      4\n    ],\n    \"expected_days\": 2\n  },\n  \"eligibility\": {\n    \"can_request\": false,\n    \"reason\": \"request_in_progress\",\n    \"context\": {\n      \"code\": \"110641\",\n      \"amount\": 20000\n    },\n    \"available\": 26770,\n    \"next_transfer_date\": \"2026-09-15\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "af59b3e3-f591-43d8-aa3c-482ab362e507",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/user/login",
+      "responses": [
+        {
+          "uuid": "9fb32506-b7ee-44e5-9750-6dc1e4c5b2fc",
+          "body": "{\n  \"id\": \"123324\",\n  \"name\": \"محمود حسن\",\n  \"email\": \"mahmoud@example.com\",\n  \"phone\": \"01000000000\",\n  \"accessToken\": \"demo-access-token\",\n  \"refreshToken\": \"demo-refresh-token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f778477b-a50a-4200-b09d-98303c8ec1e2",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/auth/refresh",
+      "responses": [
+        {
+          "uuid": "84e936a6-8c95-46ac-b588-7e0d03d388af",
+          "body": "{\n  \"accessToken\": \"demo-access-token\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "0651fa30-560a-4900-a83b-ee376ad2c8e5",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/wallet/withdrawals",
+      "responses": [
+        {
+          "uuid": "e77d178a-e594-4cee-8d82-7c668c19a9d5",
+          "body": "{\n  \"message\": \"تم استلام طلب السحب\",\n  \"code\": \"110642\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6a48c8ea-dd31-4fea-a0b0-c117cd5845f4",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/wallet/payment-methods",
+      "responses": [
+        {
+          "uuid": "c8a3ce0a-90b9-4cbb-a540-24da8eb116db",
+          "body": "{\n  \"message\": \"تمت إضافة وسيلة الاستلام\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "c1f6e956-3bb1-42ca-9652-9b3e22d36220",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "api/v1/wallet/payment-methods/:id",
+      "responses": [
+        {
+          "uuid": "9b2651fe-8883-4637-aff2-9e0c37d148f9",
+          "body": "{\n  \"message\": \"تم حذف وسيلة الاستلام\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "411ba898-9b84-46e4-a620-5ca500c55bdb",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/wallet/payment-methods/:id/default",
+      "responses": [
+        {
+          "uuid": "b1c46f68-1ed2-4286-9e4a-763bbf2eda6a",
+          "body": "{\n  \"message\": \"تم ضبط وسيلة الاستلام الافتراضية\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "b02ef0a8-7cd4-4701-a63c-b4cfb268c59c"
+    },
+    {
+      "type": "route",
+      "uuid": "22f9d617-b0c0-454c-bb47-ec0858133bc4"
+    },
+    {
+      "type": "route",
+      "uuid": "a2acbcab-8244-4067-881c-7549d9361f3c"
+    },
+    {
+      "type": "route",
+      "uuid": "194524be-f489-4c34-918e-81f2d918013f"
+    },
+    {
+      "type": "route",
+      "uuid": "056c6bc4-f02e-499a-89ce-1befb1e684ff"
+    },
+    {
+      "type": "route",
+      "uuid": "45731cce-8cc8-400c-9b47-9d6f4c0d2abd"
+    },
+    {
+      "type": "route",
+      "uuid": "af59b3e3-f591-43d8-aa3c-482ab362e507"
+    },
+    {
+      "type": "route",
+      "uuid": "f778477b-a50a-4200-b09d-98303c8ec1e2"
+    },
+    {
+      "type": "route",
+      "uuid": "0651fa30-560a-4900-a83b-ee376ad2c8e5"
+    },
+    {
+      "type": "route",
+      "uuid": "6a48c8ea-dd31-4fea-a0b0-c117cd5845f4"
+    },
+    {
+      "type": "route",
+      "uuid": "c1f6e956-3bb1-42ca-9652-9b3e22d36220"
+    },
+    {
+      "type": "route",
+      "uuid": "411ba898-9b84-46e4-a620-5ca500c55bdb"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

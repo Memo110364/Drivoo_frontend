@@ -1,0 +1,63 @@
+.type-tile {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--mat-sys-primary, #635bff);
+    background-color: rgba(99, 91, 255, 0.03);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.chosen {
+  background-color: rgba(99, 91, 255, 0.06);
+}
+
+.branch {
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.link-btn {
+  height: 32px;
+  line-height: normal;
+  font-size: 12px;
+}
+
+// Material wraps projected button content in a single block-level label, so
+// the row has to be the `.btn-content` wrapper itself — see the wallet shell.
+.link-btn .btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+// Material reserves a hint row under each field; these forms stack, so the
+// spacing comes from the field itself.
+mat-form-field.w-100 {
+  margin-bottom: 4px;
+}
+
+.d-flex-inline {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-inline-end: 4px;
+}
+
+.m-t-2 {
+  margin-top: 2px;
+}
+
+.m-t-4 {
+  margin-top: 4px;
+}
+
+.m-t-12 {
+  margin-top: 12px;
+}

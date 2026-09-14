@@ -1,0 +1,76 @@
+.method {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.01);
+
+  // The default method is the one a withdrawal goes to unless told otherwise,
+  // so it is marked on the card itself, not only by a badge.
+  &--default {
+    border-color: var(--mat-sys-primary, #635bff);
+    background-color: rgba(99, 91, 255, 0.03);
+  }
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+
+  &--default {
+    color: var(--mat-sys-primary, #635bff);
+    background-color: rgba(99, 91, 255, 0.1);
+  }
+}
+
+.toolbar-btn {
+  height: 42px;
+  line-height: normal;
+}
+
+.card-btn {
+  height: 34px;
+  line-height: normal;
+  font-size: 12px;
+
+  &--danger {
+    color: #fa896b;
+  }
+}
+
+// Material wraps projected button content in a single block-level label, so
+// the row has to be the `.btn-content` wrapper itself — see the wallet shell.
+.toolbar-btn .btn-content,
+.card-btn .btn-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+// Pushes the actions to the bottom so cards of differing detail line up.
+.pt-auto {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.icon-36 {
+  width: 36px;
+  height: 36px;
+}
+
+.flex-1 {
+  flex: 1 1 0;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+// The theme ships no `text-truncate`, so the one place that needs it says so.
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

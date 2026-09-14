@@ -1,0 +1,24 @@
+.summary {
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  > div + div {
+    margin-top: 8px;
+  }
+
+  &__total {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 8px;
+  }
+}
+
+// A shortcut, not a primary action, so it reads as a link at button height.
+.link-btn {
+  height: 32px;
+  line-height: normal;
+  font-size: 12px;
+}
+
+.m-t-2 {
+  margin-top: 2px;
+}

@@ -1,7 +1,7 @@
 {
-  "system_messages":{
-    "no_orders":"No Orders",
-    "close":"Close"
+  "system_messages": {
+    "no_orders": "No Orders",
+    "close": "Close"
   },
   "dashboard": {
     "currentOrdersStatusTitle": "Current Orders Status",
@@ -32,19 +32,18 @@
     "logout": "Logout"
   },
   "orders": {
-    
-    "invoice":{
-      "back_to_invoices":"Back to Invoices",
-      "edit_invoice":"Edit Invoice",
-      "order_number":"Order Number",
-      "order_date":"Order Date",
-      "order_status":"Order Status",
-      "order_address":"Order Address",
-      "order_phone":"Order Phone",
-      "product":"Product",
-      "unit_price":"Unit Price",
-      "quantity":"Quantity",
-      "total_cost":"Total Cost"
+    "invoice": {
+      "back_to_invoices": "Back to Invoices",
+      "edit_invoice": "Edit Invoice",
+      "order_number": "Order Number",
+      "order_date": "Order Date",
+      "order_status": "Order Status",
+      "order_address": "Order Address",
+      "order_phone": "Order Phone",
+      "product": "Product",
+      "unit_price": "Unit Price",
+      "quantity": "Quantity",
+      "total_cost": "Total Cost"
     },
     "status": {
       "pending": "Pending",
@@ -55,7 +54,7 @@
       "collected": "Collected",
       "in_shipping": "In Shipping"
     },
-    "status_number":{
+    "status_number": {
       "1": "Pending",
       "2": "In Progress",
       "3": "Done",
@@ -74,8 +73,189 @@
       "16": "Cancelled Automatically",
       "17": "Confirm By Client",
       "18": "Exchange",
-      "19": "Need Update" 
+      "19": "Need Update"
     }
-
+  },
+  "wallet": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "export_excel": "Export",
+    "balance": {
+      "total": "Total balance",
+      "total_hint": "Pending plus available",
+      "pending": "Pending balance",
+      "pending_hint": "Delivered, not yet settled",
+      "available": "Available balance",
+      "available_hint": "Withdrawable today"
+    },
+    "releases": {
+      "title": "When the pending balance becomes available",
+      "subtitle": "The dates this money moves into the available balance",
+      "orders": "{{count}} orders",
+      "none": "Nothing is pending right now."
+    },
+    "tabs": {
+      "ledger": "Wallet ledger",
+      "withdrawals": "Withdrawals",
+      "methods": "Payout methods"
+    },
+    "error": {
+      "title": "Could not load the wallet",
+      "subtitle": "Something went wrong reaching the server. Please try again.",
+      "retry": "Try again"
+    },
+    "ledger": {
+      "title": "Wallet ledger",
+      "subtitle": "Every movement in and out, with the balance after each one",
+      "date": "Date",
+      "type": "Movement",
+      "reference": "Reference",
+      "amount": "Amount",
+      "balance": "Balance",
+      "search": "Search reference",
+      "from": "From",
+      "to": "To",
+      "all_types": "All movements",
+      "clear": "Clear filters",
+      "credit": "In",
+      "debit": "Out",
+      "net": "Net",
+      "count": "Movements",
+      "empty": "Nothing has moved through the wallet yet.",
+      "no_match": "No movements match these filters."
+    },
+    "ledger_type": {
+      "order_payout": "Order payout",
+      "withdrawal": "Withdrawal",
+      "shipping_fee": "Shipping fee",
+      "return_shipping": "Return shipping",
+      "opening_balance": "Opening balance"
+    },
+    "withdrawals": {
+      "title": "Withdrawal requests",
+      "subtitle": "What has been transferred, what is pending, and how far along each one is",
+      "code": "Request code",
+      "date": "Date",
+      "method": "Payout method",
+      "amount": "Amount",
+      "fee": "Fee",
+      "net": "Net",
+      "status": "Status",
+      "rejection_reason": "Rejection reason",
+      "net_after_fee": "Fee {{fee}} · net {{net}}",
+      "expected": "Expected {{date}}",
+      "empty": "No withdrawal requests yet."
+    },
+    "withdrawal_status": {
+      "submitted": "Submitted",
+      "under_review": "Under review",
+      "transferring": "Transferring",
+      "completed": "Transferred",
+      "rejected": "Rejected"
+    },
+    "withdrawal_stage": {
+      "submitted": "Submitted",
+      "under_review": "Under review",
+      "transferring": "Transferring",
+      "completed": "Transferred"
+    },
+    "withdraw": {
+      "action": "Request withdrawal",
+      "title": "New withdrawal request",
+      "available": "Available to withdraw: {{amount}}",
+      "amount": "Amount",
+      "use_all": "Use full balance",
+      "destination": "Payout method",
+      "requested": "Requested",
+      "fee": "Transfer fee",
+      "net": "You receive",
+      "submit": "Send request",
+      "submitting": "Sending…",
+      "submitted": "Withdrawal request sent",
+      "expected_note": "Transfers take about {{days}} working days once approved.",
+      "next_transfer": "Next transfer date: {{date}}",
+      "blocked": {
+        "request_in_progress": "Request {{code}} for {{amount}} is still in progress. You can request again once it is transferred.",
+        "below_minimum": "The minimum withdrawal is {{minimum}} — your available balance is {{available}}.",
+        "no_payment_method": "Add a payout method first, on the Payout methods tab.",
+        "unknown": "Withdrawals are not available right now."
+      },
+      "errors": {
+        "no_method": "Choose a payout method.",
+        "no_amount": "Enter an amount.",
+        "below_minimum": "The minimum withdrawal is {{minimum}}.",
+        "above_available": "That is more than your available balance ({{available}}).",
+        "above_maximum": "The maximum withdrawal is {{maximum}}.",
+        "below_fee": "The amount has to be more than the transfer fee ({{fee}}).",
+        "failed": "Could not send the request. Please try again."
+      }
+    },
+    "methods": {
+      "title": "Payout methods",
+      "subtitle": "Where you can be paid",
+      "add": "Add method",
+      "default": "Default",
+      "make_default": "Make default",
+      "remove": "Remove",
+      "added_on": "Added",
+      "empty": "No payout methods yet. Add one so you can withdraw.",
+      "added": "Payout method added",
+      "removed": "Payout method removed",
+      "default_set": "Default payout method updated",
+      "failed": "That did not work. Please try again.",
+      "remove_title": "Remove payout method",
+      "remove_message": "This removes “{{label}}”. Transfers already sent to it are unaffected.",
+      "remove_confirm": "Remove"
+    },
+    "method_type": {
+      "bank_account": "Bank account",
+      "vodafone_cash": "Vodafone Cash",
+      "instapay": "InstaPay",
+      "cash": "Cash collection"
+    },
+    "method_status": {
+      "active": "Active",
+      "pending_verification": "Being verified — withdrawals cannot be sent here yet",
+      "disabled": "Disabled"
+    },
+    "method_detail": {
+      "bank_name": "Bank",
+      "branch": "Branch",
+      "address": "Address"
+    },
+    "add_method": {
+      "title": "Add a payout method",
+      "pick_type": "Choose the type first",
+      "change_type": "Change type",
+      "holder_name": "Name",
+      "bank_name": "Bank name",
+      "account_number": "Account number / IBAN",
+      "account_number_hint": "Exactly as it appears on your statement",
+      "branch_optional": "Branch (optional)",
+      "phone": "Wallet number",
+      "phone_hint": "11 digits starting 010, 011, 012 or 015",
+      "instapay": "InstaPay address",
+      "instapay_hint": "Such as name@instapay, or a mobile number",
+      "branch": "Collection branch",
+      "save": "Save",
+      "saving": "Saving…",
+      "hint": {
+        "bank_account": "Transfer to your bank account",
+        "vodafone_cash": "Transfer to a Vodafone Cash wallet",
+        "instapay": "Instant transfer over InstaPay",
+        "cash": "Collect cash from a Drivoo branch"
+      },
+      "errors": {
+        "no_type": "Choose a method type.",
+        "holder_name": "Enter the name.",
+        "bank_name": "Enter the bank name.",
+        "account_number": "That account number looks too short.",
+        "phone": "The wallet number must be 11 digits starting 010, 011, 012 or 015.",
+        "instapay": "Enter a valid InstaPay address or mobile number.",
+        "branch": "Choose a collection branch.",
+        "failed": "Could not save the method. Please try again."
+      }
+    }
   }
 }
