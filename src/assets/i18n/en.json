@@ -296,6 +296,9 @@
       "inbound": "Received into warehouse",
       "outbound_shipment": "Left with a shipment",
       "return_in": "Return back to warehouse"
-    }
+    },
+    "last_updated": "Last data update",
+    "refresh_tab": "Refresh Tab",
+    "not_updated_yet": "Not updated yet"
   }
 }

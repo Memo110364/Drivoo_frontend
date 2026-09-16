@@ -296,6 +296,9 @@
       "inbound": "وارد للمخزن",
       "outbound_shipment": "خرج مع شحنة",
       "return_in": "مرتجع رجع للمخزن"
-    }
+    },
+    "last_updated": "آخر تحديث للبيانات",
+    "refresh_tab": "تحديث بيانات التاب",
+    "not_updated_yet": "لم يتم التحديث بعد"
   }
 }

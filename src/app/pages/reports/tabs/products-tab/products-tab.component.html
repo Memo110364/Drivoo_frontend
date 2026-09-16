@@ -1,0 +1,106 @@
+<div class="tab-body">
+  <!-- Tab Status and Refresh Bar -->
+  <app-tab-status-bar
+    [lastUpdated]="lastUpdated()"
+    [loading]="isLoading()"
+    (refresh)="refresh()">
+  </app-tab-status-bar>
+
+  @if (hasError()) {
+    <div class="tab-error-state p-24 text-center">
+      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <h5 class="f-s-16 f-w-600">{{ 'reports.error.title' | translate }}</h5>
+      <p class="text-muted f-s-14">{{ 'reports.error.subtitle' | translate }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        {{ 'reports.error.retry' | translate }}
+      </button>
+    </div>
+  } @else {
+    <mat-card class="cardWithShadow m-b-20">
+      <mat-card-content class="p-24">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-8 m-b-16">
+          <div class="min-w-0">
+            <h5 class="f-s-15 f-w-600 m-0 lh-sm">{{ 'reports.inventory.title' | translate }}</h5>
+            <span class="f-s-12 text-muted">{{ 'reports.inventory.subtitle' | translate }}</span>
+          </div>
+          <button mat-stroked-button class="export-btn" (click)="exportInventory()" [disabled]="isLoading()">
+            <span class="btn-content d-flex justify-content-center align-items-center ">
+              <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
+              <span>{{ 'reports.export_excel' | translate }}</span>
+            </span>
+          </button>
+        </div>
+
+        <span class="f-s-11 f-w-600 text-muted d-block m-b-8 group-heading">
+          {{ 'reports.inventory.pieces_heading' | translate }}
+        </span>
+        <div class="row">
+          @for (cell of [
+            { key: 'total_received',   value: inventory()?.total_received,   icon: 'solar:inbox-in-line-duotone',     color: 'secondary' },
+            { key: 'total_units',      value: inventory()?.total_units,      icon: 'solar:box-line-duotone',          color: 'primary' },
+            { key: 'units_in_transit', value: inventory()?.units_in_transit, icon: 'solar:delivery-line-duotone',     color: 'warning' },
+            { key: 'units_sold',       value: inventory()?.units_sold,       icon: 'solar:check-circle-line-duotone', color: 'success' }
+          ]; track cell.key) {
+            <div class="col-lg-3 col-sm-6 m-b-12">
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '92px' }"></ngx-skeleton-loader>
+              } @else {
+                <div class="stock-tile p-16 rounded">
+                  <div class="d-flex align-items-center gap-8 m-b-6">
+                    <div class="bg-light-{{ cell.color }} rounded icon-30 d-flex align-items-center justify-content-center">
+                      <i class="iconify f-s-16 d-flex text-{{ cell.color }}" [attr.data-icon]="cell.icon"></i>
+                    </div>
+                    <span class="f-s-12 text-muted lh-sm one-line">
+                      {{ 'reports.inventory.' + cell.key | translate }}
+                    </span>
+                  </div>
+                  <h4 class="f-s-20 f-w-600 m-b-0 lh-sm text-{{ cell.color }}">
+                    {{ cell.value ?? 0 | number }}
+                  </h4>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <span class="f-s-11 f-w-600 text-muted d-block m-t-8 m-b-8 group-heading">
+          {{ 'reports.inventory.skus_heading' | translate }}
+        </span>
+        <div class="row">
+          @for (cell of [
+            { key: 'total_products', value: inventory()?.total_products, icon: 'solar:widget-2-line-duotone',     color: 'secondary' },
+            { key: 'in_stock',       value: inventory()?.in_stock,       icon: 'solar:check-circle-line-duotone', color: 'success' },
+            { key: 'low_stock',      value: inventory()?.low_stock,      icon: 'solar:danger-triangle-linear',    color: 'warning' },
+            { key: 'out_of_stock',   value: inventory()?.out_of_stock,   icon: 'solar:close-circle-line-duotone', color: 'error' }
+          ]; track cell.key) {
+            <div class="col-lg-3 col-sm-6 m-b-12">
+              @if (isLoading()) {
+                <ngx-skeleton-loader class="d-block" [theme]="{ height: '92px' }"></ngx-skeleton-loader>
+              } @else {
+                <div class="stock-tile p-16 rounded">
+                  <div class="d-flex align-items-center gap-8 m-b-6">
+                    <div class="bg-light-{{ cell.color }} rounded icon-30 d-flex align-items-center justify-content-center">
+                      <i class="iconify f-s-16 d-flex text-{{ cell.color }}" [attr.data-icon]="cell.icon"></i>
+                    </div>
+                    <span class="f-s-12 text-muted lh-sm one-line">
+                      {{ 'reports.inventory.' + cell.key | translate }}
+                    </span>
+                  </div>
+                  <h4 class="f-s-20 f-w-600 m-b-0 lh-sm text-{{ cell.color }}">
+                    {{ cell.value ?? 0 | number }}
+                  </h4>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <app-performance-table
+      titleKey="reports.products.title" subtitleKey="reports.products.subtitle"
+      dimensionKey="reports.dimension.product" exportName="drivoo-products"
+      [rows]="product()" [loading]="isLoading()" [showRevenue]="true"
+      [showStock]="true" rowLinkBase="/reports/product"></app-performance-table>
+  }
+</div>

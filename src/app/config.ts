@@ -12,7 +12,7 @@ export interface AppSettings {
 }
 
 export const defaults: AppSettings = {
-  dir: 'rtl',
+  dir: 'ltr',
   theme: 'light',
   sidenavOpened: false,
   sidenavCollapsed: false,
@@ -20,6 +20,6 @@ export const defaults: AppSettings = {
   horizontal: true,
   cardBorder: true,
   activeTheme: 'green_theme',
-  language: 'ar',
+  language: 'en',
   navPos: 'side',
 };

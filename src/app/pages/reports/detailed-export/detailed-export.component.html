@@ -37,12 +37,12 @@
 
         <button mat-flat-button color="primary" class="download-btn" (click)="download()"
                 [disabled]="isExporting()">
-          <span class="btn-content">
+          <span class="btn-content d-flex align-items-center gap-6">
             <i class="iconify f-s-16 d-flex" data-icon="solar:download-minimalistic-linear"></i>
-            <span>
+            <!-- <span> -->
               {{ (isExporting() ? 'reports.detailed.preparing' : 'reports.detailed.download')
                  | translate }}
-            </span>
+            <!-- </span> -->
           </span>
         </button>
       </div>
