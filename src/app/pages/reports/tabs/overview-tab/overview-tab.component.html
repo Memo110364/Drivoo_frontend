@@ -8,7 +8,7 @@
 
   @if (hasError()) {
     <div class="tab-error-state p-24 text-center">
-      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <i class="iconify f-s-40 text-error m-auto d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
       <h5 class="f-s-16 f-w-600">{{ 'reports.error.title' | translate }}</h5>
       <p class="text-muted f-s-14">{{ 'reports.error.subtitle' | translate }}</p>
       <button mat-flat-button color="primary" (click)="load()">
