@@ -37,8 +37,8 @@ jobs:
 
       # Regenerated rather than trusted, so a stale commit cannot ship data that
       # no longer matches the dataset.
-      - name: Generate the mock API
-        run: npm run mock:build
+      # - name: Generate the mock API
+      #   run: npm run mock:build
 
       # Pages serves the site from /<repo>/, so the router needs a matching base.
       - name: Build demo
