@@ -1,6 +1,7 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
     @if (invoice()?.id != null && cities().length>0) {
+      @if(invoice()?.is_editable === true) {
       <form [formGroup]="editForm" (ngSubmit)="saveDetail()">
       <span>
           <div class="row m-b-24">
@@ -9,17 +10,17 @@
                 #{{ invoice()?.order_code ?? "" + invoice()?.id }}
               </h4>
             </div>
-            <div class="col-sm-8 text-right">
+            <div class="col-sm-8 text-end">
               <a
                 routerLink="/apps/invoice/list"
                 mat-flat-button
                 class="bg-error text-white m-r-10"
               >
-                Cancel
+                {{"system_messages.cancel" | translate }} 
               </a>
 
               <button mat-flat-button color="primary" type="submit">
-                Save Invoice
+                {{ "system_messages.save" | translate }}
               </button>
             </div>
           </div>
@@ -43,7 +44,7 @@
             </div>
             <div class="col-sm-6 d-flex align-items-center justify-content-end">
               <div class="text-right">
-                <span class="f-w-600 f-s-15 m-b-8"> Order Date </span>
+                <span class="f-w-600 f-s-15 m-b-8"> {{ "orders.invoice.order_date" | translate }}:</span>
                 <!-- <h6 name="date" class="m-t-5 m-b-0 f-w-500 f-s-14 f-s-16" [(ngModel)]="invoice().orderDate"
                 ngDefaultControl> -->
                 {{ invoice()?.date | date: "fullDate" }}
@@ -57,27 +58,46 @@
           <div class="row m-y-24 p-t-24">
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Name</mat-label>
+                <mat-label>{{"orders.invoice.order_name" | translate }}</mat-label>
                 <input
                   matInput
                   placeholder="Client name"
                   formControlName="name"
                 />
+                @if (editForm.get('name')?.touched && editForm.get('name')?.hasError('required')) {
+                  <mat-error>Name is required</mat-error>
+                }
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Phone</mat-label>
-                <input
-                  matInput
-                  placeholder="Enter Phone"
-                  formControlName="phone"
-                />
+                <mat-label>{{"orders.invoice.order_phone" | translate }}</mat-label>
+                <mat-chip-grid #chipGrid formControlName="phone" aria-label="Phone numbers">
+                  @for (phone of phoneNumbers; track phone) {
+                    <mat-chip-row (removed)="removePhone(phone)">
+                      {{ phone }}
+                      <button matChipRemove [attr.aria-label]="'remove ' + phone">
+                        <i-tabler name="x" class="icon-14"></i-tabler>
+                      </button>
+                    </mat-chip-row>
+                  }
+                  <input
+                    placeholder="Enter Phone"
+                    [matChipInputFor]="chipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="addPhone($event)"
+                  />
+                </mat-chip-grid>
+                @if (editForm.get('phone')?.touched && editForm.get('phone')?.hasError('required')) {
+                  <mat-error>Phone number is required</mat-error>
+                }
+                
               </mat-form-field>
             </div>
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>City</mat-label>
+                <mat-label>{{"orders.invoice.order_city" | translate}}</mat-label>
                 <mat-select
                   formControlName="city_id"
                   [compareWith]="compareById"
@@ -94,7 +114,7 @@
 
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Areas</mat-label>
+                <mat-label>{{"orders.invoice.order_area" | translate}}</mat-label>
                 <mat-select
                   formControlName="area_id"
                   [compareWith]="compareById"
@@ -111,7 +131,7 @@
 
             <div class="col-sm-6">
               <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Enter Address</mat-label>
+                <mat-label> {{"orders.invoice.order_address"|translate}}</mat-label>
                 <input
                   matInput
                   placeholder="Enter Address"
@@ -122,49 +142,111 @@
           </div>
         
       </span>
-      <button type="button" mat-flat-button color="primary" (click)="addItem()">Add Item</button>
+      <div class="text-end">
+        <button type="button" class="my-4" mat-flat-button color="primary" (click)="addItem()">{{"system_messages.add_item" | translate}}</button>
+      </div>
         <div class="table-responsive">
           <table
             id="tblAdd"
-            class="table table-hover b-1 no-wrap w-100 rounded text-left"
+            class="table table-hover b-1 no-wrap w-100 rounded text-start"
           >
             <thead>
               <tr>
                 <th class="p-16">#</th>
-                <th class="p-16">Item Name</th>
-                <th class="p-16">Unit Price</th>
-                <th class="p-16">Units</th>
-                <th class="p-16">Unit Total Price</th>
+                <th class="p-16">{{"orders.invoice.product" | translate}}</th>
+                <th class="p-16">{{"orders.invoice.unit_price" | translate}}</th>
+                <th class="p-16">{{"orders.invoice.quantity" | translate}}</th>
+                <th class="p-16">{{"orders.invoice.total_cost" | translate}}</th>
                 <th class="p-16"></th>
               </tr>
             </thead>
+            <tbody formArrayName="items">
+              @for (row of editForm.get('items')?.value; track $index; let i = $index) {
+              <tr [formGroupName]="i">
+                <td class="p-16">{{ i + 1 }}</td>
+                <td class="p-16 d-flex align-items-center">
+                  <span 
+                class="cards-circle  position-relative product-thumb"
+                [style.background-image]="'url(' + (row.itemImage) + ')'"
+              >
+              </span>
+                
+                  <div class="m-x-10">
+                    <p>{{row.itemName}}</p>
+                    <p class="text-muted text-xs" *ngIf="row.itemOption" >{{row.itemOption}}</p>
+                  </div>
+                </td>
+                <td class="p-16">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>{{"orders.invoice.unit_price" | translate}}</mat-label>
+                    <input
+                      
+                      type="number"
+                      matInput
+                      formControlName="itemCost"
+                    />
+                  </mat-form-field>
+                </td>
+                <td class="p-16">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>{{"orders.invoice.quantity" | translate}}</mat-label>
+                    <input
+                      type="number"
+                      matInput
+                      formControlName="itemQty"
+                      min="1"
+                      max="{{ row.maxQuantity }}"
+                      (input)="onQuantityChange($event, i)"
+                    />
+                  </mat-form-field>
+                </td>
+                <td class="p-16">
+                  {{row.itemQty * row.itemCost}}
+                </td>
+                <td class="p-16">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    type="button"
+                    (click)="removeRow(i)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+              }
+            </tbody>
 
           </table>
         </div>
 
         <div class="text-right m-t-30">
           <div class="text-right m-t-30">
-            @if (addForm.get("rows")) {
-              <button
-                color="accent"
-                mat-flat-button
-                [disabled]="addForm.invalid"
-              >
-                Add row
-              </button>
-            }
+            
 
-            <h5 class="m-b-5 f-w-600 f-s-16">Sub total: {{ subTotal() }}</h5>
-            <h5 class="f-w-600 f-s-16 m-b-24">Total Vat: {{ vat() }}%</h5>
             <mat-divider></mat-divider>
-            <h3 class="m-b-0 p-t-20 f-s-18">Grand Total: {{ grandTotal() }}</h3>
+            <h3 class="m-b-0 p-t-20 f-s-18">{{"orders.invoice.grand_total" | translate}}: {{ grandTotal() }}</h3>
           </div>
         </div>
-      </form>
+      </form>}@else {
+        <div class="text-center">
+          <i
+          class="iconify m-auto size-12 f-s-48  d-flex"
+          data-icon="famicons:warning-outline"
+        ></i>
+          <p class="text-muted my-3">{{"orders.annotation.this_order_is_not_editable" | translate}}</p>
+          <a
+                routerLink="/orders"
+                mat-flat-button
+                class="bg-error text-white m-r-10"
+              >{{'orders.invoice.back_to_invoices' | translate}}</a>
+        </div>
+      }
     } @else {
       <div class="text-center">
         <mat-spinner class="m-auto" diameter="50"></mat-spinner>
       </div>
-    }
+    
+  }
   </mat-card-content>
 </mat-card>

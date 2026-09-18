@@ -1,6 +1,12 @@
 @use "../variables" as *;
 
 [dir="rtl"] {
+  .text-end {
+    text-align: left !important;
+  }
+  .text-start {
+    text-align: right !important;
+  }
 
 
   // highlight

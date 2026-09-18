@@ -1,0 +1,206 @@
+<div class="d-flex align-items-center m-b-10">
+  <button mat-flat-button (click)="getBack()" class="w-30">Back</button>
+</div>
+<mat-card class="cardWithShadow b-1 rounded p-30">
+  <div class="row">
+    <!-- صورة المنتج المعروض فوراً -->
+    <div class="col-lg-6">
+      <img
+        [src]="
+          productStored?.image ||
+          productStored?.imagePath ||
+          'assets/images/products/blank_200_200.png'
+        "
+        alt="product"
+        class="rounded w-100"
+      />
+    </div>
+
+    <div class="col-lg-6">
+      <div class="d-flex align-items-center">
+        @if (!isLoading) {
+          @if (maxQuantity > 0) {
+            <span class="bg-success rounded-pill p-x-8 text-white f-s-12">
+              {{ "product.in_stock" | translate }}
+            </span>
+          } @else {
+            <span class="bg-error rounded-pill p-x-8 text-white f-s-12">
+              {{ "product.out_of_stock" | translate }}
+            </span>
+          }
+        }
+        @if (productStored?.code) {
+          <span class="bg-light text-black f-s-12 m-x-10">
+            Code: {{ productStored?.code }}</span
+          >
+        }
+      </div>
+
+      <h3 class="m-t-10 f-w-600">
+        {{
+          productStored?.Name ||
+            productStored?.name ||
+            productStored?.product_name
+        }}
+      </h3>
+      <p class="m-t-1 f-s-14 f-w-500">
+        {{ productStored?.Description || productStored?.description }}
+      </p>
+
+      <div class="d-flex align-items-center">
+        <span class="f-s-20 f-w-600 m-x-2"
+          >${{ productStored?.price || productStored?.base_price || 0 }}</span
+        >
+      </div>
+
+      <mat-divider class="m-y-15"></mat-divider>
+
+      <!-- حالة التحميل للخيارات والكمية والطلب -->
+      <div
+        *ngIf="isLoading"
+        class="d-flex align-items-center justify-content-center p-y-30"
+      >
+        <mat-spinner diameter="30"></mat-spinner>
+        <span class="m-x-10 f-s-14 text-muted"
+          >جاري تحميل الاختيارات والمخزون...</span
+        >
+      </div>
+
+      <div *ngIf="!isLoading">
+        <!-- عرض الخيارات Dynamic Options -->
+        @for (option of options; track option.id) {
+          <div class="m-b-20">
+            <label class="f-s-16 f-w-600 d-block m-b-10"
+              >{{ option.optionName }}:</label
+            >
+            <div class="d-flex align-items-center gap-10 flex-wrap">
+              @for (val of option.values; track val.id) {
+                <!-- عرض اللون -->
+                @if (val.DisplayType === "color") {
+                  <span
+                    class="cards-circle cursor-pointer position-relative d-inline-flex align-items-center justify-content-center"
+                    [style.backgroundColor]="val.DisplayValue || val.value"
+                    [matTooltip]="val.value"
+                    [ngClass]="{
+                      selected: isOptionSelected(option.id, val.id),
+                    }"
+                    (click)="selectOptionValue(option.id, val.id)"
+                    style="
+                      width: 64px;
+                      height: 32px;
+                      border-radius: 10px;
+                      border: 2px solid #ccc;
+                      cursor: pointer;
+                    "
+                  >
+                    <i-tabler
+                      *ngIf="isOptionSelected(option.id, val.id)"
+                      name="check"
+                      class="icon-16 text-white"
+                    ></i-tabler>
+                  </span>
+                } @else if (val.DisplayType === "image") {
+                  <span
+                    class="cards-circle cursor-pointer position-relative d-inline-flex align-items-center justify-content-center"
+                    [style.backgroundColor]="val.DisplayValue || val.value"
+                    [matTooltip]="val.value"
+                    [ngClass]="{
+                      selected: isOptionSelected(option.id, val.id),
+                    }"
+                    (click)="selectOptionValue(option.id, val.id)"
+                    style="
+                      width: 64px;
+                      height: 64px;
+                      border-radius: 50%;
+                      border: 2px solid #ccc;
+                      cursor: pointer;
+                      background-size: cover;
+                      background-position: center;
+                    "
+                    [style.background-image]="
+                      'url(' + (val.DisplayValue || val.value) + ')'
+                    "
+                  >
+                    @if (isOptionSelected(option.id, val.id)) {
+                      <i-tabler
+                        name="check"
+                        class="icon-16 shadow text-white"
+                      ></i-tabler>
+                    }
+                  </span>
+                } @else {
+                  <button
+                    type="button"
+                    mat-stroked-button
+                    class="option_selector"
+                    [class]="
+                      isOptionSelected(option.id, val.id) ? 'selected' : ''
+                    "
+                    (click)="selectOptionValue(option.id, val.id)"
+                  >
+                    {{ val.value }}
+                  </button>
+                }
+              }
+            </div>
+          </div>
+        }
+        
+
+        <!-- اختيار الكمية -->
+        <div class="d-flex align-items-center m-b-30 m-t-20">
+          <label class="f-s-16 f-w-600">QTY:</label>
+
+          <mat-button-toggle-group
+            #toggleGroup="matButtonToggleGroup"
+            class="border-style m-x-20"
+            multiple
+          >
+            <mat-button-toggle
+              (click)="decreaseQty(); toggleGroup.value = null"
+              [disabled]="quantity <= 1"
+              disableRipple
+            >
+              -
+            </mat-button-toggle>
+            <mat-button-toggle disableRipple>
+              {{ quantity }}
+            </mat-button-toggle>
+            <mat-button-toggle
+              (click)="increaseQty(); toggleGroup.value = null"
+              [disabled]="quantity >= maxQuantity || maxQuantity === 0"
+              disableRipple
+            >
+              +
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <span
+            class="f-s-12 m-x-10"
+            [ngClass]="maxQuantity > 0 ? 'text-muted' : 'text-danger'"
+          >
+            @if (maxQuantity > 0) {
+              {{ "product.available" | translate }} : {{ maxQuantity }}
+            } @else {
+              {{ "product.not_available" | translate }}
+            }
+          </span>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- أزرار الإضافة والشراء -->
+        <div class="d-flex align-items-center gap-20 m-y-20">
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="maxQuantity === 0"
+            (click)="addToOrder()"
+          >
+            {{ "product.add_to_order" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
