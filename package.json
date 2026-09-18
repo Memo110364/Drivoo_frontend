@@ -1,10 +1,13 @@
 {
-  "name": "matdash",
+  "name": "drivoo-frontend",
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:demo": "ng serve --configuration demo",
+    "dev": "concurrently -n web -c cyan \"npm:start\"",
     "build": "ng build",
+    "build:demo": "ng build --configuration demo",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -46,6 +49,7 @@
     "@angular/compiler-cli": "^21.0.6",
     "@types/date-fns": "^2.6.3",
     "@types/jasmine": "~5.1.13",
+    "concurrently": "^10.0.5",
     "jasmine-core": "~5.13.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
