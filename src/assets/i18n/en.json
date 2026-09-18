@@ -1,7 +1,18 @@
 {
-  "system_messages": {
-    "no_orders": "No Orders",
-    "close": "Close"
+  "system_messages":{
+    "no_orders":"No Orders",
+    "close":"Close",
+    "save":"Save",
+    "cancel":"Cancel",
+    "add_item":"Add Item",
+    "valdate":{
+      "name_is_required":"Name is required",
+      "phone_is_required":"Phone is required",
+      "city_is_required":"City is required",
+      "area_is_required":"Area is required",
+      "product_is_required":"Product is required",
+      "quantity_is_required":"Quantity is required"
+    }
   },
   "dashboard": {
     "currentOrdersStatusTitle": "Current Orders Status",
@@ -32,18 +43,26 @@
     "logout": "Logout"
   },
   "orders": {
-    "invoice": {
-      "back_to_invoices": "Back to Invoices",
-      "edit_invoice": "Edit Invoice",
-      "order_number": "Order Number",
-      "order_date": "Order Date",
-      "order_status": "Order Status",
-      "order_address": "Order Address",
-      "order_phone": "Order Phone",
-      "product": "Product",
-      "unit_price": "Unit Price",
-      "quantity": "Quantity",
-      "total_cost": "Total Cost"
+    "annotation":{
+      "this_order_is_not_editable":"This order is not editable"
+    },
+    
+    "invoice":{
+      "back_to_invoices":"Back to Invoices",
+      "edit_invoice":"Edit Invoice",
+      "order_number":"Order Number",
+      "order_date":"Order Date",
+      "order_status":"Order Status",
+      "order_address":"Order Address",
+      "order_phone":"Order Phone",
+      "order_name":"Client Name",
+      "order_city":"City",
+      "order_area":"Area",
+      "product":"Product",
+      "unit_price":"Unit Price",
+      "quantity":"Quantity",
+      "total_cost":"Total Cost",
+      "grand_total":"Grand Total"
     },
     "status": {
       "pending": "Pending",
@@ -301,4 +320,23 @@
     "refresh_tab": "Refresh Tab",
     "not_updated_yet": "Not updated yet"
   }
+    "product":{
+      "available": "Available",
+      "not_available": "Not Available",
+      "in_stock": "In Stock",
+      "out_of_stock": "Out of Stock",
+      "add_to_order": "Add to Order",
+      "price": "Price",
+      "code": "Code",
+      "description": "Description",
+      "quantity": "Quantity",
+      "notes": "Notes",
+      "add_to_order_confirm": "Add to Order Confirm",
+      "product_info": "Product Information",
+      "product_price": "Product Price",
+      "product_quantity": "Product Quantity",
+      "product_notes": "Product Notes",
+      "product_add_to_order": "Add Product to Order"
+    }
+
 }

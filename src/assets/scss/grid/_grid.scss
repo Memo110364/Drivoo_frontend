@@ -1,6 +1,12 @@
 @use 'variables';
 @use 'mixins';
 
+.text-start{
+  text-align: left !important;
+}
+.text-end{
+  text-align: right !important;
+}
 .row {
   display: flex;
   flex-wrap: wrap;
