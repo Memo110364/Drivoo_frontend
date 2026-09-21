@@ -17,7 +17,7 @@ import {
 import { LedgerComponent } from './ledger/ledger.component';
 import { PaymentMethodsComponent } from './payment-methods/payment-methods.component';
 import { WithdrawalsComponent } from './withdrawals/withdrawals.component';
-import { WithdrawDialogComponent } from './withdraw-dialog/withdraw-dialog.component';
+// import { WithdrawDialogComponent } from './withdraw-dialog/withdraw-dialog.component';
 import { formatDate } from '../shared/wallet-format';
 
 /**
@@ -110,30 +110,30 @@ export class WalletComponent {
    * server says a request cannot be opened, and the reason is shown beside it —
    * a blocked action that does not say why is the flaw this screen replaces.
    */
-  openWithdrawDialog(): void {
-    const options = this.options();
-    const balance = this.balance();
-    if (!options || !balance) return;
+  // openWithdrawDialog(): void {
+  //   const options = this.options();
+  //   const balance = this.balance();
+  //   if (!options || !balance) return;
 
-    this.dialog
-      .open(WithdrawDialogComponent, {
-        width: '520px',
-        maxWidth: '94vw',
-        autoFocus: false,
-        data: {
-          available: balance.available,
-          rules: options.rules,
-          methods: this.payableMethods(),
-        },
-      })
-      .afterClosed()
-      .subscribe((submitted) => {
-        if (submitted) {
-          this.notify('wallet.withdraw.submitted');
-          this.load();
-        }
-      });
-  }
+  //   this.dialog
+  //     .open(WithdrawDialogComponent, {
+  //       width: '520px',
+  //       maxWidth: '94vw',
+  //       autoFocus: false,
+  //       data: {
+  //         available: balance.available,
+  //         rules: options.rules,
+  //         methods: this.payableMethods(),
+  //       },
+  //     })
+  //     .afterClosed()
+  //     .subscribe((submitted) => {
+  //       if (submitted) {
+  //         this.notify('wallet.withdraw.submitted');
+  //         this.load();
+  //       }
+  //     });
+  // }
 
   onMethodsChanged(): void {
     this.load();

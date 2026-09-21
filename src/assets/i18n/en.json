@@ -239,6 +239,8 @@
       "instapay": "InstaPay address",
       "instapay_hint": "Such as name@instapay, or a mobile number",
       "branch": "Collection branch",
+      "set_as_default": "Set as default payout method",
+      "first_method_hint": "First payout method is automatically set as default.",
       "save": "Save",
       "saving": "Saving…",
       "hint": {
@@ -247,6 +249,9 @@
         "instapay": "Instant transfer over InstaPay",
         "cash": "Collect cash from a Drivoo branch"
       },
+      "min_request": "Minimum request",
+      "loading_methods": "Loading payout methods…",
+      "methods_error": "Could not load payout methods. Please try again.",
       "errors": {
         "no_type": "Choose a method type.",
         "holder_name": "Enter the name.",
@@ -255,6 +260,8 @@
         "phone": "The wallet number must be 11 digits starting 010, 011, 012 or 015.",
         "instapay": "Enter a valid InstaPay address or mobile number.",
         "branch": "Choose a collection branch.",
+        "field_required": "This field is required.",
+        "field_invalid": "The value entered is invalid.",
         "failed": "Could not save the method. Please try again."
       }
     }

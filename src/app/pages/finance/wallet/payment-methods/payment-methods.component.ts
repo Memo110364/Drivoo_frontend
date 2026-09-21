@@ -51,7 +51,12 @@ export class PaymentMethodsComponent {
 
   openAddDialog(): void {
     this.dialog
-      .open(AddMethodDialogComponent, { width: '520px', maxWidth: '94vw', autoFocus: false })
+      .open(AddMethodDialogComponent, {
+        width: '520px',
+        maxWidth: '94vw',
+        autoFocus: false,
+        data: { existingCount: this.rows.length },
+      })
       .afterClosed()
       .subscribe((added) => {
         if (added) {

@@ -1,16 +1,37 @@
+import { EnvironmentInjector, Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { AddMethodDialogComponent } from './add-method-dialog.component';
+import { WalletService, WithdrawalMethodConfig } from 'src/app/services/api/wallet.service';
 
-/**
- * Each payout type asks for its own fields, so each has its own rules. The
- * phone check in particular has to hold: a wrong wallet number is only
- * discovered when a transfer fails.
- */
+const MOCK_METHODS: WithdrawalMethodConfig[] = [
+  {
+    id: 1,
+    name: 'Bank Account',
+    icon: 'solar:card-linear',
+    minimum_request: 1000,
+    fields: [
+      { key: 'name', name: 'Name', rule: 'required|string', type: 'text', regex: '/^[a-z]+/', values: null, required: true },
+      { key: 'Number', name: 'Account Number', rule: 'required|int', type: 'number', regex: '/^[0-9]+/', values: null, required: true },
+    ],
+  },
+  {
+    id: 2,
+    name: 'E-Wallet',
+    icon: 'solar:smartphone-linear',
+    minimum_request: 100,
+    fields: [
+      { key: 'name', name: 'Name', rule: 'required|string', type: 'text', regex: '/^[a-z]+/', values: null, required: true },
+      { key: 'Number', name: 'Wallet Number', rule: ['required', 'App\\Rules\\Phone'], type: 'number', regex: '/^[0-9]+/', values: null, required: true },
+    ],
+  },
+];
+
 describe('AddMethodDialogComponent', () => {
   let component: AddMethodDialogComponent;
+  let httpTesting: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,73 +41,82 @@ describe('AddMethodDialogComponent', () => {
         { provide: MatDialogRef, useValue: { close: () => {} } },
       ],
     });
+    httpTesting = TestBed.inject(HttpTestingController);
     component = TestBed.runInInjectionContext(() => new AddMethodDialogComponent());
-    // The dialog asks for the branch list on construction.
-    TestBed.inject(HttpTestingController).expectOne((r) => r.url.includes('cash-branches')).flush({
-      data: [{ id: 'br1', label: 'Nasr City', address: 'x', hours: 'y' }],
+    httpTesting.expectOne((r) => r.url.includes('finance/method')).flush({
+      data: MOCK_METHODS,
     });
   });
 
-  it('asks for a type before anything else', () => {
+  afterEach(() => {
+    httpTesting.verify();
+  });
+
+  it('asks for a method before anything else', () => {
     expect(component.validationKey()).toBe('wallet.add_method.errors.no_type');
   });
 
-  it('accepts a complete bank account', () => {
-    component.selectType('bank_account');
-    component.holderName.set('Mahmoud Hassan');
-    component.bankName.set('NBE');
-    component.accountNumber.set('5078034905759382');
-    expect(component.validationKey()).toBe('');
+  it('populates methods from finance/method', () => {
+    expect(component.methods().length).toBe(2);
+    expect(component.isLoadingMethods()).toBeFalse();
   });
 
-  it('rejects an account number that is too short to be one', () => {
-    component.selectType('bank_account');
-    component.holderName.set('Mahmoud Hassan');
-    component.bankName.set('NBE');
-    component.accountNumber.set('1234');
-    expect(component.validationKey()).toBe('wallet.add_method.errors.account_number');
+  it('selects a method and validates required fields', () => {
+    component.selectMethod(MOCK_METHODS[0]);
+    expect(component.selectedMethod()?.id).toBe(1);
+    expect(component.isValid()).toBeFalse();
+
+    component.onFieldChange('name', 'mahmoud');
+    component.onFieldChange('Number', '12345678');
+    expect(component.isValid()).toBeTrue();
   });
 
-  it('accepts every Egyptian mobile prefix for a wallet', () => {
-    component.selectType('vodafone_cash');
-    component.holderName.set('Mahmoud');
-    for (const prefix of ['010', '011', '012', '015']) {
-      component.phone.set(`${prefix}12345678`);
-      expect(component.validationKey()).withContext(prefix).toBe('');
-    }
+  it('validates phone numbers for wallet', () => {
+    component.selectMethod(MOCK_METHODS[1]);
+    component.onFieldChange('name', 'mahmoud');
+    component.onFieldChange('Number', '01012345678');
+    expect(component.isValid()).toBeTrue();
+
+    component.onFieldChange('Number', '01312345678');
+    expect(component.isValid()).toBeFalse();
   });
 
-  it('rejects a wallet number of the wrong length or prefix', () => {
-    component.selectType('vodafone_cash');
-    component.holderName.set('Mahmoud');
-    for (const bad of ['0101234567', '01312345678', '1012345678', '010123456789']) {
-      component.phone.set(bad);
-      expect(component.validationKey()).withContext(bad).toBe('wallet.add_method.errors.phone');
-    }
+  it('sets is_default to true and disables unchecking when no existing methods', () => {
+    expect(component.isFirstMethod()).toBeTrue();
+    expect(component.isDefault()).toBeTrue();
   });
 
-  it('accepts an InstaPay handle or a mobile number', () => {
-    component.selectType('instapay');
-    component.holderName.set('Mahmoud');
-    component.instapayAddress.set('mahmoud.hassan@instapay');
-    expect(component.validationKey()).toBe('');
-    component.instapayAddress.set('01012345678');
-    expect(component.validationKey()).toBe('');
-    component.instapayAddress.set('not an address');
-    expect(component.validationKey()).toBe('wallet.add_method.errors.instapay');
+  it('submits with is_default in payload', () => {
+    component.selectMethod(MOCK_METHODS[0]);
+    component.onFieldChange('name', 'mahmoud');
+    component.onFieldChange('Number', '12345678');
+    component.submit();
+
+    const req = httpTesting.expectOne((r) => r.url.includes('payment-methods') && r.method === 'POST');
+    expect(req.request.body.is_default).toBeTrue();
+    expect(req.request.body.method_id).toBe(1);
+    req.flush({ message: 'Saved' });
   });
 
-  it('needs a branch for a cash collection', () => {
-    component.selectType('cash');
-    component.holderName.set('Mahmoud');
-    expect(component.validationKey()).toBe('wallet.add_method.errors.branch');
-    component.cashBranchId.set('br1');
-    expect(component.validationKey()).toBe('');
-  });
+  it('allows changing is_default when existing methods exist', () => {
+    const customInjector = Injector.create({
+      providers: [
+        { provide: WalletService, useValue: TestBed.inject(WalletService) },
+        { provide: MatDialogRef, useValue: { close: () => {} } },
+        { provide: MAT_DIALOG_DATA, useValue: { existingCount: 2 } },
+      ],
+      parent: TestBed.inject(EnvironmentInjector),
+    });
+    const dialogWithData = runInInjectionContext(customInjector, () => new AddMethodDialogComponent());
+    httpTesting.expectOne((r) => r.url.includes('finance/method')).flush({
+      data: MOCK_METHODS,
+    });
 
-  it('forgets the previous type when the merchant goes back', () => {
-    component.selectType('vodafone_cash');
-    component.back();
-    expect(component.type()).toBe('');
+    expect(dialogWithData.isFirstMethod()).toBeFalse();
+    expect(dialogWithData.isDefault()).toBeFalse();
+    dialogWithData.isDefault.set(true);
+    expect(dialogWithData.isDefault()).toBeTrue();
   });
 });
+
+

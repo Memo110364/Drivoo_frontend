@@ -79,6 +79,31 @@ export interface PaymentMethod {
   created_at: string;
 }
 
+/** A dynamic field definition returned by the finance/method endpoint. */
+export interface MethodFieldOption {
+  name: string | number;
+  value: string;
+  key?: string;
+}
+
+export interface MethodField {
+  key: string;
+  name: string;
+  rule?: string | string[];
+  type: string;
+  regex?: string | null;
+  values?: MethodFieldOption[] | null;
+  required?: boolean;
+}
+
+export interface WithdrawalMethodConfig {
+  id: number;
+  name: string;
+  icon: string;
+  minimum_request?: number;
+  fields: MethodField[];
+}
+
 /** A Drivoo branch a cash collection can be assigned to. */
 export interface CashBranch {
   id: string;
@@ -178,6 +203,10 @@ export class WalletService extends BaseService {
 
   getCashBranches(): Observable<{ data: CashBranch[] }> {
     return this.http.get<{ data: CashBranch[] }>(`${this.baseUrl}wallet/cash-branches`);
+  }
+
+  getFinanceMethods(): Observable<{ data: WithdrawalMethodConfig[] }> {
+    return this.http.get<{ data: WithdrawalMethodConfig[] }>(`${this.baseUrl}finance/method`);
   }
 
   addPaymentMethod(payload: Record<string, unknown>): Observable<{ message: string }> {

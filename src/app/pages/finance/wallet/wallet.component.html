@@ -33,45 +33,13 @@
     The one thing a merchant comes here to do, beside the figures it acts on.
     A blocked withdrawal names its reason and, where there is one, the way out.
   -->
-  <div class="col-lg-3 col-sm-6 m-b-20">
-    @if (isLoading()) {
-      <ngx-skeleton-loader class="d-block" [theme]="{ height: '104px' }"></ngx-skeleton-loader>
-    } @else {
-      <mat-card class="cardWithShadow h-100 action-card">
-        <mat-card-content class="p-20">
-          <button mat-flat-button color="primary" class="action-btn"
-                  [disabled]="!options()?.eligibility?.can_request"
-                  (click)="openWithdrawDialog()">
-            <span class="btn-content">
-              <i class="iconify f-s-18 d-flex" data-icon="uil:money-withdraw"></i>
-              <span>{{ 'wallet.withdraw.action' | translate }}</span>
-            </span>
-          </button>
-
-          @if (options()?.eligibility?.can_request) {
-            <span class="f-s-11 text-muted d-block m-t-8" dir="auto">
-              {{ 'wallet.withdraw.next_transfer' | translate:
-                 { date: formatDate(options()!.eligibility.next_transfer_date) } }}
-            </span>
-          } @else {
-            <span class="f-s-11 text-warning d-flex align-items-start gap-6 m-t-8" dir="auto">
-              <i class="iconify f-s-14 d-flex m-t-2 flex-shrink-0" data-icon="solar:info-circle-linear"></i>
-              <span>
-                {{ 'wallet.withdraw.blocked.' + (options()?.eligibility?.reason ?? 'unknown')
-                   | translate: options()?.eligibility?.context }}
-              </span>
-            </span>
-          }
-        </mat-card-content>
-      </mat-card>
-    }
-  </div>
+  
 </div>
 
 @if (hasError()) {
   <mat-card class="cardWithShadow">
     <mat-card-content class="p-24 text-center">
-      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <i class="iconify f-s-40 text-error m-auto d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
       <h5 class="f-s-16 f-w-600">{{ 'wallet.error.title' | translate }}</h5>
       <p class="text-muted f-s-14">{{ 'wallet.error.subtitle' | translate }}</p>
       <button mat-flat-button color="primary" (click)="load()">

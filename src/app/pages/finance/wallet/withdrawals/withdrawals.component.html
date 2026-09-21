@@ -33,7 +33,7 @@
         <div class="request p-16 rounded m-b-12">
           <div class="d-flex flex-wrap align-items-start justify-content-between gap-12">
             <div class="d-flex align-items-center gap-10 min-w-0">
-              <div class="bg-light-{{ statusClass(request.status) }} rounded icon-36 d-flex align-items-center justify-content-center flex-shrink-0">
+              <div class="bg-light-{{ statusClass(request.status) }} rounded icon-36 d-flex align-items-center justify-content-center shrink-0">
                 <i class="iconify f-s-18 d-flex text-{{ statusClass(request.status) }}"
                    [attr.data-icon]="methodIcons[request.method.type]"></i>
               </div>
@@ -57,7 +57,7 @@
               Showing only one of them leaves the merchant to discover the fee
               when the money arrives short.
             -->
-            <div class="text-end flex-shrink-0">
+            <div class="text-end shrink-0">
               <span class="f-s-18 f-w-600 d-block lh-sm" dir="auto">
                 {{ request.amount | number }}
                 <span class="f-s-11 f-w-400 text-muted">{{ currency }}</span>
@@ -73,7 +73,7 @@
 
           @if (request.status === 'rejected') {
             <div class="rejection p-12 rounded m-t-12 d-flex align-items-start gap-8">
-              <i class="iconify f-s-16 d-flex text-error flex-shrink-0" data-icon="solar:close-circle-linear"></i>
+              <i class="iconify f-s-16 d-flex text-error shrink-0" data-icon="solar:close-circle-linear"></i>
               <div class="min-w-0">
                 <span class="f-s-13 f-w-600 text-error d-block">
                   {{ 'wallet.withdrawal_status.rejected' | translate }}
