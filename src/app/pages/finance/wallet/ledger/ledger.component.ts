@@ -55,6 +55,7 @@ export class LedgerComponent {
     'storage_fee',
     'other_service',
     'opening_balance',
+    'invoice'
   ];
 
   /** A page of movements; the ledger is the one list that grows without limit. */

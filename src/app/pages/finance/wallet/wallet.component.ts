@@ -17,7 +17,7 @@ import {
 import { LedgerComponent } from './ledger/ledger.component';
 import { PaymentMethodsComponent } from './payment-methods/payment-methods.component';
 import { WithdrawalsComponent } from './withdrawals/withdrawals.component';
-// import { WithdrawDialogComponent } from './withdraw-dialog/withdraw-dialog.component';
+import { WithdrawDialogComponent } from './withdraw-dialog/withdraw-dialog.component';
 import { formatDate } from '../shared/wallet-format';
 
 /**
@@ -50,7 +50,7 @@ export class WalletComponent {
   private route = inject(ActivatedRoute);
 
   balance = signal<WalletBalance | null>(null);
-  options = signal<WithdrawalOptions | null>(null);
+  // options = signal<WithdrawalOptions | null>(null);
   methods = signal<PaymentMethod[]>([]);
   withdrawals = signal<WithdrawalRequest[]>([]);
 
@@ -85,13 +85,13 @@ export class WalletComponent {
     this.hasError.set(false);
     forkJoin({
       balance: this.walletService.getBalance(),
-      options: this.walletService.getWithdrawalOptions(),
+      // options: this.walletService.getWithdrawalOptions(),
       methods: this.walletService.getPaymentMethods(),
       withdrawals: this.walletService.getWithdrawals(),
     }).subscribe({
       next: (result) => {
         this.balance.set(result.balance);
-        this.options.set(result.options);
+        // this.options.set(result.options);
         this.methods.set(result.methods.data ?? []);
         this.withdrawals.set(result.withdrawals.data ?? []);
         this.isLoading.set(false);
