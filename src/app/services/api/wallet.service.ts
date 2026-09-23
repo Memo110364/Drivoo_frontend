@@ -23,6 +23,43 @@ export interface WalletBalance {
   available: number;
 }
 
+
+
+/** One line of the wallet ledger. */
+export interface UninvoicedEntry {
+  id: string;
+  /** ISO timestamp. */
+  created_at: string;
+  /**
+   * Backend enum code, translated by the UI: `order_payout`, `withdrawal`,
+   * `shipping_fee`, `return_shipping`, `opening_balance`.
+   */
+  type: string;
+  /** Signed: positive into the wallet, negative out of it. */
+  cost: string;
+  /** Order code, invoice number or withdrawal code — whatever it belongs to. */
+  reference: string;
+  /** `order`, `invoice`, `withdrawal`, or empty. */
+  reference_type: string;
+}
+
+export interface UninvoicedPage {
+  page: number;
+  limit: number;
+  total: number;
+  data: UninvoicedEntry[];
+}
+
+export interface UninvoicedQuery {
+  from?: string;
+  to?: string;
+  /** One of the ledger type codes, or absent for every type. */
+  type?: string;
+  page?: number;
+  limit?: number;
+}
+
+
 /** One line of the wallet ledger. */
 export interface LedgerEntry {
   id: string;
@@ -195,6 +232,16 @@ export class WalletService extends BaseService {
       }
     }
     return this.http.get<LedgerPage>(`${this.baseUrl}wallet/ledger`, { params });
+  }
+
+  getUninvoiced(query: UninvoicedQuery = {}): Observable<UninvoicedPage> {
+    let params = new HttpParams();
+    for (const [key, value] of Object.entries(query)) {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, String(value));
+      }
+    }
+    return this.http.get<UninvoicedPage>(`${this.baseUrl}finance/uninvoiced`, { params });
   }
 
   getPaymentMethods(): Observable<{ data: PaymentMethod[] }> {

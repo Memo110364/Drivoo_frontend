@@ -92,12 +92,36 @@
     "tabs": {
       "ledger": "Wallet ledger",
       "withdrawals": "Withdrawals",
-      "methods": "Payout methods"
+      "methods": "Payout methods",
+      "invoices": "Invoices",
+      "uninvoiced": "Uninvoiced items"
     },
     "error": {
       "title": "Could not load the wallet",
       "subtitle": "Something went wrong reaching the server. Please try again.",
       "retry": "Try again"
+    },
+    "uninvoiced": {
+      "title": "Uninvoiced items",
+      "subtitle": "This is the list of services for the upcoming invoice",
+      "date": "Date",
+      "type": "Movement",
+      "reference": "Reference",
+      "amount": "Amount",
+      "balance": "Balance",
+      "search": "Search reference",
+      "from": "From",
+      "to": "To",
+      "all_types": "All movements",
+      "clear": "Clear filters",
+      "credit": "In",
+      "debit": "Out",
+      "net": "Net",
+      "count": "Movements",
+      "empty": "Nothing has moved through the wallet yet.",
+      "no_match": "No movements match these filters.",
+      "fees_title": "Charges this period:",
+      "exporting": "Preparing…"
     },
     "ledger": {
       "title": "Wallet ledger",
@@ -131,6 +155,22 @@
       "storage_fee": "Storage fee",
       "other_service": "Other services",
       "opening_balance": "Opening balance"
+    },
+    "service_type": {
+      "confirmation": "confirmation",
+      "packing": "packing",
+      "picking": "picking",
+      "receiving_goods": "Receiving Goods",
+      "receiving goods": "Receiving Goods",
+      "shipping_overweight": "Overweight",
+      "shipping_change_address": "Change Address",
+      "shipping_resend": "Resend",
+      "shipping_return": "Return",
+      "shipping_delivery": "Shipping",
+      "shipping_cancel": "Cancel Shipment",
+      "taxes": "Taxes",
+      "quality inspection": "Quality Inspection",
+      "quality_inspection": "Quality Inspection"
     },
     "withdrawals": {
       "title": "Withdrawal requests",

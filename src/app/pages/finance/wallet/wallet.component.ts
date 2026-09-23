@@ -15,6 +15,8 @@ import {
   WithdrawalRequest,
 } from 'src/app/services/api/wallet.service';
 import { LedgerComponent } from './ledger/ledger.component';
+import { InvoicesComponent } from './invoices/invoices.component';
+import { UninvoicedComponent } from './uninvoiced/uninvoiced.component';
 import { PaymentMethodsComponent } from './payment-methods/payment-methods.component';
 import { WithdrawalsComponent } from './withdrawals/withdrawals.component';
 import { WithdrawDialogComponent } from './withdraw-dialog/withdraw-dialog.component';
@@ -37,6 +39,8 @@ import { formatDate } from '../shared/wallet-format';
     NgxSkeletonLoaderModule,
     LedgerComponent,
     WithdrawalsComponent,
+    InvoicesComponent,
+    UninvoicedComponent,
     PaymentMethodsComponent,
   ],
   templateUrl: './wallet.component.html',

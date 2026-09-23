@@ -92,12 +92,36 @@
     "tabs": {
       "ledger": "سجل المحفظة",
       "withdrawals": "طلبات السحب",
-      "methods": "وسائل الاستلام"
+      "methods": "وسائل الاستلام",
+      "invoices": "الفواتير",
+      "uninvoiced": "بنود غير مفوترة"
     },
     "error": {
       "title": "تعذّر تحميل المحفظة",
       "subtitle": "فيه مشكلة في الاتصال بالسيرفر. حاول تاني.",
       "retry": "إعادة المحاولة"
+    },
+    "uninvoiced": {
+      "title": "بنود غير مفوترة",
+      "subtitle":"هذه هي بنود الخدمات الخاصة بالفاتوره القادمه",
+      "date": "التاريخ",
+      "type": "نوع الحركة",
+      "reference": "المرجع",
+      "amount": "المبلغ",
+      "balance": "الرصيد بعدها",
+      "search": "بحث بالمرجع",
+      "from": "من",
+      "to": "إلى",
+      "all_types": "كل الحركات",
+      "clear": "مسح الفلاتر",
+      "credit": "داخل",
+      "debit": "خارج",
+      "net": "الصافي",
+      "count": "عدد الحركات",
+      "empty": "مفيش حركات في المحفظة لسه.",
+      "no_match": "مفيش حركات مطابقة للفلاتر المختارة.",
+      "fees_title": "المصاريف في الفترة:",
+      "exporting": "جاري التجهيز…"
     },
     "ledger": {
       "title": "سجل المحفظة",
@@ -131,6 +155,22 @@
       "storage_fee": "مصاريف تخزين",
       "other_service": "خدمات أخرى",
       "opening_balance": "رصيد افتتاحي"
+    },
+    "service_type": {
+      "confirmation": "تأكيد",
+      "packing": "تعبئة",
+      "picking": "تجميع",
+      "receiving_goods": "استلام البضاعة",
+      "receiving goods": "استلام البضاعة",
+      "shipping_overweight": "وزن زائد",
+      "shipping_change_address": "تغيير العنوان",
+      "shipping_resend": "إعادة الإرسال",
+      "shipping_return": "الإرجاع",
+      "shipping_delivery": "توصيل",
+      "shipping_cancel": "إلغاء الشحن",
+      "taxes": "ضريبة",
+      "quality inspection": "فحص الجودة",
+      "quality_inspection": "فحص الجودة"
     },
     "withdrawals": {
       "title": "طلبات السحب",
