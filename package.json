@@ -1,15 +1,18 @@
 {
-  "name": "drivoo-frontend",
+  "name": "Drivoo", 
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:demo": "ng serve --configuration demo",
     "dev": "concurrently -n web -c cyan \"npm:start\"",
-    "build": "ng build",
-    "build:demo": "ng build --configuration demo",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
+    "start:demo": "ng serve --configuration demo",
+    "build": "ng build",
+    "build:demo": "npm run mock:build && ng build --configuration demo",
+    "build:prod": "ng build --configuration production",
+    "mock:build": "node scripts/generate-mock-api.mjs"
   },
   "private": true,
   "dependencies": {

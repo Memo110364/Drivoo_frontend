@@ -1,0 +1,79 @@
+<h2 mat-dialog-title class="f-s-17 f-w-600">{{ 'wallet.withdraw.title' | translate }}</h2>
+
+<mat-dialog-content>
+  <span class="f-s-12 text-muted d-block m-b-16" dir="auto">
+    {{ 'wallet.withdraw.available' | translate: { amount: data.available } }}
+  </span>
+
+  <mat-form-field appearance="outline" class="w-100 m-b-4">
+    <mat-label>{{ 'wallet.withdraw.amount' | translate }}</mat-label>
+    <input matInput type="number" dir="ltr" [ngModel]="amount()"
+           (ngModelChange)="amount.set($event === null || $event === '' ? null : +$event)"
+           [min]="data.rules.minimum_amount" [max]="data.available" />
+  </mat-form-field>
+
+  <button mat-stroked-button class="link-btn m-b-16" (click)="useFullBalance()">
+    {{ 'wallet.withdraw.use_all' | translate }}
+  </button>
+
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>{{ 'wallet.withdraw.destination' | translate }}</mat-label>
+    <mat-select [ngModel]="methodId()" (ngModelChange)="methodId.set($event)">
+      @for (method of data.methods; track method.id) {
+        <mat-option [value]="method.id">
+          {{ 'wallet.method_type.' + method.type | translate }} — {{ method.label }}
+          @if (method.masked_identifier) {
+            <span class="text-muted" dir="ltr"> {{ method.masked_identifier }}</span>
+          }
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <!--
+    The outcome, before committing to it. A merchant who only sees the gross
+    amount discovers the fee when the money arrives short.
+  -->
+  <div class="summary p-16 rounded m-t-8">
+    @for (line of [
+      { key: 'requested', value: amount() ?? 0, strong: false },
+      { key: 'fee',       value: fee(),         strong: false },
+      { key: 'net',       value: netAmount(),   strong: true  }
+    ]; track line.key) {
+      <div class="d-flex align-items-center justify-content-between gap-8"
+           [class.summary__total]="line.strong">
+        <span class="f-s-13" [ngClass]="line.strong ? 'f-w-600' : 'text-muted'">
+          {{ 'wallet.withdraw.' + line.key | translate }}
+        </span>
+        <span class="f-s-14" [ngClass]="line.strong ? 'f-w-600 text-success' : ''" dir="auto">
+          {{ line.value | number }}
+        </span>
+      </div>
+    }
+  </div>
+
+  @if (!isValid() && amount() !== null) {
+    <span class="f-s-12 text-error d-flex align-items-start gap-4 m-t-12" dir="auto">
+      <i class="iconify f-s-14 d-flex m-t-2" data-icon="solar:info-circle-linear"></i>
+      <span>{{ validationKey() | translate: validationParams() }}</span>
+    </span>
+  }
+
+  @if (serverError()) {
+    <span class="f-s-12 text-error d-block m-t-12" dir="auto">
+      {{ serverError() | translate }}
+    </span>
+  }
+
+  <span class="f-s-11 text-muted d-block m-t-12" dir="auto">
+    {{ 'wallet.withdraw.expected_note' | translate: { days: data.rules.expected_days } }}
+  </span>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'wallet.cancel' | translate }}</button>
+  <button mat-flat-button color="primary" [disabled]="!isValid() || isSubmitting()"
+          (click)="submit()">
+    {{ (isSubmitting() ? 'wallet.withdraw.submitting' : 'wallet.withdraw.submit') | translate }}
+  </button>
+</mat-dialog-actions>

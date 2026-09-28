@@ -1,0 +1,30 @@
+// Helpers the theme is missing.
+//
+// It ships most of the Bootstrap-style utilities this feature uses, but not
+// these — verified against the running app: `flex-column` computes to
+// `flex-direction: row`, `text-truncate` to `text-overflow: clip`, and the
+// 11px and 17px font sizes fall back to the 16px default. Relying on any of
+// them silently breaks a layout, which is exactly what happened to the payout
+// method cards: the card was a flex row, so its details, date and buttons all
+// lined up side by side.
+//
+// Each component that needs them pulls this in with `@use`, so they stay
+// scoped to this feature rather than being added to the theme.
+
+.flex-column {
+  flex-direction: column;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.f-s-11 {
+  font-size: 11px;
+}
+
+.f-s-17 {
+  font-size: 17px;
+}

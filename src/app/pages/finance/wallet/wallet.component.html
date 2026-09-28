@@ -1,0 +1,102 @@
+<!--
+  The balances sit above the tabs: each tab asks a different question about the
+  same money, so the money stays on screen throughout.
+-->
+<div class="row">
+  @for (tile of tiles(); track tile.key) {
+    <div class="col-lg-3 col-sm-6 m-b-20">
+      @if (isLoading()) {
+        <ngx-skeleton-loader class="d-block" [theme]="{ height: '104px' }"></ngx-skeleton-loader>
+      } @else {
+        <mat-card class="cardWithShadow h-100">
+          <mat-card-content class="p-20">
+            <div class="d-flex align-items-center gap-8 m-b-6">
+              <div class="bg-light-{{ tile.color }} rounded icon-32 d-flex align-items-center justify-content-center">
+                <i class="iconify f-s-16 d-flex text-{{ tile.color }}" [attr.data-icon]="tile.icon"></i>
+              </div>
+              <span class="f-s-13 text-muted lh-sm">{{ 'wallet.balance.' + tile.key | translate }}</span>
+            </div>
+            <h3 class="f-s-24 f-w-600 m-b-0 lh-sm text-{{ tile.color }}" dir="auto">
+              {{ tile.value ?? 0 | number }}
+              <span class="f-s-13 f-w-400 text-muted">{{ balance()?.currency }}</span>
+            </h3>
+            <span class="f-s-11 text-muted d-block m-t-4">
+              {{ 'wallet.balance.' + tile.key + '_hint' | translate }}
+            </span>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+
+  <!--
+    The one thing a merchant comes here to do, beside the figures it acts on.
+    A blocked withdrawal names its reason and, where there is one, the way out.
+  -->
+  
+</div>
+
+@if (hasError()) {
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-24 text-center">
+      <i class="iconify f-s-40 text-error m-auto d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <h5 class="f-s-16 f-w-600">{{ 'wallet.error.title' | translate }}</h5>
+      <p class="text-muted f-s-14">{{ 'wallet.error.subtitle' | translate }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        {{ 'wallet.error.retry' | translate }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <!--
+    Withdrawals first, because that is what a merchant opens the wallet to do.
+    The ledger is last and, crucially, every tab body sits in an
+    `ng-template matTabContent` — without it Material builds all three the
+    moment the page opens, so the ledger would fetch its history whether or not
+    anyone looked at it.
+  -->
+  <mat-tab-group class="wallet-tabs" animationDuration="0ms" mat-stretch-tabs="false"
+                 [selectedIndex]="selectedTab()" (selectedIndexChange)="selectedTab.set($event)">
+    <mat-tab [label]="'wallet.tabs.withdrawals' | translate">
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-withdrawals [rows]="withdrawals()" [loading]="isLoading()"
+                                  [currency]="balance()?.currency ?? ''"></app-wallet-withdrawals>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [label]="'wallet.tabs.methods' | translate">
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-payment-methods [rows]="methods()" [loading]="isLoading()"
+                                      (changed)="onMethodsChanged()"></app-wallet-payment-methods>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [label]="'wallet.tabs.ledger' | translate">
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-ledger [currency]="balance()?.currency ?? ''"></app-wallet-ledger>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [label]="'wallet.tabs.invoices' | translate">
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-invoices [currency]="balance()?.currency ?? ''"></app-invoices>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [label]="'wallet.tabs.uninvoiced' | translate">
+      <ng-template matTabContent>
+        <div class="tab-body">
+          <app-wallet-uninvoiced [currency]="balance()?.currency ?? ''"></app-wallet-uninvoiced>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+}
