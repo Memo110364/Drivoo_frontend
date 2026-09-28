@@ -20,6 +20,6 @@ export const defaults: AppSettings = {
   horizontal: true,
   cardBorder: true,
   activeTheme: 'green_theme',
-  language: 'en-us',
+  language: 'en',
   navPos: 'side',
 };

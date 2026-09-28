@@ -1,0 +1,118 @@
+<!-- Filter bar — one period drives every tab -->
+<mat-card class="cardWithShadow m-b-20">
+  <mat-card-content class="p-20">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-12">
+      <div class="min-w-0">
+        <h4 class="f-s-18 f-w-600 m-0 lh-sm">{{ 'reports.title' | translate }}</h4>
+        <span class="f-s-13 text-muted">{{ 'reports.subtitle' | translate }}</span>
+      </div>
+
+      <div class="d-flex flex-wrap align-items-center gap-8">
+        @for (preset of presets; track preset.key) {
+          <button mat-stroked-button class="toolbar-btn"
+                  [color]="activePreset() === preset.key ? 'primary' : undefined"
+                  (click)="applyPreset(preset)">
+            {{ 'reports.presets.' + preset.key | translate }}
+          </button>
+        }
+
+        <mat-form-field appearance="outline" class="reports-filter">
+          <mat-label>{{ 'reports.filters.from' | translate }}</mat-label>
+          <input matInput [matDatepicker]="fromPicker" [value]="fromDate()"
+                 (dateChange)="onDateChange('from', $event.value)" />
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="reports-filter">
+          <mat-label>{{ 'reports.filters.to' | translate }}</mat-label>
+          <input matInput [matDatepicker]="toPicker" [value]="toDate()"
+                 (dateChange)="onDateChange('to', $event.value)" />
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+
+        <button mat-stroked-button class="toolbar-btn" (click)="triggerRefresh()"
+                [attr.aria-label]="'reports.refresh' | translate">
+          <span class="btn-content">
+            <i class="iconify f-s-16 d-flex" data-icon="solar:refresh-linear"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!--
+  (selectedTabChange) keeps activeTabIndex in sync so the refresh button
+  targets the correct per-tab trigger.
+
+  <ng-template matTabContent> makes every tab LAZY: Angular Material will
+  not create the child component until the user first selects that tab.
+  Once created, the component stays alive (cache is preserved across
+  tab switches) but no API call fires until the tab is actually opened.
+-->
+<mat-tab-group class="reports-tabs" animationDuration="0ms" mat-stretch-tabs="false"
+               (selectedTabChange)="onTabChange($event.index)">
+
+  <!-- ── Overview ─────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.overview' | translate">
+    <ng-template matTabContent>
+      <app-overview-tab
+        [filters]="filters()"
+        [refreshTrigger]="tabRefreshTriggers[0]()">
+      </app-overview-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- ── Shipping ──────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.shipping' | translate">
+    <ng-template matTabContent>
+      <app-shipping-tab
+        [filters]="filters()"
+        [refreshTrigger]="tabRefreshTriggers[1]()">
+      </app-shipping-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- ── Returns ──────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.returns' | translate">
+    <ng-template matTabContent>
+      <app-returns-tab
+        [filters]="filters()"
+        [refreshTrigger]="tabRefreshTriggers[2]()">
+      </app-returns-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- ── Products ──────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.products' | translate">
+    <ng-template matTabContent>
+      <app-products-tab
+        [filters]="filters()"
+        [refreshTrigger]="tabRefreshTriggers[3]()">
+      </app-products-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- ── Operations ───────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.operations' | translate">
+    <ng-template matTabContent>
+      <app-operations-tab
+        [filters]="filters()"
+        [refreshTrigger]="tabRefreshTriggers[4]()">
+      </app-operations-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- ── Stores ───────────────────────────────────────────────────────── -->
+  <mat-tab [label]="'reports.tabs.stores' | translate">
+    <ng-template matTabContent>
+      <app-stores-tab
+        [filters]="filters()"
+        [refreshTrigger]="tabRefreshTriggers[5]()">
+      </app-stores-tab>
+    </ng-template>
+  </mat-tab>
+
+</mat-tab-group>

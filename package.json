@@ -1,17 +1,18 @@
 {
-  "name": "matdash",
+  "name": "Drivoo", 
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "dev": "concurrently -n web -c cyan \"npm:start\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "start:demo": "ng serve --configuration demo",
+    "build": "ng build",
     "build:demo": "npm run mock:build && ng build --configuration demo",
     "build:prod": "ng build --configuration production",
-    "mock:build": "node scripts/generate-mock-api.mjs",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
+    "mock:build": "node scripts/generate-mock-api.mjs"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,7 @@
     "@angular/compiler-cli": "^21.0.6",
     "@types/date-fns": "^2.6.3",
     "@types/jasmine": "~5.1.13",
+    "concurrently": "^10.0.5",
     "jasmine-core": "~5.13.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",

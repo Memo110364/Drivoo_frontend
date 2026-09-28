@@ -1,0 +1,36 @@
+<div class="tab-body">
+  <!-- Tab Status and Refresh Bar -->
+  <app-tab-status-bar
+    [lastUpdated]="lastUpdated()"
+    [loading]="isLoading()"
+    (refresh)="refresh()">
+  </app-tab-status-bar>
+
+  @if (hasError()) {
+    <div class="tab-error-state p-24 text-center">
+      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <h5 class="f-s-16 f-w-600">{{ 'reports.error.title' | translate }}</h5>
+      <p class="text-muted f-s-14">{{ 'reports.error.subtitle' | translate }}</p>
+      <button mat-flat-button color="primary" (click)="load()">
+        {{ 'reports.error.retry' | translate }}
+      </button>
+    </div>
+  } @else {
+    <div class="m-b-20">
+      <app-performance-table
+        titleKey="reports.shipping.title" subtitleKey="reports.shipping.subtitle"
+        dimensionKey="reports.dimension.carrier" exportName="drivoo-carriers"
+        [rows]="carrier()" [loading]="isLoading()"></app-performance-table>
+    </div>
+    <div class="m-b-20">
+      <app-performance-table
+        titleKey="reports.geography.cities" subtitleKey="reports.geography.cities_sub"
+        dimensionKey="reports.dimension.city" exportName="drivoo-cities"
+        [rows]="city()" [loading]="isLoading()"></app-performance-table>
+    </div>
+    <app-performance-table
+      titleKey="reports.geography.areas" subtitleKey="reports.geography.areas_sub"
+      dimensionKey="reports.dimension.area" exportName="drivoo-areas"
+      [rows]="area()" [loading]="isLoading()"></app-performance-table>
+  }
+</div>

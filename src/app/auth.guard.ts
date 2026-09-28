@@ -19,12 +19,10 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
     // The published demo has no backend to authenticate against, so it is not
-    // gated. Every other build authenticates normally — this flag is false
-    // everywhere except src/environments/environment.demo.ts.
+    // gated. Every other build authenticates normally.
     if (environment.demoAccess) {
       return true;
     }
-
     if (localStorage.getItem('username') != null) {
       return true;
     } else {
