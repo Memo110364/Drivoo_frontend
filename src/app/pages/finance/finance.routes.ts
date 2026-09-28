@@ -8,13 +8,13 @@ export const FinanceRoutes: Routes = [
     component: WalletComponent,
     data: { title: 'My Wallet' },
   },
-  {
-    // The sidebar's withdrawals link lands on the same screen, opened on the
-    // requests tab — they are two views of one wallet, not two pages.
-    path: 'transfers',
-    component: WalletComponent,
-    data: { title: 'Transfers', tab: 1 },
-  },
+  // {
+  //   // The sidebar's withdrawals link lands on the same screen, opened on the
+  //   // requests tab — they are two views of one wallet, not two pages.
+  //   path: 'transfers',
+  //   component: WalletComponent,
+  //   data: { title: 'Transfers', tab: 1 },
+  // },
   {
     path: '',
     redirectTo: 'my-wallet',

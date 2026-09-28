@@ -49,6 +49,48 @@ export interface UninvoicedPage {
   total: number;
   data: UninvoicedEntry[];
 }
+export interface InvoicesPage {
+  page: number;
+  limit: number;
+  total: number;
+  data: [];
+}
+export interface InvoiceEntry{
+  id: string;
+  date: string;
+  status: string;
+  amount: number;
+  invoice_number: string;
+}
+export interface InvoiceDetails{
+  id: string;
+  date: string;
+  status: string;
+  amount: number;
+  invoice_number: string;
+  items:InvoiceItem[];
+  additionals:InvoiceAdditionalsItem[];
+}
+export interface InvoiceItem{
+  id: string;
+  service_name: string;
+  cost: number;
+  reference: string;
+  reference_type:string;
+}
+export interface InvoiceAdditionalsItem{
+  id: string;
+  description: string;
+  note: string;
+  cost: number;
+
+}
+export interface InvoiceQuery {
+  from?: string;
+  to?: string;
+  page?: number;
+  limit?: number;
+}
 
 export interface UninvoicedQuery {
   from?: string;
@@ -243,7 +285,18 @@ export class WalletService extends BaseService {
     }
     return this.http.get<UninvoicedPage>(`${this.baseUrl}finance/uninvoiced`, { params });
   }
-
+  getInvoices(query: InvoiceQuery = {}): Observable<InvoicesPage> {
+    let params = new HttpParams();
+    for (const [key, value] of Object.entries(query)) {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, String(value));
+      }
+    }
+    return this.http.get<InvoicesPage>(`${this.baseUrl}finance/invoices/list`, { params });
+  }
+  getInvoice(id: string): Observable<InvoiceDetails> {
+    return this.http.get<InvoiceDetails>(`${this.baseUrl}finance/invoices/details/${id}`);
+  }
   getPaymentMethods(): Observable<{ data: PaymentMethod[] }> {
     return this.http.get<{ data: PaymentMethod[] }>(`${this.baseUrl}wallet/payment-methods`);
   }

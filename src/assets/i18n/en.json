@@ -76,11 +76,38 @@
       "19": "Need Update"
     }
   },
+  "finance": {
+    "total_cost": "Total Cost",
+    "total_order": "Total Order"
+  },
   "wallet": {
     "close": "Close",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "export_excel": "Export",
+    "invoice": {
+      "service_name":"Service Name",
+      "empty": "No invoices yet.",
+      "title": "Invoices",
+      "subtitle": "This is the list of invoices.",
+      "date": "Date",
+      "status": "Status",
+      "amount": "Amount",
+      "invoice_number": "Invoice Number",
+      "search": "Search invoice number",
+      "from": "From",
+      "to": "To",
+      "clear": "Clear filters",
+      "count": "Invoices",
+      "no_match": "No invoices match these filters.",
+      "statuses":{
+        "draft": "Draft",
+        "unpaid": "Unpaid",
+        "paid": "Paid",
+        "cancelled": "Cancelled",
+        "pending": "Pending"
+      }
+    },
     "balance": {
       "total": "Total balance",
       "total_hint": "Pending plus available",
@@ -168,7 +195,10 @@
       "shipping_return": "Return",
       "shipping_delivery": "Shipping",
       "shipping_cancel": "Cancel Shipment",
+      "shipping_exchange": "Exchange",
+      "shipping_cod": "Cash on Delivery",
       "taxes": "Taxes",
+      "money_tranactions": "Money Tranactions",
       "quality inspection": "Quality Inspection",
       "quality_inspection": "Quality Inspection"
     },

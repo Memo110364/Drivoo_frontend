@@ -76,11 +76,38 @@
       "19": "تحتاج إلى تحديث"
     }
   },
+  "finance": {
+    "total_cost": "التكلفة الإجمالية",
+    "total_order": "إجمالي الطلب"
+  },
   "wallet": {
     "close": "إغلاق",
     "cancel": "إلغاء",
     "confirm": "تأكيد",
     "export_excel": "تصدير",
+    "invoice": {
+      "service_name":"اسم الخدمة",
+      "empty": "لا يوجد فواتير.",
+      "title": "الفواتير",
+      "subtitle": "هذه هي قائمة الفواتير.",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "amount": "المبلغ",
+      "invoice_number": "رقم الفاتورة",
+      "search": "بحث برقم الفاتورة",
+      "from": "من",
+      "to": "إلى",
+      "clear": "مسح الفلاتر",
+      "count": "عدد الفواتير",
+      "no_match": "لا يوجد فواتير مطابقة لهذه الفلاتر.",
+      "satatus":{
+        "draft": "مسودة",
+        "unpaid": "غير مدفوعة",
+        "paid": "مدفوعة",
+        "cancelled": "تم الإلغاء",
+        "pending": "قيد الانتظار"
+      }
+    },
     "balance": {
       "total": "إجمالي الرصيد",
       "total_hint": "المعلّق + المتاح",
@@ -168,7 +195,10 @@
       "shipping_return": "الإرجاع",
       "shipping_delivery": "توصيل",
       "shipping_cancel": "إلغاء الشحن",
+      "shipping_exchange": "استبدال",
+      "shipping_cod":"تحصيل عند التسليم",
       "taxes": "ضريبة",
+      "money_tranactions":"عمليات مالية",
       "quality inspection": "فحص الجودة",
       "quality_inspection": "فحص الجودة"
     },
