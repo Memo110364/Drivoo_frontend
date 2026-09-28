@@ -6,22 +6,7 @@
  * alongside the bundle. The requests are real HTTP requests, visible in
  * DevTools; only the server answering them is a stand-in.
  */
-export const environment = {
-  production: true,
-  apiUrl: 'api/v1/',
-  /**
-   * A static host cannot answer a login POST, so the demo is not gated. This
-   * flag exists in exactly one place — see src/app/auth.guard.ts — and is false
-   * in every other build.
-   */
-  demoAccess: true,
- * Demo environment — the build published for review.
- *
- * The API is served from the same site as static JSON at `api/v1/...`, so the
- * app makes genuine network requests (visible in the browser's Network tab)
- * with no server to host and no in-app stand-in. Responses do not vary with the
- * date filter; point `apiUrl` at a hosted Mockoon instance when that matters.
- */
+
 export const environment = {
   production: true,
   /** No backend behind the demo can answer a login POST, so it is not gated. */
