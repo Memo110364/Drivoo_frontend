@@ -1,0 +1,131 @@
+<h2 mat-dialog-title class="f-s-17 f-w-600">{{ 'wallet.add_method.title' | translate }}</h2>
+
+<mat-dialog-content>
+  @if (!selectedMethod()) {
+    @if (isLoadingMethods()) {
+      <div class="d-flex flex-column align-items-center justify-content-center p-24">
+        <mat-spinner diameter="36" class="m-b-12"></mat-spinner>
+        <span class="f-s-13 text-muted">{{ 'wallet.add_method.loading_methods' | translate }}</span>
+      </div>
+    } @else if (loadError()) {
+      <div class="p-16 text-center">
+        <p class="text-error f-s-13 m-b-12">{{ loadError() | translate }}</p>
+        <button mat-stroked-button color="primary" (click)="loadMethods()">
+          {{ 'wallet.error.retry' | translate }}
+        </button>
+      </div>
+    } @else {
+      <!-- The method decides which fields apply, so it is picked first. -->
+      <span class="f-s-12 text-muted d-block m-b-16">{{ 'wallet.add_method.pick_type' | translate }}</span>
+      <div class="row">
+        @for (method of methods(); track method.id) {
+          <div class="col-6 m-b-12">
+            <button class="type-tile p-16 rounded w-100 text-start" (click)="selectMethod(method)">
+              <i class="iconify f-s-24 d-flex text-primary m-b-8" [attr.data-icon]="method.icon"></i>
+              <span class="f-s-13 f-w-600 d-block lh-sm">
+                {{ method.name }}
+              </span>
+              @if (method.minimum_request) {
+                <span class="f-s-11 text-muted d-block m-t-4">
+                  {{ 'wallet.add_method.min_request' | translate }}: {{ method.minimum_request | number }}
+                </span>
+              }
+            </button>
+          </div>
+        }
+      </div>
+    }
+  } @else {
+    <button mat-stroked-button class="link-btn m-b-16" (click)="back()">
+      <span class="btn-content">
+        <i class="iconify f-s-14 d-flex" data-icon="solar:arrow-right-linear"></i>
+        <span>{{ 'wallet.add_method.change_type' | translate }}</span>
+      </span>
+    </button>
+
+    <div class="chosen p-12 rounded m-b-16 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-8">
+        <i class="iconify f-s-20 d-flex text-primary" [attr.data-icon]="selectedMethod()!.icon"></i>
+        <span class="f-s-14 f-w-600">{{ selectedMethod()!.name }}</span>
+      </div>
+      @if (selectedMethod()!.minimum_request) {
+        <span class="f-s-11 text-muted">
+          {{ 'wallet.add_method.min_request' | translate }}: {{ selectedMethod()!.minimum_request | number }}
+        </span>
+      }
+    </div>
+
+    <!-- Dynamic Form Fields -->
+    @for (field of selectedMethod()!.fields; track field.key) {
+      @if (field.type === 'select') {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ field.name }}</mat-label>
+          <mat-select [ngModel]="formValues()[field.key]"
+                      (ngModelChange)="onFieldChange(field.key, $event)"
+                      (blur)="markTouched(field.key)"
+                      [required]="!!field.required">
+            @for (option of field.values; track option.name ?? option.value) {
+              <mat-option [value]="option.name">{{ option.value }}</mat-option>
+            }
+          </mat-select>
+          @if (isTouched(field.key) && getFieldError(field)) {
+            <mat-error>{{ getFieldError(field) | translate }}</mat-error>
+          }
+        </mat-form-field>
+      } @else if (field.type === 'number') {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ field.name }}</mat-label>
+          <input matInput type="number" dir="ltr"
+                 [ngModel]="formValues()[field.key]"
+                 (ngModelChange)="onFieldChange(field.key, $event)"
+                 (blur)="markTouched(field.key)"
+                 [required]="!!field.required" />
+          @if (isTouched(field.key) && getFieldError(field)) {
+            <mat-error>{{ getFieldError(field) | translate }}</mat-error>
+          }
+        </mat-form-field>
+      } @else {
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ field.name }}</mat-label>
+          <input matInput type="text" dir="auto"
+                 [ngModel]="formValues()[field.key]"
+                 (ngModelChange)="onFieldChange(field.key, $event)"
+                 (blur)="markTouched(field.key)"
+                 [required]="!!field.required" />
+          @if (isTouched(field.key) && getFieldError(field)) {
+            <mat-error>{{ getFieldError(field) | translate }}</mat-error>
+          }
+        </mat-form-field>
+      }
+    }
+
+    <!-- Fixed Default Method Checkbox -->
+    <div class="m-t-8 m-b-16">
+      <mat-checkbox [checked]="isDefault()"
+                    (change)="isDefault.set($event.checked)"
+                    [disabled]="isFirstMethod()"
+                    color="primary">
+        <span class="f-s-13">{{ 'wallet.add_method.set_as_default' | translate }}</span>
+      </mat-checkbox>
+      @if (isFirstMethod()) {
+        <span class="f-s-11 text-muted d-block m-s-32 m-t-2">
+          {{ 'wallet.add_method.first_method_hint' | translate }}
+        </span>
+      }
+    </div>
+
+    @if (serverError()) {
+      <span class="f-s-12 text-error d-block m-t-12" dir="auto">{{ serverError() | translate }}</span>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'wallet.cancel' | translate }}</button>
+  @if (selectedMethod()) {
+    <button mat-flat-button color="primary" [disabled]="!isValid() || isSubmitting()"
+            (click)="submit()">
+      {{ (isSubmitting() ? 'wallet.add_method.saving' : 'wallet.add_method.save') | translate }}
+    </button>
+  }
+</mat-dialog-actions>

@@ -1,0 +1,29 @@
+{
+  "rules": {
+    "minimum_amount": 500,
+    "maximum_amount": null,
+    "fees": {
+      "bank_account": 15,
+      "vodafone_cash": 10,
+      "instapay": 0,
+      "cash": 0
+    },
+    "allow_concurrent_requests": false,
+    "transfer_days": [
+      0,
+      2,
+      4
+    ],
+    "expected_days": 2
+  },
+  "eligibility": {
+    "can_request": false,
+    "reason": "request_in_progress",
+    "context": {
+      "code": "110641",
+      "amount": 20000
+    },
+    "available": 26770,
+    "next_transfer_date": "2026-09-15"
+  }
+}

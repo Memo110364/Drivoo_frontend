@@ -48,23 +48,7 @@ export function navItems():NavItem[]{
     id: 4,
     displayName: 'finance',
     iconName: 'solar:money-bag-linear',
-    children: [
-      {
-        displayName: 'my_wallets',
-        iconName: 'solar:wallet-outline',
-        route: '/finance/my-wallet',
-      },  
-      {
-        displayName: 'my_invoices',
-        iconName: 'griddy-icons:invoice',
-        route: '/finance/my-invoices',
-      },  
-      {
-        displayName: 'transfers',
-        iconName: 'uil:money-withdraw',
-        route: '/finance/transfers',
-      }
-    ]
+    route: '/finance/my-wallet',
   },
    {
     id: 5,
