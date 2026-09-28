@@ -31,7 +31,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "mock-api",
+                "output": "/api/v1"
+              }
             ],
             "styles": [
               "src/globals.css",
@@ -95,7 +100,7 @@
                 {
                   "glob": "**/*",
                   "input": "mock-api",
-                  "output": "api/v1"
+                  "output": "/api/v1"
                 }
               ]
             }

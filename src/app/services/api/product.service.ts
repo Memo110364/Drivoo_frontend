@@ -38,7 +38,7 @@ export class ProductService extends BaseService {
     }
 
     getProductById(id:number): Observable<any> {
-        return this.http.get(this.baseUrl + `products/${id}`);
+        return this.http.get(this.baseUrl + `products/view/${id}`);
     }
     deleteProduct(id: string): Observable<any> {
         return this.http.delete(this.baseUrl + `products/${id}`);

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { routes } from './app.routes';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling, } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(), // required animations providers
+    provideNativeDateAdapter(), // the reports date pickers need a DateAdapter
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
