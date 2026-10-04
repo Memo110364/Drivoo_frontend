@@ -26,6 +26,15 @@ import {
 import { TablerIconsModule } from 'angular-tabler-icons';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MediaService } from '../../../services/api/media.service';
+import { ProductService as ProductApiService } from '../../../services/api/product.service';
+export interface UploadedMediaItem {
+  file: File;
+  id?: number | string;
+  url?: string;
+  isUploading?: boolean;
+  error?: boolean;
+}
+
 @Component({
   selector: 'app-add-product',
   imports: [
@@ -45,6 +54,7 @@ import { MediaService } from '../../../services/api/media.service';
 export class AddProductComponent implements OnInit {
   private router = inject(Router);
   private productService = inject(ProductService);
+  private productApiService = inject(ProductApiService);
   private fb = inject(FormBuilder);
   private mediaService = inject(MediaService);
   html = '';
@@ -60,7 +70,8 @@ export class AddProductComponent implements OnInit {
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
 
-  files: File[] = [];
+  mediaFiles: UploadedMediaItem[] = [];
+  thumbnailFiles: UploadedMediaItem[] = [];
   seasons: string[] = ['No Discount', 'Percentage %', 'Fixed Price'];
   sizes: string[] = ['XS', 'S', 'M', 'L', 'XL'];
 
@@ -86,8 +97,8 @@ export class AddProductComponent implements OnInit {
   ];
 
   productStatuses = [
-    { label: 'Stock', value: true },
-    { label: 'Out of stock', value: false },
+    { label: 'Active', value: 'active' },
+    { label: 'Inactive', value: 'inactive' },
   ];
   selectedOption: string = '';
   tags: string[] = []; // Selected tags
@@ -127,10 +138,11 @@ export class AddProductComponent implements OnInit {
     return this.AddProduct.get('variables') as FormArray;
   }
 
-  createValueGroup(name: string = '', value: string = ''): FormGroup {
+  createValueGroup(name: string = '', value: any = '', previewUrl: string = ''): FormGroup {
     return this.fb.group({
       name: [name, Validators.required],
-      value: [value]
+      value: [value],
+      previewUrl: [previewUrl]
     });
   }
 
@@ -176,24 +188,36 @@ export class AddProductComponent implements OnInit {
           ctrl.get('value')?.setValue('#16cdc7');
         }
       });
+    } else if (newType === 'image') {
+      values.controls.forEach((ctrl) => {
+        const currentVal = ctrl.get('value')?.value;
+        if (typeof currentVal === 'string' && currentVal.startsWith('#')) {
+          ctrl.get('value')?.setValue('');
+          ctrl.get('previewUrl')?.setValue('');
+        }
+      });
     }
   }
 
   onValueImageUpload(event: any, variableIndex: number, valueIndex: number) {
     const file = event.target.files?.[0];
-    console.log(file);
     if (file) {
-      this.mediaService.upload(file).subscribe((res: any) => {
-        const valGroup = this.getValues(variableIndex).at(valueIndex);
-        valGroup.get('value')?.setValue(res.data.url);
-        this.snackBar.open('Image uploaded successfully', 'Close', {
-          duration: 2000,
-        });
+      this.mediaService.upload(file).subscribe({
+        next: (res: any) => {
+          const mediaId = res?.data?.id ?? res?.id ?? res?.data?._id ?? res?.data?.media_id;
+          const mediaUrl = res?.data?.url ?? res?.url ?? res?.data?.path ?? res?.path;
+          const valGroup = this.getValues(variableIndex).at(valueIndex);
+          valGroup.get('value')?.setValue(mediaId);
+          valGroup.get('previewUrl')?.setValue(mediaUrl);
+          this.showSnackbar('تم رفع الصورة بنجاح');
+        },
+        error: (err: any) => {
+          console.error('Error uploading image:', err);
+          this.showSnackbar('فشل رفع الصورة');
+        }
       });
     }
   }
-
-
 
   get isFormValid() {
     return this.AddProduct.valid;
@@ -248,25 +272,103 @@ export class AddProductComponent implements OnInit {
   onBlur(event: any) {
     console.log('blur ' + event);
   }
-  onSelect(event: any) {
-    console.log(event);
-    const files = event.addedFiles; // Getting the selected files
-    
-    // Loop through the selected files and add them to the FormArray
-    files.forEach((file: any) => {
-      this.mediaArray.push(this.fb.control(file)); // Add file to FormArray
+
+  onSelectMedia(event: any) {
+    const files: File[] = event.addedFiles;
+    if (!files || files.length === 0) return;
+
+    files.forEach((file: File) => {
+      const mediaItem: UploadedMediaItem = {
+        file,
+        isUploading: true,
+        error: false
+      };
+      this.mediaFiles.push(mediaItem);
+      const controlIndex = this.mediaArray.length;
+      this.mediaArray.push(this.fb.control(null));
+
+      this.mediaService.upload(file).subscribe({
+        next: (res: any) => {
+          const mediaId = res?.data?.id ?? res?.id ?? res?.data?._id ?? res?.data?.media_id;
+          const mediaUrl = res?.data?.url ?? res?.url ?? res?.data?.path ?? res?.path;
+
+          mediaItem.id = mediaId;
+          mediaItem.url = mediaUrl;
+          mediaItem.isUploading = false;
+
+          this.mediaArray.at(controlIndex)?.setValue(mediaId);
+          this.showSnackbar('تم رفع الصورة بنجاح');
+        },
+        error: (err: any) => {
+          console.error('Error uploading media:', err);
+          mediaItem.isUploading = false;
+          mediaItem.error = true;
+          this.showSnackbar('فشل رفع الصورة');
+        }
+      });
     });
   }
 
-  // Method to remove file
-  onRemove(file: any, index?: any) {
-    index = this.mediaArray.controls.findIndex(
-      (control) => control.value === file
-    );
-    if (index > -1) {
-      this.mediaArray.removeAt(index); // Remove file from FormArray
+  onRemoveMedia(item: UploadedMediaItem, index?: number) {
+    const idx = index !== undefined && index >= 0 ? index : this.mediaFiles.indexOf(item);
+    if (idx > -1) {
+      this.mediaFiles.splice(idx, 1);
+      if (idx < this.mediaArray.length) {
+        this.mediaArray.removeAt(idx);
+      }
     }
   }
+
+  onSelectThumbnail(event: any) {
+    const files: File[] = event.addedFiles;
+    if (!files || files.length === 0) return;
+
+    // Set single thumbnail
+    this.thumbnailFiles = [];
+    this.Thumbnail.clear();
+
+    files.forEach((file: File) => {
+      const thumbItem: UploadedMediaItem = {
+        file,
+        isUploading: true,
+        error: false
+      };
+      this.thumbnailFiles.push(thumbItem);
+      const controlIndex = this.Thumbnail.length;
+      this.Thumbnail.push(this.fb.control(null));
+
+      this.mediaService.upload(file).subscribe({
+        next: (res: any) => {
+          const thumbId = res?.data?.id ?? res?.id ?? res?.data?._id ?? res?.data?.media_id;
+          const thumbUrl = res?.data?.url ?? res?.url ?? res?.data?.path ?? res?.path;
+
+          thumbItem.id = thumbId;
+          thumbItem.url = thumbUrl;
+          thumbItem.isUploading = false;
+
+          this.Thumbnail.at(controlIndex)?.setValue(thumbId);
+          this.showSnackbar('تم رفع الصورة المصغرة بنجاح');
+        },
+        error: (err: any) => {
+          console.error('Error uploading thumbnail:', err);
+          thumbItem.isUploading = false;
+          thumbItem.error = true;
+          this.showSnackbar('فشل رفع الصورة المصغرة');
+        }
+      });
+    });
+  }
+
+  onRemoveThumbnail(item: UploadedMediaItem, index?: number) {
+    const idx = index !== undefined && index >= 0 ? index : this.thumbnailFiles.indexOf(item);
+    if (idx > -1) {
+      this.thumbnailFiles.splice(idx, 1);
+      if (idx < this.Thumbnail.length) {
+        this.Thumbnail.removeAt(idx);
+      }
+    }
+  }
+
   onSeasonChange(event: any) {
     this.selectedOption = event.value;
   }
@@ -291,26 +393,32 @@ export class AddProductComponent implements OnInit {
     this.tags = this.tags.filter((t) => t !== tag);
   }
   getBack() {
-    this.router.navigate(['apps/product/product-list']);
+    this.router.navigate(['/products']);
   }
   getAddProduct(data: any) {
+    // Check if any media is still uploading
+    if (this.mediaFiles.some(m => m.isUploading) || this.thumbnailFiles.some(t => t.isUploading)) {
+      this.showSnackbar('يرجى الانتظار حتى يكتمل رفع الصور');
+      return;
+    }
+
     const formData = this.AddProduct.getRawValue();
-    const imageFilename = formData.media[0]; // e.g., "Spike Nextjs Free.jpg"
-    
-    // Store the image filename in localStorage (as a string)
-    localStorage.setItem('productImage', imageFilename);
+    const imageFilename = this.thumbnailFiles[0]?.url || this.mediaFiles[0]?.url || '';
+    if (imageFilename) {
+      localStorage.setItem('productImage', imageFilename);
+    }
+
     if (this.isEditMode) {
       if (!formData.id) {
-        console.error('Updated product does not have an id:', formData); // Log if id is missing
+        console.error('Updated product does not have an id:', formData);
       }
-      this.updateProduct(formData); // Pass formData which should have id
+      this.updateProduct(formData);
     } else {
-      this.addProduct(formData); // Handle adding a new product (no id for new product)
+      this.addProduct(formData);
     }
   }
 
   addProduct(data: any) {
-    
     if (this.AddProduct.valid) {
       // Extract plain text from ngx-editor content
       if (data.description?.content?.length) {
@@ -319,16 +427,33 @@ export class AddProductComponent implements OnInit {
         data.description = '';
       }
 
-      // Handle media
-      if (data.media && data.media.length > 0) {
-        data.media = data.media.map((file: any) => file.name);
-      } else {
-        data.media = [];
+      // Handle media - Send array of IDs
+      const mediaIds = this.mediaFiles
+        .map((file) => file.id)
+        .filter((id) => id !== undefined && id !== null);
+      data.media = mediaIds;
+
+      // Handle Thumbnail - Send ID(s)
+      const thumbnailIds = this.thumbnailFiles
+        .map((file) => file.id)
+        .filter((id) => id !== undefined && id !== null);
+      data.thumbnail = thumbnailIds.length > 0 ? thumbnailIds[0] : null;
+      data.Thumbnail = thumbnailIds;
+
+      // Handle variables - ensure value is clean
+      if (data.variables && Array.isArray(data.variables)) {
+        data.variables = data.variables.map((v: any) => ({
+          name: v.name,
+          type: v.type,
+          values: (v.values || []).map((val: any) => ({
+            name: val.name,
+            value: val.value
+          }))
+        }));
       }
 
       // Clean up unnecessary fields
       delete data.size;
-      delete data.Thumbnail;
       delete data.VAT_amount;
       delete data.default_template;
       delete data.fixed_discounted_price;
@@ -337,14 +462,20 @@ export class AddProductComponent implements OnInit {
       delete data.variations;
       delete data.set_discount_percentage;
       delete data.discount_type;
-      console.log(data);
       
-      // this.productService.emitProduct(data);
-      // this.getBack();
+      this.productApiService.createProduct(data).subscribe({
+        next: (res: any) => {
+          this.showSnackbar('تم اضافة المنتج بنجاح');
+          this.getBack();
+        },
+        error: (err: any) => {
+          console.error('Error creating product:', err);
+          this.showSnackbar('فشل اضافة المنتج');
+        }
+      });
     }
-    else{
+    else {
       const errors = this.checkFormErrors(this.AddProduct); 
-      //to show the errors in snack bar 
       errors.forEach((error: any) => {
         this.showSnackbar(error.field + ' is required');
       });
@@ -381,15 +512,39 @@ export class AddProductComponent implements OnInit {
   }
   updateProduct(data: any) {
     if (this.AddProduct.valid) {
-      if (data.media && data.media.length > 0) {
-        data.media = data.media.map((file: any) => file.name);
+      if (data.description?.content?.length) {
+        data.description = this.extractPlainText(data.description);
       } else {
-        data.media = [];
+        data.description = '';
+      }
+
+      // Handle media - Send array of IDs
+      const mediaIds = this.mediaFiles
+        .map((file) => file.id)
+        .filter((id) => id !== undefined && id !== null);
+      data.media = mediaIds;
+
+      // Handle Thumbnail - Send ID(s)
+      const thumbnailIds = this.thumbnailFiles
+        .map((file) => file.id)
+        .filter((id) => id !== undefined && id !== null);
+      data.thumbnail = thumbnailIds.length > 0 ? thumbnailIds[0] : null;
+      data.Thumbnail = thumbnailIds;
+
+      // Handle variables - ensure value is clean
+      if (data.variables && Array.isArray(data.variables)) {
+        data.variables = data.variables.map((v: any) => ({
+          name: v.name,
+          type: v.type,
+          values: (v.values || []).map((val: any) => ({
+            name: val.name,
+            value: val.value
+          }))
+        }));
       }
 
       // clean up unnecessary fields
       delete data.size;
-      delete data.Thumbnail;
       delete data.VAT_amount;
       delete data.default_template;
       delete data.fixed_discounted_price;
@@ -398,7 +553,7 @@ export class AddProductComponent implements OnInit {
       delete data.variations;
       delete data.set_discount_percentage;
       delete data.discount_type;
-      this.productService.updateProduct(data); // <-- make sure you have this method in service
+      this.productService.updateProduct(data);
       this.getBack();
     }
   }

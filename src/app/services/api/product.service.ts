@@ -45,7 +45,7 @@ export class ProductService extends BaseService {
     }
 
     createProduct(product: any): Observable<any> {
-        return this.http.post(this.baseUrl + 'products', product);
+        return this.http.post(this.baseUrl + 'products/create', product);
     }
 
     updateProduct(id: string, product: any): Observable<any> {

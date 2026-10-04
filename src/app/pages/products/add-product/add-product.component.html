@@ -46,7 +46,7 @@
             class="custom-dropzone dropzone-box mt-2"
             ngx-dropzone
             [accept]="'image/*'"
-            (change)="onSelect($event)"
+            (change)="onSelectMedia($event)"
             [multiple]="true"
           >
             <ngx-dropzone-label>
@@ -68,15 +68,17 @@
               </div>
             </ngx-dropzone-label>
 
-            @for (f of mediaArray.controls; track f) {
+            @for (item of mediaFiles; track item) {
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-preview"
-                formArrayName="media"
-                [file]="f.value"
+                [file]="item.file"
                 [removable]="true"
-                (removed)="onRemove(f.value, $index)"
+                (removed)="onRemoveMedia(item, $index)"
               >
-                <ngx-dropzone-label></ngx-dropzone-label>
+                <ngx-dropzone-label>
+                  <span *ngIf="item.isUploading" class="upload-status-badge">جاري الرفع...</span>
+                  <span *ngIf="item.error" class="upload-status-badge error">فشل الرفع</span>
+                </ngx-dropzone-label>
               </ngx-dropzone-image-preview>
             }
           </div>
@@ -271,9 +273,9 @@
                             <span>Choose</span>
                           </span>
                         </button>
-                        @if (val.get('value')?.value) {
+                        @if (val.get('previewUrl')?.value || val.get('value')?.value) {
                           <div class="val-img-preview rounded b-1 overflow-hidden" matTooltip="Uploaded Preview">
-                            <img [src]="val.get('value')?.value" alt="" class="w-100 h-100 object-cover" />
+                            <img [src]="val.get('previewUrl')?.value || val.get('value')?.value" alt="" class="w-100 h-100 object-cover" />
                           </div>
                         }
                       </div>
@@ -348,7 +350,7 @@
             <mat-hint class="f-s-12">Set the product price.</mat-hint>
           </mat-form-field>
 
-          <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">
+          <!-- <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">
             Discount Type<span class="text-error">*</span>
           </div>
           <mat-radio-group
@@ -370,9 +372,9 @@
                 </mat-radio-button>
               </mat-card>
             }
-          </mat-radio-group>
+          </mat-radio-group> -->
 
-          @switch (selectedOption) {
+          <!-- @switch (selectedOption) {
             @case ("Percentage %") {
               <div output>
                 <div class="f-s-14 f-w-500 mt-4">
@@ -418,8 +420,8 @@
                 </div>
               </div>
             }
-          }
-          <div class="row">
+          } -->
+          <!-- <div class="row">
             <div class="col-lg-6">
               <div class="f-s-14 f-w-600 m-b-8 d-block">
                 Tax Class<span class="text-error">*</span>
@@ -453,19 +455,18 @@
                 <mat-hint class="f-s-12">Set the product VAT about.</mat-hint>
               </mat-form-field>
             </div>
-          </div>
+          </div> -->
         </mat-card>
       </div>
       <div class="col-lg-4">
         <mat-card class="cardWithShadow b-1 rounded p-30">
           <h4 Ctitle class="m-b-10">Thumbnail</h4>
           <div
-            class="custom-dropzone"
+            class="custom-dropzone dropzone-box"
             ngx-dropzone
             [accept]="'image/*'"
-            (change)="onSelect($event)"
-            [multiple]="true"
-            class="dropzone-box"
+            (change)="onSelectThumbnail($event)"
+            [multiple]="false"
           >
             <ngx-dropzone-label>
               <div class="dropzone-content">
@@ -478,14 +479,17 @@
               </div>
             </ngx-dropzone-label>
 
-            @for (f of files; track f) {
+            @for (item of thumbnailFiles; track item) {
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-preview"
-                [file]="f"
+                [file]="item.file"
                 [removable]="true"
-                (removed)="onRemove(f)"
+                (removed)="onRemoveThumbnail(item, $index)"
               >
-                <ngx-dropzone-label></ngx-dropzone-label>
+                <ngx-dropzone-label>
+                  <span *ngIf="item.isUploading" class="upload-status-badge">جاري الرفع...</span>
+                  <span *ngIf="item.error" class="upload-status-badge error">فشل الرفع</span>
+                </ngx-dropzone-label>
               </ngx-dropzone-image-preview>
             }
           </div>
@@ -518,7 +522,7 @@
             <mat-hint>Set the product status.</mat-hint>
           </mat-form-field>
         </mat-card>
-        <mat-card class="cardWithShadow b-1 rounded p-30">
+        <!-- <mat-card class="cardWithShadow b-1 rounded p-30">
           <h4 Ctitle>Product Details</h4>
           <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">Categories</div>
           <mat-form-field appearance="outline" class="w-100">
@@ -571,8 +575,8 @@
               </mat-option>
             }
           </mat-autocomplete>
-        </mat-card>
-        <mat-card class="cardWithShadow b-1 rounded p-30">
+        </mat-card> -->
+        <!-- <mat-card class="cardWithShadow b-1 rounded p-30">
           <h4 Ctitle>Product Template</h4>
           <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">
             Select a product template
@@ -594,7 +598,7 @@
               product is displayed.</mat-hint
             >
           </mat-form-field>
-        </mat-card>
+        </mat-card> -->
       </div>
     </div>
     <div class="d-flex gap-20">
