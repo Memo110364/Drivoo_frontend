@@ -696,5 +696,59 @@
     "product_quantity": "Product Quantity",
     "product_notes": "Product Notes",
     "product_add_to_order": "Add Product to Order"
+  },
+  "auth": {
+    "support_phone": "16555",
+    "language": {
+      "ar": "عربي",
+      "en": "EN"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Open your account and keep track of your orders and stock",
+      "identifier": "Mobile number or email",
+      "identifier_placeholder": "01xxxxxxxxx or name@example.com",
+      "password": "Password",
+      "show_password": "Show password",
+      "hide_password": "Hide password",
+      "caps_lock": "Caps Lock is on",
+      "remember": "Remember my sign-in details",
+      "forgot": "Forgot your password?",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "no_account": "No account yet?",
+      "contact_us": "Talk to the Drivoo team"
+    },
+    "forgot": {
+      "title": "Forgot your password",
+      "subtitle": "Enter your mobile number or email and we will send a link to reset it",
+      "submit": "Send the link",
+      "sending": "Sending…",
+      "sent_title": "The link is on its way",
+      "sent_body": "If an account is registered to",
+      "sent_hint": "The link is valid for one hour. If it has not arrived, check your spam folder.",
+      "back_to_login": "Back to sign in",
+      "try_again": "Try different details"
+    },
+    "brand": {
+      "title": "Welcome to Drivoo",
+      "subtitle": "Storage, fulfilment, shipping and cash on delivery — in one place.",
+      "storage": "Store your goods in our warehouses and pay for what you use",
+      "fulfilment": "We pick, pack and dispatch every order",
+      "shipping": "Shipping coverage across every Egyptian governorate",
+      "cod": "Cash collected on delivery and transferred to your account"
+    },
+    "errors": {
+      "identifier_required": "Enter your mobile number or email.",
+      "identifier_shape": "Enter a valid mobile number (11 digits starting 010, 011, 012 or 015) or a valid email.",
+      "password_required": "Enter your password.",
+      "invalid": "Those sign-in details are not right. Check your number and password.",
+      "disabled": "This account is suspended. Please contact the Drivoo team.",
+      "too_many": "Too many attempts. Please wait a moment and try again.",
+      "offline": "Could not reach the server. Check your connection and try again.",
+      "server": "Something is wrong on the server right now. Please try again shortly.",
+      "generic": "Could not sign you in. Please try again.",
+      "reset_failed": "Could not send the link. Please try again."
+    }
   }
 }

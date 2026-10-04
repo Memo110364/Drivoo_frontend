@@ -604,3 +604,45 @@ Each slice returns `percentage` alongside `count`, for the same reason the
 delivery rates do: the screen and the server must not divide differently. The
 six groups are `pending`, `confirmed`, `in_shipping`, `delivered`, `returned`,
 `cancelled`, and they sum to `total`.
+
+---
+
+## Password reset — blocks the forgot-password screen
+
+The screen at `/authentication/forgot-password` is built and posts what the
+backend will need. The endpoint does not exist yet.
+
+```
+POST auth/forgot-password { identifier } -> 200
+```
+
+`identifier` is a mobile number or an email — the same field the sign-in form
+takes.
+
+Requirements:
+
+- **Answer the same way whether or not the account exists.** Returning "no such
+  account" turns the form into a way of discovering which phone numbers are
+  registered. The screen already treats a 404 as success for this reason, but
+  the backend should not distinguish them in the first place.
+- **Rate-limit it,** and return `429` when the limit is hit — the screen has a
+  message for that case.
+- The reset link itself needs an expiry; the screen tells the merchant one
+  hour, so either honour that or tell the frontend what to say.
+
+A second endpoint is needed to complete the flow, and no screen is built for it
+yet because its shape is unknown:
+
+```
+POST auth/reset-password { token, new_password } -> 200
+```
+
+## Sign-in accepts a mobile number as well as an email
+
+`POST /user/login` takes `{ username, password }`, and
+`docs/API_DOCUMENTATION.md` shows an email in that field. Merchants here are
+more likely to know their mobile number, so the sign-in form accepts **either**
+and sends whichever was typed as `username`.
+
+The backend has to resolve both in that field. If it cannot, the form needs to
+know which one to insist on.
