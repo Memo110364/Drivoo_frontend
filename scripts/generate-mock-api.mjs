@@ -20,9 +20,26 @@ import {
   WITHDRAWAL_ELIGIBILITY,
   WITHDRAWAL_RULES,
 } from './wallet-dataset.mjs';
+import {
+  ATTENTION,
+  DASHBOARD_INVENTORY,
+  DASHBOARD_SUMMARY,
+  ORDERS_AGING,
+  ORDERS_OVER_TIME,
+  STATUS_BREAKDOWN,
+  TOP_PRODUCTS,
+} from './dashboard-dataset.mjs';
 
 /** Every route the wallet screen calls, with the body each one returns. */
 const ROUTES = [
+  { method: 'get', endpoint: 'reports/dashboard/summary', body: DASHBOARD_SUMMARY },
+  { method: 'get', endpoint: 'reports/dashboard/orders-aging', body: ORDERS_AGING },
+  { method: 'get', endpoint: 'reports/dashboard/attention', body: ATTENTION },
+  { method: 'get', endpoint: 'reports/dashboard/inventory', body: DASHBOARD_INVENTORY },
+  { method: 'get', endpoint: 'reports/orders-over-time', body: ORDERS_OVER_TIME },
+  { method: 'get', endpoint: 'reports/status-breakdown', body: STATUS_BREAKDOWN },
+  { method: 'get', endpoint: 'reports/top-products', body: TOP_PRODUCTS },
+
   { method: 'get', endpoint: 'wallet/balance', body: BALANCE },
   { method: 'get', endpoint: 'wallet/ledger', body: LEDGER },
   { method: 'get', endpoint: 'wallet/payment-methods', body: { data: PAYMENT_METHODS } },
