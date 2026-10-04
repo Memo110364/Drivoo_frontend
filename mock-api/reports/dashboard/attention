@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "key": "delayed_orders",
+      "count": 9,
+      "severity": "high",
+      "route": "/orders"
+    },
+    {
+      "key": "pending_confirmation",
+      "count": 39,
+      "severity": "medium",
+      "route": "/orders"
+    },
+    {
+      "key": "returns_pending_receipt",
+      "count": 41,
+      "severity": "medium",
+      "route": "/orders"
+    },
+    {
+      "key": "low_stock_products",
+      "count": 18,
+      "severity": "low",
+      "route": "/products"
+    }
+  ]
+}

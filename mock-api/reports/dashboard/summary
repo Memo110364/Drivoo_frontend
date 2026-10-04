@@ -1,0 +1,29 @@
+{
+  "total_orders": 2441,
+  "shipped": 2243,
+  "delivered": 1751,
+  "returned": 186,
+  "pending": 125,
+  "cancelled": 73,
+  "revenue": 1068110,
+  "net_profit": 288390,
+  "cod_collected": 1004023,
+  "cod_success_rate": 94,
+  "delivery_rate": 90.4,
+  "return_rate": 9.6,
+  "avg_delivery_days": 2.8,
+  "trends": {
+    "total_orders": 8.4,
+    "revenue": 11.2,
+    "net_profit": 6.9,
+    "cod_collected": 10.1,
+    "delivered": 9.3,
+    "shipped": 7.8,
+    "pending": -4.2,
+    "returned": -2.6,
+    "delivery_rate": 1.4,
+    "return_rate": -1.4,
+    "avg_delivery_days": -0.3,
+    "cod_success_rate": 0.8
+  }
+}

@@ -80,6 +80,17 @@ export interface OrdersOverTime {
   returned: number[];
 }
 
+/** A product on the dashboard's best-sellers list. */
+export interface TopProduct {
+  id: number;
+  name: string;
+  image: string;
+  /** Units sold in the period, not orders. */
+  quantity: number;
+  orders: number;
+  revenue: number;
+}
+
 export interface StatusBreakdown {
   total: number;
   data: { group: string; count: number; percentage: number }[];
@@ -328,6 +339,15 @@ export class ReportsService extends BaseService {
   getConfirmationFunnel(filters: ReportFilters): Observable<ConfirmationFunnel> {
     return this.http.get<ConfirmationFunnel>(`${this.baseUrl}reports/confirmation-funnel`, {
       params: this.toParams(filters),
+    });
+  }
+  /**
+   * The dashboard's best sellers. Ranked by the backend rather than the
+   * frontend, so the screen and any report agree on what "top" means.
+   */
+  getTopProducts(filters: ReportFilters, limit = 8): Observable<{ data: TopProduct[] }> {
+    return this.http.get<{ data: TopProduct[] }>(`${this.baseUrl}reports/top-products`, {
+      params: this.toParams(filters, { limit: String(limit) }),
     });
   }
 }
