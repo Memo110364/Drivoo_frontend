@@ -1,0 +1,21 @@
+{
+  "total": 125,
+  "data": [
+    {
+      "bucket": "0_2",
+      "count": 65
+    },
+    {
+      "bucket": "3_5",
+      "count": 35
+    },
+    {
+      "bucket": "6_7",
+      "count": 16
+    },
+    {
+      "bucket": "over_7",
+      "count": 9
+    }
+  ]
+}

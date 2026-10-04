@@ -557,3 +557,50 @@ return_rate           = returned  / (delivered + returned) * 100
 
 The API returns both rates alongside the counts rather than leaving the
 frontend to divide, so backend and frontend cannot disagree on a denominator.
+
+---
+
+## Dashboard endpoints
+
+The dashboard asks a different question from the reports screen — "how is the
+business doing right now, against last period" rather than "compare these
+dimensions within one period" — so it has its own summary rather than
+overloading `ReportSummary`. Forcing one type to serve both would have made
+half its fields optional and meaningless on each screen.
+
+```
+GET reports/dashboard/summary?from&to      -> DashboardSummary
+GET reports/dashboard/orders-aging?from&to -> { total, data: [{ bucket, count }] }
+GET reports/dashboard/attention?from&to    -> { data: [{ key, count, severity, route }] }
+GET reports/dashboard/inventory            -> { total_products, in_stock, low_stock, out_of_stock }
+GET reports/top-products?from&to&limit     -> { data: TopProduct[] }
+```
+
+### `trends` — the only genuinely missing piece
+
+`DashboardSummary.trends` compares each figure against **the preceding period
+of equal length**. Counts and amounts are percentages; rates are already
+percentages, so their trend is in points. The backend has to compute it — the
+frontend only ever sees one period, so it cannot.
+
+**PROVISIONAL:** the trend values in the demo are placeholders.
+
+### Orders aging needs status timestamps
+
+`reports/dashboard/orders-aging` buckets still-open orders by how long they
+have been waiting (`0_2`, `3_5`, `6_7`, `over_7`). That needs a timestamp per
+status transition; only the current status is exposed today, so the buckets are
+**PROVISIONAL**.
+
+### Attention items are the backend's call
+
+`key`, `severity` and `route` all come from the server so the dashboard cannot
+disagree with the screen each alert leads to. Adding a new kind of alert should
+not require a frontend change — only a new `key` and its translation.
+
+### Status breakdown carries its own percentages
+
+Each slice returns `percentage` alongside `count`, for the same reason the
+delivery rates do: the screen and the server must not divide differently. The
+six groups are `pending`, `confirmed`, `in_shipping`, `delivered`, `returned`,
+`cancelled`, and they sum to `total`.

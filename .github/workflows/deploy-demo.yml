@@ -4,7 +4,7 @@ name: Deploy demo to GitHub Pages
 
 on:
   push:
-    branches: [Reports, main]
+    branches: [main, dashboard]
   workflow_dispatch:
 
 permissions:
