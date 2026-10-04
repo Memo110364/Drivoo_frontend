@@ -1,0 +1,65 @@
+// The page carries its own chrome: there is no header here, so the language
+// switch, the error banner and the brand list are all local to it.
+
+// The Drivoo mark, sized by height so the PNG keeps its own proportions.
+.brand-logo {
+  height: 38px;
+  width: auto;
+}
+
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+
+  &__btn {
+    border: none;
+    background: transparent;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+
+    &--on {
+      background-color: var(--mat-sys-primary, #635bff);
+      color: #fff;
+    }
+  }
+}
+
+// Loud enough to be seen, quiet enough not to look like a crash.
+.auth-error {
+  background-color: rgba(250, 137, 107, 0.12);
+  color: #d9453a;
+  padding: 12px 14px;
+}
+
+.caps-hint {
+  color: #c18700;
+}
+
+.submit-btn {
+  height: 46px;
+}
+
+.brand-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// Material reserves a subscript row under each field; these stack, so the gap
+// comes from the field itself.
+mat-form-field.w-full {
+  margin-bottom: 2px;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
+}
+
+.m-x-8 {
+  margin-inline: 8px;
+}

@@ -1,13 +1,13 @@
 {
-  "system_messages":{
-    "no_orders":"لا يوجد طلبات",
-    "close":"إغلاق",
-    "save":"حفظ",
-    "cancel":"إلغاء",
-    "add_item":"إضافة عنصر",
-    "valdate":{
-      "name_is_required":"الاسم مطلوب",
-      "phone_is_required":"رقم الهاتف مطلوب"
+  "system_messages": {
+    "no_orders": "لا يوجد طلبات",
+    "close": "إغلاق",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "add_item": "إضافة عنصر",
+    "valdate": {
+      "name_is_required": "الاسم مطلوب",
+      "phone_is_required": "رقم الهاتف مطلوب"
     }
   },
   "dashboard": {
@@ -39,25 +39,25 @@
     "logout": "تسجيل الخروج"
   },
   "orders": {
-    "annotation":{
-      "this_order_is_not_editable":"هذا الطلب لا يمكن تعديله"
+    "annotation": {
+      "this_order_is_not_editable": "هذا الطلب لا يمكن تعديله"
     },
-    "invoice":{
-      "back_to_invoices":"العودة إلى الفواتير",
-      "edit_invoice":"تعديل الفاتورة",
-      "order_number":"رقم الطلب",
-      "order_date":"تاريخ الطلب",
-      "order_status":"حالة الطلب",
-      "order_address":"عنوان الطلب",
-      "order_phone":"رقم العميل",
-      "order_name":"اسم العميل",
-      "order_city":"المدينة",
-      "order_area":"المنطقة",
-      "product":"المنتج",
-      "unit_price":"سعر الوحدة",
-      "quantity":"الكمية",
-      "total_cost":"التكلفة الإجمالية",
-      "grand_total":"الإجمالي الكلي"
+    "invoice": {
+      "back_to_invoices": "العودة إلى الفواتير",
+      "edit_invoice": "تعديل الفاتورة",
+      "order_number": "رقم الطلب",
+      "order_date": "تاريخ الطلب",
+      "order_status": "حالة الطلب",
+      "order_address": "عنوان الطلب",
+      "order_phone": "رقم العميل",
+      "order_name": "اسم العميل",
+      "order_city": "المدينة",
+      "order_area": "المنطقة",
+      "product": "المنتج",
+      "unit_price": "سعر الوحدة",
+      "quantity": "الكمية",
+      "total_cost": "التكلفة الإجمالية",
+      "grand_total": "الإجمالي الكلي"
     },
     "status": {
       "pending": "قيد الانتظار",
@@ -100,7 +100,7 @@
     "confirm": "تأكيد",
     "export_excel": "تصدير",
     "invoice": {
-      "service_name":"اسم الخدمة",
+      "service_name": "اسم الخدمة",
       "empty": "لا يوجد فواتير.",
       "title": "الفواتير",
       "subtitle": "هذه هي قائمة الفواتير.",
@@ -114,7 +114,7 @@
       "clear": "مسح الفلاتر",
       "count": "عدد الفواتير",
       "no_match": "لا يوجد فواتير مطابقة لهذه الفلاتر.",
-      "satatus":{
+      "satatus": {
         "draft": "مسودة",
         "unpaid": "غير مدفوعة",
         "paid": "مدفوعة",
@@ -144,7 +144,7 @@
     },
     "uninvoiced": {
       "title": "بنود غير مفوترة",
-      "subtitle":"هذه هي بنود الخدمات الخاصة بالفاتوره القادمه",
+      "subtitle": "هذه هي بنود الخدمات الخاصة بالفاتوره القادمه",
       "date": "التاريخ",
       "type": "نوع الحركة",
       "reference": "المرجع",
@@ -210,9 +210,9 @@
       "shipping_delivery": "توصيل",
       "shipping_cancel": "إلغاء الشحن",
       "shipping_exchange": "استبدال",
-      "shipping_cod":"تحصيل عند التسليم",
+      "shipping_cod": "تحصيل عند التسليم",
       "taxes": "ضريبة",
-      "money_tranactions":"عمليات مالية",
+      "money_tranactions": "عمليات مالية",
       "quality inspection": "فحص الجودة",
       "quality_inspection": "فحص الجودة"
     },
@@ -575,23 +575,76 @@
     "refresh_tab": "تحديث بيانات التاب",
     "not_updated_yet": "لم يتم التحديث بعد"
   },
-    "product":{
-      "available": "متوفر",
-      "not_available": "غير متوفر",
-      "in_stock": "في المخزون",
-      "out_of_stock": "نفذ من المخزون",
-      "add_to_order": "أضافة إلى الطلب",
-      "price": "السعر",
-      "code": "الكود",
-      "description": "الوصف",
-      "quantity": "الكمية",
-      "notes": "الملاحظات",
-      "add_to_order_confirm": "تأكيد إضافة الطلب",
-      "product_info": "معلومات المنتج",
-      "product_price": "سعر المنتج",
-      "product_quantity": "كمية المنتج",
-      "product_notes": "ملاحظات المنتج",
-      "product_add_to_order": "إضافة المنتج إلى الطلب"
+  "product": {
+    "available": "متوفر",
+    "not_available": "غير متوفر",
+    "in_stock": "في المخزون",
+    "out_of_stock": "نفذ من المخزون",
+    "add_to_order": "أضافة إلى الطلب",
+    "price": "السعر",
+    "code": "الكود",
+    "description": "الوصف",
+    "quantity": "الكمية",
+    "notes": "الملاحظات",
+    "add_to_order_confirm": "تأكيد إضافة الطلب",
+    "product_info": "معلومات المنتج",
+    "product_price": "سعر المنتج",
+    "product_quantity": "كمية المنتج",
+    "product_notes": "ملاحظات المنتج",
+    "product_add_to_order": "إضافة المنتج إلى الطلب"
+  },
+  "auth": {
+    "support_phone": "16555",
+    "language": {
+      "ar": "عربي",
+      "en": "EN"
+    },
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "ادخل على حسابك وتابع طلباتك ومخزونك",
+      "identifier": "رقم الموبايل أو الإيميل",
+      "identifier_placeholder": "01xxxxxxxxx أو name@example.com",
+      "password": "كلمة المرور",
+      "show_password": "إظهار كلمة المرور",
+      "hide_password": "إخفاء كلمة المرور",
+      "caps_lock": "زرار Caps Lock مفعّل",
+      "remember": "افتكر بيانات الدخول",
+      "forgot": "نسيت كلمة المرور؟",
+      "submit": "دخول",
+      "submitting": "جاري الدخول…",
+      "no_account": "معندكش حساب؟",
+      "contact_us": "كلّم فريق دريفو"
+    },
+    "forgot": {
+      "title": "نسيت كلمة المرور",
+      "subtitle": "اكتب رقم موبايلك أو إيميلك وهنبعتلك رابط لتغيير كلمة المرور",
+      "submit": "ابعت الرابط",
+      "sending": "جاري الإرسال…",
+      "sent_title": "بعتنا الرابط",
+      "sent_body": "لو فيه حساب مسجّل بـ",
+      "sent_hint": "الرابط صالح لمدة ساعة. لو ملقتهوش، شوف في الرسائل غير المرغوبة.",
+      "back_to_login": "رجوع لتسجيل الدخول",
+      "try_again": "جرّب ببيانات تانية"
+    },
+    "brand": {
+      "title": "أهلاً بك في دريفو",
+      "subtitle": "التخزين والتجهيز والشحن والتحصيل عند الاستلام — في مكان واحد.",
+      "storage": "خزّن بضاعتك في مخازننا وادفع على اللي بتستخدمه",
+      "fulfilment": "إحنا بنجهّز الأوردر ونغلّفه ونشحنه",
+      "shipping": "تغطية شحن لكل محافظات مصر",
+      "cod": "تحصيل عند الاستلام وتحويل فلوسك على حسابك"
+    },
+    "errors": {
+      "identifier_required": "اكتب رقم موبايلك أو إيميلك.",
+      "identifier_shape": "اكتب رقم موبايل صحيح (١١ رقم يبدأ بـ 010 أو 011 أو 012 أو 015) أو إيميل صحيح.",
+      "password_required": "اكتب كلمة المرور.",
+      "invalid": "بيانات الدخول غير صحيحة. راجع رقمك وكلمة المرور.",
+      "disabled": "الحساب موقوف. كلّم فريق دريفو.",
+      "too_many": "محاولات كتير أوي. استنى شوية وجرّب تاني.",
+      "offline": "تعذّر الاتصال بالسيرفر. راجع الإنترنت وجرّب تاني.",
+      "server": "فيه مشكلة في السيرفر دلوقتي. جرّب بعد شوية.",
+      "generic": "تعذّر تسجيل الدخول. جرّب تاني.",
+      "reset_failed": "تعذّر إرسال الرابط. جرّب تاني."
     }
-
+  }
 }
