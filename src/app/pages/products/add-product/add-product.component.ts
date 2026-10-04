@@ -23,6 +23,9 @@ import {
   Editor,
   Toolbar,
 } from 'ngx-editor';
+import { TablerIconsModule } from 'angular-tabler-icons';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { MediaService } from '../../../services/api/media.service';
 @Component({
   selector: 'app-add-product',
   imports: [
@@ -34,6 +37,7 @@ import {
     NgxDropzoneModule,
     NgxEditorComponent,
     NgxEditorMenuComponent,
+    TablerIconsModule,
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss',
@@ -42,7 +46,7 @@ export class AddProductComponent implements OnInit {
   private router = inject(Router);
   private productService = inject(ProductService);
   private fb = inject(FormBuilder);
-
+  private mediaService = inject(MediaService);
   html = '';
   editor: Editor;
   htmlContent1 = '';
@@ -92,7 +96,7 @@ export class AddProductComponent implements OnInit {
 
   product: any;
   isEditMode: boolean = false;
-  constructor() {
+  constructor( private snackBar: MatSnackBar) {
     this.AddProduct = this.fb.group({
       id: [null],
       product_name: ['', Validators.required],
@@ -110,11 +114,86 @@ export class AddProductComponent implements OnInit {
       categories: [''],
       default_template: [''],
       tags: this.fb.array([]),
+      variables: this.fb.array([]),
 
       media: this.fb.array([]),
       Thumbnail: this.fb.array([]),
     });
+
+    
   }
+
+  get variables(): FormArray {
+    return this.AddProduct.get('variables') as FormArray;
+  }
+
+  createValueGroup(name: string = '', value: string = ''): FormGroup {
+    return this.fb.group({
+      name: [name, Validators.required],
+      value: [value]
+    });
+  }
+
+  addVariable(name: string = '', type: string = 'text') {
+    const defaultVal = type === 'color' ? '#16cdc7' : '';
+    const variableGroup = this.fb.group({
+      name: [name, Validators.required],
+      type: [type, Validators.required],
+      values: this.fb.array([
+        this.createValueGroup('', defaultVal)
+      ])
+    });
+    this.variables.push(variableGroup);
+  }
+
+  removeVariable(variableIndex: number) {
+    this.variables.removeAt(variableIndex);
+  }
+
+  getValues(variableIndex: number): FormArray {
+    return this.variables.at(variableIndex).get('values') as FormArray;
+  }
+
+  addValue(variableIndex: number) {
+    const varType = this.variables.at(variableIndex).get('type')?.value || 'text';
+    const defaultValue = varType === 'color' ? '#16cdc7' : '';
+    this.getValues(variableIndex).push(this.createValueGroup('', defaultValue));
+  }
+
+  removeValue(variableIndex: number, valueIndex: number) {
+    const values = this.getValues(variableIndex);
+    values.removeAt(valueIndex);
+  }
+
+  onVariableTypeChange(variableIndex: number) {
+    const varGroup = this.variables.at(variableIndex);
+    const newType = varGroup.get('type')?.value;
+    const values = this.getValues(variableIndex);
+    if (newType === 'color') {
+      values.controls.forEach((ctrl) => {
+        const currentVal = ctrl.get('value')?.value;
+        if (!currentVal || !String(currentVal).startsWith('#')) {
+          ctrl.get('value')?.setValue('#16cdc7');
+        }
+      });
+    }
+  }
+
+  onValueImageUpload(event: any, variableIndex: number, valueIndex: number) {
+    const file = event.target.files?.[0];
+    console.log(file);
+    if (file) {
+      this.mediaService.upload(file).subscribe((res: any) => {
+        const valGroup = this.getValues(variableIndex).at(valueIndex);
+        valGroup.get('value')?.setValue(res.data.url);
+        this.snackBar.open('Image uploaded successfully', 'Close', {
+          duration: 2000,
+        });
+      });
+    }
+  }
+
+
 
   get isFormValid() {
     return this.AddProduct.valid;
@@ -170,8 +249,9 @@ export class AddProductComponent implements OnInit {
     console.log('blur ' + event);
   }
   onSelect(event: any) {
+    console.log(event);
     const files = event.addedFiles; // Getting the selected files
-
+    
     // Loop through the selected files and add them to the FormArray
     files.forEach((file: any) => {
       this.mediaArray.push(this.fb.control(file)); // Add file to FormArray
@@ -216,7 +296,7 @@ export class AddProductComponent implements OnInit {
   getAddProduct(data: any) {
     const formData = this.AddProduct.getRawValue();
     const imageFilename = formData.media[0]; // e.g., "Spike Nextjs Free.jpg"
-
+    
     // Store the image filename in localStorage (as a string)
     localStorage.setItem('productImage', imageFilename);
     if (this.isEditMode) {
@@ -230,6 +310,7 @@ export class AddProductComponent implements OnInit {
   }
 
   addProduct(data: any) {
+    
     if (this.AddProduct.valid) {
       // Extract plain text from ngx-editor content
       if (data.description?.content?.length) {
@@ -256,9 +337,17 @@ export class AddProductComponent implements OnInit {
       delete data.variations;
       delete data.set_discount_percentage;
       delete data.discount_type;
-
-      this.productService.emitProduct(data);
-      this.getBack();
+      console.log(data);
+      
+      // this.productService.emitProduct(data);
+      // this.getBack();
+    }
+    else{
+      const errors = this.checkFormErrors(this.AddProduct); 
+      //to show the errors in snack bar 
+      errors.forEach((error: any) => {
+        this.showSnackbar(error.field + ' is required');
+      });
     }
   }
   extractPlainText(doc: any): string {
@@ -312,5 +401,44 @@ export class AddProductComponent implements OnInit {
       this.productService.updateProduct(data); // <-- make sure you have this method in service
       this.getBack();
     }
+  }
+  checkFormErrors(form: FormGroup,parentKey:string = '', index?: number) {
+  const errors: any[] = [];
+
+  Object.keys(form.controls).forEach(key => {
+    const control = form.get(key);
+    
+    if (control instanceof FormGroup) {
+      // لو كنترول عبارة عن FormGroup داخلي
+      errors.push(...this.checkFormErrors(control, parentKey+key, index));
+    } else if (control instanceof FormArray) {
+      // لو كنترول عبارة عن FormArray
+      control.controls.forEach((arrayControl, index) => {
+        if (arrayControl instanceof FormGroup) {
+          errors.push(...this.checkFormErrors(arrayControl, parentKey!=''?parentKey+'.'+key:key, index));
+        } else if (arrayControl.errors) {
+          errors.push({
+            field: `${parentKey!=''?parentKey+'.'+key:key}[${index}]`,
+            errors: arrayControl.errors
+          });
+        }
+      });
+    } else if (control?.errors) {
+      // لو كنترول عادي فيه أخطاء
+      errors.push({
+        field: parentKey!=''?parentKey+'.'+key:key,
+        errors: control.errors
+      });
+    }
+  });
+
+  return errors;
+}
+showSnackbar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 }

@@ -1,2 +1,162 @@
+// Universal icon alignment
+.iconify {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
 
+// Button content wrapper to perfectly center icons with text inside Angular Material buttons
+.btn-content {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  vertical-align: middle !important;
+  line-height: inherit !important;
+  width: 100%;
+}
 
+.empty-variation-box {
+  background-color: #cccccc22;
+  border: 2px dashed #dbe0e6;
+  .icon-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+  }
+}
+:host ::ng-deep .NgxEditor {
+  background-color: #cccccc22 !important;
+  // border: 1px solid #ccc !important;
+}
+// :host-context(.dark-theme) ::ng-deep .NgxEditor__Dropdown--DropdownMenu{
+:host ::ng-deep .NgxEditor__Dropdown--DropdownMenu,
+:host ::ng-deep .NgxEditor__MenuItem:hover,
+:host ::ng-deep .NgxEditor__Dropdown:hover,
+:host ::ng-deep .NgxEditor__MenuItem .NgxEditor__MenuItem--Icon:hover {
+  background: var(--mat-sys-background) !important;
+}
+:host-context(.dark-theme) ::ng-deep .NgxEditor__Dropdown--Item:hover {
+  background-color: #eeeeee22 !important;
+}
+:host ::ng-deep .NgxEditor__MenuBar {
+  background-color: #cccccc22 !important;
+  // border: 1px solid #ccc !important;
+}
+:host ::ng-deep ngx-dropzone-label {
+  z-index: auto !important;
+  // border: 1px solid #ccc !important;
+}
+:host ::ng-deep .dropzone-box {
+  background-color: #cccccc22 !important;
+  padding: 15px !important;
+  // border: 1px solid #ccc !important;
+}
+ :host ::ng-deep .variations .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+:host ::ng-deep .NgxEditor__Content {
+  min-height: 200px; /* الحد الأدنى للارتفاع */
+  height: auto;
+}
+
+.variation-item-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.variation-values-wrapper {
+  // background-color: #f8fafc;
+  border: 1px solid #e1e1e122;
+  border-radius: 10px;
+}
+
+.value-row {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+  mat-form-field {
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+}
+
+.color-picker-container {
+  .color-picker-input {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+    box-sizing: border-box;
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 6px;
+    }
+  }
+  .color-code-text {
+    font-family: monospace;
+    font-size: 13px;
+    min-width: 65px;
+    letter-spacing: 0.5px;
+  }
+}
+
+.image-picker-container {
+  .btn-upload-sm {
+    height: 38px;
+    line-height: normal;
+    padding: 0 12px;
+    border-radius: 8px;
+  }
+  .val-img-preview {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.btn-delete-var {
+  width: 38px;
+  height: 38px;
+  line-height: normal;
+  border-radius: 8px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  &:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+}
+
+.btn-delete-val {
+  width: 34px;
+  height: 34px;
+  line-height: normal;
+  border-radius: 6px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  &:hover:not([disabled]) {
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+}
