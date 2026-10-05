@@ -1,114 +1,149 @@
-<div class="relative overflow-hidden h-screen">
+<div class="auth-page relative overflow-hidden h-screen">
   <div class="grid grid-cols-12 gap-3 h-screen">
+
+    <!-- The form side -->
     <div class="xl:col-span-4 lg:col-span-5 col-span-12 sm:px-12 p-5">
       <div class="flex h-full items-center lg:px-3 lg:justify-start justify-center">
         <div class="max-w-[420px] w-full mx-auto">
-          <a [routerLink]="['/']">
-            <img src="./assets/images/logos/logo-icon.svg" class="align-middle m-2" alt="logo" />
-          </a>
-          <h4 class="font-bold text-2xl mt-6">Sign In</h4>
-          <span class="block text-sm mt-2">Your Admin Dashboard</span>
 
-          <!-- <div class="grid grid-cols-12 gap-6 mt-6 ">
-            <div class="col-span-6">
-              <button mat-stroked-button class="w-full">
-                <div class="flex items-center">
-                  <img src="/assets/images/svgs/google-icon.svg" alt="google" class="me-2 size-5" />
-                  Google
-                </div>
-              </button>
+          <!--
+            The only way to change language before signing in — the header that
+            carries the switch everywhere else is not on this page.
+          -->
+          <div class="flex items-center justify-between mb-6">
+            <img src="./assets/images/logos/drivoo.png" class="brand-logo" alt="Drivoo" />
+            <div class="lang-switch">
+              @for (code of languages; track code) {
+                <button type="button" class="lang-switch__btn"
+                        [class.lang-switch__btn--on]="language === code"
+                        (click)="setLanguage(code)">
+                  {{ 'auth.language.' + code | translate }}
+                </button>
+              }
             </div>
-            <div class="col-span-6">
-              <button mat-stroked-button class="w-full flex items-center">
-                <div class="flex items-center">
-                  <img src="/assets/images/svgs/facebook-icon.svg" alt="facebook" class="me-2 size-5" />
-                  Facebook
-                </div>
-              </button>
-            </div>
-          </div> -->
+          </div>
 
-          <div hidden
-            class="or-border relative text-center before:content-[''] before:absolute before:left-0 before:top-1/2 
-            before:w-[120px] before:h-px before:bg-(--mat-sys-outline) after:content-[''] after:absolute after:right-0 after:top-1/2 after:w-[120px] after:h-px after:bg-(--mat-sys-outline) mt-8">
-            or sign in with</div>
-            @if(this.msg!==""){
-            <div class="bg-light-error text-error f-w-500 rounded py-3 m-t-24 text-center">
-              <span class="m-r-8">Username or Password does not match</span>
+          <h4 class="font-bold text-2xl">{{ 'auth.login.title' | translate }}</h4>
+          <span class="block text-sm mt-2 text-muted">{{ 'auth.login.subtitle' | translate }}</span>
+
+          @if (errorKey()) {
+            <div class="auth-error rounded mt-6 flex items-start gap-8" role="alert">
+              <i class="iconify f-s-18 d-flex shrink-0" data-icon="solar:danger-triangle-linear"></i>
+              <span class="f-s-13">{{ errorKey() | translate }}</span>
             </div>
+          }
+
+          <form class="mt-6" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+            <!-- One field for either, because a merchant has one of each. -->
+            <mat-label class="text-sm font-semibold mb-2 block">
+              {{ 'auth.login.identifier' | translate }}
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-full" color="primary">
+              <input matInput formControlName="uname" dir="ltr" autocomplete="username"
+                     inputmode="email" autocapitalize="off" spellcheck="false"
+                     [placeholder]="'auth.login.identifier_placeholder' | translate" />
+              <i matPrefix class="iconify f-s-18 d-flex text-muted m-x-8"
+                 data-icon="solar:user-linear"></i>
+              @if (f['uname'].touched && f['uname'].invalid) {
+                <mat-error>
+                  {{ (f['uname'].errors?.['required'] ? 'auth.errors.identifier_required'
+                                                     : 'auth.errors.identifier_shape') | translate }}
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <mat-label class="text-sm font-semibold mb-2 block mt-2">
+              {{ 'auth.login.password' | translate }}
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-full" color="primary">
+              <input matInput formControlName="password" dir="ltr"
+                     [type]="showPassword() ? 'text' : 'password'"
+                     autocomplete="current-password"
+                     (keyup)="onPasswordKey($event)" (keydown)="onPasswordKey($event)" />
+              <!-- Typing a password blind is the commonest reason one is mistyped. -->
+              <button mat-icon-button matSuffix type="button" (click)="showPassword.set(!showPassword())"
+                      [attr.aria-label]="(showPassword() ? 'auth.login.hide_password'
+                                                        : 'auth.login.show_password') | translate"
+                      [matTooltip]="(showPassword() ? 'auth.login.hide_password'
+                                                    : 'auth.login.show_password') | translate">
+                <i class="iconify f-s-18 d-flex"
+                   [attr.data-icon]="showPassword() ? 'solar:eye-closed-linear' : 'solar:eye-linear'"></i>
+              </button>
+              @if (f['password'].touched && f['password'].invalid) {
+                <mat-error>{{ 'auth.errors.password_required' | translate }}</mat-error>
+              }
+            </mat-form-field>
+
+            @if (capsLockOn()) {
+              <span class="caps-hint f-s-12 flex items-center gap-6 mb-2">
+                <i class="iconify f-s-14 d-flex" data-icon="solar:info-circle-linear"></i>
+                {{ 'auth.login.caps_lock' | translate }}
+              </span>
             }
-          <form class="mt-8" [formGroup]="form" (ngSubmit)="check(u1.value, p2.value)">
-            <mat-label class="text-sm font-semibold mb-3 block">Username</mat-label>
-            <mat-form-field appearance="outline" class="w-full" color="primary">
-              <input matInput formControlName="uname" #u1  />
-              @if(f['uname'].touched && f['uname'].invalid) {
-              <mat-hint class="mb-4 absolute -top-[19px] right-[3px]">
-                @if(f['uname'].errors && f['uname'].errors['required']) {
-                <div class="text-error">Name is required.</div>
-                } @if(f['uname'].errors && f['uname'].errors['minlength']) {
-                <div class="text-error">Name should be 6 character.</div>
-                }
-              </mat-hint>
-              }
-            </mat-form-field>
 
-            <!-- password -->
-            <mat-label class="text-sm font-semibold mb-3 block">Password</mat-label>
-            <mat-form-field appearance="outline" class="w-full" color="primary">
-              <input matInput type="password" #p2 formControlName="password" />
-              @if(f['password'].touched && f['password'].invalid) {
-              <mat-hint class="mb-4 absolute -top-[19px] right-[3px]">
-                @if( f['password'].errors && f['password'].errors['required'])
-                {
-                <div class="text-error">Password is required.</div>
-                }
-              </mat-hint>
-              }
-            </mat-form-field>
-
-            <div class="flex items-center mb-3">
-              <mat-checkbox color="primary">Remember this Device</mat-checkbox>
-              <a [routerLink]="['/starter']" class="text-primary font-semibold no-underline ms-auto text-sm">Forgot
-                Password
-                ?</a>
+            <div class="flex items-center flex-wrap gap-8 mb-4">
+              <!-- Remembers the identifier only. The password is never stored. -->
+              <mat-checkbox color="primary" formControlName="remember">
+                <span class="f-s-13">{{ 'auth.login.remember' | translate }}</span>
+              </mat-checkbox>
+              <a [routerLink]="['/authentication/forgot-password']"
+                 class="text-primary font-semibold no-underline ms-auto text-sm">
+                {{ 'auth.login.forgot' | translate }}
+              </a>
             </div>
-            <button mat-flat-button color="primary" class="w-full" [disabled]="!form.valid">
-              Sign In
+
+            <button mat-flat-button color="primary" class="w-full submit-btn" type="submit"
+                    [disabled]="isSubmitting()">
+              {{ (isSubmitting() ? 'auth.login.submitting' : 'auth.login.submit') | translate }}
             </button>
-            <!-- input -->
           </form>
-          <span class="font-medium block mt-6">New to Matdash?
-            <a [routerLink]="['/authentication/register']" class="no-underline text-primary font-medium text-sm">
-              Create an account</a>
+
+          <!--
+            No self-serve sign-up: a Drivoo merchant is onboarded by the team,
+            so the link that used to sit here pointed nowhere useful.
+          -->
+          <span class="f-s-13 text-muted block mt-6">
+            {{ 'auth.login.no_account' | translate }}
+            <a href="tel:{{ 'auth.support_phone' | translate }}" class="text-primary font-semibold no-underline">
+              {{ 'auth.login.contact_us' | translate }}
+            </a>
           </span>
         </div>
       </div>
     </div>
+
+    <!-- The brand side -->
     <div class="xl:col-span-8 lg:col-span-7 col-span-12 bg-auth overflow-hidden relative hidden lg:block">
       <div class="p-6 w-full h-full flex items-center justify-center">
-        <div
-          class="circle-top absolute -top-[33%] -left-[14%] border-120 border-[#0b2947] h-[700px] w-[700px] block bg-transparent rounded-full z-1 rtl:-right-[14%] rtl:left-auto">
-        </div>
+        <div class="circle-top absolute -top-[33%] -left-[14%] border-120 border-[#0b2947] h-[700px] w-[700px] block bg-transparent rounded-full z-1 rtl:-right-[14%] rtl:left-auto"></div>
+
         <div class="flex items-center z-1 relative w-full">
           <div class="flex justify-center w-full">
             <div class="w-full lg:w-1/2">
               <h2 class="text-white text-[40px] leading-tight mb-4">
-                Welcome to <br />
-                MatDash
+                {{ 'auth.brand.title' | translate }}
               </h2>
-              <span class="text-base text-white block mb-4">
-                MatDash helps developers to build organized and well
-                <br />
-                coded dashboards full of beautiful and rich modules.
+              <span class="text-base text-white block mb-6">
+                {{ 'auth.brand.subtitle' | translate }}
               </span>
 
-              <button mat-flat-button color="primary">Learn More</button>
+              <!-- What Drivoo actually does, rather than template filler. -->
+              <ul class="brand-points">
+                @for (point of ['storage', 'fulfilment', 'shipping', 'cod']; track point) {
+                  <li class="text-white flex items-start gap-8 mb-3">
+                    <i class="iconify f-s-18 d-flex shrink-0" data-icon="solar:check-circle-linear"></i>
+                    <span class="f-s-14">{{ 'auth.brand.' + point | translate }}</span>
+                  </li>
+                }
+              </ul>
             </div>
           </div>
         </div>
-        <img src="/assets/images/logos/logo-icon.svg"
-          class="circle-bottom absolute -bottom-[4%] right-[1%] h-[450px] w-[450px] block bg-transparent z-1 opacity-50 rtl:left-[1%] rtl:right-auto"
-          alt="Logo-Dark" />
+
+        <img src="./assets/images/logos/drivoo.png"
+             class="circle-bottom absolute -bottom-[4%] right-[1%] h-[450px] w-[450px] block bg-transparent z-1 opacity-50 rtl:left-[1%] rtl:right-auto"
+             alt="Drivoo" />
       </div>
     </div>
   </div>

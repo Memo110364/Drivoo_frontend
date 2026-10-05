@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "سماعة بلوتوث لاسلكية",
+      "image": "./assets/images/products/s1.jpg",
+      "quantity": 462,
+      "orders": 420,
+      "revenue": 240240
+    },
+    {
+      "id": 2,
+      "name": "ساعة يد رجالي كلاسيك",
+      "image": "./assets/images/products/s1.jpg",
+      "quantity": 414,
+      "orders": 360,
+      "revenue": 306360
+    },
+    {
+      "id": 3,
+      "name": "مكواة شعر سيراميك",
+      "image": "./assets/images/products/s1.jpg",
+      "quantity": 360,
+      "orders": 300,
+      "revenue": 172800
+    },
+    {
+      "id": 4,
+      "name": "شاحن سريع 65 وات",
+      "image": "./assets/images/products/s1.jpg",
+      "quantity": 350,
+      "orders": 280,
+      "revenue": 108500
+    },
+    {
+      "id": 5,
+      "name": "حقيبة ظهر مقاومة للماء",
+      "image": "./assets/images/products/s1.jpg",
+      "quantity": 312,
+      "orders": 240,
+      "revenue": 174720
+    }
+  ]
+}
