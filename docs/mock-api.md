@@ -85,3 +85,18 @@ needed for a demo.
 npm install
 npm run dev     # Mockoon on :3000 and the app together
 ```
+
+## The generated files are stable
+
+Running the generator twice produces byte-identical output. Mockoon keys
+everything by uuid, but those ids never had to be *random* — only unique and
+well-formed — so they are derived from the route they identify rather than
+drawn fresh each run.
+
+Before, every `npm run build` rewrote all 58 ids, so the Mockoon file showed as
+modified even though nothing about the API had changed. That is noise in a
+diff, and it caused merge conflicts between branches that had changed nothing.
+
+The one thing that *does* move between runs is dates: the datasets are built
+relative to today, so regenerating on a different day shifts them. That is
+deliberate — the demo should not drift into the past.
