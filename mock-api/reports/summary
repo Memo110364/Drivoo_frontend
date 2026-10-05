@@ -1,0 +1,13 @@
+{
+  "total_orders": 2470,
+  "shipped": 2272,
+  "delivered": 1495,
+  "returned": 168,
+  "awaiting_shipment": 198,
+  "cancelled": 0,
+  "revenue": 945640,
+  "cod_collected": 926727,
+  "delivery_success_rate": 89.9,
+  "return_rate": 10.1,
+  "avg_delivery_days": 3.1
+}

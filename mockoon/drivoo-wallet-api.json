@@ -1,5 +1,5 @@
 {
-  "uuid": "3bf1b268-7b92-4175-bf47-2b02c7ac72f7",
+  "uuid": "eaea981b-9573-4036-bbf2-8a46652e2430",
   "lastMigration": 33,
   "name": "Drivoo Wallet API",
   "endpointPrefix": "",
@@ -9,15 +9,573 @@
   "folders": [],
   "routes": [
     {
-      "uuid": "da7853df-104c-4d5d-b3f8-c2cdf4338758",
+      "uuid": "05b632c6-38ca-42c0-9f34-c65de93dac61",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/summary",
+      "responses": [
+        {
+          "uuid": "b6f2973b-7cf2-45c5-ab5a-50a0c34d2eb3",
+          "body": "{\n  \"total_orders\": 2470,\n  \"shipped\": 2272,\n  \"delivered\": 1495,\n  \"returned\": 168,\n  \"awaiting_shipment\": 198,\n  \"cancelled\": 0,\n  \"revenue\": 945640,\n  \"cod_collected\": 926727,\n  \"delivery_success_rate\": 89.9,\n  \"return_rate\": 10.1,\n  \"avg_delivery_days\": 3.1\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "297a6959-f33d-4562-ae05-3326f320d83d",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/returns-by-reason",
+      "responses": [
+        {
+          "uuid": "bd83cdca-9073-4b6e-bc9a-33a9b801f548",
+          "body": "{\n  \"total\": 248,\n  \"data\": [\n    {\n      \"code\": \"customer_refused\",\n      \"count\": 84,\n      \"percentage\": 33.9\n    },\n    {\n      \"code\": \"unreachable\",\n      \"count\": 61,\n      \"percentage\": 24.6\n    },\n    {\n      \"code\": \"postponed_expired\",\n      \"count\": 38,\n      \"percentage\": 15.3\n    },\n    {\n      \"code\": \"wrong_address\",\n      \"count\": 27,\n      \"percentage\": 10.9\n    },\n    {\n      \"code\": \"item_mismatch\",\n      \"count\": 19,\n      \"percentage\": 7.7\n    },\n    {\n      \"code\": \"damaged\",\n      \"count\": 8,\n      \"percentage\": 3.2\n    },\n    {\n      \"code\": \"other\",\n      \"count\": 11,\n      \"percentage\": 4.4\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "f54f4eae-39f1-4c9f-a90c-41f5f7479ecd",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/confirmation-funnel",
+      "responses": [
+        {
+          "uuid": "567b3e6a-d91a-41c8-a22d-f92ed7e9d956",
+          "body": "{\n  \"placed\": 2470,\n  \"confirmed\": 2124,\n  \"shipped\": 2272,\n  \"delivered\": 1495,\n  \"lost_at_confirmation\": 346,\n  \"attempts\": [\n    {\n      \"attempts\": 0,\n      \"orders\": 346\n    },\n    {\n      \"attempts\": 1,\n      \"orders\": 1232\n    },\n    {\n      \"attempts\": 2,\n      \"orders\": 573\n    },\n    {\n      \"attempts\": 3,\n      \"orders\": 234\n    },\n    {\n      \"attempts\": 4,\n      \"orders\": 85\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "0c0eef9a-4431-4b86-be7a-97210d5c84cb",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/cancellation-reasons",
+      "responses": [
+        {
+          "uuid": "36118467-d2fe-489e-bb2a-f8eac5fac61a",
+          "body": "{\n  \"total\": 190,\n  \"data\": [\n    {\n      \"code\": \"unreachable\",\n      \"count\": 71,\n      \"percentage\": 37.4\n    },\n    {\n      \"code\": \"customer_changed_mind\",\n      \"count\": 46,\n      \"percentage\": 24.2\n    },\n    {\n      \"code\": \"price_objection\",\n      \"count\": 24,\n      \"percentage\": 12.6\n    },\n    {\n      \"code\": \"duplicate_order\",\n      \"count\": 18,\n      \"percentage\": 9.5\n    },\n    {\n      \"code\": \"wrong_number\",\n      \"count\": 15,\n      \"percentage\": 7.9\n    },\n    {\n      \"code\": \"out_of_stock\",\n      \"count\": 9,\n      \"percentage\": 4.7\n    },\n    {\n      \"code\": \"other\",\n      \"count\": 7,\n      \"percentage\": 3.7\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "45d56350-48f9-4e6a-9edd-5564e88c0bc0",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/confirmation-by-product",
+      "responses": [
+        {
+          "uuid": "891bf2ee-3c06-4334-baf7-b7b038da6562",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"p3\",\n      \"label\": \"مكواة شعر سيراميك\",\n      \"placed\": 300,\n      \"confirmed\": 186,\n      \"lost\": 114,\n      \"confirmation_rate\": 62,\n      \"avg_attempts\": 2.5\n    },\n    {\n      \"id\": \"p6\",\n      \"label\": \"كريم مرطب بفيتامين C\",\n      \"placed\": 190,\n      \"confirmed\": 150,\n      \"lost\": 40,\n      \"confirmation_rate\": 79,\n      \"avg_attempts\": 2\n    },\n    {\n      \"id\": \"p5\",\n      \"label\": \"حقيبة ظهر مقاومة للماء\",\n      \"placed\": 240,\n      \"confirmed\": 202,\n      \"lost\": 38,\n      \"confirmation_rate\": 84,\n      \"avg_attempts\": 1.9\n    },\n    {\n      \"id\": \"p2\",\n      \"label\": \"ساعة يد رجالي كلاسيك\",\n      \"placed\": 360,\n      \"confirmed\": 317,\n      \"lost\": 43,\n      \"confirmation_rate\": 88,\n      \"avg_attempts\": 1.8\n    },\n    {\n      \"id\": \"p4\",\n      \"label\": \"شاحن سريع 65 وات\",\n      \"placed\": 280,\n      \"confirmed\": 252,\n      \"lost\": 28,\n      \"confirmation_rate\": 90,\n      \"avg_attempts\": 1.7\n    },\n    {\n      \"id\": \"p1\",\n      \"label\": \"سماعة بلوتوث لاسلكية\",\n      \"placed\": 420,\n      \"confirmed\": 382,\n      \"lost\": 38,\n      \"confirmation_rate\": 91,\n      \"avg_attempts\": 1.7\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "e8893dc4-4fd4-4e19-9f04-44fde15f7fe8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory",
+      "responses": [
+        {
+          "uuid": "14472a8b-3d01-4178-8b7a-9bfc9cb61c11",
+          "body": "{\n  \"total_products\": 6,\n  \"total_received\": 2609,\n  \"total_units\": 783,\n  \"units_in_transit\": 487,\n  \"units_sold\": 1339,\n  \"in_stock\": 4,\n  \"low_stock\": 1,\n  \"out_of_stock\": 1\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "bb99520c-bc3a-4f1c-ae74-36582e3d79a0",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/orders",
+      "responses": [
+        {
+          "uuid": "f72e3066-8be6-4aa6-9534-8b347b41cb38",
+          "body": "{\n  \"page\": 1,\n  \"limit\": 60,\n  \"total\": 60,\n  \"data\": [\n    {\n      \"id\": 1000000,\n      \"order_code\": \"EGY1000000\",\n      \"date\": \"2026-10-04T12:00:00.000Z\",\n      \"customer_name\": \"دينا حلمي\",\n      \"customer_phone\": \"01191347060\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 1486,\n      \"shipping_cost\": 111,\n      \"total\": 1597\n    },\n    {\n      \"id\": 1000003,\n      \"order_code\": \"RRQ1000003\",\n      \"date\": \"2026-10-04T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01170549544\",\n      \"city\": \"القاهرة\",\n      \"area\": \"السادس من أكتوبر\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1492,\n      \"shipping_cost\": 51,\n      \"total\": 1543\n    },\n    {\n      \"id\": 1000025,\n      \"order_code\": \"PCA1000025\",\n      \"date\": \"2026-10-04T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01176235816\",\n      \"city\": \"القاهرة\",\n      \"area\": \"السادس من أكتوبر\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 1,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 1199,\n      \"shipping_cost\": 106,\n      \"total\": 1305\n    },\n    {\n      \"id\": 1000007,\n      \"order_code\": \"RRQ1000007\",\n      \"date\": \"2026-10-03T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01196764512\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1394,\n      \"shipping_cost\": 50,\n      \"total\": 1444\n    },\n    {\n      \"id\": 1000019,\n      \"order_code\": \"RRQ1000019\",\n      \"date\": \"2026-10-03T12:00:00.000Z\",\n      \"customer_name\": \"أحمد صفار\",\n      \"customer_phone\": \"01117935955\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الدقي\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1105,\n      \"shipping_cost\": 70,\n      \"total\": 1175\n    },\n    {\n      \"id\": 1000050,\n      \"order_code\": \"ALX1000050\",\n      \"date\": \"2026-10-03T12:00:00.000Z\",\n      \"customer_name\": \"دينا حلمي\",\n      \"customer_phone\": \"01110879059\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1794,\n      \"shipping_cost\": 71,\n      \"total\": 1865\n    },\n    {\n      \"id\": 1000035,\n      \"order_code\": \"RRQ1000035\",\n      \"date\": \"2026-10-02T12:00:00.000Z\",\n      \"customer_name\": \"سارة عادل\",\n      \"customer_phone\": \"01123052941\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الدقي\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 568,\n      \"shipping_cost\": 78,\n      \"total\": 646\n    },\n    {\n      \"id\": 1000039,\n      \"order_code\": \"RRQ1000039\",\n      \"date\": \"2026-10-02T12:00:00.000Z\",\n      \"customer_name\": \"دينا حلمي\",\n      \"customer_phone\": \"01151552008\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2208,\n      \"shipping_cost\": 59,\n      \"total\": 2267\n    },\n    {\n      \"id\": 1000040,\n      \"order_code\": \"EGY1000040\",\n      \"date\": \"2026-10-02T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01166013403\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 1720,\n      \"shipping_cost\": 97,\n      \"total\": 1817\n    },\n    {\n      \"id\": 1000011,\n      \"order_code\": \"RRQ1000011\",\n      \"date\": \"2026-10-01T12:00:00.000Z\",\n      \"customer_name\": \"سارة عادل\",\n      \"customer_phone\": \"01176457553\",\n      \"city\": \"الأقصر\",\n      \"area\": \"الضفة الشرقية\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 1,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1841,\n      \"shipping_cost\": 80,\n      \"total\": 1921\n    },\n    {\n      \"id\": 1000029,\n      \"order_code\": \"PCA1000029\",\n      \"date\": \"2026-09-30T12:00:00.000Z\",\n      \"customer_name\": \"أحمد صفار\",\n      \"customer_phone\": \"01139566764\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 605,\n      \"shipping_cost\": 99,\n      \"total\": 704\n    },\n    {\n      \"id\": 1000038,\n      \"order_code\": \"ALX1000038\",\n      \"date\": \"2026-09-29T12:00:00.000Z\",\n      \"customer_name\": \"سارة عادل\",\n      \"customer_phone\": \"01113665789\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1252,\n      \"shipping_cost\": 73,\n      \"total\": 1325\n    },\n    {\n      \"id\": 1000042,\n      \"order_code\": \"ALX1000042\",\n      \"date\": \"2026-09-29T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01140927511\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 1,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 2177,\n      \"shipping_cost\": 54,\n      \"total\": 2231\n    },\n    {\n      \"id\": 1000005,\n      \"order_code\": \"PCA1000005\",\n      \"date\": \"2026-09-28T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01140404903\",\n      \"city\": \"القاهرة\",\n      \"area\": \"مصر الجديدة\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 1,\n      \"status\": \"returned\",\n      \"status_code\": \"5\",\n      \"goods_total\": 2001,\n      \"shipping_cost\": 99,\n      \"total\": 2100\n    },\n    {\n      \"id\": 1000014,\n      \"order_code\": \"ALX1000014\",\n      \"date\": \"2026-09-28T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01145144647\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2035,\n      \"shipping_cost\": 55,\n      \"total\": 2090\n    },\n    {\n      \"id\": 1000034,\n      \"order_code\": \"ALX1000034\",\n      \"date\": \"2026-09-28T12:00:00.000Z\",\n      \"customer_name\": \"نورهان مصطفى\",\n      \"customer_phone\": \"01154550593\",\n      \"city\": \"الأقصر\",\n      \"area\": \"الضفة الشرقية\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 4,\n      \"status\": \"confirmed\",\n      \"status_code\": \"10\",\n      \"goods_total\": 1558,\n      \"shipping_cost\": 62,\n      \"total\": 1620\n    },\n    {\n      \"id\": 1000012,\n      \"order_code\": \"EGY1000012\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01131299635\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 2,\n      \"status\": \"confirmed\",\n      \"status_code\": \"10\",\n      \"goods_total\": 875,\n      \"shipping_cost\": 111,\n      \"total\": 986\n    },\n    {\n      \"id\": 1000023,\n      \"order_code\": \"RRQ1000023\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01122447155\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 2,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 994,\n      \"shipping_cost\": 82,\n      \"total\": 1076\n    },\n    {\n      \"id\": 1000028,\n      \"order_code\": \"EGY1000028\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"customer_name\": \"مريم شعبان\",\n      \"customer_phone\": \"01136243477\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 4,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 579,\n      \"shipping_cost\": 80,\n      \"total\": 659\n    },\n    {\n      \"id\": 1000046,\n      \"order_code\": \"ALX1000046\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"customer_name\": \"نورهان مصطفى\",\n      \"customer_phone\": \"01190959762\",\n      \"city\": \"القاهرة\",\n      \"area\": \"السادس من أكتوبر\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 455,\n      \"shipping_cost\": 80,\n      \"total\": 535\n    },\n    {\n      \"id\": 1000048,\n      \"order_code\": \"EGY1000048\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01170436150\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 596,\n      \"shipping_cost\": 89,\n      \"total\": 685\n    },\n    {\n      \"id\": 1000055,\n      \"order_code\": \"RRQ1000055\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"customer_name\": \"دينا حلمي\",\n      \"customer_phone\": \"01168405485\",\n      \"city\": \"الأقصر\",\n      \"area\": \"الضفة الشرقية\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 1,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 1466,\n      \"shipping_cost\": 105,\n      \"total\": 1571\n    },\n    {\n      \"id\": 1000026,\n      \"order_code\": \"ALX1000026\",\n      \"date\": \"2026-09-26T12:00:00.000Z\",\n      \"customer_name\": \"عمرو زكي\",\n      \"customer_phone\": \"01120820139\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 3,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 2018,\n      \"shipping_cost\": 106,\n      \"total\": 2124\n    },\n    {\n      \"id\": 1000004,\n      \"order_code\": \"EGY1000004\",\n      \"date\": \"2026-09-24T12:00:00.000Z\",\n      \"customer_name\": \"سارة عادل\",\n      \"customer_phone\": \"01135026491\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1727,\n      \"shipping_cost\": 66,\n      \"total\": 1793\n    },\n    {\n      \"id\": 1000054,\n      \"order_code\": \"ALX1000054\",\n      \"date\": \"2026-09-24T12:00:00.000Z\",\n      \"customer_name\": \"كريم السيد\",\n      \"customer_phone\": \"01128506129\",\n      \"city\": \"الإسكندرية\",\n      \"area\": \"برج العرب\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1934,\n      \"shipping_cost\": 115,\n      \"total\": 2049\n    },\n    {\n      \"id\": 1000057,\n      \"order_code\": \"PCA1000057\",\n      \"date\": \"2026-09-23T12:00:00.000Z\",\n      \"customer_name\": \"إسلام بدر\",\n      \"customer_phone\": \"01161509493\",\n      \"city\": \"القاهرة\",\n      \"area\": \"المعادي\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 1,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 1506,\n      \"shipping_cost\": 75,\n      \"total\": 1581\n    },\n    {\n      \"id\": 1000002,\n      \"order_code\": \"ALX1000002\",\n      \"date\": \"2026-09-22T12:00:00.000Z\",\n      \"customer_name\": \"دينا حلمي\",\n      \"customer_phone\": \"01132956345\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2181,\n      \"shipping_cost\": 65,\n      \"total\": 2246\n    },\n    {\n      \"id\": 1000024,\n      \"order_code\": \"EGY1000024\",\n      \"date\": \"2026-09-22T12:00:00.000Z\",\n      \"customer_name\": \"طارق عبد العزيز\",\n      \"customer_phone\": \"01133565088\",\n      \"city\": \"القاهرة\",\n      \"area\": \"السادس من أكتوبر\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1158,\n      \"shipping_cost\": 82,\n      \"total\": 1240\n    },\n    {\n      \"id\": 1000027,\n      \"order_code\": \"RRQ1000027\",\n      \"date\": \"2026-09-22T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01171451284\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 1,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 668,\n      \"shipping_cost\": 64,\n      \"total\": 732\n    },\n    {\n      \"id\": 1000049,\n      \"order_code\": \"PCA1000049\",\n      \"date\": \"2026-09-21T12:00:00.000Z\",\n      \"customer_name\": \"نورهان مصطفى\",\n      \"customer_phone\": \"01117362215\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 702,\n      \"shipping_cost\": 98,\n      \"total\": 800\n    },\n    {\n      \"id\": 1000052,\n      \"order_code\": \"EGY1000052\",\n      \"date\": \"2026-09-21T12:00:00.000Z\",\n      \"customer_name\": \"شيماء رمضان\",\n      \"customer_phone\": \"01155828066\",\n      \"city\": \"الإسكندرية\",\n      \"area\": \"سموحة\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 2,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 1814,\n      \"shipping_cost\": 82,\n      \"total\": 1896\n    },\n    {\n      \"id\": 1000006,\n      \"order_code\": \"ALX1000006\",\n      \"date\": \"2026-09-20T12:00:00.000Z\",\n      \"customer_name\": \"هبة فتحي\",\n      \"customer_phone\": \"01152361488\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"returned\",\n      \"status_code\": \"5\",\n      \"goods_total\": 2034,\n      \"shipping_cost\": 73,\n      \"total\": 2107\n    },\n    {\n      \"id\": 1000013,\n      \"order_code\": \"PCA1000013\",\n      \"date\": \"2026-09-20T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01125648596\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1623,\n      \"shipping_cost\": 120,\n      \"total\": 1743\n    },\n    {\n      \"id\": 1000021,\n      \"order_code\": \"PCA1000021\",\n      \"date\": \"2026-09-20T12:00:00.000Z\",\n      \"customer_name\": \"كريم السيد\",\n      \"customer_phone\": \"01145323162\",\n      \"city\": \"القاهرة\",\n      \"area\": \"السادس من أكتوبر\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1225,\n      \"shipping_cost\": 55,\n      \"total\": 1280\n    },\n    {\n      \"id\": 1000051,\n      \"order_code\": \"RRQ1000051\",\n      \"date\": \"2026-09-20T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01150449790\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الدقي\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1553,\n      \"shipping_cost\": 117,\n      \"total\": 1670\n    },\n    {\n      \"id\": 1000031,\n      \"order_code\": \"RRQ1000031\",\n      \"date\": \"2026-09-19T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01168309782\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1685,\n      \"shipping_cost\": 88,\n      \"total\": 1773\n    },\n    {\n      \"id\": 1000056,\n      \"order_code\": \"EGY1000056\",\n      \"date\": \"2026-09-19T12:00:00.000Z\",\n      \"customer_name\": \"كريم السيد\",\n      \"customer_phone\": \"01175149434\",\n      \"city\": \"الأقصر\",\n      \"area\": \"الضفة الشرقية\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1771,\n      \"shipping_cost\": 87,\n      \"total\": 1858\n    },\n    {\n      \"id\": 1000009,\n      \"order_code\": \"PCA1000009\",\n      \"date\": \"2026-09-18T12:00:00.000Z\",\n      \"customer_name\": \"شيماء رمضان\",\n      \"customer_phone\": \"01195734460\",\n      \"city\": \"القاهرة\",\n      \"area\": \"المعادي\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 1,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1836,\n      \"shipping_cost\": 61,\n      \"total\": 1897\n    },\n    {\n      \"id\": 1000022,\n      \"order_code\": \"ALX1000022\",\n      \"date\": \"2026-09-18T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01173063536\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 4,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 190,\n      \"shipping_cost\": 82,\n      \"total\": 272\n    },\n    {\n      \"id\": 1000041,\n      \"order_code\": \"PCA1000041\",\n      \"date\": \"2026-09-18T12:00:00.000Z\",\n      \"customer_name\": \"مريم شعبان\",\n      \"customer_phone\": \"01123522258\",\n      \"city\": \"القاهرة\",\n      \"area\": \"مصر الجديدة\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 2,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 377,\n      \"shipping_cost\": 91,\n      \"total\": 468\n    },\n    {\n      \"id\": 1000030,\n      \"order_code\": \"ALX1000030\",\n      \"date\": \"2026-09-17T12:00:00.000Z\",\n      \"customer_name\": \"منى عبد الرحمن\",\n      \"customer_phone\": \"01122869874\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 4,\n      \"status\": \"in_shipping\",\n      \"status_code\": \"7\",\n      \"goods_total\": 1313,\n      \"shipping_cost\": 74,\n      \"total\": 1387\n    },\n    {\n      \"id\": 1000016,\n      \"order_code\": \"EGY1000016\",\n      \"date\": \"2026-09-16T12:00:00.000Z\",\n      \"customer_name\": \"طارق عبد العزيز\",\n      \"customer_phone\": \"01130692952\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 1,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 706,\n      \"shipping_cost\": 53,\n      \"total\": 759\n    },\n    {\n      \"id\": 1000032,\n      \"order_code\": \"EGY1000032\",\n      \"date\": \"2026-09-15T12:00:00.000Z\",\n      \"customer_name\": \"كريم السيد\",\n      \"customer_phone\": \"01141488547\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1427,\n      \"shipping_cost\": 76,\n      \"total\": 1503\n    },\n    {\n      \"id\": 1000058,\n      \"order_code\": \"ALX1000058\",\n      \"date\": \"2026-09-15T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01111259035\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 1,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2051,\n      \"shipping_cost\": 70,\n      \"total\": 2121\n    },\n    {\n      \"id\": 1000001,\n      \"order_code\": \"PCA1000001\",\n      \"date\": \"2026-09-14T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01116640204\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 1,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 680,\n      \"shipping_cost\": 72,\n      \"total\": 752\n    },\n    {\n      \"id\": 1000010,\n      \"order_code\": \"ALX1000010\",\n      \"date\": \"2026-09-14T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01176428926\",\n      \"city\": \"الأقصر\",\n      \"area\": \"الضفة الشرقية\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 270,\n      \"shipping_cost\": 63,\n      \"total\": 333\n    },\n    {\n      \"id\": 1000033,\n      \"order_code\": \"PCA1000033\",\n      \"date\": \"2026-09-14T12:00:00.000Z\",\n      \"customer_name\": \"رضا محمد هاشم\",\n      \"customer_phone\": \"01157042454\",\n      \"city\": \"القاهرة\",\n      \"area\": \"السادس من أكتوبر\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1000,\n      \"shipping_cost\": 54,\n      \"total\": 1054\n    },\n    {\n      \"id\": 1000020,\n      \"order_code\": \"EGY1000020\",\n      \"date\": \"2026-09-12T12:00:00.000Z\",\n      \"customer_name\": \"هبة فتحي\",\n      \"customer_phone\": \"01110923651\",\n      \"city\": \"الإسكندرية\",\n      \"area\": \"برج العرب\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2202,\n      \"shipping_cost\": 104,\n      \"total\": 2306\n    },\n    {\n      \"id\": 1000053,\n      \"order_code\": \"PCA1000053\",\n      \"date\": \"2026-09-12T12:00:00.000Z\",\n      \"customer_name\": \"طارق عبد العزيز\",\n      \"customer_phone\": \"01126802439\",\n      \"city\": \"الأقصر\",\n      \"area\": \"الضفة الشرقية\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 2,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 1749,\n      \"shipping_cost\": 62,\n      \"total\": 1811\n    },\n    {\n      \"id\": 1000045,\n      \"order_code\": \"PCA1000045\",\n      \"date\": \"2026-09-11T12:00:00.000Z\",\n      \"customer_name\": \"سارة عادل\",\n      \"customer_phone\": \"01177916153\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 1,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 922,\n      \"shipping_cost\": 71,\n      \"total\": 993\n    },\n    {\n      \"id\": 1000059,\n      \"order_code\": \"RRQ1000059\",\n      \"date\": \"2026-09-11T12:00:00.000Z\",\n      \"customer_name\": \"نورهان مصطفى\",\n      \"customer_phone\": \"01140618400\",\n      \"city\": \"الإسكندرية\",\n      \"area\": \"سموحة\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 312,\n      \"shipping_cost\": 84,\n      \"total\": 396\n    },\n    {\n      \"id\": 1000047,\n      \"order_code\": \"RRQ1000047\",\n      \"date\": \"2026-09-10T12:00:00.000Z\",\n      \"customer_name\": \"مريم شعبان\",\n      \"customer_phone\": \"01174981015\",\n      \"city\": \"أسوان\",\n      \"area\": \"الكورنيش\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 231,\n      \"shipping_cost\": 90,\n      \"total\": 321\n    },\n    {\n      \"id\": 1000018,\n      \"order_code\": \"ALX1000018\",\n      \"date\": \"2026-09-09T12:00:00.000Z\",\n      \"customer_name\": \"أحمد صفار\",\n      \"customer_phone\": \"01187295468\",\n      \"city\": \"الإسكندرية\",\n      \"area\": \"برج العرب\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2045,\n      \"shipping_cost\": 52,\n      \"total\": 2097\n    },\n    {\n      \"id\": 1000037,\n      \"order_code\": \"PCA1000037\",\n      \"date\": \"2026-09-09T12:00:00.000Z\",\n      \"customer_name\": \"كريم السيد\",\n      \"customer_phone\": \"01158706982\",\n      \"city\": \"بورسعيد\",\n      \"area\": \"المناخ\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 4,\n      \"status\": \"returned\",\n      \"status_code\": \"5\",\n      \"goods_total\": 997,\n      \"shipping_cost\": 77,\n      \"total\": 1074\n    },\n    {\n      \"id\": 1000043,\n      \"order_code\": \"RRQ1000043\",\n      \"date\": \"2026-09-09T12:00:00.000Z\",\n      \"customer_name\": \"محمود الشناوي\",\n      \"customer_phone\": \"01145065254\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الدقي\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 4,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 940,\n      \"shipping_cost\": 48,\n      \"total\": 988\n    },\n    {\n      \"id\": 1000044,\n      \"order_code\": \"EGY1000044\",\n      \"date\": \"2026-09-08T12:00:00.000Z\",\n      \"customer_name\": \"كريم السيد\",\n      \"customer_phone\": \"01142147410\",\n      \"city\": \"القاهرة\",\n      \"area\": \"مصر الجديدة\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 1,\n      \"status\": \"returned\",\n      \"status_code\": \"5\",\n      \"goods_total\": 2067,\n      \"shipping_cost\": 116,\n      \"total\": 2183\n    },\n    {\n      \"id\": 1000008,\n      \"order_code\": \"EGY1000008\",\n      \"date\": \"2026-09-07T12:00:00.000Z\",\n      \"customer_name\": \"هبة فتحي\",\n      \"customer_phone\": \"01123043394\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الدقي\",\n      \"store\": \"متجر الإلكترونيات\",\n      \"carrier\": \"دلتا لوجيستكس\",\n      \"items_count\": 2,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 1537,\n      \"shipping_cost\": 49,\n      \"total\": 1586\n    },\n    {\n      \"id\": 1000036,\n      \"order_code\": \"EGY1000036\",\n      \"date\": \"2026-09-07T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01188771575\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الدقي\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"سريع إكسبرس\",\n      \"items_count\": 2,\n      \"status\": \"pending\",\n      \"status_code\": \"1\",\n      \"goods_total\": 838,\n      \"shipping_cost\": 94,\n      \"total\": 932\n    },\n    {\n      \"id\": 1000015,\n      \"order_code\": \"RRQ1000015\",\n      \"date\": \"2026-09-06T12:00:00.000Z\",\n      \"customer_name\": \"يوسف الجندي\",\n      \"customer_phone\": \"01135931843\",\n      \"city\": \"الإسكندرية\",\n      \"area\": \"برج العرب\",\n      \"store\": \"المتجر الرئيسي\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 2333,\n      \"shipping_cost\": 86,\n      \"total\": 2419\n    },\n    {\n      \"id\": 1000017,\n      \"order_code\": \"PCA1000017\",\n      \"date\": \"2026-09-06T12:00:00.000Z\",\n      \"customer_name\": \"شيماء رمضان\",\n      \"customer_phone\": \"01121276291\",\n      \"city\": \"الجيزة\",\n      \"area\": \"الهرم\",\n      \"store\": \"متجر الأزياء\",\n      \"carrier\": \"كارجو النيل\",\n      \"items_count\": 3,\n      \"status\": \"delivered\",\n      \"status_code\": \"9\",\n      \"goods_total\": 868,\n      \"shipping_cost\": 92,\n      \"total\": 960\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "8f8b3ac9-8cd2-4884-af03-992d79202b91",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/performance/carrier",
+      "responses": [
+        {
+          "uuid": "4da858fa-c44a-453c-9b32-353ad27f8345",
+          "body": "{\n  \"group_by\": \"carrier\",\n  \"data\": [\n    {\n      \"key\": \"c1\",\n      \"label\": \"سريع إكسبرس\",\n      \"orders\": 1180,\n      \"shipped\": 1086,\n      \"delivered\": 732,\n      \"returned\": 59,\n      \"delivery_success_rate\": 92.5,\n      \"return_rate\": 7.5,\n      \"avg_delivery_days\": 2.8,\n      \"revenue\": 468480\n    },\n    {\n      \"key\": \"c2\",\n      \"label\": \"كارجو النيل\",\n      \"orders\": 860,\n      \"shipped\": 791,\n      \"delivered\": 499,\n      \"returned\": 69,\n      \"delivery_success_rate\": 87.9,\n      \"return_rate\": 12.1,\n      \"avg_delivery_days\": 3.6,\n      \"revenue\": 304390\n    },\n    {\n      \"key\": \"c3\",\n      \"label\": \"دلتا لوجيستكس\",\n      \"orders\": 430,\n      \"shipped\": 396,\n      \"delivered\": 215,\n      \"returned\": 52,\n      \"delivery_success_rate\": 80.5,\n      \"return_rate\": 19.5,\n      \"avg_delivery_days\": 4.4,\n      \"revenue\": 126850\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "848e601e-b17b-4eb3-a6f6-c88c0e084244",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/performance/city",
+      "responses": [
+        {
+          "uuid": "bdf76b47-bcca-4519-bd31-10ba5e4185ab",
+          "body": "{\n  \"group_by\": \"city\",\n  \"data\": [\n    {\n      \"key\": \"1\",\n      \"label\": \"القاهرة\",\n      \"orders\": 890,\n      \"shipped\": 819,\n      \"delivered\": 570,\n      \"returned\": 44,\n      \"delivery_success_rate\": 92.8,\n      \"return_rate\": 7.2,\n      \"avg_delivery_days\": 2.4,\n      \"revenue\": 370500\n    },\n    {\n      \"key\": \"2\",\n      \"label\": \"الإسكندرية\",\n      \"orders\": 540,\n      \"shipped\": 497,\n      \"delivered\": 324,\n      \"returned\": 38,\n      \"delivery_success_rate\": 89.5,\n      \"return_rate\": 10.5,\n      \"avg_delivery_days\": 3.1,\n      \"revenue\": 200880\n    },\n    {\n      \"key\": \"3\",\n      \"label\": \"الجيزة\",\n      \"orders\": 620,\n      \"shipped\": 570,\n      \"delivered\": 385,\n      \"returned\": 37,\n      \"delivery_success_rate\": 91.2,\n      \"return_rate\": 8.8,\n      \"avg_delivery_days\": 2.6,\n      \"revenue\": 246400\n    },\n    {\n      \"key\": \"4\",\n      \"label\": \"بورسعيد\",\n      \"orders\": 180,\n      \"shipped\": 166,\n      \"delivered\": 99,\n      \"returned\": 18,\n      \"delivery_success_rate\": 84.6,\n      \"return_rate\": 15.4,\n      \"avg_delivery_days\": 4,\n      \"revenue\": 59400\n    },\n    {\n      \"key\": \"5\",\n      \"label\": \"أسوان\",\n      \"orders\": 120,\n      \"shipped\": 110,\n      \"delivered\": 57,\n      \"returned\": 17,\n      \"delivery_success_rate\": 77,\n      \"return_rate\": 23,\n      \"avg_delivery_days\": 5.2,\n      \"revenue\": 33060\n    },\n    {\n      \"key\": \"6\",\n      \"label\": \"الأقصر\",\n      \"orders\": 120,\n      \"shipped\": 110,\n      \"delivered\": 60,\n      \"returned\": 14,\n      \"delivery_success_rate\": 81.1,\n      \"return_rate\": 18.9,\n      \"avg_delivery_days\": 4.8,\n      \"revenue\": 35400\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6d20e43b-f6e5-4a6c-8a0f-7895bdf6089a",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/performance/area",
+      "responses": [
+        {
+          "uuid": "eea4d022-aa60-4cda-8a0a-e77ab69f44a0",
+          "body": "{\n  \"group_by\": \"area\",\n  \"data\": [\n    {\n      \"key\": \"101\",\n      \"label\": \"مدينة نصر\",\n      \"orders\": 310,\n      \"shipped\": 285,\n      \"delivered\": 211,\n      \"returned\": 12,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.1,\n      \"revenue\": 139260\n    },\n    {\n      \"key\": \"102\",\n      \"label\": \"المعادي\",\n      \"orders\": 240,\n      \"shipped\": 221,\n      \"delivered\": 158,\n      \"returned\": 12,\n      \"delivery_success_rate\": 92.9,\n      \"return_rate\": 7.1,\n      \"avg_delivery_days\": 2.3,\n      \"revenue\": 102700\n    },\n    {\n      \"key\": \"103\",\n      \"label\": \"مصر الجديدة\",\n      \"orders\": 190,\n      \"shipped\": 175,\n      \"delivered\": 122,\n      \"returned\": 9,\n      \"delivery_success_rate\": 93.1,\n      \"return_rate\": 6.9,\n      \"avg_delivery_days\": 2.4,\n      \"revenue\": 78080\n    },\n    {\n      \"key\": \"105\",\n      \"label\": \"السادس من أكتوبر\",\n      \"orders\": 150,\n      \"shipped\": 138,\n      \"delivered\": 87,\n      \"returned\": 13,\n      \"delivery_success_rate\": 87,\n      \"return_rate\": 13,\n      \"avg_delivery_days\": 3.2,\n      \"revenue\": 53940\n    },\n    {\n      \"key\": \"201\",\n      \"label\": \"سموحة\",\n      \"orders\": 210,\n      \"shipped\": 193,\n      \"delivered\": 130,\n      \"returned\": 13,\n      \"delivery_success_rate\": 90.9,\n      \"return_rate\": 9.1,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 81900\n    },\n    {\n      \"key\": \"204\",\n      \"label\": \"برج العرب\",\n      \"orders\": 90,\n      \"shipped\": 83,\n      \"delivered\": 45,\n      \"returned\": 12,\n      \"delivery_success_rate\": 78.9,\n      \"return_rate\": 21.1,\n      \"avg_delivery_days\": 4.6,\n      \"revenue\": 26550\n    },\n    {\n      \"key\": \"301\",\n      \"label\": \"الدقي\",\n      \"orders\": 260,\n      \"shipped\": 239,\n      \"delivered\": 175,\n      \"returned\": 10,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.2,\n      \"revenue\": 114625\n    },\n    {\n      \"key\": \"303\",\n      \"label\": \"الهرم\",\n      \"orders\": 200,\n      \"shipped\": 184,\n      \"delivered\": 104,\n      \"returned\": 26,\n      \"delivery_success_rate\": 80,\n      \"return_rate\": 20,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 62400\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7c0b9c6a-f1ec-4c00-8947-55d615d94d43",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/performance/product",
+      "responses": [
+        {
+          "uuid": "78cd9131-6d14-4de5-9747-be919016027b",
+          "body": "{\n  \"group_by\": \"product\",\n  \"data\": [\n    {\n      \"key\": \"p1\",\n      \"label\": \"سماعة بلوتوث لاسلكية\",\n      \"orders\": 420,\n      \"shipped\": 386,\n      \"delivered\": 277,\n      \"returned\": 21,\n      \"delivery_success_rate\": 93,\n      \"return_rate\": 7,\n      \"avg_delivery_days\": 2.6,\n      \"revenue\": 144040,\n      \"current_stock\": 320,\n      \"warning_stock_number\": 40,\n      \"units_in_transit\": 106,\n      \"units_sold\": 332,\n      \"units_returned\": 25,\n      \"total_stock\": 758\n    },\n    {\n      \"key\": \"p2\",\n      \"label\": \"ساعة يد رجالي كلاسيك\",\n      \"orders\": 360,\n      \"shipped\": 331,\n      \"delivered\": 223,\n      \"returned\": 25,\n      \"delivery_success_rate\": 89.9,\n      \"return_rate\": 10.1,\n      \"avg_delivery_days\": 2.9,\n      \"revenue\": 165020,\n      \"current_stock\": 210,\n      \"warning_stock_number\": 30,\n      \"units_in_transit\": 91,\n      \"units_sold\": 245,\n      \"units_returned\": 28,\n      \"total_stock\": 546\n    },\n    {\n      \"key\": \"p3\",\n      \"label\": \"مكواة شعر سيراميك\",\n      \"orders\": 300,\n      \"shipped\": 276,\n      \"delivered\": 180,\n      \"returned\": 24,\n      \"delivery_success_rate\": 88.2,\n      \"return_rate\": 11.8,\n      \"avg_delivery_days\": 3,\n      \"revenue\": 86400,\n      \"current_stock\": 0,\n      \"warning_stock_number\": 25,\n      \"units_in_transit\": 83,\n      \"units_sold\": 207,\n      \"units_returned\": 28,\n      \"total_stock\": 290\n    },\n    {\n      \"key\": \"p4\",\n      \"label\": \"شاحن سريع 65 وات\",\n      \"orders\": 280,\n      \"shipped\": 258,\n      \"delivered\": 191,\n      \"returned\": 11,\n      \"delivery_success_rate\": 94.6,\n      \"return_rate\": 5.4,\n      \"avg_delivery_days\": 2.5,\n      \"revenue\": 59210,\n      \"current_stock\": 145,\n      \"warning_stock_number\": 50,\n      \"units_in_transit\": 78,\n      \"units_sold\": 267,\n      \"units_returned\": 15,\n      \"total_stock\": 490\n    },\n    {\n      \"key\": \"p5\",\n      \"label\": \"حقيبة ظهر مقاومة للماء\",\n      \"orders\": 240,\n      \"shipped\": 221,\n      \"delivered\": 139,\n      \"returned\": 24,\n      \"delivery_success_rate\": 85.3,\n      \"return_rate\": 14.7,\n      \"avg_delivery_days\": 3.3,\n      \"revenue\": 77840,\n      \"current_stock\": 12,\n      \"warning_stock_number\": 20,\n      \"units_in_transit\": 64,\n      \"units_sold\": 153,\n      \"units_returned\": 26,\n      \"total_stock\": 229\n    },\n    {\n      \"key\": \"p6\",\n      \"label\": \"كريم مرطب بفيتامين C\",\n      \"orders\": 190,\n      \"shipped\": 175,\n      \"delivered\": 104,\n      \"returned\": 21,\n      \"delivery_success_rate\": 83.2,\n      \"return_rate\": 16.8,\n      \"avg_delivery_days\": 3.5,\n      \"revenue\": 30160,\n      \"current_stock\": 96,\n      \"warning_stock_number\": 25,\n      \"units_in_transit\": 65,\n      \"units_sold\": 135,\n      \"units_returned\": 27,\n      \"total_stock\": 296\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "b82473b2-d7ac-42fa-981b-2b9ac2fbf613",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/performance/store",
+      "responses": [
+        {
+          "uuid": "90afd5b5-d2d6-48ad-901d-126892a53cb9",
+          "body": "{\n  \"group_by\": \"store\",\n  \"data\": [\n    {\n      \"key\": \"s1\",\n      \"label\": \"المتجر الرئيسي\",\n      \"orders\": 1180,\n      \"shipped\": 1086,\n      \"delivered\": 743,\n      \"returned\": 59,\n      \"delivery_success_rate\": 92.6,\n      \"return_rate\": 7.4,\n      \"avg_delivery_days\": 2.9,\n      \"revenue\": 475520\n    },\n    {\n      \"key\": \"s2\",\n      \"label\": \"متجر الأزياء\",\n      \"orders\": 790,\n      \"shipped\": 727,\n      \"delivered\": 458,\n      \"returned\": 71,\n      \"delivery_success_rate\": 86.6,\n      \"return_rate\": 13.4,\n      \"avg_delivery_days\": 3.4,\n      \"revenue\": 279380\n    },\n    {\n      \"key\": \"s3\",\n      \"label\": \"متجر الإلكترونيات\",\n      \"orders\": 500,\n      \"shipped\": 460,\n      \"delivered\": 300,\n      \"returned\": 35,\n      \"delivery_success_rate\": 89.6,\n      \"return_rate\": 10.4,\n      \"avg_delivery_days\": 3.1,\n      \"revenue\": 204000\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "9400955e-c969-45f4-9863-91893f17625f",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory-movements/p1",
+      "responses": [
+        {
+          "uuid": "777d1d34-8f3d-4647-9182-8d57077b1ac5",
+          "body": "{\n  \"product\": {\n    \"id\": \"p1\",\n    \"label\": \"سماعة بلوتوث لاسلكية\",\n    \"current_stock\": 320,\n    \"total_stock\": 758,\n    \"units_in_transit\": 106,\n    \"units_sold\": 332,\n    \"warning_stock_number\": 40\n  },\n  \"data\": [\n    {\n      \"date\": \"2026-10-03\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 12,\n      \"balance\": 320,\n      \"reference\": \"RT-P1-3001\"\n    },\n    {\n      \"date\": \"2026-10-01\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 13,\n      \"balance\": 308,\n      \"reference\": \"RT-P1-3000\"\n    },\n    {\n      \"date\": \"2026-09-29\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 152,\n      \"balance\": 295,\n      \"reference\": \"PO-P1-1002\"\n    },\n    {\n      \"date\": \"2026-09-13\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -78,\n      \"balance\": 143,\n      \"reference\": \"SH-P1-2005\"\n    },\n    {\n      \"date\": \"2026-08-22\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -77,\n      \"balance\": 221,\n      \"reference\": \"SH-P1-2004\"\n    },\n    {\n      \"date\": \"2026-08-21\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 227,\n      \"balance\": 298,\n      \"reference\": \"PO-P1-1001\"\n    },\n    {\n      \"date\": \"2026-07-31\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -77,\n      \"balance\": 71,\n      \"reference\": \"SH-P1-2003\"\n    },\n    {\n      \"date\": \"2026-07-09\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -77,\n      \"balance\": 148,\n      \"reference\": \"SH-P1-2002\"\n    },\n    {\n      \"date\": \"2026-06-17\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -77,\n      \"balance\": 225,\n      \"reference\": \"SH-P1-2001\"\n    },\n    {\n      \"date\": \"2026-05-26\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -77,\n      \"balance\": 302,\n      \"reference\": \"SH-P1-2000\"\n    },\n    {\n      \"date\": \"2026-05-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 379,\n      \"balance\": 379,\n      \"reference\": \"PO-P1-1000\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "896c1ba1-91f4-4e2c-980f-889de2b89bb1",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory-movements/p2",
+      "responses": [
+        {
+          "uuid": "963f6977-f167-401f-ac8f-0057a0a4aa19",
+          "body": "{\n  \"product\": {\n    \"id\": \"p2\",\n    \"label\": \"ساعة يد رجالي كلاسيك\",\n    \"current_stock\": 210,\n    \"total_stock\": 546,\n    \"units_in_transit\": 91,\n    \"units_sold\": 245,\n    \"warning_stock_number\": 30\n  },\n  \"data\": [\n    {\n      \"date\": \"2026-10-03\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 14,\n      \"balance\": 210,\n      \"reference\": \"RT-P2-3001\"\n    },\n    {\n      \"date\": \"2026-10-01\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 14,\n      \"balance\": 196,\n      \"reference\": \"RT-P2-3000\"\n    },\n    {\n      \"date\": \"2026-09-29\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 109,\n      \"balance\": 182,\n      \"reference\": \"PO-P2-1002\"\n    },\n    {\n      \"date\": \"2026-09-13\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -59,\n      \"balance\": 73,\n      \"reference\": \"SH-P2-2005\"\n    },\n    {\n      \"date\": \"2026-08-22\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -61,\n      \"balance\": 132,\n      \"reference\": \"SH-P2-2004\"\n    },\n    {\n      \"date\": \"2026-08-21\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 164,\n      \"balance\": 193,\n      \"reference\": \"PO-P2-1001\"\n    },\n    {\n      \"date\": \"2026-07-31\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -61,\n      \"balance\": 29,\n      \"reference\": \"SH-P2-2003\"\n    },\n    {\n      \"date\": \"2026-07-09\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -61,\n      \"balance\": 90,\n      \"reference\": \"SH-P2-2002\"\n    },\n    {\n      \"date\": \"2026-06-17\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -61,\n      \"balance\": 151,\n      \"reference\": \"SH-P2-2001\"\n    },\n    {\n      \"date\": \"2026-05-26\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -61,\n      \"balance\": 212,\n      \"reference\": \"SH-P2-2000\"\n    },\n    {\n      \"date\": \"2026-05-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 273,\n      \"balance\": 273,\n      \"reference\": \"PO-P2-1000\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "7eca60a9-8be8-4667-8ea2-a9ff59225671",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory-movements/p3",
+      "responses": [
+        {
+          "uuid": "eb8d5aba-f903-41f9-a467-5b317083b150",
+          "body": "{\n  \"product\": {\n    \"id\": \"p3\",\n    \"label\": \"مكواة شعر سيراميك\",\n    \"current_stock\": 0,\n    \"total_stock\": 290,\n    \"units_in_transit\": 83,\n    \"units_sold\": 207,\n    \"warning_stock_number\": 25\n  },\n  \"data\": [\n    {\n      \"date\": \"2026-09-13\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -53,\n      \"balance\": 0,\n      \"reference\": \"SH-P3-2005\"\n    },\n    {\n      \"date\": \"2026-09-12\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 14,\n      \"balance\": 53,\n      \"reference\": \"RT-P3-3001\"\n    },\n    {\n      \"date\": \"2026-09-12\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 14,\n      \"balance\": 39,\n      \"reference\": \"RT-P3-3000\"\n    },\n    {\n      \"date\": \"2026-08-22\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -53,\n      \"balance\": 25,\n      \"reference\": \"SH-P3-2004\"\n    },\n    {\n      \"date\": \"2026-08-21\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 58,\n      \"balance\": 78,\n      \"reference\": \"PO-P3-1002\"\n    },\n    {\n      \"date\": \"2026-07-31\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -53,\n      \"balance\": 20,\n      \"reference\": \"SH-P3-2003\"\n    },\n    {\n      \"date\": \"2026-07-09\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -53,\n      \"balance\": 73,\n      \"reference\": \"SH-P3-2002\"\n    },\n    {\n      \"date\": \"2026-07-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 87,\n      \"balance\": 126,\n      \"reference\": \"PO-P3-1001\"\n    },\n    {\n      \"date\": \"2026-06-17\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -53,\n      \"balance\": 39,\n      \"reference\": \"SH-P3-2001\"\n    },\n    {\n      \"date\": \"2026-05-26\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -53,\n      \"balance\": 92,\n      \"reference\": \"SH-P3-2000\"\n    },\n    {\n      \"date\": \"2026-05-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 145,\n      \"balance\": 145,\n      \"reference\": \"PO-P3-1000\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "93b5c700-73e1-4969-8545-033a3cf856f7",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory-movements/p4",
+      "responses": [
+        {
+          "uuid": "0f82a21b-a469-4cb9-854d-9b836c4e6214",
+          "body": "{\n  \"product\": {\n    \"id\": \"p4\",\n    \"label\": \"شاحن سريع 65 وات\",\n    \"current_stock\": 145,\n    \"total_stock\": 490,\n    \"units_in_transit\": 78,\n    \"units_sold\": 267,\n    \"warning_stock_number\": 50\n  },\n  \"data\": [\n    {\n      \"date\": \"2026-10-03\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 7,\n      \"balance\": 145,\n      \"reference\": \"RT-P4-3001\"\n    },\n    {\n      \"date\": \"2026-10-01\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 8,\n      \"balance\": 138,\n      \"reference\": \"RT-P4-3000\"\n    },\n    {\n      \"date\": \"2026-09-29\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 98,\n      \"balance\": 130,\n      \"reference\": \"PO-P4-1002\"\n    },\n    {\n      \"date\": \"2026-09-13\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -60,\n      \"balance\": 32,\n      \"reference\": \"SH-P4-2005\"\n    },\n    {\n      \"date\": \"2026-08-22\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -60,\n      \"balance\": 92,\n      \"reference\": \"SH-P4-2004\"\n    },\n    {\n      \"date\": \"2026-08-21\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 147,\n      \"balance\": 152,\n      \"reference\": \"PO-P4-1001\"\n    },\n    {\n      \"date\": \"2026-07-31\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -60,\n      \"balance\": 5,\n      \"reference\": \"SH-P4-2003\"\n    },\n    {\n      \"date\": \"2026-07-09\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -60,\n      \"balance\": 65,\n      \"reference\": \"SH-P4-2002\"\n    },\n    {\n      \"date\": \"2026-06-17\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -60,\n      \"balance\": 125,\n      \"reference\": \"SH-P4-2001\"\n    },\n    {\n      \"date\": \"2026-05-26\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -60,\n      \"balance\": 185,\n      \"reference\": \"SH-P4-2000\"\n    },\n    {\n      \"date\": \"2026-05-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 245,\n      \"balance\": 245,\n      \"reference\": \"PO-P4-1000\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "3cf54f68-590a-4dd9-9c74-3211f36c10c2",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory-movements/p5",
+      "responses": [
+        {
+          "uuid": "4d222b06-f0c0-4836-b4c8-efb456bfad16",
+          "body": "{\n  \"product\": {\n    \"id\": \"p5\",\n    \"label\": \"حقيبة ظهر مقاومة للماء\",\n    \"current_stock\": 12,\n    \"total_stock\": 229,\n    \"units_in_transit\": 64,\n    \"units_sold\": 153,\n    \"warning_stock_number\": 20\n  },\n  \"data\": [\n    {\n      \"date\": \"2026-09-13\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -38,\n      \"balance\": 12,\n      \"reference\": \"SH-P5-2005\"\n    },\n    {\n      \"date\": \"2026-09-12\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 13,\n      \"balance\": 50,\n      \"reference\": \"RT-P5-3001\"\n    },\n    {\n      \"date\": \"2026-09-12\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 13,\n      \"balance\": 37,\n      \"reference\": \"RT-P5-3000\"\n    },\n    {\n      \"date\": \"2026-08-22\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -41,\n      \"balance\": 24,\n      \"reference\": \"SH-P5-2004\"\n    },\n    {\n      \"date\": \"2026-08-21\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 45,\n      \"balance\": 65,\n      \"reference\": \"PO-P5-1002\"\n    },\n    {\n      \"date\": \"2026-07-31\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -41,\n      \"balance\": 20,\n      \"reference\": \"SH-P5-2003\"\n    },\n    {\n      \"date\": \"2026-07-09\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -41,\n      \"balance\": 61,\n      \"reference\": \"SH-P5-2002\"\n    },\n    {\n      \"date\": \"2026-07-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 69,\n      \"balance\": 102,\n      \"reference\": \"PO-P5-1001\"\n    },\n    {\n      \"date\": \"2026-06-17\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -41,\n      \"balance\": 33,\n      \"reference\": \"SH-P5-2001\"\n    },\n    {\n      \"date\": \"2026-05-26\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -41,\n      \"balance\": 74,\n      \"reference\": \"SH-P5-2000\"\n    },\n    {\n      \"date\": \"2026-05-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 115,\n      \"balance\": 115,\n      \"reference\": \"PO-P5-1000\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "838405f8-f80e-4801-8d68-23b87c0400a8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/reports/inventory-movements/p6",
+      "responses": [
+        {
+          "uuid": "828a44ea-0754-4585-8c73-321ba02d33bc",
+          "body": "{\n  \"product\": {\n    \"id\": \"p6\",\n    \"label\": \"كريم مرطب بفيتامين C\",\n    \"current_stock\": 96,\n    \"total_stock\": 296,\n    \"units_in_transit\": 65,\n    \"units_sold\": 135,\n    \"warning_stock_number\": 25\n  },\n  \"data\": [\n    {\n      \"date\": \"2026-10-03\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 13,\n      \"balance\": 96,\n      \"reference\": \"RT-P6-3001\"\n    },\n    {\n      \"date\": \"2026-10-01\",\n      \"type\": \"return_in\",\n      \"type_label\": \"مرتجع رجع للمخزن\",\n      \"quantity\": 14,\n      \"balance\": 83,\n      \"reference\": \"RT-P6-3000\"\n    },\n    {\n      \"date\": \"2026-09-29\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 59,\n      \"balance\": 69,\n      \"reference\": \"PO-P6-1002\"\n    },\n    {\n      \"date\": \"2026-09-13\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -37,\n      \"balance\": 10,\n      \"reference\": \"SH-P6-2005\"\n    },\n    {\n      \"date\": \"2026-08-22\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -38,\n      \"balance\": 47,\n      \"reference\": \"SH-P6-2004\"\n    },\n    {\n      \"date\": \"2026-07-31\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -38,\n      \"balance\": 85,\n      \"reference\": \"SH-P6-2003\"\n    },\n    {\n      \"date\": \"2026-07-30\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 89,\n      \"balance\": 123,\n      \"reference\": \"PO-P6-1001\"\n    },\n    {\n      \"date\": \"2026-07-09\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -38,\n      \"balance\": 34,\n      \"reference\": \"SH-P6-2002\"\n    },\n    {\n      \"date\": \"2026-06-17\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -38,\n      \"balance\": 72,\n      \"reference\": \"SH-P6-2001\"\n    },\n    {\n      \"date\": \"2026-05-26\",\n      \"type\": \"outbound_shipment\",\n      \"type_label\": \"خرج مع شحنة\",\n      \"quantity\": -38,\n      \"balance\": 110,\n      \"reference\": \"SH-P6-2000\"\n    },\n    {\n      \"date\": \"2026-05-08\",\n      \"type\": \"inbound\",\n      \"type_label\": \"وارد للمخزن\",\n      \"quantity\": 148,\n      \"balance\": 148,\n      \"reference\": \"PO-P6-1000\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "1d77d292-ff51-4339-b6fb-3ee682ab79d9",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/dashboard/summary",
       "responses": [
         {
-          "uuid": "67fd59b6-addf-40c0-aa7a-b828fb2b0523",
-          "body": "{\n  \"total_orders\": 2441,\n  \"shipped\": 2243,\n  \"delivered\": 1751,\n  \"returned\": 186,\n  \"pending\": 125,\n  \"cancelled\": 73,\n  \"revenue\": 1068110,\n  \"net_profit\": 288390,\n  \"cod_collected\": 1004023,\n  \"cod_success_rate\": 94,\n  \"delivery_rate\": 90.4,\n  \"return_rate\": 9.6,\n  \"avg_delivery_days\": 2.8,\n  \"trends\": {\n    \"total_orders\": 8.4,\n    \"revenue\": 11.2,\n    \"net_profit\": 6.9,\n    \"cod_collected\": 10.1,\n    \"delivered\": 9.3,\n    \"shipped\": 7.8,\n    \"pending\": -4.2,\n    \"returned\": -2.6,\n    \"delivery_rate\": 1.4,\n    \"return_rate\": -1.4,\n    \"avg_delivery_days\": -0.3,\n    \"cod_success_rate\": 0.8\n  }\n}",
+          "uuid": "19eadcba-c29b-4ca6-8aad-df162090afec",
+          "body": "{\n  \"total_orders\": 2446,\n  \"shipped\": 2247,\n  \"delivered\": 1755,\n  \"returned\": 190,\n  \"pending\": 126,\n  \"cancelled\": 73,\n  \"revenue\": 1070550,\n  \"net_profit\": 289049,\n  \"cod_collected\": 1006317,\n  \"cod_success_rate\": 94,\n  \"delivery_rate\": 90.2,\n  \"return_rate\": 9.8,\n  \"avg_delivery_days\": 2.8,\n  \"trends\": {\n    \"total_orders\": 8.4,\n    \"revenue\": 11.2,\n    \"net_profit\": 6.9,\n    \"cod_collected\": 10.1,\n    \"delivered\": 9.3,\n    \"shipped\": 7.8,\n    \"pending\": -4.2,\n    \"returned\": -2.6,\n    \"delivery_rate\": 1.4,\n    \"return_rate\": -1.4,\n    \"avg_delivery_days\": -0.3,\n    \"cod_success_rate\": 0.8\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -40,15 +598,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "fa7ef40f-0659-4458-b48a-a29b55a6df8a",
+      "uuid": "d51edbf9-06ca-4531-b5b3-a1a38b7c3657",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/dashboard/orders-aging",
       "responses": [
         {
-          "uuid": "8bf5403b-4a9c-4909-ab48-c8e14ab81e26",
-          "body": "{\n  \"total\": 125,\n  \"data\": [\n    {\n      \"bucket\": \"0_2\",\n      \"count\": 65\n    },\n    {\n      \"bucket\": \"3_5\",\n      \"count\": 35\n    },\n    {\n      \"bucket\": \"6_7\",\n      \"count\": 16\n    },\n    {\n      \"bucket\": \"over_7\",\n      \"count\": 9\n    }\n  ]\n}",
+          "uuid": "1477d508-b2da-4831-a9a8-4eb02136bbab",
+          "body": "{\n  \"total\": 126,\n  \"data\": [\n    {\n      \"bucket\": \"0_2\",\n      \"count\": 66\n    },\n    {\n      \"bucket\": \"3_5\",\n      \"count\": 35\n    },\n    {\n      \"bucket\": \"6_7\",\n      \"count\": 16\n    },\n    {\n      \"bucket\": \"over_7\",\n      \"count\": 9\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -71,15 +629,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "d0823e37-0176-4c01-bfef-fddd3cfcfa05",
+      "uuid": "2c88344e-595c-411b-8fde-9656c7abf98b",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/dashboard/attention",
       "responses": [
         {
-          "uuid": "7a821709-2f81-4481-b728-6156ec5207cf",
-          "body": "{\n  \"data\": [\n    {\n      \"key\": \"delayed_orders\",\n      \"count\": 9,\n      \"severity\": \"high\",\n      \"route\": \"/orders\"\n    },\n    {\n      \"key\": \"pending_confirmation\",\n      \"count\": 39,\n      \"severity\": \"medium\",\n      \"route\": \"/orders\"\n    },\n    {\n      \"key\": \"returns_pending_receipt\",\n      \"count\": 41,\n      \"severity\": \"medium\",\n      \"route\": \"/orders\"\n    },\n    {\n      \"key\": \"low_stock_products\",\n      \"count\": 18,\n      \"severity\": \"low\",\n      \"route\": \"/products\"\n    }\n  ]\n}",
+          "uuid": "613eee62-c9b8-4132-8715-42c59201715e",
+          "body": "{\n  \"data\": [\n    {\n      \"key\": \"delayed_orders\",\n      \"count\": 9,\n      \"severity\": \"high\",\n      \"route\": \"/orders\"\n    },\n    {\n      \"key\": \"pending_confirmation\",\n      \"count\": 39,\n      \"severity\": \"medium\",\n      \"route\": \"/orders\"\n    },\n    {\n      \"key\": \"returns_pending_receipt\",\n      \"count\": 42,\n      \"severity\": \"medium\",\n      \"route\": \"/orders\"\n    },\n    {\n      \"key\": \"low_stock_products\",\n      \"count\": 18,\n      \"severity\": \"low\",\n      \"route\": \"/products\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -102,14 +660,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "7a2d7d15-6d17-4ca3-852d-73c3314c7bca",
+      "uuid": "590ead3a-dacb-4360-bb51-d2d4dfec94d3",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/dashboard/inventory",
       "responses": [
         {
-          "uuid": "db674787-43fc-4706-bbc6-3e2b5116dabb",
+          "uuid": "c0734d9d-60f1-46e0-b842-847078e968ac",
           "body": "{\n  \"total_products\": 120,\n  \"in_stock\": 96,\n  \"low_stock\": 18,\n  \"out_of_stock\": 6\n}",
           "latency": 0,
           "statusCode": 200,
@@ -133,15 +691,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "5a75df4e-328c-448b-88e5-fef9bfbbd0fe",
+      "uuid": "c2cedf17-bd46-4acb-aba3-89cc04412e05",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/orders-over-time",
       "responses": [
         {
-          "uuid": "b434d105-c497-4ab4-81a1-47ef0d62c02a",
-          "body": "{\n  \"labels\": [\n    \"2026-09-05\",\n    \"2026-09-06\",\n    \"2026-09-07\",\n    \"2026-09-08\",\n    \"2026-09-09\",\n    \"2026-09-10\",\n    \"2026-09-11\",\n    \"2026-09-12\",\n    \"2026-09-13\",\n    \"2026-09-14\",\n    \"2026-09-15\",\n    \"2026-09-16\",\n    \"2026-09-17\",\n    \"2026-09-18\",\n    \"2026-09-19\",\n    \"2026-09-20\",\n    \"2026-09-21\",\n    \"2026-09-22\",\n    \"2026-09-23\",\n    \"2026-09-24\",\n    \"2026-09-25\",\n    \"2026-09-26\",\n    \"2026-09-27\",\n    \"2026-09-28\",\n    \"2026-09-29\",\n    \"2026-09-30\",\n    \"2026-10-01\",\n    \"2026-10-02\",\n    \"2026-10-03\",\n    \"2026-10-04\"\n  ],\n  \"total\": [\n    80,\n    108,\n    81,\n    100,\n    85,\n    92,\n    42,\n    76,\n    90,\n    94,\n    84,\n    100,\n    102,\n    45,\n    60,\n    73,\n    86,\n    72,\n    109,\n    102,\n    45,\n    75,\n    88,\n    70,\n    107,\n    71,\n    82,\n    60,\n    66,\n    96\n  ],\n  \"shipped\": [\n    74,\n    99,\n    75,\n    92,\n    78,\n    85,\n    39,\n    70,\n    83,\n    86,\n    77,\n    92,\n    94,\n    41,\n    55,\n    67,\n    79,\n    66,\n    100,\n    94,\n    41,\n    69,\n    81,\n    64,\n    98,\n    65,\n    75,\n    55,\n    61,\n    88\n  ],\n  \"delivered\": [\n    58,\n    77,\n    59,\n    72,\n    61,\n    66,\n    30,\n    55,\n    65,\n    67,\n    60,\n    72,\n    73,\n    32,\n    43,\n    52,\n    62,\n    51,\n    78,\n    73,\n    32,\n    54,\n    63,\n    50,\n    76,\n    51,\n    59,\n    43,\n    48,\n    69\n  ],\n  \"returned\": [\n    8,\n    7,\n    6,\n    7,\n    5,\n    5,\n    3,\n    6,\n    9,\n    6,\n    6,\n    7,\n    8,\n    3,\n    5,\n    6,\n    5,\n    6,\n    9,\n    10,\n    3,\n    6,\n    8,\n    5,\n    8,\n    5,\n    7,\n    6,\n    4,\n    7\n  ]\n}",
+          "uuid": "e3397ab0-d802-4ef8-b867-a0cdf8bd9612",
+          "body": "{\n  \"labels\": [\n    \"2026-09-06\",\n    \"2026-09-07\",\n    \"2026-09-08\",\n    \"2026-09-09\",\n    \"2026-09-10\",\n    \"2026-09-11\",\n    \"2026-09-12\",\n    \"2026-09-13\",\n    \"2026-09-14\",\n    \"2026-09-15\",\n    \"2026-09-16\",\n    \"2026-09-17\",\n    \"2026-09-18\",\n    \"2026-09-19\",\n    \"2026-09-20\",\n    \"2026-09-21\",\n    \"2026-09-22\",\n    \"2026-09-23\",\n    \"2026-09-24\",\n    \"2026-09-25\",\n    \"2026-09-26\",\n    \"2026-09-27\",\n    \"2026-09-28\",\n    \"2026-09-29\",\n    \"2026-09-30\",\n    \"2026-10-01\",\n    \"2026-10-02\",\n    \"2026-10-03\",\n    \"2026-10-04\",\n    \"2026-10-05\"\n  ],\n  \"total\": [\n    101,\n    108,\n    81,\n    100,\n    85,\n    50,\n    61,\n    95,\n    90,\n    94,\n    84,\n    100,\n    56,\n    65,\n    74,\n    73,\n    86,\n    72,\n    109,\n    56,\n    65,\n    94,\n    88,\n    70,\n    107,\n    71,\n    45,\n    87,\n    83,\n    96\n  ],\n  \"shipped\": [\n    93,\n    99,\n    75,\n    92,\n    78,\n    46,\n    56,\n    87,\n    83,\n    86,\n    77,\n    92,\n    52,\n    60,\n    68,\n    67,\n    79,\n    66,\n    100,\n    52,\n    60,\n    86,\n    81,\n    64,\n    98,\n    65,\n    41,\n    80,\n    76,\n    88\n  ],\n  \"delivered\": [\n    73,\n    77,\n    59,\n    72,\n    61,\n    36,\n    44,\n    68,\n    65,\n    67,\n    60,\n    72,\n    41,\n    47,\n    53,\n    52,\n    62,\n    51,\n    78,\n    41,\n    47,\n    67,\n    63,\n    50,\n    76,\n    51,\n    32,\n    62,\n    59,\n    69\n  ],\n  \"returned\": [\n    10,\n    7,\n    6,\n    7,\n    5,\n    3,\n    5,\n    8,\n    9,\n    6,\n    6,\n    7,\n    4,\n    5,\n    6,\n    6,\n    5,\n    6,\n    9,\n    6,\n    5,\n    7,\n    8,\n    5,\n    8,\n    5,\n    4,\n    9,\n    6,\n    7\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -164,15 +722,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "563f5a5b-4630-493e-b1e6-3621d700b317",
+      "uuid": "d934f604-de52-453d-958d-923b820ce87c",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/status-breakdown",
       "responses": [
         {
-          "uuid": "cc3a06b6-71ad-48b4-a7ac-fd25c509be2b",
-          "body": "{\n  \"total\": 2441,\n  \"data\": [\n    {\n      \"group\": \"pending\",\n      \"count\": 72,\n      \"percentage\": 2.9\n    },\n    {\n      \"group\": \"confirmed\",\n      \"count\": 53,\n      \"percentage\": 2.2\n    },\n    {\n      \"group\": \"in_shipping\",\n      \"count\": 306,\n      \"percentage\": 12.5\n    },\n    {\n      \"group\": \"delivered\",\n      \"count\": 1751,\n      \"percentage\": 71.7\n    },\n    {\n      \"group\": \"returned\",\n      \"count\": 186,\n      \"percentage\": 7.6\n    },\n    {\n      \"group\": \"cancelled\",\n      \"count\": 73,\n      \"percentage\": 3\n    }\n  ]\n}",
+          "uuid": "80f311f3-59bb-48df-b8d3-f1e8390fb1ea",
+          "body": "{\n  \"total\": 2446,\n  \"data\": [\n    {\n      \"group\": \"pending\",\n      \"count\": 73,\n      \"percentage\": 3\n    },\n    {\n      \"group\": \"confirmed\",\n      \"count\": 53,\n      \"percentage\": 2.2\n    },\n    {\n      \"group\": \"in_shipping\",\n      \"count\": 302,\n      \"percentage\": 12.3\n    },\n    {\n      \"group\": \"delivered\",\n      \"count\": 1755,\n      \"percentage\": 71.7\n    },\n    {\n      \"group\": \"returned\",\n      \"count\": 190,\n      \"percentage\": 7.8\n    },\n    {\n      \"group\": \"cancelled\",\n      \"count\": 73,\n      \"percentage\": 3\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -195,14 +753,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "59ccf788-b640-4c25-ab66-b11373f966d9",
+      "uuid": "7e1aa5de-f254-409f-8745-40c77572ce91",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/reports/top-products",
       "responses": [
         {
-          "uuid": "cd62f913-2632-4761-8bae-b34e8a6bcc8a",
+          "uuid": "07b655a6-1a80-42fa-8e24-de2482607977",
           "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"سماعة بلوتوث لاسلكية\",\n      \"image\": \"./assets/images/products/s1.jpg\",\n      \"quantity\": 462,\n      \"orders\": 420,\n      \"revenue\": 240240\n    },\n    {\n      \"id\": 2,\n      \"name\": \"ساعة يد رجالي كلاسيك\",\n      \"image\": \"./assets/images/products/s1.jpg\",\n      \"quantity\": 414,\n      \"orders\": 360,\n      \"revenue\": 306360\n    },\n    {\n      \"id\": 3,\n      \"name\": \"مكواة شعر سيراميك\",\n      \"image\": \"./assets/images/products/s1.jpg\",\n      \"quantity\": 360,\n      \"orders\": 300,\n      \"revenue\": 172800\n    },\n    {\n      \"id\": 4,\n      \"name\": \"شاحن سريع 65 وات\",\n      \"image\": \"./assets/images/products/s1.jpg\",\n      \"quantity\": 350,\n      \"orders\": 280,\n      \"revenue\": 108500\n    },\n    {\n      \"id\": 5,\n      \"name\": \"حقيبة ظهر مقاومة للماء\",\n      \"image\": \"./assets/images/products/s1.jpg\",\n      \"quantity\": 312,\n      \"orders\": 240,\n      \"revenue\": 174720\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -226,14 +784,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "3f805ab0-4b95-4559-a099-4e754267fb6e",
+      "uuid": "b32e11d8-6d5c-4c08-9ddd-91ce4f513109",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/wallet/balance",
       "responses": [
         {
-          "uuid": "2b987b17-a64c-444c-bafb-6f7aa42806bd",
+          "uuid": "670d4042-4104-485e-9bef-25c10d84fd6b",
           "body": "{\n  \"currency\": \"EGP\",\n  \"total\": 108270,\n  \"pending\": 81500,\n  \"available\": 26770\n}",
           "latency": 0,
           "statusCode": 200,
@@ -257,15 +815,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "8f4acece-3383-4e36-bbcb-ea2d7c78ba9a",
+      "uuid": "be13f68d-f4fa-4f64-8267-be40aa1db72a",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/wallet/ledger",
       "responses": [
         {
-          "uuid": "f2d28290-3138-45df-ac57-156db839fa1d",
-          "body": "{\n  \"page\": 1,\n  \"limit\": 67,\n  \"total\": 67,\n  \"data\": [\n    {\n      \"id\": \"wl-66-NIO3363824\",\n      \"date\": \"2026-10-03T09:42:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3240,\n      \"balance\": 26770,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-65-110641\",\n      \"date\": \"2026-10-02T12:35:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -20000,\n      \"balance\": 23530,\n      \"reference\": \"110641\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-64-BPF3363821\",\n      \"date\": \"2026-10-02T09:28:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1750,\n      \"balance\": 43530,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-63-GKZ3362343\",\n      \"date\": \"2026-10-01T09:21:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5050,\n      \"balance\": 41780,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-62-IYR3361196\",\n      \"date\": \"2026-09-29T09:14:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4400,\n      \"balance\": 36730,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-61-BHK3359755\",\n      \"date\": \"2026-09-28T09:07:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2300,\n      \"balance\": 32330,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-60-SRV-2026-0143\",\n      \"date\": \"2026-09-27T12:00:00.000Z\",\n      \"type\": \"other_service\",\n      \"amount\": 300,\n      \"balance\": 30030,\n      \"reference\": \"SRV-2026-0143\",\n      \"reference_type\": \"service\"\n    },\n    {\n      \"id\": \"wl-59-MKX3364781\",\n      \"date\": \"2026-09-27T09:53:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3150,\n      \"balance\": 29730,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-58-PLS3364633\",\n      \"date\": \"2026-09-25T09:46:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4550,\n      \"balance\": 26580,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-57-110500\",\n      \"date\": \"2026-09-24T12:39:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -38000,\n      \"balance\": 22030,\n      \"reference\": \"110500\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-56-JDH3364510\",\n      \"date\": \"2026-09-24T09:32:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2650,\n      \"balance\": 60030,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-55-EGY3362736\",\n      \"date\": \"2026-09-23T12:25:00.000Z\",\n      \"type\": \"return_shipping\",\n      \"amount\": -140,\n      \"balance\": 57380,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-54-VNB3364402\",\n      \"date\": \"2026-09-23T09:18:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2200,\n      \"balance\": 57520,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-53-TRF3364198\",\n      \"date\": \"2026-09-21T09:11:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3300,\n      \"balance\": 55320,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-52-INV-2026-08\",\n      \"date\": \"2026-09-20T18:04:00.000Z\",\n      \"type\": \"storage_fee\",\n      \"amount\": -900,\n      \"balance\": 52020,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-51-INV-2026-08\",\n      \"date\": \"2026-09-20T15:57:00.000Z\",\n      \"type\": \"confirmation_fee\",\n      \"amount\": -720,\n      \"balance\": 52920,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-50-INV-2026-08\",\n      \"date\": \"2026-09-20T12:50:00.000Z\",\n      \"type\": \"shipping_fee\",\n      \"amount\": -2100,\n      \"balance\": 53640,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-49-QWM3364011\",\n      \"date\": \"2026-09-20T09:43:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1900,\n      \"balance\": 55740,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-48-EGY3362736\",\n      \"date\": \"2026-09-19T09:36:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3600,\n      \"balance\": 53840,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-47-GZC3360164\",\n      \"date\": \"2026-09-18T09:29:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4800,\n      \"balance\": 50240,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-46-LOO3363830\",\n      \"date\": \"2026-09-17T09:22:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 45440,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-45-RLT3363826\",\n      \"date\": \"2026-09-16T09:15:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5000,\n      \"balance\": 42840,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-44-NIO3363824\",\n      \"date\": \"2026-09-15T09:08:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3050,\n      \"balance\": 37840,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-43-BPF3363821\",\n      \"date\": \"2026-09-14T09:01:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3600,\n      \"balance\": 34790,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-42-SRV-2026-0118\",\n      \"date\": \"2026-09-13T12:54:00.000Z\",\n      \"type\": \"other_service\",\n      \"amount\": -350,\n      \"balance\": 31190,\n      \"reference\": \"SRV-2026-0118\",\n      \"reference_type\": \"service\"\n    },\n    {\n      \"id\": \"wl-41-GKZ3362343\",\n      \"date\": \"2026-09-13T09:47:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3500,\n      \"balance\": 31540,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-40-IYR3361196\",\n      \"date\": \"2026-09-12T09:40:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4800,\n      \"balance\": 28040,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-39-BHK3359755\",\n      \"date\": \"2026-09-11T09:33:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2100,\n      \"balance\": 23240,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-38-MKX3364781\",\n      \"date\": \"2026-09-09T09:26:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1600,\n      \"balance\": 21140,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-37-110333\",\n      \"date\": \"2026-09-08T12:19:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -30000,\n      \"balance\": 19540,\n      \"reference\": \"110333\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-36-PLS3364633\",\n      \"date\": \"2026-09-08T09:12:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3850,\n      \"balance\": 49540,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-35-JDH3364510\",\n      \"date\": \"2026-09-07T09:05:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2950,\n      \"balance\": 45690,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-34-VNB3364402\",\n      \"date\": \"2026-09-05T09:58:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2050,\n      \"balance\": 42740,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-33-INV-2026-08\",\n      \"date\": \"2026-09-04T12:51:00.000Z\",\n      \"type\": \"packaging_fee\",\n      \"amount\": -480,\n      \"balance\": 40690,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-32-TRF3364198\",\n      \"date\": \"2026-09-04T09:44:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3400,\n      \"balance\": 41170,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-31-QWM3364011\",\n      \"date\": \"2026-09-03T09:37:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3550,\n      \"balance\": 37770,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-30-EGY3362736\",\n      \"date\": \"2026-09-02T09:30:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5050,\n      \"balance\": 34220,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-29-GZC3360164\",\n      \"date\": \"2026-09-01T09:23:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2300,\n      \"balance\": 29170,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-28-LOO3363830\",\n      \"date\": \"2026-08-31T09:16:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3600,\n      \"balance\": 26870,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-27-GZC3360164\",\n      \"date\": \"2026-08-29T12:09:00.000Z\",\n      \"type\": \"return_shipping\",\n      \"amount\": -140,\n      \"balance\": 23270,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-26-RLT3363826\",\n      \"date\": \"2026-08-29T09:02:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2650,\n      \"balance\": 23410,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-25-NIO3363824\",\n      \"date\": \"2026-08-28T09:55:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3100,\n      \"balance\": 20760,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-24-BPF3363821\",\n      \"date\": \"2026-08-27T09:48:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4200,\n      \"balance\": 17660,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-23-110185\",\n      \"date\": \"2026-08-26T12:41:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -30000,\n      \"balance\": 13460,\n      \"reference\": \"110185\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-22-GKZ3362343\",\n      \"date\": \"2026-08-26T09:34:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2950,\n      \"balance\": 43460,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-21-IYR3361196\",\n      \"date\": \"2026-08-25T09:27:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1600,\n      \"balance\": 40510,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-20-BHK3359755\",\n      \"date\": \"2026-08-24T09:20:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5000,\n      \"balance\": 38910,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-19-MKX3364781\",\n      \"date\": \"2026-08-23T09:13:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2000,\n      \"balance\": 33910,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-18-PLS3364633\",\n      \"date\": \"2026-08-22T09:06:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4400,\n      \"balance\": 31910,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-17-INV-2026-07\",\n      \"date\": \"2026-08-21T18:59:00.000Z\",\n      \"type\": \"storage_fee\",\n      \"amount\": -900,\n      \"balance\": 27510,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-16-INV-2026-07\",\n      \"date\": \"2026-08-21T15:52:00.000Z\",\n      \"type\": \"confirmation_fee\",\n      \"amount\": -640,\n      \"balance\": 28410,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-15-INV-2026-07\",\n      \"date\": \"2026-08-21T12:45:00.000Z\",\n      \"type\": \"shipping_fee\",\n      \"amount\": -1850,\n      \"balance\": 29050,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-14-JDH3364510\",\n      \"date\": \"2026-08-21T09:38:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2200,\n      \"balance\": 30900,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-13-VNB3364402\",\n      \"date\": \"2026-08-19T09:31:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 28700,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-12-TRF3364198\",\n      \"date\": \"2026-08-17T09:24:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4100,\n      \"balance\": 26100,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-11-QWM3364011\",\n      \"date\": \"2026-08-16T09:17:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4900,\n      \"balance\": 22000,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-10-EGY3362736\",\n      \"date\": \"2026-08-15T09:10:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2300,\n      \"balance\": 17100,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-9-GZC3360164\",\n      \"date\": \"2026-08-14T09:03:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2500,\n      \"balance\": 14800,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-8-LOO3363830\",\n      \"date\": \"2026-08-12T09:56:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3100,\n      \"balance\": 12300,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-7-RLT3363826\",\n      \"date\": \"2026-08-11T09:49:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2450,\n      \"balance\": 9200,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-6-109958\",\n      \"date\": \"2026-08-10T12:42:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -16500,\n      \"balance\": 6750,\n      \"reference\": \"109958\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-5-NIO3363824\",\n      \"date\": \"2026-08-10T09:35:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 23250,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-4-BPF3363821\",\n      \"date\": \"2026-08-09T09:28:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4200,\n      \"balance\": 20650,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-3-GKZ3362343\",\n      \"date\": \"2026-08-08T09:21:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4850,\n      \"balance\": 16450,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-2-IYR3361196\",\n      \"date\": \"2026-08-07T09:14:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3650,\n      \"balance\": 11600,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-1-BHK3359755\",\n      \"date\": \"2026-08-06T09:07:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2950,\n      \"balance\": 7950,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-0-open\",\n      \"date\": \"2026-08-05T09:00:00.000Z\",\n      \"type\": \"opening_balance\",\n      \"amount\": 5000,\n      \"balance\": 5000,\n      \"reference\": \"\",\n      \"reference_type\": \"\"\n    }\n  ]\n}",
+          "uuid": "28a80625-3c8e-4a6d-a3e8-dafe77292c91",
+          "body": "{\n  \"page\": 1,\n  \"limit\": 67,\n  \"total\": 67,\n  \"data\": [\n    {\n      \"id\": \"wl-66-NIO3363824\",\n      \"date\": \"2026-10-04T09:42:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3240,\n      \"balance\": 26770,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-65-110641\",\n      \"date\": \"2026-10-03T12:35:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -20000,\n      \"balance\": 23530,\n      \"reference\": \"110641\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-64-BPF3363821\",\n      \"date\": \"2026-10-03T09:28:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1750,\n      \"balance\": 43530,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-63-GKZ3362343\",\n      \"date\": \"2026-10-02T09:21:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5050,\n      \"balance\": 41780,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-62-IYR3361196\",\n      \"date\": \"2026-09-30T09:14:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4400,\n      \"balance\": 36730,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-61-BHK3359755\",\n      \"date\": \"2026-09-29T09:07:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2300,\n      \"balance\": 32330,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-60-SRV-2026-0143\",\n      \"date\": \"2026-09-28T12:00:00.000Z\",\n      \"type\": \"other_service\",\n      \"amount\": 300,\n      \"balance\": 30030,\n      \"reference\": \"SRV-2026-0143\",\n      \"reference_type\": \"service\"\n    },\n    {\n      \"id\": \"wl-59-MKX3364781\",\n      \"date\": \"2026-09-28T09:53:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3150,\n      \"balance\": 29730,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-58-PLS3364633\",\n      \"date\": \"2026-09-26T09:46:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4550,\n      \"balance\": 26580,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-57-110500\",\n      \"date\": \"2026-09-25T12:39:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -38000,\n      \"balance\": 22030,\n      \"reference\": \"110500\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-56-JDH3364510\",\n      \"date\": \"2026-09-25T09:32:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2650,\n      \"balance\": 60030,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-55-EGY3362736\",\n      \"date\": \"2026-09-24T12:25:00.000Z\",\n      \"type\": \"return_shipping\",\n      \"amount\": -140,\n      \"balance\": 57380,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-54-VNB3364402\",\n      \"date\": \"2026-09-24T09:18:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2200,\n      \"balance\": 57520,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-53-TRF3364198\",\n      \"date\": \"2026-09-22T09:11:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3300,\n      \"balance\": 55320,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-52-INV-2026-08\",\n      \"date\": \"2026-09-21T18:04:00.000Z\",\n      \"type\": \"storage_fee\",\n      \"amount\": -900,\n      \"balance\": 52020,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-51-INV-2026-08\",\n      \"date\": \"2026-09-21T15:57:00.000Z\",\n      \"type\": \"confirmation_fee\",\n      \"amount\": -720,\n      \"balance\": 52920,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-50-INV-2026-08\",\n      \"date\": \"2026-09-21T12:50:00.000Z\",\n      \"type\": \"shipping_fee\",\n      \"amount\": -2100,\n      \"balance\": 53640,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-49-QWM3364011\",\n      \"date\": \"2026-09-21T09:43:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1900,\n      \"balance\": 55740,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-48-EGY3362736\",\n      \"date\": \"2026-09-20T09:36:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3600,\n      \"balance\": 53840,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-47-GZC3360164\",\n      \"date\": \"2026-09-19T09:29:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4800,\n      \"balance\": 50240,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-46-LOO3363830\",\n      \"date\": \"2026-09-18T09:22:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 45440,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-45-RLT3363826\",\n      \"date\": \"2026-09-17T09:15:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5000,\n      \"balance\": 42840,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-44-NIO3363824\",\n      \"date\": \"2026-09-16T09:08:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3050,\n      \"balance\": 37840,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-43-BPF3363821\",\n      \"date\": \"2026-09-15T09:01:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3600,\n      \"balance\": 34790,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-42-SRV-2026-0118\",\n      \"date\": \"2026-09-14T12:54:00.000Z\",\n      \"type\": \"other_service\",\n      \"amount\": -350,\n      \"balance\": 31190,\n      \"reference\": \"SRV-2026-0118\",\n      \"reference_type\": \"service\"\n    },\n    {\n      \"id\": \"wl-41-GKZ3362343\",\n      \"date\": \"2026-09-14T09:47:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3500,\n      \"balance\": 31540,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-40-IYR3361196\",\n      \"date\": \"2026-09-13T09:40:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4800,\n      \"balance\": 28040,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-39-BHK3359755\",\n      \"date\": \"2026-09-12T09:33:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2100,\n      \"balance\": 23240,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-38-MKX3364781\",\n      \"date\": \"2026-09-10T09:26:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1600,\n      \"balance\": 21140,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-37-110333\",\n      \"date\": \"2026-09-09T12:19:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -30000,\n      \"balance\": 19540,\n      \"reference\": \"110333\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-36-PLS3364633\",\n      \"date\": \"2026-09-09T09:12:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3850,\n      \"balance\": 49540,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-35-JDH3364510\",\n      \"date\": \"2026-09-08T09:05:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2950,\n      \"balance\": 45690,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-34-VNB3364402\",\n      \"date\": \"2026-09-06T09:58:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2050,\n      \"balance\": 42740,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-33-INV-2026-08\",\n      \"date\": \"2026-09-05T12:51:00.000Z\",\n      \"type\": \"packaging_fee\",\n      \"amount\": -480,\n      \"balance\": 40690,\n      \"reference\": \"INV-2026-08\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-32-TRF3364198\",\n      \"date\": \"2026-09-05T09:44:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3400,\n      \"balance\": 41170,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-31-QWM3364011\",\n      \"date\": \"2026-09-04T09:37:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3550,\n      \"balance\": 37770,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-30-EGY3362736\",\n      \"date\": \"2026-09-03T09:30:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5050,\n      \"balance\": 34220,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-29-GZC3360164\",\n      \"date\": \"2026-09-02T09:23:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2300,\n      \"balance\": 29170,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-28-LOO3363830\",\n      \"date\": \"2026-09-01T09:16:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3600,\n      \"balance\": 26870,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-27-GZC3360164\",\n      \"date\": \"2026-08-30T12:09:00.000Z\",\n      \"type\": \"return_shipping\",\n      \"amount\": -140,\n      \"balance\": 23270,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-26-RLT3363826\",\n      \"date\": \"2026-08-30T09:02:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2650,\n      \"balance\": 23410,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-25-NIO3363824\",\n      \"date\": \"2026-08-29T09:55:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3100,\n      \"balance\": 20760,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-24-BPF3363821\",\n      \"date\": \"2026-08-28T09:48:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4200,\n      \"balance\": 17660,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-23-110185\",\n      \"date\": \"2026-08-27T12:41:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -30000,\n      \"balance\": 13460,\n      \"reference\": \"110185\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-22-GKZ3362343\",\n      \"date\": \"2026-08-27T09:34:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2950,\n      \"balance\": 43460,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-21-IYR3361196\",\n      \"date\": \"2026-08-26T09:27:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 1600,\n      \"balance\": 40510,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-20-BHK3359755\",\n      \"date\": \"2026-08-25T09:20:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 5000,\n      \"balance\": 38910,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-19-MKX3364781\",\n      \"date\": \"2026-08-24T09:13:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2000,\n      \"balance\": 33910,\n      \"reference\": \"MKX3364781\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-18-PLS3364633\",\n      \"date\": \"2026-08-23T09:06:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4400,\n      \"balance\": 31910,\n      \"reference\": \"PLS3364633\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-17-INV-2026-07\",\n      \"date\": \"2026-08-22T18:59:00.000Z\",\n      \"type\": \"storage_fee\",\n      \"amount\": -900,\n      \"balance\": 27510,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-16-INV-2026-07\",\n      \"date\": \"2026-08-22T15:52:00.000Z\",\n      \"type\": \"confirmation_fee\",\n      \"amount\": -640,\n      \"balance\": 28410,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-15-INV-2026-07\",\n      \"date\": \"2026-08-22T12:45:00.000Z\",\n      \"type\": \"shipping_fee\",\n      \"amount\": -1850,\n      \"balance\": 29050,\n      \"reference\": \"INV-2026-07\",\n      \"reference_type\": \"invoice\"\n    },\n    {\n      \"id\": \"wl-14-JDH3364510\",\n      \"date\": \"2026-08-22T09:38:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2200,\n      \"balance\": 30900,\n      \"reference\": \"JDH3364510\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-13-VNB3364402\",\n      \"date\": \"2026-08-20T09:31:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 28700,\n      \"reference\": \"VNB3364402\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-12-TRF3364198\",\n      \"date\": \"2026-08-18T09:24:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4100,\n      \"balance\": 26100,\n      \"reference\": \"TRF3364198\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-11-QWM3364011\",\n      \"date\": \"2026-08-17T09:17:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4900,\n      \"balance\": 22000,\n      \"reference\": \"QWM3364011\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-10-EGY3362736\",\n      \"date\": \"2026-08-16T09:10:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2300,\n      \"balance\": 17100,\n      \"reference\": \"EGY3362736\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-9-GZC3360164\",\n      \"date\": \"2026-08-15T09:03:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2500,\n      \"balance\": 14800,\n      \"reference\": \"GZC3360164\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-8-LOO3363830\",\n      \"date\": \"2026-08-13T09:56:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3100,\n      \"balance\": 12300,\n      \"reference\": \"LOO3363830\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-7-RLT3363826\",\n      \"date\": \"2026-08-12T09:49:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2450,\n      \"balance\": 9200,\n      \"reference\": \"RLT3363826\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-6-109958\",\n      \"date\": \"2026-08-11T12:42:00.000Z\",\n      \"type\": \"withdrawal\",\n      \"amount\": -16500,\n      \"balance\": 6750,\n      \"reference\": \"109958\",\n      \"reference_type\": \"withdrawal\"\n    },\n    {\n      \"id\": \"wl-5-NIO3363824\",\n      \"date\": \"2026-08-11T09:35:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2600,\n      \"balance\": 23250,\n      \"reference\": \"NIO3363824\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-4-BPF3363821\",\n      \"date\": \"2026-08-10T09:28:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4200,\n      \"balance\": 20650,\n      \"reference\": \"BPF3363821\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-3-GKZ3362343\",\n      \"date\": \"2026-08-09T09:21:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 4850,\n      \"balance\": 16450,\n      \"reference\": \"GKZ3362343\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-2-IYR3361196\",\n      \"date\": \"2026-08-08T09:14:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 3650,\n      \"balance\": 11600,\n      \"reference\": \"IYR3361196\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-1-BHK3359755\",\n      \"date\": \"2026-08-07T09:07:00.000Z\",\n      \"type\": \"order_payout\",\n      \"amount\": 2950,\n      \"balance\": 7950,\n      \"reference\": \"BHK3359755\",\n      \"reference_type\": \"order\"\n    },\n    {\n      \"id\": \"wl-0-open\",\n      \"date\": \"2026-08-06T09:00:00.000Z\",\n      \"type\": \"opening_balance\",\n      \"amount\": 5000,\n      \"balance\": 5000,\n      \"reference\": \"\",\n      \"reference_type\": \"\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -288,15 +846,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "3ca028b1-615a-49c6-92b7-68a136ef1557",
+      "uuid": "70171135-979c-44e6-98dd-cf1c1d092ce3",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/wallet/payment-methods",
       "responses": [
         {
-          "uuid": "3da7f875-f03f-47d2-abdf-7e61f4f08383",
-          "body": "{\n  \"data\": [\n    {\n      \"id\": \"pm1\",\n      \"type\": \"bank_account\",\n      \"label\": \"محمود حسن عبد الله\",\n      \"masked_identifier\": \"••••9382\",\n      \"details\": {\n        \"bank_name\": \"البنك الأهلي المصري\",\n        \"branch\": \"مدينة نصر\"\n      },\n      \"is_default\": true,\n      \"status\": \"active\",\n      \"created_at\": \"2026-07-24T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm2\",\n      \"type\": \"vodafone_cash\",\n      \"label\": \"محمود حسن\",\n      \"masked_identifier\": \"••••7841\",\n      \"details\": {},\n      \"is_default\": false,\n      \"status\": \"active\",\n      \"created_at\": \"2026-08-25T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm3\",\n      \"type\": \"instapay\",\n      \"label\": \"mahmoud.hassan@instapay\",\n      \"masked_identifier\": \"mah••••@instapay\",\n      \"details\": {},\n      \"is_default\": false,\n      \"status\": \"pending_verification\",\n      \"created_at\": \"2026-10-01T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm4\",\n      \"type\": \"cash\",\n      \"label\": \"استلام من فرع مدينة نصر\",\n      \"masked_identifier\": \"\",\n      \"details\": {\n        \"branch\": \"فرع مدينة نصر\",\n        \"address\": \"١٢ شارع عباس العقاد، مدينة نصر\"\n      },\n      \"is_default\": false,\n      \"status\": \"active\",\n      \"created_at\": \"2026-09-19T12:00:00.000Z\"\n    }\n  ]\n}",
+          "uuid": "3440c840-200f-401c-80e9-42036e383260",
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"pm1\",\n      \"type\": \"bank_account\",\n      \"label\": \"محمود حسن عبد الله\",\n      \"masked_identifier\": \"••••9382\",\n      \"details\": {\n        \"bank_name\": \"البنك الأهلي المصري\",\n        \"branch\": \"مدينة نصر\"\n      },\n      \"is_default\": true,\n      \"status\": \"active\",\n      \"created_at\": \"2026-07-25T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm2\",\n      \"type\": \"vodafone_cash\",\n      \"label\": \"محمود حسن\",\n      \"masked_identifier\": \"••••7841\",\n      \"details\": {},\n      \"is_default\": false,\n      \"status\": \"active\",\n      \"created_at\": \"2026-08-26T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm3\",\n      \"type\": \"instapay\",\n      \"label\": \"mahmoud.hassan@instapay\",\n      \"masked_identifier\": \"mah••••@instapay\",\n      \"details\": {},\n      \"is_default\": false,\n      \"status\": \"pending_verification\",\n      \"created_at\": \"2026-10-02T12:00:00.000Z\"\n    },\n    {\n      \"id\": \"pm4\",\n      \"type\": \"cash\",\n      \"label\": \"استلام من فرع مدينة نصر\",\n      \"masked_identifier\": \"\",\n      \"details\": {\n        \"branch\": \"فرع مدينة نصر\",\n        \"address\": \"١٢ شارع عباس العقاد، مدينة نصر\"\n      },\n      \"is_default\": false,\n      \"status\": \"active\",\n      \"created_at\": \"2026-09-20T12:00:00.000Z\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -319,14 +877,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "817b92a2-c99b-484e-b65b-23ab625b72ce",
+      "uuid": "096ed5db-9991-405a-80e6-8114c8242d51",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/wallet/cash-branches",
       "responses": [
         {
-          "uuid": "1d6c42eb-944d-4e78-b28f-4b1b96a07c59",
+          "uuid": "4f0cf356-957f-47d4-92f0-5ab1cc550acf",
           "body": "{\n  \"data\": [\n    {\n      \"id\": \"br1\",\n      \"label\": \"فرع مدينة نصر\",\n      \"address\": \"١٢ شارع عباس العقاد، مدينة نصر\",\n      \"hours\": \"السبت–الخميس ١٠ص–٦م\"\n    },\n    {\n      \"id\": \"br2\",\n      \"label\": \"فرع الإسكندرية\",\n      \"address\": \"٤٤ طريق الحرية، سموحة\",\n      \"hours\": \"السبت–الخميس ١٠ص–٦م\"\n    },\n    {\n      \"id\": \"br3\",\n      \"label\": \"فرع أكتوبر\",\n      \"address\": \"المحور المركزي، الحي الأول\",\n      \"hours\": \"السبت–الخميس ١٠ص–٦م\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
@@ -350,15 +908,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "97cb69b9-5920-40aa-abd2-cb1fc15203f9",
+      "uuid": "3224ac34-b43a-499d-9f2c-e83aaec2ce18",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/wallet/withdrawals",
       "responses": [
         {
-          "uuid": "6b0dc573-0453-449d-88e6-b9b94115df19",
-          "body": "{\n  \"page\": 1,\n  \"limit\": 6,\n  \"total\": 6,\n  \"data\": [\n    {\n      \"id\": \"wd-110641\",\n      \"code\": \"110641\",\n      \"amount\": 20000,\n      \"fee\": 15,\n      \"net_amount\": 19985,\n      \"status\": \"transferring\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-10-03T11:12:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-10-03T11:12:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-10-04T11:12:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-10-05T11:12:00.000Z\"\n        }\n      ],\n      \"expected_at\": \"2026-10-05\"\n    },\n    {\n      \"id\": \"wd-110500\",\n      \"code\": \"110500\",\n      \"amount\": 38000,\n      \"fee\": 15,\n      \"net_amount\": 37985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-09-24T17:21:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-09-24T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-09-25T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-09-26T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-09-27T17:21:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110333\",\n      \"code\": \"110333\",\n      \"amount\": 30000,\n      \"fee\": 15,\n      \"net_amount\": 29985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-09-08T14:57:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-09-08T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-09-09T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-09-10T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-09-11T14:57:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110185\",\n      \"code\": \"110185\",\n      \"amount\": 30000,\n      \"fee\": 15,\n      \"net_amount\": 29985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-08-26T13:37:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-26T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-27T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-08-28T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-08-29T13:37:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110102\",\n      \"code\": \"110102\",\n      \"amount\": 12000,\n      \"fee\": 10,\n      \"net_amount\": 11990,\n      \"status\": \"rejected\",\n      \"method\": {\n        \"id\": \"pm2\",\n        \"type\": \"vodafone_cash\",\n        \"label\": \"محمود حسن\",\n        \"masked_identifier\": \"••••7841\"\n      },\n      \"created_at\": \"2026-08-17T12:04:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-17T12:04:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-18T12:04:00.000Z\"\n        }\n      ],\n      \"rejection_reason\": \"رقم المحفظة غير مسجل باسم صاحب الحساب\"\n    },\n    {\n      \"id\": \"wd-109958\",\n      \"code\": \"109958\",\n      \"amount\": 16500,\n      \"fee\": 15,\n      \"net_amount\": 16485,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-08-10T16:27:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-10T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-11T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-08-12T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-08-13T16:27:00.000Z\"\n        }\n      ]\n    }\n  ]\n}",
+          "uuid": "52e456aa-12a6-4969-97d5-50e444854756",
+          "body": "{\n  \"page\": 1,\n  \"limit\": 6,\n  \"total\": 6,\n  \"data\": [\n    {\n      \"id\": \"wd-110641\",\n      \"code\": \"110641\",\n      \"amount\": 20000,\n      \"fee\": 15,\n      \"net_amount\": 19985,\n      \"status\": \"transferring\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-10-04T11:12:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-10-04T11:12:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-10-05T11:12:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-10-06T11:12:00.000Z\"\n        }\n      ],\n      \"expected_at\": \"2026-10-06\"\n    },\n    {\n      \"id\": \"wd-110500\",\n      \"code\": \"110500\",\n      \"amount\": 38000,\n      \"fee\": 15,\n      \"net_amount\": 37985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-09-25T17:21:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-09-25T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-09-26T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-09-27T17:21:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-09-28T17:21:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110333\",\n      \"code\": \"110333\",\n      \"amount\": 30000,\n      \"fee\": 15,\n      \"net_amount\": 29985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-09-09T14:57:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-09-09T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-09-10T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-09-11T14:57:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-09-12T14:57:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110185\",\n      \"code\": \"110185\",\n      \"amount\": 30000,\n      \"fee\": 15,\n      \"net_amount\": 29985,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-08-27T13:37:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-27T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-28T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-08-29T13:37:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-08-30T13:37:00.000Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"wd-110102\",\n      \"code\": \"110102\",\n      \"amount\": 12000,\n      \"fee\": 10,\n      \"net_amount\": 11990,\n      \"status\": \"rejected\",\n      \"method\": {\n        \"id\": \"pm2\",\n        \"type\": \"vodafone_cash\",\n        \"label\": \"محمود حسن\",\n        \"masked_identifier\": \"••••7841\"\n      },\n      \"created_at\": \"2026-08-18T12:04:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-18T12:04:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-19T12:04:00.000Z\"\n        }\n      ],\n      \"rejection_reason\": \"رقم المحفظة غير مسجل باسم صاحب الحساب\"\n    },\n    {\n      \"id\": \"wd-109958\",\n      \"code\": \"109958\",\n      \"amount\": 16500,\n      \"fee\": 15,\n      \"net_amount\": 16485,\n      \"status\": \"completed\",\n      \"method\": {\n        \"id\": \"pm1\",\n        \"type\": \"bank_account\",\n        \"label\": \"محمود حسن عبد الله\",\n        \"masked_identifier\": \"••••9382\"\n      },\n      \"created_at\": \"2026-08-11T16:27:00.000Z\",\n      \"timeline\": [\n        {\n          \"stage\": \"submitted\",\n          \"at\": \"2026-08-11T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"under_review\",\n          \"at\": \"2026-08-12T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"transferring\",\n          \"at\": \"2026-08-13T16:27:00.000Z\"\n        },\n        {\n          \"stage\": \"completed\",\n          \"at\": \"2026-08-14T16:27:00.000Z\"\n        }\n      ]\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -381,15 +939,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "cb60cf5f-cc4b-4ff8-8bc9-c76f765d8600",
+      "uuid": "de5c46f8-8f11-4d7f-9ef1-2e00d295ef04",
       "type": "http",
       "documentation": "",
       "method": "get",
       "endpoint": "api/v1/wallet/withdrawal-options",
       "responses": [
         {
-          "uuid": "793a15b6-3af9-4dd7-819a-aab47b607e9b",
-          "body": "{\n  \"rules\": {\n    \"minimum_amount\": 500,\n    \"maximum_amount\": null,\n    \"fees\": {\n      \"bank_account\": 15,\n      \"vodafone_cash\": 10,\n      \"instapay\": 0,\n      \"cash\": 0\n    },\n    \"allow_concurrent_requests\": false,\n    \"transfer_days\": [\n      0,\n      2,\n      4\n    ],\n    \"expected_days\": 2\n  },\n  \"eligibility\": {\n    \"can_request\": false,\n    \"reason\": \"request_in_progress\",\n    \"context\": {\n      \"code\": \"110641\",\n      \"amount\": 20000\n    },\n    \"available\": 26770,\n    \"next_transfer_date\": \"2026-10-05\"\n  }\n}",
+          "uuid": "cce0240f-2c99-43df-82a9-5a676b2a569a",
+          "body": "{\n  \"rules\": {\n    \"minimum_amount\": 500,\n    \"maximum_amount\": null,\n    \"fees\": {\n      \"bank_account\": 15,\n      \"vodafone_cash\": 10,\n      \"instapay\": 0,\n      \"cash\": 0\n    },\n    \"allow_concurrent_requests\": false,\n    \"transfer_days\": [\n      0,\n      2,\n      4\n    ],\n    \"expected_days\": 2\n  },\n  \"eligibility\": {\n    \"can_request\": false,\n    \"reason\": \"request_in_progress\",\n    \"context\": {\n      \"code\": \"110641\",\n      \"amount\": 20000\n    },\n    \"available\": 26770,\n    \"next_transfer_date\": \"2026-10-06\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -412,14 +970,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "5d4a0f4c-0055-4223-92a2-4816eedc8edc",
+      "uuid": "38bc17f4-cfa3-4d6e-aeb6-cde39bfa5f07",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "api/v1/user/login",
       "responses": [
         {
-          "uuid": "391db3bc-136f-47cb-bf76-003d0083b8b4",
+          "uuid": "109ac889-7579-4435-bf35-05eadef43e4e",
           "body": "{\n  \"id\": \"123324\",\n  \"name\": \"محمود حسن\",\n  \"email\": \"mahmoud@example.com\",\n  \"phone\": \"01000000000\",\n  \"accessToken\": \"demo-access-token\",\n  \"refreshToken\": \"demo-refresh-token\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -443,14 +1001,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "22ac4df6-0bab-4805-824d-5097a6b014b5",
+      "uuid": "542132b9-3a5a-46fa-bcee-1cf3e8c2b577",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "api/v1/auth/refresh",
       "responses": [
         {
-          "uuid": "e8efef3f-204d-441c-84bb-14dda46158ec",
+          "uuid": "878480c9-3825-4b10-89f8-b72f9e260744",
           "body": "{\n  \"accessToken\": \"demo-access-token\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -474,14 +1032,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "90f03bd4-86f2-430a-8549-c5b6baedee15",
+      "uuid": "4c270071-e652-4014-adaf-118544a8302e",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "api/v1/wallet/withdrawals",
       "responses": [
         {
-          "uuid": "c341b3c1-fc2e-4414-bd9a-7fc09f126b78",
+          "uuid": "2a5f5f2c-c37e-499e-a71c-fdad7d0330ba",
           "body": "{\n  \"message\": \"تم استلام طلب السحب\",\n  \"code\": \"110642\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -505,14 +1063,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "c86b7692-8314-460f-a35a-b0b1e5a9b925",
+      "uuid": "ed1f23a5-79f5-49ce-82db-8f08513902de",
       "type": "http",
       "documentation": "",
       "method": "post",
       "endpoint": "api/v1/wallet/payment-methods",
       "responses": [
         {
-          "uuid": "4c650d2c-78bf-442a-b37f-3d69a3843761",
+          "uuid": "48a760a9-0c35-4d84-ae1b-a0a53219a645",
           "body": "{\n  \"message\": \"تمت إضافة وسيلة الاستلام\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -536,14 +1094,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "77511a84-fde2-4747-be63-3bb9581627ac",
+      "uuid": "71283f71-0fae-48c5-a538-d16d15927ec9",
       "type": "http",
       "documentation": "",
       "method": "delete",
       "endpoint": "api/v1/wallet/payment-methods/:id",
       "responses": [
         {
-          "uuid": "4aabac82-e654-4270-b103-95f1c0cefe91",
+          "uuid": "38868f0c-ce86-443b-9635-39a709d53e0b",
           "body": "{\n  \"message\": \"تم حذف وسيلة الاستلام\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -567,14 +1125,14 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "1d8ade17-1b7a-4699-984e-dbe11259ab49",
+      "uuid": "30d8181e-4e26-4137-ab3c-4bc811b7212f",
       "type": "http",
       "documentation": "",
       "method": "put",
       "endpoint": "api/v1/wallet/payment-methods/:id/default",
       "responses": [
         {
-          "uuid": "15d97780-9a07-4e6e-95f0-a5d93987daed",
+          "uuid": "8b6f9e5d-fa59-45e4-bbd3-2e0c2be392bd",
           "body": "{\n  \"message\": \"تم ضبط وسيلة الاستلام الافتراضية\"\n}",
           "latency": 0,
           "statusCode": 200,
@@ -601,79 +1159,151 @@
   "rootChildren": [
     {
       "type": "route",
-      "uuid": "da7853df-104c-4d5d-b3f8-c2cdf4338758"
+      "uuid": "05b632c6-38ca-42c0-9f34-c65de93dac61"
     },
     {
       "type": "route",
-      "uuid": "fa7ef40f-0659-4458-b48a-a29b55a6df8a"
+      "uuid": "297a6959-f33d-4562-ae05-3326f320d83d"
     },
     {
       "type": "route",
-      "uuid": "d0823e37-0176-4c01-bfef-fddd3cfcfa05"
+      "uuid": "f54f4eae-39f1-4c9f-a90c-41f5f7479ecd"
     },
     {
       "type": "route",
-      "uuid": "7a2d7d15-6d17-4ca3-852d-73c3314c7bca"
+      "uuid": "0c0eef9a-4431-4b86-be7a-97210d5c84cb"
     },
     {
       "type": "route",
-      "uuid": "5a75df4e-328c-448b-88e5-fef9bfbbd0fe"
+      "uuid": "45d56350-48f9-4e6a-9edd-5564e88c0bc0"
     },
     {
       "type": "route",
-      "uuid": "563f5a5b-4630-493e-b1e6-3621d700b317"
+      "uuid": "e8893dc4-4fd4-4e19-9f04-44fde15f7fe8"
     },
     {
       "type": "route",
-      "uuid": "59ccf788-b640-4c25-ab66-b11373f966d9"
+      "uuid": "bb99520c-bc3a-4f1c-ae74-36582e3d79a0"
     },
     {
       "type": "route",
-      "uuid": "3f805ab0-4b95-4559-a099-4e754267fb6e"
+      "uuid": "8f8b3ac9-8cd2-4884-af03-992d79202b91"
     },
     {
       "type": "route",
-      "uuid": "8f4acece-3383-4e36-bbcb-ea2d7c78ba9a"
+      "uuid": "848e601e-b17b-4eb3-a6f6-c88c0e084244"
     },
     {
       "type": "route",
-      "uuid": "3ca028b1-615a-49c6-92b7-68a136ef1557"
+      "uuid": "6d20e43b-f6e5-4a6c-8a0f-7895bdf6089a"
     },
     {
       "type": "route",
-      "uuid": "817b92a2-c99b-484e-b65b-23ab625b72ce"
+      "uuid": "7c0b9c6a-f1ec-4c00-8947-55d615d94d43"
     },
     {
       "type": "route",
-      "uuid": "97cb69b9-5920-40aa-abd2-cb1fc15203f9"
+      "uuid": "b82473b2-d7ac-42fa-981b-2b9ac2fbf613"
     },
     {
       "type": "route",
-      "uuid": "cb60cf5f-cc4b-4ff8-8bc9-c76f765d8600"
+      "uuid": "9400955e-c969-45f4-9863-91893f17625f"
     },
     {
       "type": "route",
-      "uuid": "5d4a0f4c-0055-4223-92a2-4816eedc8edc"
+      "uuid": "896c1ba1-91f4-4e2c-980f-889de2b89bb1"
     },
     {
       "type": "route",
-      "uuid": "22ac4df6-0bab-4805-824d-5097a6b014b5"
+      "uuid": "7eca60a9-8be8-4667-8ea2-a9ff59225671"
     },
     {
       "type": "route",
-      "uuid": "90f03bd4-86f2-430a-8549-c5b6baedee15"
+      "uuid": "93b5c700-73e1-4969-8545-033a3cf856f7"
     },
     {
       "type": "route",
-      "uuid": "c86b7692-8314-460f-a35a-b0b1e5a9b925"
+      "uuid": "3cf54f68-590a-4dd9-9c74-3211f36c10c2"
     },
     {
       "type": "route",
-      "uuid": "77511a84-fde2-4747-be63-3bb9581627ac"
+      "uuid": "838405f8-f80e-4801-8d68-23b87c0400a8"
     },
     {
       "type": "route",
-      "uuid": "1d8ade17-1b7a-4699-984e-dbe11259ab49"
+      "uuid": "1d77d292-ff51-4339-b6fb-3ee682ab79d9"
+    },
+    {
+      "type": "route",
+      "uuid": "d51edbf9-06ca-4531-b5b3-a1a38b7c3657"
+    },
+    {
+      "type": "route",
+      "uuid": "2c88344e-595c-411b-8fde-9656c7abf98b"
+    },
+    {
+      "type": "route",
+      "uuid": "590ead3a-dacb-4360-bb51-d2d4dfec94d3"
+    },
+    {
+      "type": "route",
+      "uuid": "c2cedf17-bd46-4acb-aba3-89cc04412e05"
+    },
+    {
+      "type": "route",
+      "uuid": "d934f604-de52-453d-958d-923b820ce87c"
+    },
+    {
+      "type": "route",
+      "uuid": "7e1aa5de-f254-409f-8745-40c77572ce91"
+    },
+    {
+      "type": "route",
+      "uuid": "b32e11d8-6d5c-4c08-9ddd-91ce4f513109"
+    },
+    {
+      "type": "route",
+      "uuid": "be13f68d-f4fa-4f64-8267-be40aa1db72a"
+    },
+    {
+      "type": "route",
+      "uuid": "70171135-979c-44e6-98dd-cf1c1d092ce3"
+    },
+    {
+      "type": "route",
+      "uuid": "096ed5db-9991-405a-80e6-8114c8242d51"
+    },
+    {
+      "type": "route",
+      "uuid": "3224ac34-b43a-499d-9f2c-e83aaec2ce18"
+    },
+    {
+      "type": "route",
+      "uuid": "de5c46f8-8f11-4d7f-9ef1-2e00d295ef04"
+    },
+    {
+      "type": "route",
+      "uuid": "38bc17f4-cfa3-4d6e-aeb6-cde39bfa5f07"
+    },
+    {
+      "type": "route",
+      "uuid": "542132b9-3a5a-46fa-bcee-1cf3e8c2b577"
+    },
+    {
+      "type": "route",
+      "uuid": "4c270071-e652-4014-adaf-118544a8302e"
+    },
+    {
+      "type": "route",
+      "uuid": "ed1f23a5-79f5-49ce-82db-8f08513902de"
+    },
+    {
+      "type": "route",
+      "uuid": "71283f71-0fae-48c5-a538-d16d15927ec9"
+    },
+    {
+      "type": "route",
+      "uuid": "30d8181e-4e26-4137-ab3c-4bc811b7212f"
     }
   ],
   "proxyMode": false,

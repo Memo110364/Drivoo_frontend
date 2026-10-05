@@ -1,0 +1,29 @@
+{
+  "placed": 2470,
+  "confirmed": 2124,
+  "shipped": 2272,
+  "delivered": 1495,
+  "lost_at_confirmation": 346,
+  "attempts": [
+    {
+      "attempts": 0,
+      "orders": 346
+    },
+    {
+      "attempts": 1,
+      "orders": 1232
+    },
+    {
+      "attempts": 2,
+      "orders": 573
+    },
+    {
+      "attempts": 3,
+      "orders": 234
+    },
+    {
+      "attempts": 4,
+      "orders": 85
+    }
+  ]
+}

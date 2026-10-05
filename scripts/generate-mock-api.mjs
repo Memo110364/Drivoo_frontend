@@ -10,7 +10,7 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { randomUUID } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import {
   BALANCE,
   CASH_BRANCHES,
@@ -29,9 +29,43 @@ import {
   STATUS_BREAKDOWN,
   TOP_PRODUCTS,
 } from './dashboard-dataset.mjs';
+import {
+  CANCELLATION_REASON_REPORT,
+  CONFIRMATION_BY_PRODUCT,
+  CONFIRMATION_FUNNEL,
+  INVENTORY,
+  INVENTORY_MOVEMENTS,
+  ORDERS_PAGE,
+  PERFORMANCE,
+  RETURN_REASON_REPORT,
+  SUMMARY,
+} from './reports-dataset.mjs';
 
 /** Every route the wallet screen calls, with the body each one returns. */
 const ROUTES = [
+  // The reports screen. `orders-over-time`, `status-breakdown` and
+  // `top-products` are shared with the dashboard and declared once, below.
+  { method: 'get', endpoint: 'reports/summary', body: SUMMARY },
+  { method: 'get', endpoint: 'reports/returns-by-reason', body: RETURN_REASON_REPORT },
+  { method: 'get', endpoint: 'reports/confirmation-funnel', body: CONFIRMATION_FUNNEL },
+  { method: 'get', endpoint: 'reports/cancellation-reasons', body: CANCELLATION_REASON_REPORT },
+  { method: 'get', endpoint: 'reports/confirmation-by-product', body: CONFIRMATION_BY_PRODUCT },
+  { method: 'get', endpoint: 'reports/inventory', body: INVENTORY },
+  { method: 'get', endpoint: 'reports/orders', body: ORDERS_PAGE },
+  ...Object.entries(PERFORMANCE).map(([dimension, data]) => ({
+    method: 'get',
+    endpoint: `reports/performance/${dimension}`,
+    body: { group_by: dimension, data },
+  })),
+  // One route per product: a static host cannot read a path parameter, so the
+  // demo needs the ledger already split by product. The real API takes the id
+  // as a path segment on a single route.
+  ...Object.entries(INVENTORY_MOVEMENTS).map(([productId, body]) => ({
+    method: 'get',
+    endpoint: `reports/inventory-movements/${productId}`,
+    body,
+  })),
+
   { method: 'get', endpoint: 'reports/dashboard/summary', body: DASHBOARD_SUMMARY },
   { method: 'get', endpoint: 'reports/dashboard/orders-aging', body: ORDERS_AGING },
   { method: 'get', endpoint: 'reports/dashboard/attention', body: ATTENTION },
@@ -114,15 +148,37 @@ for (const route of ROUTES) {
 // Mockoon environment for local development
 // ---------------------------------------------------------------------------
 
+/**
+ * A stable id, derived from what it identifies rather than drawn at random.
+ *
+ * Mockoon keys everything by uuid, but it never has to be *random* — only
+ * unique and well-formed. Generating a fresh one each run rewrote all 58 ids
+ * on every build, so the file showed as modified after any `npm run build`
+ * even though nothing about the API had changed. That churn is noise in a
+ * diff and, worse, a source of merge conflicts between branches that had
+ * changed nothing.
+ */
+function stableUuid(...parts) {
+  const hex = createHash('sha1').update(parts.join(':')).digest('hex');
+  // Shaped as a v4 uuid so Mockoon reads it the same way as a random one.
+  return [
+    hex.slice(0, 8),
+    hex.slice(8, 12),
+    `4${hex.slice(13, 16)}`,
+    `${((parseInt(hex[16], 16) & 0x3) | 0x8).toString(16)}${hex.slice(17, 20)}`,
+    hex.slice(20, 32),
+  ].join('-');
+}
+
 const mockoonRoute = (route) => ({
-  uuid: randomUUID(),
+  uuid: stableUuid('route', route.method, route.endpoint),
   type: 'http',
   documentation: '',
   method: route.method,
   endpoint: `api/v1/${route.endpoint}`,
   responses: [
     {
-      uuid: randomUUID(),
+      uuid: stableUuid('response', route.method, route.endpoint),
       body: JSON.stringify(route.body, null, 2),
       latency: 0,
       statusCode: 200,
@@ -147,7 +203,7 @@ const mockoonRoute = (route) => ({
 });
 
 const environment = {
-  uuid: randomUUID(),
+  uuid: stableUuid('environment', 'drivoo'),
   lastMigration: 33,
   name: 'Drivoo Wallet API',
   endpointPrefix: '',

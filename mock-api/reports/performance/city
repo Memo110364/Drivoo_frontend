@@ -1,0 +1,77 @@
+{
+  "group_by": "city",
+  "data": [
+    {
+      "key": "1",
+      "label": "القاهرة",
+      "orders": 890,
+      "shipped": 819,
+      "delivered": 570,
+      "returned": 44,
+      "delivery_success_rate": 92.8,
+      "return_rate": 7.2,
+      "avg_delivery_days": 2.4,
+      "revenue": 370500
+    },
+    {
+      "key": "2",
+      "label": "الإسكندرية",
+      "orders": 540,
+      "shipped": 497,
+      "delivered": 324,
+      "returned": 38,
+      "delivery_success_rate": 89.5,
+      "return_rate": 10.5,
+      "avg_delivery_days": 3.1,
+      "revenue": 200880
+    },
+    {
+      "key": "3",
+      "label": "الجيزة",
+      "orders": 620,
+      "shipped": 570,
+      "delivered": 385,
+      "returned": 37,
+      "delivery_success_rate": 91.2,
+      "return_rate": 8.8,
+      "avg_delivery_days": 2.6,
+      "revenue": 246400
+    },
+    {
+      "key": "4",
+      "label": "بورسعيد",
+      "orders": 180,
+      "shipped": 166,
+      "delivered": 99,
+      "returned": 18,
+      "delivery_success_rate": 84.6,
+      "return_rate": 15.4,
+      "avg_delivery_days": 4,
+      "revenue": 59400
+    },
+    {
+      "key": "5",
+      "label": "أسوان",
+      "orders": 120,
+      "shipped": 110,
+      "delivered": 57,
+      "returned": 17,
+      "delivery_success_rate": 77,
+      "return_rate": 23,
+      "avg_delivery_days": 5.2,
+      "revenue": 33060
+    },
+    {
+      "key": "6",
+      "label": "الأقصر",
+      "orders": 120,
+      "shipped": 110,
+      "delivered": 60,
+      "returned": 14,
+      "delivery_success_rate": 81.1,
+      "return_rate": 18.9,
+      "avg_delivery_days": 4.8,
+      "revenue": 35400
+    }
+  ]
+}

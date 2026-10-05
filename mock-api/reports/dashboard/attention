@@ -14,7 +14,7 @@
     },
     {
       "key": "returns_pending_receipt",
-      "count": 41,
+      "count": 42,
       "severity": "medium",
       "route": "/orders"
     },
