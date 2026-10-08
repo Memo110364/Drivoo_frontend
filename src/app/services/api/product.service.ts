@@ -11,20 +11,17 @@ export class ProductService extends BaseService {
         super();
     }
 
-    getAllProducts(page: number = 1, limit: number = 24, filters:any,sort_by:{field:string,direction:string}|null=null,searchQuery:string): Observable<any> {
+    getAllProducts(page: number = 1, limit: number = 24, filters: any = {}, sort_by: {field:string,direction:string}|null = null, searchQuery: string = ''): Observable<any> {
         let query=``;
-        console.log("filters:",filters);
-        /*if(filters.length>0){
-            
-            query+=`&statusFilter=${filters.statusFilter.join(',')}`;
-        }*/
-       for(const key in filters){
-         if(Array.isArray(filters[key])){
-            query+=`&filter[${key}]=${filters[key].join(',')}`;
-         }else{
-            query+=`&filter[${key}]=${filters[key]}`;
-         }
-       }
+        if(filters){
+           for(const key in filters){
+             if(Array.isArray(filters[key])){
+                query+=`&filter[${key}]=${filters[key].join(',')}`;
+             }else{
+                query+=`&filter[${key}]=${filters[key]}`;
+             }
+           }
+        }
         if(searchQuery){
             query+=`&searchQuery=${searchQuery}`;
         }

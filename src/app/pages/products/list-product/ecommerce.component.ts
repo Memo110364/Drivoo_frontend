@@ -4,14 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
-  NgZone,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MaterialModule } from 'src/app/material.module';
-
-
+import { CommonModule } from '@angular/common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { IconModule } from 'src/app/icon/icon.module';
 import { MatPaginator } from '@angular/material/paginator';
@@ -19,24 +18,25 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../delete-dialog/delete-dialog.component';
-import { ProductService } from 'src/app/services/apps/product/product.service';
-import { Element, PRODUCT_DATA } from './ecommerceData';
+import { ProductService as AppProductService } from 'src/app/services/apps/product/product.service';
+import { ProductService as ProductApiService } from 'src/app/services/api/product.service';
+import { Element } from './ecommerceData';
+import { debounceTime, distinctUntilChanged, forkJoin, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ecommerce',
-  imports: [MaterialModule, IconModule],
+  imports: [MaterialModule, IconModule, CommonModule],
   templateUrl: './ecommerce.component.html',
   styleUrl: './ecommerce.component.scss',
 })
-export class ProductComponent implements AfterViewInit, OnInit {
+export class ProductComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatTable) table!: MatTable<Element>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator =
-    Object.create(null);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   private _snackBar = inject(MatSnackBar);
   private router = inject(Router);
-  private productService =  inject(ProductService);
+  private appProductService = inject(AppProductService);
+  private productApiService = inject(ProductApiService);
   readonly dialog = inject(MatDialog);
-  
 
   displayedColumns: string[] = [
     'select',
@@ -45,9 +45,19 @@ export class ProductComponent implements AfterViewInit, OnInit {
     'status',
     'base_price',
   ];
-  dataSource = new MatTableDataSource<Element>(PRODUCT_DATA);
+  dataSource = new MatTableDataSource<Element>([]);
   selection = new SelectionModel<Element>(true, []);
-  durationInSeconds = 1;
+  durationInSeconds = 2;
+
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalRecords: number = 0;
+  isLoading: boolean = false;
+  searchQuery: string = '';
+
+  private searchSubject = new Subject<string>();
+  private searchSubscription?: Subscription;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
@@ -56,87 +66,143 @@ export class ProductComponent implements AfterViewInit, OnInit {
       .observe(['(max-width: 600px)'])
       .subscribe((result: BreakpointState) => {
         this.displayedColumns = result.matches
-          ? ['product_name', 'date', 'status', 'base_price']
+          ? ['product_name', 'date', 'stock', 'base_price']
           : [
               'select',
               'product_name',
               'date',
-              'status',
+              'stock',
               'base_price',
               'actions',
             ];
       });
   }
+
   ngOnInit(): void {
-    this.getAddedTableData();
-    this.productService.productUpdated.subscribe((updatedProduct: any) => {
-      // Ensure updatedProduct has an id and dataSource is an array
-      if (!updatedProduct.id) {
-        console.warn('Updated product does not have an id:', updatedProduct);
-        return;
-      }
-
-      const productIndex = this.dataSource.data.findIndex(
-        (product: any) => product.id === updatedProduct.id
-      );
-      if (productIndex !== -1) {
-        // If the product is found, update it with the new data
-        this.dataSource.data[productIndex] = {
-          ...this.dataSource.data[productIndex],
-          ...updatedProduct,
-        };
-
-        // Trigger reactivity by setting the data again
-        this.dataSource.data = [...this.dataSource.data];
-
-        // Reset paginator if any
+    this.searchSubscription = this.searchSubject
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe((searchTerm) => {
+        this.searchQuery = searchTerm;
+        this.currentPage = 1;
         if (this.paginator) {
           this.paginator.pageIndex = 0;
-          this.dataSource.paginator = this.paginator;
         }
+        this.loadProducts(1, this.pageSize, this.searchQuery);
+      });
 
-        // Trigger table re-render
-        setTimeout(() => {
-          if (this.table) {
-            this.table.renderRows();
-          }
-        });
+    this.loadProducts();
 
-        // Run change detection if necessary (for OnPush change detection)
-        this.cdr.detectChanges();
-        this.openSnackBar('Product updated successfully!');
-      } else {
-        console.warn('Product not found for update:', updatedProduct);
-      }
+    // Listen to updates from edit page if any
+    this.appProductService.productUpdated.subscribe(() => {
+      this.loadProducts(this.currentPage, this.pageSize, this.searchQuery);
     });
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+      this.paginator.page.subscribe((page) => {
+        this.currentPage = page.pageIndex + 1;
+        this.pageSize = page.pageSize;
+        this.loadProducts(this.currentPage, this.pageSize, this.searchQuery);
+      });
+    }
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
-  
-    this.dataSource.filterPredicate = (data: Element, filter: string) => {
-      return (
-        data.product_name.toLowerCase().includes(filter) ||
-        data.categories.join(' ').toLowerCase().includes(filter)
-      );
-    };
-  
-    this.dataSource.filter = filterValue;
-
+  ngOnDestroy(): void {
+    this.searchSubscription?.unsubscribe();
   }
-  
+
+  loadProducts(
+    page: number = this.currentPage,
+    limit: number = this.pageSize,
+    search: string = this.searchQuery
+  ): void {
+    this.isLoading = true;
+    this.productApiService.getAllProducts(page, limit, {}, null, search).subscribe({
+      next: (res: any) => {
+        const rawList = res?.data || res?.products || [];
+        this.totalRecords = res?.recordsTotal ?? res?.total ?? res?.pagination?.total ?? rawList.length;
+
+        const mappedList: Element[] = rawList.map((item: any) => {
+          let categoryName = '';
+          if (Array.isArray(item.categories) && item.categories.length > 0) {
+            categoryName = typeof item.categories[0] === 'string' ? item.categories[0] : (item.categories[0]?.name || '');
+          } else if (item.category) {
+            categoryName = typeof item.category === 'string' ? item.category : (item.category?.name || '');
+          }
+
+          let formattedDate = '';
+          if (item.created_at) {
+            const dt = new Date(item.created_at);
+            formattedDate = isNaN(dt.getTime()) ? item.created_at : dt.toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: '2-digit',
+              year: 'numeric'
+            });
+          } else {
+            formattedDate = item.date || '';
+          }
+
+          const isStock =
+            item.status === 'active' ||
+            item.status === true ||
+            item.status === 'Stock' ||
+            item.status === 1 ||
+            (typeof item.stock === 'number' && item.stock > 0);
+
+          return {
+            id: item.id,
+            imagePath:
+              item.img ||
+              item.image ||
+              item.imagePath ||
+              item.thumbnail ||
+              (item.media && item.media[0]?.url) ||
+              'assets/images/products/s3.jpg',
+            product_name: item.name || item.product_name || item.title || '',
+            categories: categoryName ? [categoryName] : [],
+            date: formattedDate,
+            status: isStock,
+            stock:item.stock,
+            base_price: Number(item.price ?? item.base_price ?? 0),
+            dealPrice: Number(item.dealPrice ?? item.discounted ?? 0),
+            description: item.description || '',
+            rating: item.rating || 4.5,
+            media: item.media,
+            rawProduct: item
+          };
+        });
+
+        this.dataSource.data = mappedList;
+        if (this.paginator) {
+          this.paginator.length = this.totalRecords;
+        }
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error('Error fetching products:', err);
+        this.isLoading = false;
+        this.openSnackBar('حدث خطأ أثناء جلب المنتجات');
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  onSearch(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    this.searchSubject.next(filterValue);
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected(): any {
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    return numSelected === numRows && numRows > 0;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -156,7 +222,7 @@ export class ProductComponent implements AfterViewInit, OnInit {
     }`;
   }
 
-  openSnackBar(message: string) {
+  openSnackBar(message: string): void {
     this._snackBar.open(message, 'Close', {
       duration: this.durationInSeconds * 1000,
       verticalPosition: 'top',
@@ -164,129 +230,78 @@ export class ProductComponent implements AfterViewInit, OnInit {
     });
   }
 
-  getDeletedById(id: number) {
-    // Remove the record from dataSource by filtering out the one with matching id
-    const updatedData = this.dataSource.data.filter((item) => item.id !== id);
-
-    // Update the dataSource with the filtered data
-    this.dataSource.data = updatedData;
-    if (this.table) {
-      this.table.renderRows();
-    } else {
-      console.error('Table reference is undefined');
-    }
-    // Refresh table view
-    this.dataSource._updateChangeSubscription();
-    this.cdr.detectChanges();
-
-    this.openSnackBar('Product deleted successfully!');
+  getDeletedById(id: number): void {
+    this.productApiService.deleteProduct(id.toString()).subscribe({
+      next: () => {
+        this.openSnackBar('تم حذف المنتج بنجاح');
+        this.loadProducts(this.currentPage, this.pageSize, this.searchQuery);
+      },
+      error: (err: any) => {
+        console.error('Error deleting product:', err);
+        this.openSnackBar('فشل حذف المنتج');
+      }
+    });
   }
 
-  getViewNavigate(element: Element) {
-    this.productService.setProduct(element);
+  getViewNavigate(element: any): void {
+    const raw = element?.rawProduct || element;
+    this.appProductService.setProduct(raw);
     this.router.navigate(['apps/product/product-details']);
   }
- 
- 
+
+  getEditProduct(element?: any): void {
+    const raw = element?.rawProduct || element;
+    this.appProductService.setProduct(raw);
+    this.router.navigate(['apps/product/edit-product']);
+  }
+
   openDialog(idOrIds: number | number[]): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
-        ids: Array.isArray(idOrIds) ? idOrIds : [idOrIds], // Always pass as array
+        ids: Array.isArray(idOrIds) ? idOrIds : [idOrIds],
       },
       width: '400px',
       enterAnimationDuration: '0ms',
       exitAnimationDuration: '0ms',
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'delete') {
         if (Array.isArray(idOrIds)) {
-          this.deleteSelectedIds(idOrIds); // ⬅️ Handle multiple deletion
+          this.deleteSelectedIds(idOrIds);
         } else {
-          this.getDeletedById(idOrIds); // ⬅️ Handle single deletion
+          this.getDeletedById(idOrIds);
         }
       }
     });
   }
 
- 
-  getEditProduct(element?: Element) {
-    const productToEdit = element || PRODUCT_DATA[0];
-    this.productService.setProduct(productToEdit); // Store product to localStorage/service
-    this.router.navigate(['apps/product/edit-product']); // Navigate to edit page
-  }
-  getAddedTableData() {
-    this.productService.productAdded$.subscribe((result: any) => {
-      if (result) {
-        const newId = this.dataSource.data.length + 1;
-
-        const now = new Date();
-        const parts = new Intl.DateTimeFormat('en-US', {
-          weekday: 'short',
-          month: 'short',
-          day: '2-digit',
-          year: 'numeric',
-        }).formatToParts(now);
-
-        const weekday = parts.find((p) => p.type === 'weekday')?.value;
-        const month = parts.find((p) => p.type === 'month')?.value;
-        const day = parts.find((p) => p.type === 'day')?.value;
-        const year = parts.find((p) => p.type === 'year')?.value;
-
-        const formattedDate = `${weekday}, ${month} ${day} ${year}`;
-
-        // ✅ Convert HTML description to plain text
-        const plainTextDescription =
-          new DOMParser().parseFromString(result.description, 'text/html').body
-            .textContent || '';
-
-
-        const storedImage = localStorage.getItem('productImage') || 'assets/images/products/s3.jpg';
-
-
-        const newProduct: Element = {
-          id: newId,
-          imagePath:'assets/images/products/s3.jpg',
-          product_name: result.product_name,
-          categories: [result.categories],
-          date: formattedDate,
-          status: result.status,
-          base_price: Number(result.base_price),
-          dealPrice:  Number(result.discounted),
-          description: plainTextDescription,
-          rating:4.5
-        };
-
-        this.dataSource.data.unshift(newProduct);
-        this.dataSource.data = [...this.dataSource.data];
-
-        if (this.paginator) {
-          this.paginator.pageIndex = 0;
-          this.dataSource.paginator = this.paginator;
-        }
-
-        setTimeout(() => this.table?.renderRows());
-
-        this.cdr.detectChanges();
-        this.openSnackBar('Product added successfully!');
-        this.productService.clearEmittedProduct();
-      }
-    });
-  }
-  
   deleteSelected(): void {
     const selectedIds = this.selection.selected.map((item) => item.id);
     if (selectedIds.length > 0) {
-      this.openDialog(selectedIds); // Open dialog with selected IDs
+      this.openDialog(selectedIds);
     }
   }
 
   deleteSelectedIds(ids: number[]): void {
-    this.dataSource.data = this.dataSource.data.filter(item => !ids.includes(item.id));
-    this.openSnackBar('Selected products deleted successfully!');
-    this.selection.clear(); // Clear selection after deletion
+    const deleteRequests = ids.map((id) =>
+      this.productApiService.deleteProduct(id.toString())
+    );
+    forkJoin(deleteRequests).subscribe({
+      next: () => {
+        this.openSnackBar('تم حذف المنتجات المحددة بنجاح');
+        this.selection.clear();
+        this.loadProducts(this.currentPage, this.pageSize, this.searchQuery);
+      },
+      error: (err: any) => {
+        console.error('Error deleting selected products:', err);
+        this.openSnackBar('فشل حذف بعض المنتجات');
+        this.loadProducts(this.currentPage, this.pageSize, this.searchQuery);
+      }
+    });
   }
-  getAddProductNavigate(){
-    this.router.navigate(['/products/create'])
+
+  getAddProductNavigate(): void {
+    this.router.navigate(['/products/create']);
   }
 }
