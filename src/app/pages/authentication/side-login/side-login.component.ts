@@ -117,19 +117,8 @@ export class AppSideLoginComponent {
     this.isSubmitting.set(true);
     this.loadingService.show();
 
-    // The published demo is static files: nothing there can answer a POST, so
-    // signing in would always fail against it. This is the same flag the route
-    // guard uses, and the only two places in the app that read it — every
-    // other build posts to the real API below.
-    if (environment.demoAccess) {
-      this.rememberIdentifier(identifier, !!remember);
-      this.isSubmitting.set(false);
-      this.loadingService.hide();
-      this.routes.navigate(['/']);
-      return;
-    }
 
-    this.service.login({ username: identifier, password: String(password ?? '') }).subscribe({
+    this.service.login({ username: identifier, password: String(password ?? ''),rememberMe: Boolean(remember) }).subscribe({
       next: () => {
         this.rememberIdentifier(identifier, !!remember);
         this.isSubmitting.set(false);

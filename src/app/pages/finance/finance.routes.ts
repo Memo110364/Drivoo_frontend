@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 import { WalletComponent } from './wallet/wallet.component';
+import { AuthGuard } from 'src/app/auth.guard';
 
 export const FinanceRoutes: Routes = [
   {
     // The sidebar already points here; until now the route did not exist.
     path: 'my-wallet',
+    canActivate: [AuthGuard],
     component: WalletComponent,
     data: { title: 'My Wallet' },
   },
@@ -17,6 +19,7 @@ export const FinanceRoutes: Routes = [
   // },
   {
     path: '',
+    canActivate: [AuthGuard],
     redirectTo: 'my-wallet',
     pathMatch: 'full',
   },

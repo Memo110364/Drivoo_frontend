@@ -176,7 +176,7 @@ export class AppHorizontalHeaderComponent {
     {
       id: 5,
       title: 'Sign Out',
-      link: '/authentication/login',
+      link: '/authentication/logout',
     },
   ];
 

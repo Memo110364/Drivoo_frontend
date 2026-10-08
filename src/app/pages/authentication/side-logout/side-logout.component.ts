@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import {LoginService} from 'src/app/login.service';
+import {AuthService} from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-logout',
@@ -17,9 +18,11 @@ export class AppSideLogoutComponent implements OnInit {
   constructor(
     private settings: CoreService,
     private routes: Router,
-    private service: LoginService) {}
+    private service: LoginService,
+    private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.logout();
     this.service.logout();
     console.log("logout");
     // رجّع المستخدم لصفحة تسجيل الدخول

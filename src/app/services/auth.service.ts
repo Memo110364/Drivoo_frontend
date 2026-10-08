@@ -11,29 +11,47 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(credentials: { username: string; password: string }): Observable<any> {
+  login(credentials: { username: string; password: string ,rememberMe: boolean}): Observable<any> {
     return this.http.post(`${this.apiUrl}user/login`, credentials).pipe(
       tap((res: any) => {
         this.accessToken = res.accessToken;
         this.refreshToken = res.refreshToken;
-        sessionStorage.setItem('accessToken', this.accessToken!);
-        sessionStorage.setItem('refreshToken', this.refreshToken!);
-        localStorage.setItem('username', res.name);
+        localStorage.setItem('rememberMe', credentials.rememberMe?"1":"0");
+        if(credentials.rememberMe){
+          localStorage.setItem('accessToken', this.accessToken!);
+          localStorage.setItem('refreshToken', this.refreshToken!);
+        }else{
+          localStorage.removeItem('rememberMe');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          sessionStorage.setItem('accessToken', this.accessToken!);
+          sessionStorage.setItem('refreshToken', this.refreshToken!);
+        }
+        localStorage.setItem('profile', JSON.stringify(res));
       })
     );
   }
 
   getAccessToken(): string | null {
-    return this.accessToken || sessionStorage.getItem('accessToken');
+    console.log("accessToken: ",sessionStorage.getItem('accessToken'));
+    if (localStorage.getItem('rememberMe') === '1') {
+      return this.accessToken || localStorage.getItem('accessToken');
+    }else{
+      return this.accessToken || sessionStorage.getItem('accessToken');
+    }
   }
 
   refreshAccessToken(): Observable<any> {
     return this.http.post(`${this.apiUrl}auth/refresh`, {
-      refreshToken: this.refreshToken || sessionStorage.getItem('refreshToken')
+      refreshToken: this.refreshToken || (localStorage.getItem('rememberMe') === '1' ? localStorage.getItem('refreshToken') : sessionStorage.getItem('refreshToken'))
     }).pipe(
       tap((res: any) => {
         this.accessToken = res.accessToken;
-        sessionStorage.setItem('accessToken', this.accessToken!);
+        if (localStorage.getItem('rememberMe') === '1') {
+          localStorage.setItem('accessToken', this.accessToken!);
+        }else{
+          sessionStorage.setItem('accessToken', this.accessToken!);
+        }
       })
     );
   }
@@ -41,7 +59,12 @@ export class AuthService {
   logout() {
     this.accessToken = null;
     this.refreshToken = null;
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
+    sessionStorage.clear();
+    localStorage.clear();
   }
+
+  getUserProfile(): any {
+    return JSON.parse(localStorage.getItem('profile') || '{}');
+  }
+
 }

@@ -15,6 +15,7 @@ export class LoginService {
     }
   }
   logout() {
-    localStorage.removeItem('username');
+    sessionStorage.clear();
+    localStorage.clear();
   }
 }

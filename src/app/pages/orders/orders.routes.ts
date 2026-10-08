@@ -3,9 +3,11 @@ import { OrdersListComponent } from './list-order/list-order.component';
 import { AddOrderComponent } from './add-order/add-order.component';
 import { ViewOrderComponent } from './view-order/view-order.component';
 import { EditOrderComponent } from './edit-order/edit-order.component'
+import { AuthGuard } from 'src/app/auth.guard';
 export const OrdersRoutes: Routes = [
     {
         path: '',
+        canActivate: [AuthGuard],
         component: OrdersListComponent,
         data: {
             title: 'Orders',
@@ -19,6 +21,7 @@ export const OrdersRoutes: Routes = [
     },
     {
         path: 'create',
+        canActivate: [AuthGuard],
         component: AddOrderComponent,
         data: {
             title: 'Add Order',
@@ -31,6 +34,7 @@ export const OrdersRoutes: Routes = [
     },
     {
         path: 'view/:id',
+        canActivate: [AuthGuard],
         component: ViewOrderComponent,
         data: {
             title: 'Order Details',
@@ -38,9 +42,10 @@ export const OrdersRoutes: Routes = [
     },
     {
         path: 'edit/:id',
+        canActivate: [AuthGuard],
         component: EditOrderComponent,
         data: {
-            title: 'Order Details',
+            title: 'Edit Order',
         },
     },
 

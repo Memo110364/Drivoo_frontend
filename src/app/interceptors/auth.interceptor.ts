@@ -20,8 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError(err => {
         if (err.status === 401) {
-            console.log("auth request: ",req);
-          // لو الـ access token انتهى، نجدد باستخدام refresh token
           return this.authService.refreshAccessToken().pipe(
             switchMap((res: any) => {
               const newReq = req.clone({
