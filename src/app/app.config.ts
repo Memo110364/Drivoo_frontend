@@ -50,8 +50,9 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideHttpClient(withInterceptors([loadingInterceptor])),
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    provideHttpClient(withInterceptors([AuthInterceptor])),
+    //{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: loadingInterceptor, multi: true },
     provideClientHydration(),
     provideAnimationsAsync(),
     importProvidersFrom(
