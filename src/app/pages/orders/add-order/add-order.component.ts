@@ -341,7 +341,7 @@ export class AddOrderComponent implements OnInit{
 
       this.orderService.createInvoice(payload).subscribe({
         next: (res) => {
-          if (res?.status == 201 || res?.data) {
+          if (res?.status == 200 || res?.data) {
             this.showSnackbar('Invoice created successfully!');
             const newId = res?.data?.id || res?.id;
             if (newId) {
