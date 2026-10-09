@@ -35,16 +35,19 @@
         <div class="col-sm-6">
           <span class="f-w-600 f-s-15"> Bill To: </span>
           <h6 class="m-t-5 m-b-0 f-w-500 f-s-14">
-            {{ invoiceDetail()?.Name }}
+            <span class="iconify d-inline-block m-r-10" data-icon="tabler:user"></span> {{ invoiceDetail()?.Name }}
           </h6>
           <!-- <h6 class="m-t-5 m-b-0 f-w-500 f-s-14">
             {{ invoiceDetail()?.Email }}
           </h6> -->
-          <h6 class="m-t-5 m-b-0 f-w-500 f-s-14">
-            {{ invoiceDetail()?.Address }}
+          <h6 class=" d-flex m-t-5 m-b-0 f-w-500 f-s-14">
+            <span class="iconify d-inline-block m-r-10" data-icon="tabler:map-pin"></span> 
+            <div class="d-inline-block">
+              <span class="p-x-8 p-y-4 f-w-500 rounded-pill f-s-12  bg-primary text-white">{{invoiceDetail()?.city?.city_name  + " - " +invoiceDetail()?.area?.Name_ar}}</span>  <br> {{ invoiceDetail()?.Address }}
+            </div>
           </h6>
           <h6 class="m-t-5 m-b-0 f-w-500 f-s-14">
-            {{ invoiceDetail()?.Phone }}
+            <span class="iconify d-inline-block m-r-10" data-icon="tabler:phone"></span> {{ invoiceDetail()?.Phone }}
           </h6>
         </div>
         <!-- <div class="col-sm-6 text-right">
@@ -86,7 +89,7 @@
               {{'orders.invoice.unit_price'| translate}}
             </th>
             <td class="font-normal" mat-cell *matCellDef="let element">
-              {{ element.rate }}
+              {{ element.price }}
             </td>
           </ng-container>
           <ng-container matColumnDef="unit">
@@ -102,7 +105,7 @@
               {{'orders.invoice.total_cost'| translate}}
             </th>
             <td class="font-normal" mat-cell *matCellDef="let element">
-              {{ element.unitTotalPrice }}
+              {{ element.price * element.quantity }}
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

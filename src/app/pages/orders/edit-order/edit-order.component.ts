@@ -140,14 +140,14 @@ export class EditOrderComponent implements OnInit{
 
   loadData(): void {
     forkJoin({
-      citiesRes: this.logisticsService.getCities(),
+      citiesRes: this.logisticsService.getCities(1),
       invoiceRes: this.orderService.getOrderById(this.id())
     }).subscribe({
       next: ({ citiesRes, invoiceRes }) => {
         const citiesList = citiesRes?.data || [];
         this.cities.set(citiesList);
         for (const city of citiesList) {
-          this.areaList[city.id] = city.areas || [];
+          this.areaList[city.id] = city.area || [];
         }
         //filter items where status_code = 1
         invoiceRes.data.items = invoiceRes?.data?.items.filter((item: any) => item.status_code == 1);
@@ -166,11 +166,11 @@ export class EditOrderComponent implements OnInit{
 
 
   loadCities(): void {
-    this.logisticsService.getCities().subscribe((res) => {
+    this.logisticsService.getCities(1).subscribe((res) => {
       const citiesList = res?.data || [];
       this.cities.set(citiesList);
       for (const city of citiesList) {
-        this.areaList[city.id] = city.areas || [];
+        this.areaList[city.id] = city.area || [];
       }
     });
   }
@@ -181,7 +181,7 @@ export class EditOrderComponent implements OnInit{
       return this.areaList[cityId];
     }
     const foundCity = this.cities().find((c: any) => String(c.id) === String(cityId));
-    return foundCity?.areas || [];
+    return foundCity?.area || [];
   }
 
   buildForm(invoice: any) {

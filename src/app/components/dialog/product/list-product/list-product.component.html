@@ -17,9 +17,9 @@
               @for(folder of folders; track folder){
               <mat-list-item role="listitem" class="m-b-2 gap-10 active-primary" [ngClass]="{
                   'bg-primary': selectedCategory === folder.name
-                }" (click)="getCategory(folder.name)">
+                }" (click)="getCategory(folder.name, folder.id)">
                 <span matListItemIcon class="m-r-0">
-                  <i-tabler name="{{ folder.icon }}" class="icon-18"></i-tabler>
+                  <i [attr.data-icon]="folder.icon" class="iconify text-2xl"></i>
                 </span>
                 <span matListItemTitle class="f-w-400 f-s-14">{{
                   folder.name | titlecase

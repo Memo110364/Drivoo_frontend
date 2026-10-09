@@ -49,7 +49,7 @@ export class ViewOrderComponent {
   public totalInvoice(){
     var total=0;
     this.invoiceDetail()?.items.forEach(function (order_item,index) {
-      total+=order_item.rate*order_item.quantity
+      total+=(order_item.price*order_item.quantity);
     })
     return total;
     

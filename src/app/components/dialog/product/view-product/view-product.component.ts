@@ -120,7 +120,7 @@ export class ViewProductComponent implements OnInit, AfterViewInit {
       this.selectedStockId = null;
       return;
     }
-
+    
     const selectedValueIds = Object.values(this.selectedOptions).map((val: any) => val?.id ?? val);
     const stocksList = this.productData.stocks || this.productData.stocks_quantity_by_path || [];
 
@@ -132,7 +132,8 @@ export class ViewProductComponent implements OnInit, AfterViewInit {
         selectedValueIds.every((id: number) => item.path.includes(id))
       );
     });
-
+    console.log("foundVariant",selectedValueIds);
+    
     if (foundVariant) {
       this.maxQuantity = foundVariant.stock;
       this.selectedStockId = foundVariant.id ?? null;
@@ -175,7 +176,7 @@ export class ViewProductComponent implements OnInit, AfterViewInit {
     const itemData = {
       product: this.productStored,
       product_name: this.productStored?.Name || this.productStored?.name || this.productStored?.product_name || '',
-      rate: this.productStored?.price ?? this.productStored?.base_price ?? 0,
+      price: this.productStored?.price ?? this.productStored?.base_price ?? 0,
       quantity: this.quantity,
       stock_id: this.selectedStockId,
       selectedOptions: this.selectedOptions

@@ -148,13 +148,13 @@ export class AddOrderComponent implements OnInit{
 
   loadData(): void {
     forkJoin({
-      citiesRes: this.logisticsService.getCities()
+      citiesRes: this.logisticsService.getCities(1)
     }).subscribe({
       next: ({ citiesRes }) => {
         const citiesList = citiesRes?.data || [];
         this.cities.set(citiesList);
         for (const city of citiesList) {
-          this.areaList[city.id] = city.areas || [];
+          this.areaList[city.id] = city.area || [];
         }
       },
       error: (err) => {
@@ -165,11 +165,11 @@ export class AddOrderComponent implements OnInit{
   }
 
   loadCities(): void {
-    this.logisticsService.getCities().subscribe((res) => {
+    this.logisticsService.getCities(1).subscribe((res) => {
       const citiesList = res?.data || [];
       this.cities.set(citiesList);
       for (const city of citiesList) {
-        this.areaList[city.id] = city.areas || [];
+        this.areaList[city.id] = city.area || [];
       }
     });
   }
@@ -180,17 +180,18 @@ export class AddOrderComponent implements OnInit{
       return this.areaList[cityId];
     }
     const foundCity = this.cities().find((c: any) => String(c.id) === String(cityId));
-    return foundCity?.areas || [];
+    return foundCity?.area || [];
   }
 
   createItemGroup(item: any): FormGroup {
-    const cost = item.rate ?? item.cost ?? 0;
+    const cost = item.price;
     const qty = item.quantity ?? item.sold ?? 1;
     const group = this.fb.group({
       item_id: [item.id || null, Validators.nullValidator],
       itemName: [item.product_name || item.name || '', Validators.required],
       itemImage: [item.image || '', Validators.nullValidator],
       itemOption: [item.option || '', Validators.required],
+      itemStock: [item.stock_id || null, Validators.required],
       itemCost: [cost, [Validators.required, Validators.min(0)]],
       itemQty: [qty, [Validators.required, Validators.min(1)]],
       itemTotal: [{ value: cost * qty, disabled: true }]
@@ -265,15 +266,16 @@ export class AddOrderComponent implements OnInit{
           const optionsArray = Object.values(result.selectedOptions);
           optionValue = optionsArray.map((opt: any) => opt.value).join(' - ');
         } 
+        
         const newItem = {
-          id: null,
+          stock_id: result.stock_id,
           product_name: result.product_name || result.name || result.product?.product_name || '',
           image: result.product?.image || result.image || '',
           quantity: result.quantity ?? 1,
           option: optionValue || '',
           status: "PENDING",
           status_code: 1,
-          rate: result.rate ?? result.cost ?? result.product?.rate ?? 0,
+          price: result.price,
           commission: 0,
           price_effect: 0,
           bonus: 0,
@@ -320,16 +322,17 @@ export class AddOrderComponent implements OnInit{
       const formVal = this.addForm.getRawValue();
       const payload: any = {
         name: formVal.name,
-        phone: this.phoneNumbers.join(', '),
+        phone: this.phoneNumbers,
         city_id: formVal.city_id,
         area_id: formVal.area_id,
         address: formVal.address,
         notes: formVal.notes || '',
         items: formVal.items.map((it: any) => ({
           product_name: it.itemName,
+          stock_id: it.itemStock,
+          price: it.itemCost,
           image: it.itemImage,
           option: it.itemOption,
-          rate: it.itemCost,
           quantity: it.itemQty,
           status: "PENDING",
           status_code: 1

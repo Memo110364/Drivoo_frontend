@@ -14,7 +14,7 @@ export class LogisticsService extends BaseService {
   }
 
 
-  getCities(): Observable<any> {
-    return this.http.get(this.apiUrl + 'logistics/cities');
+  getCities(country_id:number): Observable<any> {
+    return this.http.get(this.apiUrl + 'logistics/city/list/'+country_id);
   }
 }

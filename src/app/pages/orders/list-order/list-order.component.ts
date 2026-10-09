@@ -114,7 +114,7 @@ export class OrdersListComponent implements AfterViewInit {
     this.isLoading.set(true);
     this.orderService.getInvoiceList(page, pageSize,statusFilter).subscribe((res) => {
       this.allInvoices.set(res.data);
-      this.paginator.length = res.recordsTotal;
+      this.paginator.length = res.recordsFiltered;
       this.invoiceList = new MatTableDataSource(this.allInvoices());
       this.isLoading.set(false);
       if(res.data.length==0){

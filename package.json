@@ -1,5 +1,5 @@
 {
-  "name": "Drivoo", 
+  "name": "Drivoo",
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
@@ -44,6 +44,7 @@
     "sass": "^1.95.0",
     "tailwindcss": "^4.3.3",
     "tslib": "^2.8.1",
+    "ua-parser-js": "^2.0.10",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {

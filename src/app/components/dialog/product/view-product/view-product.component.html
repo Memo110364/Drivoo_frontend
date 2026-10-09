@@ -69,7 +69,7 @@
       <div *ngIf="!isLoading">
         <!-- عرض الخيارات Dynamic Options -->
         @for (option of options; track option.id) {
-          <div class="m-b-20">
+          <div class="m-b-20" [ngClass]="{'d-none': options.length === 1 && option.values.length === 1}">
             <label class="f-s-16 f-w-600 d-block m-b-10"
               >{{ option.optionName }}:</label
             >

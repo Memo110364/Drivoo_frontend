@@ -8,7 +8,7 @@ export class city {
 export class area {
   constructor(
     public id: number = 0,
-    public name: string = '',
+    public Name_ar: string = '',
     public price: number = 0
   ) {}
 }
@@ -53,6 +53,7 @@ export class OrderItem {
     public price_effect: number = 0,
     public bonus: number = 0,
     public amount: number = 0,
+    public price: number = 0,
   ) {}
 }
 export class OrderFullDetails {
@@ -70,7 +71,7 @@ export class OrderFullDetails {
     public confirm_attempted: number = 1,
     public status: string = "",
     public status_color: status_color = {color: "b50000", text_color: "ffffff", class_name: "badge badge-danger"},
-    public area: area = {id: 2, name: "6 October", price: 80},
+    public area: area = {id: 2, Name_ar: "6 October", price: 80},
     public items: OrderItem[] = [
       {
         id: 4299886,
@@ -85,6 +86,7 @@ export class OrderFullDetails {
         price_effect: 0,
         bonus: 10,
         amount: 210,
+        price: 190,
         total: 0
     }
     ],

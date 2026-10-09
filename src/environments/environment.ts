@@ -5,9 +5,11 @@
  * desktop app) before running `npm start`.
  */
 export const environment = {
-  production: false,
+  production: true,
   /** Base URL for every business endpoint. Mockoon serves them under `endpointPrefix: api/v1/`. */
   /** Only the published demo skips authentication; see auth.guard.ts. */
   demoAccess: false,
-  apiUrl: 'http://localhost:3000/api/v1/',
+  // apiUrl: 'http://localhost:3000/api/v1/',
+  // apiUrl: 'https://api.drivoo.co/api/v1/',
+  apiUrl: 'https://api.moyaser.local/app/',
 };

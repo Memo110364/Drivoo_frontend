@@ -24,6 +24,7 @@ import {MatSliderModule} from '@angular/material/slider';
 export interface Section {
   name: string;
   icon: string;
+  id?:number;
 }
 
 @Component({
@@ -62,7 +63,7 @@ export class ListProductComponent implements OnInit {
 
   filteredCards: Product[] = [];
   folders: Section[] = [
-    { name: 'all', icon: 'users' },
+    { name: 'all', icon: 'circum:circle-check',id:0},
   ];
   selectedCategory: string = this.folders[0].name;
   notes: Section[] = [
@@ -105,10 +106,11 @@ export class ListProductComponent implements OnInit {
           const allCategories = res.data.map((category: any) => {
             return {
               name: category.name,
-              icon: category.icon
+              icon: category.icon,
+              id:category.id
             };
           });
-          this.folders = [{ name: 'all', icon: 'users' }, ...allCategories];
+          this.folders = [{ name: 'all', icon: 'circum:circle-check',id:0 }, ...allCategories];
         },  
         error: (err) => {
           console.error('Error fetching categories:', err);
@@ -140,9 +142,9 @@ export class ListProductComponent implements OnInit {
     this.getProductList();
   }
   
-  getCategory(name: string): void {
+  getCategory(name: string,id?:number): void {
     this.currentPage = 1;
-    this.filterProducts['category'] = name;
+    this.filterProducts['category'] = id??0;
     this.selectedCategory = name;
     this.getProductList();
   }

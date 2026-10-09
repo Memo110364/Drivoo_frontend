@@ -26,14 +26,14 @@ export class OrderService extends BaseService {
     }
 
     getOrderById(id:number): Observable<any> {
-        return this.http.get(this.baseUrl + `orders/${id}`);
+        return this.http.get(this.baseUrl + `orders/view/${id}`);
     }
     deleteOrder(id: string): Observable<any> {
         return this.http.delete(this.baseUrl + `orders/${id}`);
     }
 
     createOrder(order: any): Observable<any> {
-        return this.http.post(this.baseUrl + 'orders', order);
+        return this.http.post(this.baseUrl + 'orders/create', order);
     }
 
     updateOrder(id: string, order: any): Observable<any> {
