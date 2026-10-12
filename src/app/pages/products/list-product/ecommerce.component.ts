@@ -121,7 +121,8 @@ export class ProductComponent implements AfterViewInit, OnInit, OnDestroy {
     search: string = this.searchQuery
   ): void {
     this.isLoading = true;
-    this.productApiService.getAllProducts(page, limit, {}, null, search).subscribe({
+
+    this.productApiService.getAllProducts(page, limit, {"in_stock":false,"status":'all'}, null, search).subscribe({
       next: (res: any) => {
         const rawList = res?.data || res?.products || [];
         this.totalRecords = res?.recordsTotal ?? res?.total ?? res?.pagination?.total ?? rawList.length;

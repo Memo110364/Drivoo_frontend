@@ -7,3 +7,10 @@
     background-repeat: no-repeat;
     overflow: hidden;
 }
+.image-thumbnail img{
+    min-width: 56px !important; 
+    min-height: 56px !important;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}

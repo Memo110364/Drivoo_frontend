@@ -47,7 +47,8 @@
         </th>
         <td mat-cell *matCellDef="let element">
           <div class="d-flex align-items-center">
-            <div class="image-thumbnail" [ngStyle]="{'background-image': 'url(' + element.imagePath + ')'}">
+            <div class="image-thumbnail" >
+              <img [src]="element.imagePath" onerror="this.src='/assets/images/products/empty-products.png'" alt="">
             </div>
             <div class="m-l-16">
               <h6 class="mat-subtitle-1 f-s-14 f-w-600">

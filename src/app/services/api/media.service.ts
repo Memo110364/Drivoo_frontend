@@ -8,9 +8,10 @@ import { BaseService } from "./base.service";
 export class MediaService extends BaseService {
     private apiUrl = this.baseUrl;
     constructor(private http: HttpClient) { super();}
-    upload(file: File) {
+    upload(file: File,thumbnails:number = 1) {
         const formData = new FormData();
         formData.append('file', file);
-        return this.http.post(`${this.apiUrl}/upload`, formData);
+        formData.append('thumbnails', thumbnails.toString());
+        return this.http.post(`${this.apiUrl}media/uploader`, formData);
     }
 }

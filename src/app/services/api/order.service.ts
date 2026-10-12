@@ -37,6 +37,6 @@ export class OrderService extends BaseService {
     }
 
     updateOrder(id: string, order: any): Observable<any> {
-        return this.http.put(this.baseUrl + `orders/${id}`, order);
+        return this.http.put(this.baseUrl + `orders/update/${id}`, order);
     }
 }

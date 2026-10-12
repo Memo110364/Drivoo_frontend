@@ -221,9 +221,12 @@ export class EditOrderComponent implements OnInit{
             item_id: [item.id || null, Validators.nullValidator],
             itemName: [item.product_name || item.name || '', Validators.required],
             itemImage: [item.image || '', Validators.nullValidator],
+            itemStock: [item.stock_id || null, Validators.required],
             itemOption: [item.option || '', Validators.required],
             itemCost: [item.rate ?? item.cost ?? 0, Validators.required],
             itemQty: [item.quantity ?? item.sold ?? 0, Validators.required],
+            itemStatus: [item.status || 'READY', Validators.required],
+            itemStatusCode: [item.status_code || 1, Validators.required],
             itemTotal: [{ value: (item.rate ?? item.cost ?? 0) * (item.quantity ?? item.sold ?? 0), disabled: true }]
           });
         }else{
@@ -289,17 +292,18 @@ export class EditOrderComponent implements OnInit{
           newItem = {
             
         id: null,
-        product_name: result.product_name || '',
-        image: result.product?.image || '',
-        quantity: result.quantity ?? 0,
-        option: optionValue || '',
-        status: "PENDING",
-        status_code: 1,
-        rate: result.rate ?? 0,
-        commission: 0,
-        price_effect:  0,
-        bonus: 0,
-        amount: 0
+        stock_id: result.stock_id,
+          product_name: result.product_name || result.name || result.product?.product_name || '',
+          image: result.product?.image || result.image || '',
+          quantity: result.quantity ?? 1,
+          option: optionValue || '',
+          status: "READY",
+          status_code: 1,
+          price: result.price,
+          commission: 0,
+          price_effect: 0,
+          bonus: 0,
+          amount: 0
       
     
           };
@@ -352,6 +356,7 @@ removeRow(index: number): void {
 
 
   saveDetail(): void {
+    
     this.updatePhoneControl();
     this.editForm.markAllAsTouched();
     const currentInvoice = this.invoice();
@@ -363,9 +368,38 @@ removeRow(index: number): void {
         this.showSnackbar('field ' + key + ' is required');
       }
     });
-
     if (currentInvoice && valid && this.editForm.valid) {
-      this.orderService.updateInvoice(currentInvoice.id, currentInvoice).subscribe({
+      const formVal = this.editForm.getRawValue();
+      const addedItems = formVal.items.filter((item: any) => item.item_id==null).map((item: any) => item.itemStock ? {
+        stock_id: item.itemStock,
+        quantity: item.itemQty,
+        price: item.itemCost,
+      }:null)??[];
+      const payload: any = {
+        name: formVal.name,
+        id: currentInvoice.id,
+        phone: this.phoneNumbers,
+        city_id: formVal.city_id,
+        area_id: formVal.area_id,
+        address: formVal.address,
+        notes: formVal.notes || '',
+        canceled: currentInvoice.deletedItems || [],
+        added:addedItems,
+        items: formVal.items.map((item: any) => ({
+          id: item.item_id,
+          product_name: item.itemName,
+          stock_id: item.itemStock,
+          price: item.itemCost,
+          image: item.itemImage,
+          option: item.itemOption,
+          quantity: item.itemQty,
+          status: item.itemStatus,
+          status_code: item.itemStatusCode
+        }))
+      };
+      // console.log('payload',payload);
+      // return
+      this.orderService.updateInvoice(currentInvoice.id, payload).subscribe({
         next: (res) => {
           this.showSnackbar('Invoice updated  successfully!');
           // this.dialog.open(OkDialogComponent);

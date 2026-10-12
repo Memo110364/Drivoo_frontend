@@ -69,16 +69,23 @@
 
       <div class="b-1 table-responsive">
         <table mat-table [dataSource]="invoiceDetail()?.items || []" class="no-wrap v-middle">
-          <ng-container matColumnDef="itemName">
+          <ng-container matColumnDef="itemName" >
             <th mat-header-cell *matHeaderCellDef class="f-s-15 f-w-600">
               {{'orders.invoice.product'| translate}}
             </th>
-            <td class="font-normal" mat-cell *matCellDef="let element">
+            <td class="font-normal" mat-cell *matCellDef="let element" [class.bg-warning]="element.status_code!=1">
              <div class="d-flex align-items-center">
-              <img alt="users" width="56" class="rounded-circle" [src]="element.image">
+              <div class="image-thumbnail" [ngStyle]="{'background-image': 'url(' + element.image + ')'}">
+
+              <!-- <img alt="users" width="56" class="rounded-circle" [src]="element.image"> -->
+              </div>
               <div class="m-l-16">
-                <h6 class="mat-subtitle-1 f-s-14 f-w-600"> {{ element.product_name }} </h6>
-                <span class="f-s-14 f-s-12"> {{ element.option }} </span>
+                <h6 class="mat-subtitle-1 f-s-14 f-w-600" 
+                [style.text-decoration]="element.status_code!=1 ? 'line-through' : 'none'"
+                > {{ element.product_name }} </h6>
+                @if(element.option!= 'default'){
+                  <span class="f-s-14 f-s-12"> {{ element.option }} </span>
+                }
               </div>
             </div>
               
@@ -88,7 +95,9 @@
             <th mat-header-cell *matHeaderCellDef class="f-s-15 f-w-600">
               {{'orders.invoice.unit_price'| translate}}
             </th>
-            <td class="font-normal" mat-cell *matCellDef="let element">
+            <td class="font-normal" 
+            [style.text-decoration]="element.status_code!=1 ? 'line-through' : 'none'"  
+            [class.bg-warning]="element.status_code!=1" mat-cell *matCellDef="let element">
               {{ element.price }}
             </td>
           </ng-container>
@@ -96,7 +105,7 @@
             <th mat-header-cell *matHeaderCellDef class="f-s-15 f-w-600">
               {{'orders.invoice.quantity'| translate}}
             </th>
-            <td class="font-normal" mat-cell *matCellDef="let element">
+            <td class="font-normal" [class.bg-warning]="element.status_code!=1" mat-cell *matCellDef="let element">
               {{ element.quantity }}
             </td>
           </ng-container>
@@ -104,7 +113,9 @@
             <th mat-header-cell *matHeaderCellDef class="f-s-15 f-w-600">
               {{'orders.invoice.total_cost'| translate}}
             </th>
-            <td class="font-normal" mat-cell *matCellDef="let element">
+            <td class="font-normal" 
+            [style.text-decoration]="element.status_code!=1 ? 'line-through' : 'none'"  
+            [class.bg-warning]="element.status_code!=1" mat-cell *matCellDef="let element">
               {{ element.price * element.quantity }}
             </td>
           </ng-container>

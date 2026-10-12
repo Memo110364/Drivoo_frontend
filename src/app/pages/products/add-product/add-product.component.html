@@ -16,7 +16,7 @@
               type="text"
               matInput
               placeholder="Product name"
-              formControlName="product_name"
+              formControlName="Name"
             />
 
             <mat-hint class="f-s-12"
@@ -522,30 +522,31 @@
             <mat-hint>Set the product status.</mat-hint>
           </mat-form-field>
         </mat-card>
-        <!-- <mat-card class="cardWithShadow b-1 rounded p-30">
+         <mat-card class="cardWithShadow b-1 rounded p-30">
           <h4 Ctitle>Product Details</h4>
           <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">Categories</div>
           <mat-form-field appearance="outline" class="w-100">
-            <mat-select placeholder="Categories" formControlName="categories">
-              @for (category of categories; track category) {
-                <mat-option [value]="category">
-                  {{ category }}
+            <mat-select placeholder="Categories" formControlName="cid">
+              @for (category of categories(); track category) {
+                <!-- select firest option by defult   -->
+                <mat-option  [value]="category.id">
+                  {{ category.name }}
                 </mat-option>
               }
             </mat-select>
             <mat-hint>Add product to a category.</mat-hint>
           </mat-form-field>
-          <div class="w-50 m-t-20">
+          <!-- <div class="w-50 m-t-20">
             <button mat-flat-button class="bg-light-primary text-primary m-l-0">
               <div class="d-flex align-items-center">
                 <tabler-icon name="plus" class="m-r-5"></tabler-icon>
                 <span class="mt-3"> Create new category</span>
               </div>
             </button>
-          </div>
+          </div> -->
 
-          <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">Tags</div>
-          <mat-form-field class="w-100" appearance="outline">
+          <!-- <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">Tags</div> -->
+          <!-- <mat-form-field class="w-100" appearance="outline">
             <div formArrayName="tags">
               <mat-chip-grid #chipGrid>
                 @for (tag of tags; track tag) {
@@ -563,9 +564,9 @@
                 />
               </mat-chip-grid>
             </div>
-          </mat-form-field>
+          </mat-form-field> -->
 
-          <mat-autocomplete
+          <!-- <mat-autocomplete
             #auto="matAutocomplete"
             (optionSelected)="selectTag($event.option.viewValue)"
           >
@@ -574,8 +575,8 @@
                 {{ tag }}
               </mat-option>
             }
-          </mat-autocomplete>
-        </mat-card> -->
+          </mat-autocomplete> -->
+        </mat-card> 
         <!-- <mat-card class="cardWithShadow b-1 rounded p-30">
           <h4 Ctitle>Product Template</h4>
           <div class="f-s-14 f-w-600 m-b-8 d-block m-t-20">

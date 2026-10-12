@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { IconModule } from 'src/app/icon/icon.module';
 import { MaterialModule } from 'src/app/material.module';
 
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -81,14 +82,9 @@ export class AddProductComponent implements OnInit {
     'Taxable Goods',
     'Downloadable Products',
   ];
-  categories: string[] = [
-    'Computer',
-    'Watches',
-    'Headphones',
-    'Beauty',
-    'Fashion',
-    'Footwear',
-  ];
+  categories=signal<any[]>([
+    
+  ])
   templates: string[] = [
     'Default template',
     'Fashion',
@@ -110,7 +106,7 @@ export class AddProductComponent implements OnInit {
   constructor( private snackBar: MatSnackBar) {
     this.AddProduct = this.fb.group({
       id: [null],
-      product_name: ['', Validators.required],
+      Name: ['', Validators.required],
       description: [''],
       size: [''],
       variations: [''],
@@ -121,14 +117,14 @@ export class AddProductComponent implements OnInit {
       fixed_discounted_price: [''],
       tax_class: [''],
       VAT_amount: [''],
-      status: [''],
-      categories: [''],
+      status: [this.productStatuses[0].value],
+      cid: [''],
       default_template: [''],
       tags: this.fb.array([]),
       variables: this.fb.array([]),
 
       media: this.fb.array([]),
-      Thumbnail: this.fb.array([]),
+      filepond_main: [''],
     });
 
     
@@ -229,8 +225,8 @@ export class AddProductComponent implements OnInit {
   get sizeControl() {
     return this.AddProduct.get('size');
   }
-  get Thumbnail(): FormArray {
-    return this.AddProduct.get('Thumbnail') as FormArray;
+  get Thumbnail(): FormControl {
+    return this.AddProduct.get('filepond_main') as FormControl;
   }
   get tagsArray(): FormArray {
     return this.AddProduct.get('tags') as FormArray;
@@ -239,7 +235,12 @@ export class AddProductComponent implements OnInit {
     this.editor = new Editor();
 
     const currentUrl = this.router.url;
-
+      this.productApiService.getCategories().subscribe((data) => {
+        this.categories.set(data.data);
+        if(data.data.length > 0){
+          this.AddProduct.get('cid')?.setValue(data.data[0].id);
+        }
+    });
     if (currentUrl.includes('edit-product')) {
       const product = this.productService.getProduct();
       if (product) {
@@ -320,24 +321,24 @@ export class AddProductComponent implements OnInit {
   }
 
   onSelectThumbnail(event: any) {
-    const files: File[] = event.addedFiles;
-    if (!files || files.length === 0) return;
+    const files: File = event.addedFiles[0];
+    if (!files) return;
 
     // Set single thumbnail
     this.thumbnailFiles = [];
-    this.Thumbnail.clear();
+    this.Thumbnail.setValue('');
 
-    files.forEach((file: File) => {
+   
       const thumbItem: UploadedMediaItem = {
-        file,
+        file:files,
         isUploading: true,
         error: false
       };
       this.thumbnailFiles.push(thumbItem);
-      const controlIndex = this.Thumbnail.length;
-      this.Thumbnail.push(this.fb.control(null));
+      // const controlIndex = this.Thumbnail.length;
+      // this.Thumbnail.push(this.fb.control(null));
 
-      this.mediaService.upload(file).subscribe({
+      this.mediaService.upload(files).subscribe({
         next: (res: any) => {
           const thumbId = res?.data?.id ?? res?.id ?? res?.data?._id ?? res?.data?.media_id;
           const thumbUrl = res?.data?.url ?? res?.url ?? res?.data?.path ?? res?.path;
@@ -346,7 +347,7 @@ export class AddProductComponent implements OnInit {
           thumbItem.url = thumbUrl;
           thumbItem.isUploading = false;
 
-          this.Thumbnail.at(controlIndex)?.setValue(thumbId);
+          this.Thumbnail.setValue(thumbUrl);
           this.showSnackbar('تم رفع الصورة المصغرة بنجاح');
         },
         error: (err: any) => {
@@ -355,7 +356,7 @@ export class AddProductComponent implements OnInit {
           thumbItem.error = true;
           this.showSnackbar('فشل رفع الصورة المصغرة');
         }
-      });
+      
     });
   }
 
@@ -363,9 +364,7 @@ export class AddProductComponent implements OnInit {
     const idx = index !== undefined && index >= 0 ? index : this.thumbnailFiles.indexOf(item);
     if (idx > -1) {
       this.thumbnailFiles.splice(idx, 1);
-      if (idx < this.Thumbnail.length) {
-        this.Thumbnail.removeAt(idx);
-      }
+      this.Thumbnail.setValue('');
     }
   }
 
@@ -439,7 +438,7 @@ export class AddProductComponent implements OnInit {
         .filter((id) => id !== undefined && id !== null);
       data.thumbnail = thumbnailIds.length > 0 ? thumbnailIds[0] : null;
       data.Thumbnail = thumbnailIds;
-
+      
       // Handle variables - ensure value is clean
       if (data.variables && Array.isArray(data.variables)) {
         data.variables = data.variables.map((v: any) => ({
@@ -451,7 +450,7 @@ export class AddProductComponent implements OnInit {
           }))
         }));
       }
-
+      
       // Clean up unnecessary fields
       delete data.size;
       delete data.VAT_amount;
@@ -462,7 +461,6 @@ export class AddProductComponent implements OnInit {
       delete data.variations;
       delete data.set_discount_percentage;
       delete data.discount_type;
-      
       this.productApiService.createProduct(data).subscribe({
         next: (res: any) => {
           this.showSnackbar('تم اضافة المنتج بنجاح');
@@ -502,8 +500,8 @@ export class AddProductComponent implements OnInit {
   populateForm(product: any) {
     this.AddProduct.patchValue({
       id: product.id,
-      product_name: product.product_name || product.title || '',
-      category: product.category,
+      Name: product.Name || product.title || '',
+      cid: product.cid,
       base_price: product.base_price || product.price || '',
       status: product.status,
       description: product.description,

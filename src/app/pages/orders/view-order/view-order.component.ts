@@ -11,6 +11,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-order-view',
     templateUrl: './view-order.component.html',
+    styleUrl: './view-order.component.scss',
     imports: [
         MaterialModule,
         CommonModule,
@@ -49,7 +50,9 @@ export class ViewOrderComponent {
   public totalInvoice(){
     var total=0;
     this.invoiceDetail()?.items.forEach(function (order_item,index) {
-      total+=(order_item.price*order_item.quantity);
+      if(order_item.status_code==1){
+        total+=(order_item.price*order_item.quantity);
+      }
     })
     return total;
     
