@@ -49,7 +49,7 @@
 @if (hasError()) {
   <mat-card class="cardWithShadow">
     <mat-card-content class="p-24 text-center">
-      <i class="iconify f-s-40 text-error d-block m-b-8" data-icon="solar:danger-triangle-linear"></i>
+      <i class="iconify f-s-40 text-error d-block m-b-8 m-auto" data-icon="solar:danger-triangle-linear"></i>
       <h5 class="f-s-16 f-w-600">{{ 'dashboard.error.title' | translate }}</h5>
       <p class="text-muted f-s-14">{{ 'dashboard.error.subtitle' | translate }}</p>
       <button mat-flat-button color="primary" (click)="load()">
@@ -73,7 +73,7 @@
                   [subtitle]="(summary()?.total_orders ?? 0) | number"
                   icon="solar:cart-outline" color="primary"
                   [delta]="summary()?.trends?.total_orders ?? null"
-                  [note]="'dashboard.vs_previous_short' | translate"></app-card>
+                  ></app-card>
       </div>
       <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
         <app-card [title]="'dashboard.kpi.delivered' | translate"
@@ -108,7 +108,7 @@
                   [subtitle]="((summary()?.cod_collected ?? 0) | number) + ' ' + ('dashboard.currency' | translate)"
                   icon="ic:sharp-attach-money" color="secondary"
                   [delta]="summary()?.trends?.cod_collected ?? null"
-                  [note]="'dashboard.vs_previous_short' | translate"></app-card>
+                  ></app-card>
       </div>
     }
   </div>
@@ -207,7 +207,7 @@
                         <i class="iconify f-s-14 d-flex"
                            [attr.data-icon]="metric.trend > 0 ? 'tabler:trending-up' : metric.trend < 0 ? 'tabler:trending-down' : 'tabler:minus'"></i>
                         {{ metric.trend > 0 ? '+' : '' }}{{ metric.trend }}{{ metric.suffix === '%' ? ' pt' : '' }}
-                        <span class="text-muted">{{ 'dashboard.vs_previous' | translate }}</span>
+                        <span class="text-muted"></span>
                       </span>
                     }
                   </div>

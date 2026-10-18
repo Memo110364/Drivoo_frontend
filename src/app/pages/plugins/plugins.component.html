@@ -1,0 +1,16 @@
+<div class="container">
+    <h1>Plugins</h1>
+    <p>Discover and install plugins to extend your store's functionality.</p>
+    @if(isLoading()) {
+    <div class="spinner"></div>
+    }
+    @else if(plugins().length === 0) {
+      <p>No plugins found</p>
+    }
+    @else {
+    @for (plugin of plugins(); track $index) {
+    <plugin-card [plugin]="plugin"></plugin-card>
+    
+    }
+    }
+</div>

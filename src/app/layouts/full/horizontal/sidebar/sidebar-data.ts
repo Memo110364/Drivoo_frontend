@@ -56,8 +56,14 @@ export function navItems():NavItem[]{
     iconName: 'solar:chart-bold-duotone',
     route: '/reports',
   },
-   {
+  {
     id: 6,
+    displayName: 'plugins',
+    iconName: 'solar:widget-add-line-duotone',
+    route: '/plugins',
+  },
+   {
+    id: 7,
     displayName: 'settings',
     iconName: 'solar:settings-linear',
     route: '/settings',
