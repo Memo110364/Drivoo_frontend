@@ -43,7 +43,7 @@ describe('AddMethodDialogComponent', () => {
     });
     httpTesting = TestBed.inject(HttpTestingController);
     component = TestBed.runInInjectionContext(() => new AddMethodDialogComponent());
-    httpTesting.expectOne((r) => r.url.includes('finance/method')).flush({
+    httpTesting.expectOne((r) => r.url.includes('method')).flush({
       data: MOCK_METHODS,
     });
   });
@@ -56,7 +56,7 @@ describe('AddMethodDialogComponent', () => {
     expect(component.validationKey()).toBe('wallet.add_method.errors.no_type');
   });
 
-  it('populates methods from finance/method', () => {
+  it('populates methods from financial/method', () => {
     expect(component.methods().length).toBe(2);
     expect(component.isLoadingMethods()).toBeFalse();
   });
@@ -92,10 +92,27 @@ describe('AddMethodDialogComponent', () => {
     component.onFieldChange('Number', '12345678');
     component.submit();
 
-    const req = httpTesting.expectOne((r) => r.url.includes('payment-methods') && r.method === 'POST');
+    const req = httpTesting.expectOne((r) => r.url.includes('method') && r.method === 'POST');
     expect(req.request.body.is_default).toBeTrue();
-    expect(req.request.body.method_id).toBe(1);
+    expect(req.request.body.method).toBe(1);
     req.flush({ message: 'Saved' });
+  });
+
+  it('re-validates field when user enters valid value, moves away, and returns to type invalid value', () => {
+    component.selectMethod(MOCK_METHODS[0]);
+    // 1. Enter valid value
+    component.onFieldChange('name', 'mahmoud');
+    component.onFieldChange('Number', '12345678');
+    component.markTouched('name');
+    expect(component.isValid()).toBeTrue();
+    const matcher = component.getMatcher('name', MOCK_METHODS[0].fields[0]);
+    expect(matcher.isErrorState(null, null)).toBeFalse();
+
+    // 2. Return to Field 1 and enter an invalid value
+    component.onFieldChange('name', 'mahmoud123');
+    expect(component.isValid()).toBeFalse();
+    expect(component.getFieldError(MOCK_METHODS[0].fields[0])).toBe('wallet.add_method.errors.field_invalid');
+    expect(matcher.isErrorState(null, null)).toBeTrue();
   });
 
   it('allows changing is_default when existing methods exist', () => {
@@ -108,7 +125,7 @@ describe('AddMethodDialogComponent', () => {
       parent: TestBed.inject(EnvironmentInjector),
     });
     const dialogWithData = runInInjectionContext(customInjector, () => new AddMethodDialogComponent());
-    httpTesting.expectOne((r) => r.url.includes('finance/method')).flush({
+    httpTesting.expectOne((r) => r.url.includes('method')).flush({
       data: MOCK_METHODS,
     });
 

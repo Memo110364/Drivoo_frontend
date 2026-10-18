@@ -32,7 +32,7 @@
               [editor]="editor"
               [disabled]="false"
               [placeholder]="'Type here...'"
-              formControlName="description"
+              formControlName="Description"
               class="b-t-1"
             ></ngx-editor>
           </div>
@@ -217,7 +217,7 @@
                       class="value-row d-flex align-items-center gap-12 p-8 m-b-10 bg-white rounded b-1"
                     >
                       <!-- Value Name -->
-                      <div class="flex-grow-1">
+                      <div class="grow">
                         <mat-form-field [hintLabel]="''" appearance="outline" class="w-100 p-0" color="primary">
                           <input
                             type="text"
@@ -341,8 +341,10 @@
             color="primary"
           >
             <input
-              type="text"
-              formControlName="base_price"
+              type="number"
+              min="0"
+              step="1"
+              formControlName="price"
               placeholder="Base Price "
               aria-label="text"
               matInput
@@ -509,7 +511,7 @@
 
           <mat-form-field appearance="outline" class="w-100 m-t-20">
             <mat-select
-              formControlName="status"
+              formControlName="enable"
               disableOptionCentering
               placeholder="Select status"
             >

@@ -20,7 +20,7 @@
       }
     } @else if (rows.length === 0) {
       <div class="text-center m-t-32 m-b-32">
-        <i class="iconify f-s-40 text-muted d-block m-b-8" data-icon="uil:money-withdraw"></i>
+        <i class="iconify f-s-40 text-muted m-auto d-block m-b-8" data-icon="uil:money-withdraw"></i>
         <p class="text-muted f-s-14 m-0">{{ 'wallet.withdrawals.empty' | translate }}</p>
       </div>
     } @else {
@@ -71,7 +71,7 @@
             </div>
           </div>
 
-          @if (request.status === 'rejected') {
+          @if (request.status === '2'||request.status === '3') {
             <div class="rejection p-12 rounded m-t-12 d-flex align-items-start gap-8">
               <i class="iconify f-s-16 d-flex text-error shrink-0" data-icon="solar:close-circle-linear"></i>
               <div class="min-w-0">

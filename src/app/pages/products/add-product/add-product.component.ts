@@ -93,8 +93,8 @@ export class AddProductComponent implements OnInit {
   ];
 
   productStatuses = [
-    { label: 'Active', value: 'active' },
-    { label: 'Inactive', value: 'inactive' },
+    { label: 'Active', value: '1' },
+    { label: 'Inactive', value: '0' },
   ];
   selectedOption: string = '';
   tags: string[] = []; // Selected tags
@@ -107,17 +107,17 @@ export class AddProductComponent implements OnInit {
     this.AddProduct = this.fb.group({
       id: [null],
       Name: ['', Validators.required],
-      description: [''],
+      Description: [''],
       size: [''],
       variations: [''],
-      base_price: [''],
+      price: [''],
 
       discount_type: ['No Discount'],
       set_discount_percentage: [''],
       fixed_discounted_price: [''],
       tax_class: [''],
       VAT_amount: [''],
-      status: [this.productStatuses[0].value],
+      enable: [this.productStatuses[0].value],
       cid: [''],
       default_template: [''],
       tags: this.fb.array([]),
@@ -203,7 +203,7 @@ export class AddProductComponent implements OnInit {
           const mediaId = res?.data?.id ?? res?.id ?? res?.data?._id ?? res?.data?.media_id;
           const mediaUrl = res?.data?.url ?? res?.url ?? res?.data?.path ?? res?.path;
           const valGroup = this.getValues(variableIndex).at(valueIndex);
-          valGroup.get('value')?.setValue(mediaId);
+          valGroup.get('value')?.setValue(mediaUrl);
           valGroup.get('previewUrl')?.setValue(mediaUrl);
           this.showSnackbar('تم رفع الصورة بنجاح');
         },
@@ -420,21 +420,22 @@ export class AddProductComponent implements OnInit {
   addProduct(data: any) {
     if (this.AddProduct.valid) {
       // Extract plain text from ngx-editor content
-      if (data.description?.content?.length) {
-        data.description = this.extractPlainText(data.description);
-      } else {
-        data.description = '';
-      }
-
+      // if (data.description?.content?.length) {
+      //   data.description = this.extractPlainText(data.description);
+      // } else {
+      //   data.description = '';
+      // }
+    console.log("this.mediaFiles",this.mediaFiles);
+    
       // Handle media - Send array of IDs
-      const mediaIds = this.mediaFiles
-        .map((file) => file.id)
-        .filter((id) => id !== undefined && id !== null);
-      data.media = mediaIds;
+      const mediaURL = this.mediaFiles
+        .map((file) => file.url)
+        .filter((url) => url !== undefined && url !== null);
+      data.filepond = mediaURL;
 
       // Handle Thumbnail - Send ID(s)
       const thumbnailIds = this.thumbnailFiles
-        .map((file) => file.id)
+        .map((file) => file.url)
         .filter((id) => id !== undefined && id !== null);
       data.thumbnail = thumbnailIds.length > 0 ? thumbnailIds[0] : null;
       data.Thumbnail = thumbnailIds;
@@ -461,6 +462,8 @@ export class AddProductComponent implements OnInit {
       delete data.variations;
       delete data.set_discount_percentage;
       delete data.discount_type;
+      // console.log(data);
+      // return
       this.productApiService.createProduct(data).subscribe({
         next: (res: any) => {
           this.showSnackbar('تم اضافة المنتج بنجاح');
@@ -502,7 +505,7 @@ export class AddProductComponent implements OnInit {
       id: product.id,
       Name: product.Name || product.title || '',
       cid: product.cid,
-      base_price: product.base_price || product.price || '',
+      price: product.base_price || product.price || '',
       status: product.status,
       description: product.description,
       imagePath: product.imagePath,

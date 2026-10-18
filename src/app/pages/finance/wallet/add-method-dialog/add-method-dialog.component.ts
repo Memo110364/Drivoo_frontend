@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'src/app/material.module';
 import { MethodField, WalletService, WithdrawalMethodConfig } from 'src/app/services/api/wallet.service';
@@ -39,6 +40,8 @@ export class AddMethodDialogComponent {
   formValues = signal<Record<string, any>>({});
   touchedFields = signal<Record<string, boolean>>({});
 
+  private matcherCache = new Map<string, ErrorStateMatcher>();
+
   isSubmitting = signal(false);
   serverError = signal('');
 
@@ -69,6 +72,7 @@ export class AddMethodDialogComponent {
     }
     this.formValues.set(initial);
     this.touchedFields.set({});
+    this.matcherCache.clear();
     this.serverError.set('');
     this.isDefault.set(this.isFirstMethod());
   }
@@ -77,6 +81,7 @@ export class AddMethodDialogComponent {
     this.selectedMethod.set(null);
     this.formValues.set({});
     this.touchedFields.set({});
+    this.matcherCache.clear();
     this.serverError.set('');
   }
 
@@ -92,15 +97,39 @@ export class AddMethodDialogComponent {
     return !!this.touchedFields()[key];
   }
 
-  /** Safely parse regex string whether formatted as /pattern/flags or plain pattern */
+  getMatcher(key: string, field: MethodField): ErrorStateMatcher {
+    let matcher = this.matcherCache.get(key);
+    if (!matcher) {
+      matcher = {
+        isErrorState: (control: AbstractControl | null) => {
+          const hasError = !!this.getFieldError(field);
+          const isTouched = this.isTouched(key);
+          return hasError && isTouched;
+        },
+      };
+      this.matcherCache.set(key, matcher);
+    }
+    return matcher;
+  }
+
+  /** Safely parse regex string whether formatted as /pattern/flags or plain pattern, ensuring full-string match */
   private parseRegex(patternStr: string): RegExp | null {
     if (!patternStr || !patternStr.trim()) return null;
     try {
-      const match = patternStr.trim().match(/^\/(.*)\/([gimsuy]*)$/);
+      let pattern = patternStr.trim();
+      let flags = '';
+      const match = pattern.match(/^\/(.*)\/([gimsuy]*)$/);
       if (match) {
-        return new RegExp(match[1], match[2]);
+        pattern = match[1];
+        flags = match[2].replace(/g/g, '');
       }
-      return new RegExp(patternStr.trim());
+      if (pattern.startsWith('^')) {
+        pattern = pattern.slice(1);
+      }
+      if (pattern.endsWith('$')) {
+        pattern = pattern.slice(0, -1);
+      }
+      return new RegExp(`^(?:${pattern})$`, flags);
     } catch {
       return null;
     }
@@ -129,9 +158,22 @@ export class AddMethodDialogComponent {
       }
     }
 
-    if (value && Array.isArray(field.rule) && field.rule.some((r) => r.includes('Phone'))) {
-      if (!/^01[0125][0-9]{8}$/.test(value)) {
+    const hasPhoneRule =
+      typeof field.rule === 'string'
+        ? /phone/i.test(field.rule)
+        : Array.isArray(field.rule)
+        ? field.rule.some((r) => /phone/i.test(r))
+        : false;
+
+    if (value && hasPhoneRule) {
+      if (!/^(?:\+2|002)?01[0125][0-9]{8}$/.test(value)) {
         return 'wallet.add_method.errors.phone';
+      }
+    }
+
+    if (value && field.type === 'number' && !field.regex && !hasPhoneRule) {
+      if (!/^\d+$/.test(value)) {
+        return 'wallet.add_method.errors.field_invalid';
       }
     }
 
@@ -159,16 +201,20 @@ export class AddMethodDialogComponent {
     this.isSubmitting.set(true);
     this.serverError.set('');
 
-    const payload: Record<string, unknown> = {
-      method_id: method.id,
+    const payload: any = {
+      method: method.id,
       type: method.name,
+      fields:[],
       is_default: this.isDefault(),
     };
 
     for (const field of method.fields ?? []) {
       const val = this.formValues()[field.key];
       if (val !== undefined && val !== null) {
-        payload[field.key] = typeof val === 'string' ? val.trim() : val;
+        payload.fields.push({
+          name: field.key,
+          value: typeof val === 'string' ? val.trim() : val,
+        });
       }
     }
 

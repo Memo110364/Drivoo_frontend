@@ -43,8 +43,17 @@ export class WithdrawalsComponent {
 
   /** How far along a request is, as a step index the template renders. */
   reachedIndex(request: WithdrawalRequest): number {
-    if (request.status === 'rejected') return -1;
-    return this.stages.indexOf(request.status);
+    switch(request.status){
+      case '0':
+        return 1;
+      case '1':
+        return 3;
+      case '2':
+      case '3':
+        return -1;
+      default:
+        return 0;
+    }
   }
 
   stageAt(request: WithdrawalRequest, stage: string): string {

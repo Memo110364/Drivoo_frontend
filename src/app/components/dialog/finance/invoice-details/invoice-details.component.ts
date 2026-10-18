@@ -20,14 +20,16 @@ export class InvoiceDetailsComponent implements OnInit {
   hasError=signal<boolean>(false);
   walletService=inject(WalletService)
   invoiceDetails=signal<InvoiceDetails>({
-    id: '',
-    date: '',
-    status: '',
-    amount: 0,
-    invoice_number: '',
+    status: 0,
+    data: {
+      id: '',
+      date: '',
+      status: '',
+      amount: 0,
+      invoice_number: '',
     items: [],
-    additionals: [],
-  })
+    additional_charges: [],
+  }})
   displayedColumns=["service_name","count","cost"];
   displayedColumnsAdd=["description","cost"];
   //items is array of invoice items group by service_name
@@ -62,7 +64,7 @@ export class InvoiceDetailsComponent implements OnInit {
     });
   }
   refineItems(){
-   this.items.set(this.invoiceDetails().items.reduce((acc, item) => {
+   this.items.set(this.invoiceDetails().data.items.reduce((acc, item) => {
     const existingService = acc.find(
       (group) => group.service_name === item.service_name
     );
@@ -96,7 +98,7 @@ private writeCsv(invoice: InvoiceDetails): void {
       t('wallet.invoices.cost'),
       t('wallet.invoices.description')
     ];
-    const body = [...invoice.items.map((item) => {
+    const body = [...invoice.data.items.map((item) => {
       let references_type: string[] = item.reference_type.split('\\').reverse();
      
       return [
@@ -105,7 +107,7 @@ private writeCsv(invoice: InvoiceDetails): void {
       references_type[0],
       item.cost,
       ""
-    ]}),...invoice.additionals.map((row) => {
+    ]}),...invoice.data.additional_charges.map((row) => {
 
       return [
         "",
@@ -116,9 +118,11 @@ private writeCsv(invoice: InvoiceDetails): void {
       ]
     })];
      
-    downloadCsv('invoice-'+invoice.invoice_number, header, body);
+    downloadCsv('invoice-'+invoice.data.invoice_number, header, body);
   }
 
 
-
+parseFloat(value:string|number){
+  return parseFloat(value.toString());
+}
 }

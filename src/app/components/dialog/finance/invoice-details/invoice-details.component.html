@@ -76,7 +76,7 @@
         <td mat-cell *matCellDef="let element">
           <div class="d-flex align-items-center">
             <div class="m-l-16">
-                {{ element.rows.reduce((acc, row) => acc + row.cost, 0) }}
+                {{ element.rows.reduce((acc, row) => acc + parseFloat(row.cost || "0"), 0) }}
             </div>
           </div>
         </td>
@@ -91,7 +91,7 @@
         <table
           #table
           mat-table
-          [dataSource]="invoiceDetails().additionals"
+          [dataSource]="invoiceDetails().data.additional_charges"
           class="w-100"
           matSort
         >
@@ -128,7 +128,7 @@
     <mat-card-footer>
       <div class="total-card p-12 rounded m-b-16">
         {{ "finance.total_cost" | translate }}
-        <span>{{ invoiceDetails().amount }}</span>
+        <span>{{ invoiceDetails().data.amount }}</span>
       </div>
     </mat-card-footer>
   }

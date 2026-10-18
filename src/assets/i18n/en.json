@@ -161,7 +161,7 @@
       "unit_price": "Unit Price",
       "quantity": "Quantity",
       "total_cost": "Total Cost",
-      "grand_total": "Grand Total"
+      "grand_total": "Grand Total included shipping"
     },
     "status": {
       "pending": "Pending",
@@ -216,6 +216,7 @@
       "from": "From",
       "to": "To",
       "clear": "Clear filters",
+      "description": "Description",
       "count": "Invoices",
       "no_match": "No invoices match these filters.",
       "statuses": {
@@ -299,7 +300,15 @@
       "packaging_fee": "Custom packaging",
       "storage_fee": "Storage fee",
       "other_service": "Other services",
-      "opening_balance": "Opening balance"
+      "opening_balance": "Opening balance",
+      "1":"Order Payment",
+      "2":"Withdrwal",
+      "3":"Bonuses",
+      "4":"Fines",
+      "5":"Donate",
+      "6":"Compensation",
+      "7":"Other",
+      "8":"Invoice collection"
     },
     "service_type": {
       "confirmation": "confirmation",
@@ -400,6 +409,7 @@
     "method_type": {
       "bank_account": "Bank account",
       "vodafone_cash": "Vodafone Cash",
+      "e_wallet": "E-wallet",
       "instapay": "InstaPay",
       "cash": "Cash collection"
     },

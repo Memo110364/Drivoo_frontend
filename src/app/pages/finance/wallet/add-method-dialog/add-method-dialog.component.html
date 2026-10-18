@@ -60,9 +60,11 @@
       @if (field.type === 'select') {
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ field.name }}</mat-label>
-          <mat-select [ngModel]="formValues()[field.key]"
+          <mat-select [name]="field.key"
+                      [ngModel]="formValues()[field.key]"
                       (ngModelChange)="onFieldChange(field.key, $event)"
                       (blur)="markTouched(field.key)"
+                      [errorStateMatcher]="getMatcher(field.key, field)"
                       [required]="!!field.required">
             @for (option of field.values; track option.name ?? option.value) {
               <mat-option [value]="option.name">{{ option.value }}</mat-option>
@@ -75,10 +77,12 @@
       } @else if (field.type === 'number') {
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ field.name }}</mat-label>
-          <input matInput type="number" dir="ltr"
+          <input matInput type="text" dir="ltr" inputmode="numeric"
+                 [name]="field.key"
                  [ngModel]="formValues()[field.key]"
                  (ngModelChange)="onFieldChange(field.key, $event)"
                  (blur)="markTouched(field.key)"
+                 [errorStateMatcher]="getMatcher(field.key, field)"
                  [required]="!!field.required" />
           @if (isTouched(field.key) && getFieldError(field)) {
             <mat-error>{{ getFieldError(field) | translate }}</mat-error>
@@ -88,9 +92,11 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ field.name }}</mat-label>
           <input matInput type="text" dir="auto"
+                 [name]="field.key"
                  [ngModel]="formValues()[field.key]"
                  (ngModelChange)="onFieldChange(field.key, $event)"
                  (blur)="markTouched(field.key)"
+                 [errorStateMatcher]="getMatcher(field.key, field)"
                  [required]="!!field.required" />
           @if (isTouched(field.key) && getFieldError(field)) {
             <mat-error>{{ getFieldError(field) | translate }}</mat-error>

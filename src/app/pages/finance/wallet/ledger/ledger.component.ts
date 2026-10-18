@@ -62,7 +62,7 @@ export class LedgerComponent {
   readonly pageSize = 25;
   pageIndex = signal(0);
 
-  readonly columns = ['date', 'type', 'reference', 'amount', 'balance'];
+  readonly columns = ['date', 'type', 'reference', 'amount'];
 
   type = signal('');
   search = signal('');
@@ -157,7 +157,7 @@ export class LedgerComponent {
       .subscribe({
         next: (page) => {
           this.rows.set(page.data ?? []);
-          this.total.set(page.total ?? page.data?.length ?? 0);
+          this.total.set(page.pagination.total_items ?? page.data?.length ?? 0);
           this.isLoading.set(false);
         },
         error: () => {

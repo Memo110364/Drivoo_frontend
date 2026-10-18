@@ -63,13 +63,16 @@ export interface InvoiceEntry{
   invoice_number: string;
 }
 export interface InvoiceDetails{
-  id: string;
-  date: string;
-  status: string;
-  amount: number;
-  invoice_number: string;
+  status:number,
+  data:{
+    id: string;
+    date: string;
+    status: string;
+    amount: number;
+    invoice_number: string;
   items:InvoiceItem[];
-  additionals:InvoiceAdditionalsItem[];
+  additional_charges:InvoiceAdditionalsItem[];
+  }
 }
 export interface InvoiceItem{
   id: string;
@@ -123,9 +126,12 @@ export interface LedgerEntry {
 }
 
 export interface LedgerPage {
-  page: number;
-  limit: number;
-  total: number;
+  pagination: {
+        current_page: 1,
+        total_pages: 1,
+        per_page: 15,
+        total_items: 3
+    },
   data: LedgerEntry[];
 }
 
@@ -158,7 +164,7 @@ export interface PaymentMethod {
   created_at: string;
 }
 
-/** A dynamic field definition returned by the finance/method endpoint. */
+/** A dynamic field definition returned by the financial/method endpoint. */
 export interface MethodFieldOption {
   name: string | number;
   value: string;
@@ -263,7 +269,7 @@ export class WalletService extends BaseService {
   private http = inject(HttpClient);
 
   getBalance(): Observable<WalletBalance> {
-    return this.http.get<WalletBalance>(`${this.baseUrl}wallet/balance`);
+    return this.http.get<WalletBalance>(`${this.baseUrl}financial/balance`);
   }
 
   getLedger(query: LedgerQuery = {}): Observable<LedgerPage> {
@@ -273,7 +279,7 @@ export class WalletService extends BaseService {
         params = params.set(key, String(value));
       }
     }
-    return this.http.get<LedgerPage>(`${this.baseUrl}wallet/ledger`, { params });
+    return this.http.get<LedgerPage>(`${this.baseUrl}financial/ledger`, { params });
   }
 
   getUninvoiced(query: UninvoicedQuery = {}): Observable<UninvoicedPage> {
@@ -283,7 +289,7 @@ export class WalletService extends BaseService {
         params = params.set(key, String(value));
       }
     }
-    return this.http.get<UninvoicedPage>(`${this.baseUrl}finance/uninvoiced`, { params });
+    return this.http.get<UninvoicedPage>(`${this.baseUrl}financial/uninvoiced`, { params });
   }
   getInvoices(query: InvoiceQuery = {}): Observable<InvoicesPage> {
     let params = new HttpParams();
@@ -292,45 +298,45 @@ export class WalletService extends BaseService {
         params = params.set(key, String(value));
       }
     }
-    return this.http.get<InvoicesPage>(`${this.baseUrl}finance/invoices/list`, { params });
+    return this.http.get<InvoicesPage>(`${this.baseUrl}financial/invoices/list`, { params });
   }
   getInvoice(id: string): Observable<InvoiceDetails> {
-    return this.http.get<InvoiceDetails>(`${this.baseUrl}finance/invoices/details/${id}`);
+    return this.http.get<InvoiceDetails>(`${this.baseUrl}financial/invoices/details/${id}`);
   }
   getPaymentMethods(): Observable<{ data: PaymentMethod[] }> {
-    return this.http.get<{ data: PaymentMethod[] }>(`${this.baseUrl}wallet/payment-methods`);
+    return this.http.get<{ data: PaymentMethod[] }>(`${this.baseUrl}financial/payment-methods`);
   }
 
   getCashBranches(): Observable<{ data: CashBranch[] }> {
-    return this.http.get<{ data: CashBranch[] }>(`${this.baseUrl}wallet/cash-branches`);
+    return this.http.get<{ data: CashBranch[] }>(`${this.baseUrl}financial/cash-branches`);
   }
 
   getFinanceMethods(): Observable<{ data: WithdrawalMethodConfig[] }> {
-    return this.http.get<{ data: WithdrawalMethodConfig[] }>(`${this.baseUrl}finance/method`);
+    return this.http.get<{ data: WithdrawalMethodConfig[] }>(`${this.baseUrl}financial/method`);
   }
 
   addPaymentMethod(payload: Record<string, unknown>): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.baseUrl}wallet/payment-methods`, payload);
+    return this.http.post<{ message: string }>(`${this.baseUrl}financial/create/method`, payload);
   }
 
   deletePaymentMethod(id: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.baseUrl}wallet/payment-methods/${id}`);
+    return this.http.delete<{ message: string }>(`${this.baseUrl}financial/payment-methods/${id}`);
   }
 
   setDefaultPaymentMethod(id: string): Observable<{ message: string }> {
     return this.http.put<{ message: string }>(
-      `${this.baseUrl}wallet/payment-methods/${id}/default`,
+      `${this.baseUrl}financial/payment-methods/${id}/default`,
       {}
     );
   }
 
   getWithdrawals(): Observable<WithdrawalsPage> {
-    return this.http.get<WithdrawalsPage>(`${this.baseUrl}wallet/withdrawals`);
+    return this.http.get<WithdrawalsPage>(`${this.baseUrl}financial/withdrawals`);
   }
 
   /** Rules and eligibility together — the screen needs both to offer the form. */
   getWithdrawalOptions(): Observable<WithdrawalOptions> {
-    return this.http.get<WithdrawalOptions>(`${this.baseUrl}wallet/withdrawal-options`);
+    return this.http.get<WithdrawalOptions>(`${this.baseUrl}financial/withdrawal-options`);
   }
 
   requestWithdrawal(payload: {
@@ -338,7 +344,7 @@ export class WalletService extends BaseService {
     payment_method_id: string;
   }): Observable<{ message: string; code: string }> {
     return this.http.post<{ message: string; code: string }>(
-      `${this.baseUrl}wallet/withdrawals`,
+      `${this.baseUrl}financial/withdrawals`,
       payload
     );
   }

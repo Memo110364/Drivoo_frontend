@@ -9,10 +9,11 @@ export const METHOD_ICONS: Record<string, string> = {
   vodafone_cash: 'solar:smartphone-linear',
   instapay: 'solar:card-transfer-linear',
   cash: 'solar:wad-of-money-linear',
+  e_wallet: 'solar:smartphone-linear',
 };
 
 /** The stages a withdrawal moves through, in order. */
-export const WITHDRAWAL_STAGES = ['submitted', 'under_review', 'transferring', 'completed'];
+export const WITHDRAWAL_STAGES = ['submitted',  'completed'];
 
 /**
  * Colour for a withdrawal status. Rejected is the only red one: a request

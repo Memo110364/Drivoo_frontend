@@ -19,7 +19,6 @@ export const FinanceRoutes: Routes = [
   // },
   {
     path: '',
-    canActivate: [AuthGuard],
     redirectTo: 'my-wallet',
     pathMatch: 'full',
   },
