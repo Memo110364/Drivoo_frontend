@@ -1,16 +1,201 @@
-<div class="container">
-    <h1>Plugins</h1>
-    <p>Discover and install plugins to extend your store's functionality.</p>
-    @if(isLoading()) {
-    <div class="spinner"></div>
-    }
-    @else if(plugins().length === 0) {
-      <p>No plugins found</p>
-    }
-    @else {
-    @for (plugin of plugins(); track $index) {
-    <plugin-card [plugin]="plugin"></plugin-card>
-    
-    }
-    }
+<div class="plugins-page-container">
+  <!-- Hero Header Section -->
+  <div class="plugins-header m-b-24">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-16">
+      <div>
+        <div class="d-flex align-items-center gap-10 m-b-6">
+          <div class="header-icon-wrap bg-light-primary text-primary">
+            <i class="iconify f-s-24" data-icon="solar:widget-add-bold-duotone"></i>
+          </div>
+          <h2 class="f-s-22 f-w-700 m-b-0">{{ 'plugins.title' | translate }}</h2>
+        </div>
+        <p class="text-muted f-s-14 m-b-0">{{ 'plugins.subtitle' | translate }}</p>
+      </div>
+
+      <div class="d-flex align-items-center gap-10">
+        <button mat-stroked-button color="primary" class="refresh-btn d-flex align-items-center gap-6"
+                [disabled]="isLoading()"
+                (click)="getPlugins()">
+          <i class="iconify f-s-16" [class.spin-icon]="isLoading()" data-icon="solar:restart-bold"></i>
+          <span>{{ 'dashboard.refresh' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI / Stats Summary Cards -->
+  <div class="row m-b-24">
+    <!-- Total Plugins -->
+    <div class="col-lg-4 col-sm-6 m-b-16">
+      <mat-card class="cardWithShadow stat-card">
+        <mat-card-content class="p-16 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="f-s-13 text-muted d-block m-b-4">{{ 'plugins.total_plugins' | translate }}</span>
+            <h3 class="f-s-24 f-w-700 m-b-0 text-dark">{{ stats().total }}</h3>
+          </div>
+          <div class="stat-icon-wrap bg-light-primary text-primary">
+            <i class="iconify f-s-22" data-icon="solar:widget-2-bold-duotone"></i>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Active Plugins -->
+    <div class="col-lg-4 col-sm-6 m-b-16">
+      <mat-card class="cardWithShadow stat-card">
+        <mat-card-content class="p-16 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="f-s-13 text-muted d-block m-b-4">{{ 'plugins.active_plugins' | translate }}</span>
+            <h3 class="f-s-24 f-w-700 m-b-0 text-success">{{ stats().active }}</h3>
+          </div>
+          <div class="stat-icon-wrap bg-light-success text-success">
+            <i class="iconify f-s-22" data-icon="solar:check-circle-bold-duotone"></i>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Inactive / Available to Subscribe -->
+    <div class="col-lg-4 col-sm-12 m-b-16">
+      <mat-card class="cardWithShadow stat-card">
+        <mat-card-content class="p-16 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="f-s-13 text-muted d-block m-b-4">{{ 'plugins.available_plugins' | translate }}</span>
+            <h3 class="f-s-24 f-w-700 m-b-0 text-primary">{{ stats().inactive }}</h3>
+          </div>
+          <div class="stat-icon-wrap bg-light-warning text-warning">
+            <i class="iconify f-s-22" data-icon="solar:bolt-bold-duotone"></i>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Search and Filter Bar -->
+  <mat-card class="cardWithShadow m-b-24 filter-card">
+    <mat-card-content class="p-16">
+      <div class="row align-items-center g-3">
+        <!-- Search Input -->
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="search-box">
+            <i class="iconify search-icon f-s-18 text-muted" data-icon="solar:magnifer-linear"></i>
+            <input type="text"
+                   class="search-input"
+                   [placeholder]="'plugins.search_placeholder' | translate"
+                   [value]="searchQuery()"
+                   (input)="onSearch($event)" />
+            @if (searchQuery()) {
+              <button type="button" class="clear-btn" (click)="clearSearch()">
+                <i class="iconify f-s-16" data-icon="solar:close-circle-bold"></i>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Status Filter Segmented Controls -->
+        <div class="col-lg-5 col-md-6 col-12">
+          <div class="status-filters d-flex gap-8">
+            <button type="button" class="filter-chip"
+                    [class.active]="selectedStatus() === 'all'"
+                    (click)="setStatus('all')">
+              {{ 'plugins.all' | translate }} ({{ stats().total }})
+            </button>
+            <button type="button" class="filter-chip active-chip"
+                    [class.active]="selectedStatus() === 'active'"
+                    (click)="setStatus('active')">
+              <span class="dot-indicator dot-success"></span>
+              {{ 'plugins.active' | translate }} ({{ stats().active }})
+            </button>
+            <button type="button" class="filter-chip inactive-chip"
+                    [class.active]="selectedStatus() === 'inactive'"
+                    (click)="setStatus('inactive')">
+              <span class="dot-indicator dot-muted"></span>
+              {{ 'plugins.inactive' | translate }} ({{ stats().inactive }})
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Dropdown / Selector -->
+        <div class="col-lg-3 col-12 d-flex justify-content-lg-end">
+          <mat-form-field appearance="outline" class="w-100 category-form-field" subscriptSizing="dynamic">
+            <mat-select [value]="selectedCategory()" (selectionChange)="setCategory($event.value)">
+              @for (cat of categories; track cat.key) {
+                <mat-option [value]="cat.key">
+                  <div class="d-flex align-items-center gap-8">
+                    <i class="iconify f-s-16 text-primary" [attr.data-icon]="cat.icon"></i>
+                    <span>{{ cat.labelKey | translate }}</span>
+                  </div>
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Content Section -->
+  @if (isLoading()) {
+    <!-- Skeletons Loading Grid -->
+    <div class="row g-4">
+      @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+        <div class="col-lg-4 col-md-6 col-12">
+          <mat-card class="cardWithShadow h-100 p-20">
+            <div class="d-flex align-items-center justify-content-between m-b-16">
+              <ngx-skeleton-loader [theme]="{ width: '54px', height: '54px', 'border-radius': '14px' }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader [theme]="{ width: '70px', height: '24px', 'border-radius': '999px' }"></ngx-skeleton-loader>
+            </div>
+            <ngx-skeleton-loader [theme]="{ width: '60%', height: '20px', 'margin-bottom': '12px' }"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [theme]="{ width: '100%', height: '40px', 'margin-bottom': '16px' }"></ngx-skeleton-loader>
+            <div class="d-flex justify-content-between align-items-center m-t-16">
+              <ngx-skeleton-loader [theme]="{ width: '60px', height: '20px' }"></ngx-skeleton-loader>
+              <ngx-skeleton-loader [theme]="{ width: '100px', height: '36px', 'border-radius': '8px' }"></ngx-skeleton-loader>
+            </div>
+          </mat-card>
+        </div>
+      }
+    </div>
+  } @else if (hasError()) {
+    <!-- Error State Card -->
+    <mat-card class="cardWithShadow text-center p-32">
+      <div class="error-illustration m-b-16">
+        <i class="iconify f-s-56 text-error" data-icon="solar:danger-triangle-bold-duotone"></i>
+      </div>
+      <h4 class="f-s-18 f-w-600 m-b-8">تعذر تحميل الإضافات</h4>
+      <p class="text-muted f-s-14 m-b-20">حدث خطأ أثناء جلب قائمة الإضافات من السيرفر. يرجى المحاولة مرة أخرى.</p>
+      <button mat-flat-button color="primary" (click)="getPlugins()">
+        <i class="iconify f-s-16 m-r-6" data-icon="solar:restart-bold"></i>
+        <span>إعادة المحاولة</span>
+      </button>
+    </mat-card>
+  } @else if (filteredPlugins().length === 0) {
+    <!-- Empty State Card -->
+    <mat-card class="cardWithShadow empty-card text-center p-40">
+      <div class="empty-icon-wrap m-b-16">
+        <i class="iconify f-s-54 text-primary" data-icon="solar:box-minimalistic-linear"></i>
+      </div>
+      <h4 class="f-s-18 f-w-700 m-b-6">{{ 'plugins.no_plugins_title' | translate }}</h4>
+      <p class="text-muted f-s-14 m-b-20 m-x-auto" style="max-width: 420px;">
+        {{ 'plugins.no_plugins_desc' | translate }}
+      </p>
+      <div>
+        <button mat-stroked-button color="primary" (click)="resetFilters()">
+          <i class="iconify f-s-16 m-r-6" data-icon="solar:refresh-linear"></i>
+          <span>{{ 'plugins.reset_filter' | translate }}</span>
+        </button>
+      </div>
+    </mat-card>
+  } @else {
+    <!-- Plugins Grid -->
+    <div class="row g-4">
+      @for (plugin of filteredPlugins(); track plugin.id) {
+        <div class="col-lg-4 col-md-6 col-12">
+          <plugin-card [plugin]="plugin"
+                       (subscribe)="handleSubscribe($event)"
+                       (toggleStatus)="handleToggle($event)">
+          </plugin-card>
+        </div>
+      }
+    </div>
+  }
 </div>

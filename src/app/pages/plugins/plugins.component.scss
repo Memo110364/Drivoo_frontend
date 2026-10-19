@@ -1,0 +1,200 @@
+.plugins-page-container {
+  padding: 8px 0 32px;
+}
+
+.plugins-header {
+  .header-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.refresh-btn {
+  border-radius: 10px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Stat Cards */
+.stat-card {
+  border-radius: 14px;
+  border: 1px solid var(--mat-sys-outline-variant, #e2e8f0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.06);
+  }
+
+  .stat-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Filter Card */
+.filter-card {
+  border-radius: 14px;
+  border: 1px solid var(--mat-sys-outline-variant, #e2e8f0);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .search-icon {
+    position: absolute;
+    inset-inline-start: 14px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--mat-sys-outline-variant, #cbd5e1);
+    background: var(--mat-sys-surface, #ffffff);
+    padding-inline-start: 42px;
+    padding-inline-end: 38px;
+    font-size: 13px;
+    color: var(--mat-sys-on-surface, #1e293b);
+    transition: all 0.2s ease;
+    outline: none;
+
+    &:focus {
+      border-color: var(--mat-sys-primary, #539bff);
+      box-shadow: 0 0 0 3px rgba(var(--mat-sys-primary-rgb, 83, 155, 255), 0.15);
+    }
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  .clear-btn {
+    position: absolute;
+    inset-inline-end: 10px;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #475569;
+    }
+  }
+}
+
+.status-filters {
+  background: var(--mat-sys-surface-container, #f1f5f9);
+  padding: 4px;
+  border-radius: 10px;
+  display: inline-flex;
+  overflow-x: auto;
+  max-width: 100%;
+
+  .filter-chip {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+
+    &:hover:not(.active) {
+      color: #1e293b;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    &.active {
+      background: var(--mat-sys-surface, #ffffff);
+      color: var(--mat-sys-on-surface, #0f172a);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .dot-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+
+    &.dot-success {
+      background-color: #16a34a;
+    }
+
+    &.dot-muted {
+      background-color: #94a3b8;
+    }
+  }
+}
+
+.category-form-field {
+  ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      background-color: var(--mat-sys-surface, #ffffff) !important;
+      border-radius: 10px;
+      height: 44px;
+    }
+    .mat-mdc-form-field-flex {
+      height: 44px;
+      align-items: center;
+    }
+    .mat-mdc-form-field-infix {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+  }
+}
+
+/* Empty State Card */
+.empty-card {
+  border-radius: 16px;
+  border: 1px dashed var(--mat-sys-outline-variant, #cbd5e1);
+  background: var(--mat-sys-surface, #ffffff);
+
+  .empty-icon-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(var(--mat-sys-primary-rgb, 83, 155, 255), 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,1 +1,99 @@
-<p>card works!</p>
+<mat-card class="plugin-card cardWithShadow h-100" [class.is-active]="plugin().is_active" (click)="onCardClick()">
+  <mat-card-content class="p-20 d-flex flex-column h-100 justify-content-between">
+    <!-- Main Info Section -->
+    <div class="plugin-body">
+      <!-- Top Row: Icon & Status -->
+      <div class="d-flex align-items-center justify-content-between m-b-16">
+        <div class="plugin-icon-wrap" [class.bg-active]="plugin().is_active">
+          @if (plugin().image && !imgError()) {
+            <img [src]="plugin().image" [alt]="plugin().name" class="plugin-icon-img" (error)="onImageError()" />
+          } @else {
+            <i class="iconify f-s-28 text-primary" [attr.data-icon]="getCategoryIcon()"></i>
+          }
+        </div>
+
+        <div class="d-flex align-items-center gap-6">
+          @if (plugin().is_free) {
+            <span class="badge-pill badge-free">{{ 'plugins.free' | translate }}</span>
+          }
+          @if (plugin().is_active) {
+            <span class="badge-pill badge-active">
+              <span class="badge-dot"></span>
+              {{ 'plugins.status_active' | translate }}
+            </span>
+          } @else {
+            <span class="badge-pill badge-inactive">
+              {{ 'plugins.status_inactive' | translate }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Title & Category -->
+      <div class="m-b-10">
+        <h4 class="plugin-title f-s-16 f-w-700 m-b-6 text-truncate" [title]="plugin().name">
+          {{ plugin().name }}
+        </h4>
+        <div class="d-flex align-items-center gap-8 flex-wrap">
+          <span class="category-tag d-inline-flex align-items-center gap-4">
+            <i class="iconify f-s-12" [attr.data-icon]="getCategoryIcon()"></i>
+            {{ getCategoryName() }}
+          </span>
+          @if (plugin().version) {
+            <span class="version-tag">v{{ plugin().version }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="plugin-desc text-muted f-s-13 m-b-16" [title]="getDescription()">
+        {{ getDescription() }}
+      </p>
+
+      <!-- Key Features Highlights -->
+      @if (getFeatures().length > 0) {
+        <div class="features-list m-b-12">
+          @for (feature of getFeatures().slice(0, 2); track feature) {
+            <div class="feature-item d-flex align-items-center gap-6 f-s-12 text-muted m-b-4">
+              <i class="iconify text-success f-s-14" data-icon="solar:check-circle-bold"></i>
+              <span class="text-truncate">{{ feature }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Bottom Actions Footer -->
+    <div class="plugin-card-footer b-t-1 p-t-14 d-flex align-items-center justify-content-between gap-8">
+      <!-- Details Link -->
+      <a class="details-btn f-s-13 f-w-600 d-inline-flex align-items-center gap-4 text-primary"
+         (click)="onDetailsClick($event)">
+        <span>{{ 'plugins.details' | translate }}</span>
+        <i class="iconify f-s-14 rtl-icon-flip" data-icon="solar:alt-arrow-left-linear"></i>
+      </a>
+
+      <!-- Action Button -->
+      <div>
+        @if (!plugin().is_active) {
+          <button mat-flat-button color="primary" class="subscribe-btn"
+                  [disabled]="isSubscribing()"
+                  (click)="onSubscribeClick($event)">
+            @if (isSubscribing()) {
+              <mat-spinner diameter="16" class="d-inline-block m-r-4"></mat-spinner>
+            } @else {
+              <i class="iconify f-s-16 m-r-4" data-icon="solar:bolt-bold"></i>
+            }
+            <span>{{ 'plugins.subscribe_now' | translate }}</span>
+          </button>
+        } @else {
+          <div class="d-flex align-items-center gap-8">
+            <button mat-stroked-button color="primary" class="manage-btn" (click)="onDetailsClick($event)">
+              <i class="iconify f-s-14 m-r-4" data-icon="solar:settings-linear"></i>
+              <span>{{ 'plugins.manage' | translate }}</span>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
