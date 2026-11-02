@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { IconModule } from 'src/app/icon/icon.module';
 import { MaterialModule } from 'src/app/material.module';
 
@@ -50,6 +50,7 @@ export interface UploadedMediaItem {
     TablerIconsModule,
   ],
   templateUrl: './add-product.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './add-product.component.scss',
 })
 export class AddProductComponent implements OnInit {
@@ -267,11 +268,9 @@ export class AddProductComponent implements OnInit {
   }
 
   onChange(event: any) {
-    console.log('changed');
   }
 
   onBlur(event: any) {
-    console.log('blur ' + event);
   }
 
   onSelectMedia(event: any) {
@@ -425,7 +424,6 @@ export class AddProductComponent implements OnInit {
       // } else {
       //   data.description = '';
       // }
-    console.log("this.mediaFiles",this.mediaFiles);
     
       // Handle media - Send array of IDs
       const mediaURL = this.mediaFiles
@@ -462,7 +460,6 @@ export class AddProductComponent implements OnInit {
       delete data.variations;
       delete data.set_discount_percentage;
       delete data.discount_type;
-      // console.log(data);
       // return
       this.productApiService.createProduct(data).subscribe({
         next: (res: any) => {

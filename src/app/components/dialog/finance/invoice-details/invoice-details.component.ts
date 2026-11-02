@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal  } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {InvoiceDetails, WalletService,InvoiceItem} from 'src/app/services/api/wallet.service';
@@ -11,6 +11,7 @@ import { downloadCsv } from '../../../../pages/finance/shared/csv-export';
   standalone: true,
   imports: [MaterialModule, TranslateModule, NgxSkeletonLoaderComponent],
   templateUrl: './invoice-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './invoice-details.component.scss',
 })
 export class InvoiceDetailsComponent implements OnInit {

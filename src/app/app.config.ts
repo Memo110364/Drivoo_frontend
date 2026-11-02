@@ -1,11 +1,11 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, } from '@angular/core';
-import { provideHttpClient, HttpClient, withInterceptorsFromDi, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, HttpClient, withInterceptorsFromDi, withInterceptors, withXhr } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { routes } from './app.routes';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling, } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -27,7 +27,6 @@ export class CustomLoader implements TranslateLoader {
   constructor(private http: HttpClient, private prefix: string, private suffix: string) { }
 
   getTranslation(lang: string): Observable<any> {
-    console.log(`${this.prefix}${lang}${this.suffix}`);
     
     return this.http.get(`${this.prefix}${lang}${this.suffix}`);
   }
@@ -50,10 +49,10 @@ export const appConfig: ApplicationConfig = {
       }),
       withComponentInputBinding()
     ),
-    provideHttpClient(withInterceptors([loadingInterceptor,AuthInterceptor, headerInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([loadingInterceptor,AuthInterceptor, headerInterceptor])),
     //{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: loadingInterceptor, multi: true },
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
     provideAnimationsAsync(),
     importProvidersFrom(
       FormsModule,

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -7,6 +7,7 @@ import { CoreService, SUPPORTED_LANGUAGES } from './services/core.service';
 @Component({
     selector: 'app-root',
     imports: [RouterOutlet, LoadingComponent],
+    changeDetection: ChangeDetectionStrategy.Eager,
     templateUrl: './app.component.html'
 })
 export class AppComponent {

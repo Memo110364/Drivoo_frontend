@@ -44,10 +44,8 @@ ngOnInit(){
     next: (data) => {
       this.revenueForecastChart.series[0].data = data.orders;
       this.isLoading.set(false);
-      console.log('revenueForecastChart Status:', this.revenueForecastChart);
     },
     error: (error) => {
-      console.error('Error loading order status:', error);
     }
   });
 }

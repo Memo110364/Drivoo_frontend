@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { OrderService } from 'src/app/services/apps/order/order.service';
 import { OrderFullDetails } from '../order-objects';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,6 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     selector: 'app-order-view',
     templateUrl: './view-order.component.html',
     styleUrl: './view-order.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MaterialModule,
         CommonModule,

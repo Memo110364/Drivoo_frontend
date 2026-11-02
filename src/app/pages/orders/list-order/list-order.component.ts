@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ViewChild,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { OrderService } from 'src/app/services/apps/order/order.service';
 import { OrderList } from '../order-objects';
@@ -22,6 +23,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 @Component({
     selector: 'app-order-list',
     templateUrl: './list-order.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MaterialModule,
         CommonModule,
@@ -63,7 +65,6 @@ export class OrdersListComponent implements AfterViewInit {
   ngOnInit(): void {
     this.loadOrders();
     this.orderService.getOrderStatusCount([]).subscribe((res) => {
-      console.log("status count",res);
       
       let resData = {
         "pending":this.countInvoicesByStatus(res,this.statusList["pending"]),

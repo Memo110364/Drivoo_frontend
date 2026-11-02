@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavService } from '../../../../../services/nav.service';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-horizontal-nav-item',
   imports: [CommonModule, MatIconModule, TranslateModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './nav-item.component.html',
 })
 export class AppHorizontalNavItemComponent implements OnInit {

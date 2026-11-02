@@ -1,4 +1,4 @@
-import {Component, signal ,OnInit ,AfterViewInit } from '@angular/core';
+import {Component, signal, OnInit, AfterViewInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {OrderService} from 'src/app/services/apps/order/order.service';
 import {LogisticsService} from 'src/app/services/api/logistics.service'
@@ -28,6 +28,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
   selector: 'app-add-invoice',
   styleUrl: './add-order.component.scss',
   templateUrl: './add-order.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MaterialModule,
     CommonModule,

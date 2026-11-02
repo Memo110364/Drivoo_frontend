@@ -10,7 +10,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const accessToken = this.authService.getAccessToken()??"---";
-    console.log("access token: ",accessToken);
     
     let authReq = req;
     if (accessToken) {
@@ -54,7 +53,6 @@ export const AuthInterceptor : HttpInterceptorFn = (req, next) => {
       return next(authReq).pipe(
         catchError(err => {
           if (err.status === 401) {
-            console.log("auth request: ", req);
     
             // نوقف أي طلبات أخرى قد تكون نشطة لنفس الـ token
             //  authService.cancelPendingRequests();

@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 @include mat.fab-overrides((small-container-shape: 30px,
     container-shape: 30px,

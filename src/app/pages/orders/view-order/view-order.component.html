@@ -9,7 +9,7 @@
         <div class="col-sm-8 text-right">
           <a routerLink="/orders" mat-stroked-button class="m-r-10">{{'orders.invoice.back_to_invoices'| translate}}</a>
           @if (invoiceDetail()?.is_editable) {
-            <a [routerLink]="['/orders/edit/', invoiceDetail()?.id]" mat-flat-button>{{'orders.invoice.edit_invoice'| translate}}</a>
+            <a [routerLink]="['/orders/edit/', $safeNavigationMigration(invoiceDetail()?.id)]" mat-flat-button>{{'orders.invoice.edit_invoice'| translate}}</a>
           }
         </div>
       </div>
@@ -19,14 +19,14 @@
           <span class="f-w-600 f-s-15"> {{'orders.invoice.order_status'| translate}}: </span>
           <!-- <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 "> -->
             <span class="p-x-8 p-y-4 f-w-500 rounded-pill f-s-12" [style.background-color]="'#'+invoiceDetail()?.status_color?.color" [style.color]="'#'+invoiceDetail()?.status_color?.text_color">
-              {{ "orders.status_number."+invoiceDetail()?.status|translate }}
+              {{ "orders.status_number."+$safeNavigationMigration(invoiceDetail()?.status)|translate }}
             </span>
           <!-- </h6> -->
         </div>
         <div class="col-sm-6 text-right">
           <span class="f-w-600 f-s-15"> {{'orders.invoice.order_date'| translate}}: </span>
           <!-- <h6 class="m-t-5 m-b-0 f-w-500 f-s-14"> -->
-            {{ invoiceDetail()?.date | date : "fullDate" }}
+            {{ $safeNavigationMigration(invoiceDetail()?.date) | date : "fullDate" }}
           <!-- </h6> -->
         </div>
       </div>

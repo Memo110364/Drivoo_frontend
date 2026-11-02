@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MaterialModule } from 'src/app/material.module';
@@ -25,6 +25,7 @@ import {
   standalone: true,
   imports: [CommonModule, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
   templateUrl: './withdrawals.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './withdrawals.component.scss',
 })
 export class WithdrawalsComponent {

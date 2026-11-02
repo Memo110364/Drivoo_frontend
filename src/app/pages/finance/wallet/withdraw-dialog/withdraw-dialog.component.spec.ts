@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { WithdrawDialogComponent, WithdrawDialogData } from './withdraw-dialog.component';
 import { PaymentMethod, WithdrawalRules } from 'src/app/services/api/wallet.service';
 
@@ -39,7 +39,7 @@ describe('WithdrawDialogComponent', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         { provide: MAT_DIALOG_DATA, useValue: full },
         { provide: MatDialogRef, useValue: { close: () => {} } },
       ],

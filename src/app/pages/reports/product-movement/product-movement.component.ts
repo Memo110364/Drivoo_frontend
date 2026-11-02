@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -29,6 +29,7 @@ import { downloadCsv } from '../shared/csv-export';
     NgxSkeletonLoaderModule,
   ],
   templateUrl: './product-movement.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './product-movement.component.scss',
 })
 export class ProductMovementComponent {

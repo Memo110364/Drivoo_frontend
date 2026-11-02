@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, inject, input, OnInit, signal} from '@angular/core';
+import {Component, inject, input, OnInit, signal, ChangeDetectionStrategy} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -18,6 +18,7 @@ import {CoreService} from 'src/app/services/core.service';
   standalone: true,
   imports: [CommonModule, MaterialModule, TranslateModule, MatIconModule, MatMenuModule, MatPaginatorModule, MatTableModule, MatButtonModule, MatDatepickerModule, NgxSkeletonLoaderComponent],
   templateUrl: './invoices.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './invoices.component.scss',
 })
 export class InvoicesComponent implements OnInit {

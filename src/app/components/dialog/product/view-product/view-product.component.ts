@@ -9,6 +9,7 @@ import {
   Optional,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
 import { IconModule } from 'src/app/icon/icon.module';
@@ -24,6 +25,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'app-view-product',
   imports: [MaterialModule, IconModule, CommonModule, TranslateModule],
   templateUrl: './view-product.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './view-product.component.scss',
 })
 export class ViewProductComponent implements OnInit, AfterViewInit {
@@ -132,7 +134,6 @@ export class ViewProductComponent implements OnInit, AfterViewInit {
         selectedValueIds.every((id: number) => item.path.includes(id))
       );
     });
-    console.log("foundVariant",selectedValueIds);
     
     if (foundVariant) {
       this.maxQuantity = foundVariant.stock;

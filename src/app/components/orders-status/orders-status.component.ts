@@ -41,10 +41,8 @@ export class AppOrdersStatusComponent {
       next: (data) => {
         this.orderStatus = data;
         this.isLoading.set(false);
-        console.log('Order Status:', data);
       },
       error: (error) => {
-        console.error('Error loading order status:', error);
       }
     });
   }

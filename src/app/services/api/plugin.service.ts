@@ -85,39 +85,39 @@ export class PluginsService extends BaseService {
   }
 
   /** Subscribe or activate a plugin */
-  subscribePlugin(pluginId: number): Observable<{ success: boolean; is_active: boolean; message?: string }> {
+  subscribePlugin(pluginSlug: string): Observable<{ success: boolean; is_active: boolean; message?: string }> {
     return this.http
       .post<{ success: boolean; is_active: boolean; message?: string }>(
-        `${this.baseUrl}plugins/${pluginId}/subscribe`,
+        `${this.baseUrl}plugins/subscribe/${pluginSlug}`,
         {}
       )
       .pipe(
-        tap(() => this.updateLocalStatus(pluginId, true)),
+        tap(() => this.updateLocalStatus(pluginSlug, true)),
         catchError(() => {
-          this.updateLocalStatus(pluginId, true);
+          this.updateLocalStatus(pluginSlug, true);
           return of({ success: true, is_active: true, message: 'Subscription activated' });
         })
       );
   }
 
   /** Toggle plugin active status */
-  togglePluginStatus(pluginId: number, status: boolean): Observable<{ success: boolean; is_active: boolean; message?: string }> {
+  unsubscribePlugin(pluginSlug: string): Observable<{ success: boolean; is_active: boolean; message?: string }> {
     return this.http
       .post<{ success: boolean; is_active: boolean; message?: string }>(
-        `${this.baseUrl}plugins/${pluginId}/toggle`,
-        { is_active: status }
+        `${this.baseUrl}plugins/unsubscribe/${pluginSlug}`,
+        { is_active: false }
       )
       .pipe(
-        tap(() => this.updateLocalStatus(pluginId, status)),
+        tap(() => this.updateLocalStatus(pluginSlug, false)),
         catchError(() => {
-          this.updateLocalStatus(pluginId, status);
-          return of({ success: true, is_active: status });
+          this.updateLocalStatus(pluginSlug, false);
+          return of({ success: true, is_active: false });
         })
       );
   }
 
-  private updateLocalStatus(id: number, status: boolean) {
-    const p = this.cachedPlugins.find((item) => item.id === id);
+  private updateLocalStatus(pluginSlug: string, status: boolean) {
+    const p = this.cachedPlugins.find((item) => item.slug === pluginSlug);
     if (p) {
       p.is_active = status;
     }

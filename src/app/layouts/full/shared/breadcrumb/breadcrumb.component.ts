@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { Router, NavigationEnd, ActivatedRoute, Data } from '@angular/router';
@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-breadcrumb',
   imports: [RouterModule, TablerIconsModule, MatCardModule],
   templateUrl: './breadcrumb.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: [],
 })
 export class AppBreadcrumbComponent {

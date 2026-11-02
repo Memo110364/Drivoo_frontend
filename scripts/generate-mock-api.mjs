@@ -228,5 +228,4 @@ environment.rootChildren = environment.routes.map((route) => ({ type: 'route', u
 
 write(join('mockoon', 'drivoo-wallet-api.json'), environment);
 
-console.log(`static JSON files: ${staticCount}`);
-console.log(`mockoon routes:    ${ROUTES.length}`);
+

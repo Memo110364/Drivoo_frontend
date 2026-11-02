@@ -6,6 +6,7 @@ import {
   Input,
   inject,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
@@ -38,6 +39,7 @@ interface ShippingCache {
     PerformanceTableComponent,
     TabStatusBarComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './shipping-tab.component.html',
 })
 export class ShippingTabComponent implements OnInit, OnChanges {

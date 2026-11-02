@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, input, signal } from '@angular/core';
+import { Component, EventEmitter, Output, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -10,6 +10,7 @@ import { Plugin } from '../../../services/api/plugin.service';
   standalone: true,
   imports: [CommonModule, RouterModule, MaterialModule, TranslateModule],
   templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './card.component.scss',
 })
 export class PluginCardComponent {
@@ -24,12 +25,12 @@ export class PluginCardComponent {
   isSubscribing = signal(false);
 
   onCardClick() {
-    this.router.navigate(['/plugins', this.plugin().id]);
+    this.router.navigate(['/plugins/view', this.plugin().slug]);
   }
 
   onDetailsClick(event: MouseEvent) {
     event.stopPropagation();
-    this.router.navigate(['/plugins', this.plugin().id]);
+    this.router.navigate(['/plugins/view', this.plugin().slug]);
   }
 
   onSubscribeClick(event: MouseEvent) {

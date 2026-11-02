@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, computed, inject, signal } from '@angular/core';
+import { Component, Input, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import { downloadCsv } from './csv-export';
   standalone: true,
   imports: [CommonModule, RouterLink, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
   templateUrl: './performance-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './performance-table.component.scss',
 })
 export class PerformanceTableComponent {

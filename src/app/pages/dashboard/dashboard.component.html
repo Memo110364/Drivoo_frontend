@@ -80,28 +80,28 @@
                   [subtitle]="(summary()?.delivered ?? 0) | number"
                   icon="la:shipping-fast" color="success"
                   [delta]="summary()?.trends?.delivered ?? null"
-                  [note]="shareOfTotal(summary()?.delivered)"></app-card>
+                  [note]="shareOfTotal($safeNavigationMigration(summary()?.delivered))"></app-card>
       </div>
       <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
         <app-card [title]="'dashboard.kpi.in_shipping' | translate"
                   [subtitle]="(summary()?.shipped ?? 0) | number"
                   icon="solar:box-line-duotone" color="info"
                   [delta]="summary()?.trends?.shipped ?? null"
-                  [note]="shareOfTotal(summary()?.shipped)"></app-card>
+                  [note]="shareOfTotal($safeNavigationMigration(summary()?.shipped))"></app-card>
       </div>
       <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
         <app-card [title]="'dashboard.kpi.pending' | translate"
                   [subtitle]="(summary()?.pending ?? 0) | number"
                   icon="solar:clock-circle-broken" color="warning"
                   [delta]="summary()?.trends?.pending ?? null" [lowerIsBetter]="true"
-                  [note]="shareOfTotal(summary()?.pending)"></app-card>
+                  [note]="shareOfTotal($safeNavigationMigration(summary()?.pending))"></app-card>
       </div>
       <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
         <app-card [title]="'dashboard.kpi.returned' | translate"
                   [subtitle]="(summary()?.returned ?? 0) | number"
                   icon="tabler:arrow-back" color="error"
                   [delta]="summary()?.trends?.returned ?? null" [lowerIsBetter]="true"
-                  [note]="shareOfTotal(summary()?.returned)"></app-card>
+                  [note]="shareOfTotal($safeNavigationMigration(summary()?.returned))"></app-card>
       </div>
       <div class="col-lg-2 col-md-4 col-sm-6 m-b-24">
         <app-card [title]="'dashboard.kpi.cod_collected' | translate"

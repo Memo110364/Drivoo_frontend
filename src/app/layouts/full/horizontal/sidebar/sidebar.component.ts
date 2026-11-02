@@ -4,6 +4,7 @@ import {
   Input,
   ChangeDetectorRef,
   OnChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { navItems } from './sidebar-data';
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ import { AppHorizontalNavItemComponent } from './nav-item/nav-item.component';
 @Component({
   selector: 'app-horizontal-sidebar',
   imports: [AppHorizontalNavItemComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './sidebar.component.html',
 })
 export class AppHorizontalSidebarComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -44,6 +44,7 @@ import { formatDate } from '../shared/wallet-format';
     PaymentMethodsComponent,
   ],
   templateUrl: './wallet.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './wallet.component.scss',
 })
 export class WalletComponent {

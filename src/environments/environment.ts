@@ -10,6 +10,6 @@ export const environment = {
   /** Only the published demo skips authentication; see auth.guard.ts. */
   demoAccess: false,
   // apiUrl: 'http://localhost:3000/api/v1/',
-  // apiUrl: 'https://api.drivoo.co/api/v1/',
-  apiUrl: 'https://api.moyaser.local/app/',
+  apiUrl: 'https://api.drivoo.co/app/',
+  // apiUrl: 'https://api.moyaser.local/app/',
 };

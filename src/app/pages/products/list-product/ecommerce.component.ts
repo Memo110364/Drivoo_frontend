@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MaterialModule } from 'src/app/material.module';
@@ -27,6 +28,7 @@ import { debounceTime, distinctUntilChanged, forkJoin, Subject, Subscription } f
   selector: 'app-ecommerce',
   imports: [MaterialModule, IconModule, CommonModule],
   templateUrl: './ecommerce.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './ecommerce.component.scss',
 })
 export class ProductComponent implements AfterViewInit, OnInit, OnDestroy {

@@ -1,7 +1,11 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+import { initFederation } from '@angular-architects/native-federation';
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err)
-);
+initFederation({
+  //'easyorders': 'http://localhost:4201/remoteEntry.json'
+  'easyorders': 'https://widget.drivoo.co/easyorders/remoteEntry.json?v=1'
+}, {
+  hostRemoteEntry: { url: "./remoteEntry.json" }
+})
+  .catch(err => console.error(err))
+  .then(_ => import('./bootstrap'))
+  .catch(err => console.error(err));
