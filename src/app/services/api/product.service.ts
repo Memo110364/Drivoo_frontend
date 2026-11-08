@@ -53,4 +53,8 @@ export class ProductService extends BaseService {
     getCategories(): Observable<any> {
         return this.http.get(this.baseUrl + `products/categories/list?status=true`);
     }
+
+    getStocksBySkus(skus: string[]): Observable<any> {
+        return this.http.post(this.baseUrl + 'products/stocks/by-skus', { skus });
+    }
 }

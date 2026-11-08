@@ -1,0 +1,839 @@
+<div class="import-orders-container p-24">
+  <!-- Page Header -->
+  <div class="d-flex align-items-center justify-content-between m-b-24 flex-wrap gap-3">
+    <div>
+      <h3 class="f-s-24 f-w-600 m-b-4">{{ 'import_orders.title' | translate }}</h3>
+      <p class="text-muted m-b-0 f-s-14">
+        {{ 'import_orders.description' | translate }}
+      </p>
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="downloadSampleTemplate()"
+        type="button"
+        [matTooltip]="'import_orders.download_sample_template_tooltip' | translate"
+      >
+        <i-tabler name="file-spreadsheet" class="icon-18 m-r-4"></i-tabler>
+        {{ 'import_orders.download_sample_template' | translate }}
+      </button>
+
+      @if (importedOrders().length > 0) {
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="exportResults()"
+          type="button"
+          [matTooltip]="'import_orders.export_results_tooltip' | translate"
+        >
+          <i-tabler name="download" class="icon-18 m-r-4"></i-tabler>
+          {{ 'import_orders.export_results' | translate }}
+        </button>
+      }
+
+      <a mat-button routerLink="/orders" mat-flat-button class="bg-light-secondary text-secondary">
+        <i-tabler name="arrow-back" class="icon-18 m-r-4"></i-tabler>
+        {{ 'import_orders.back_to_orders_list' | translate }}
+      </a>
+    </div>
+  </div>
+
+  <!-- Upload Area Card -->
+  <mat-card class="cardWithShadow m-b-24 upload-card">
+    <mat-card-content class="p-24">
+      <div
+        class="dropzone-area d-flex flex-column align-items-center justify-content-center p-32 rounded text-center"
+        (dragover)="onDragOver($event)"
+        (drop)="onDropFile($event)"
+      >
+        <div class="upload-icon-wrapper rounded-circle p-16 m-b-16 bg-light-primary text-primary">
+          <i-tabler name="cloud-upload" class="icon-48"></i-tabler>
+        </div>
+        <div class="text-start mx-5">
+        <h4 class="f-s-18 f-w-600 m-b-8">
+          {{ 'import_orders.upload_excel_sheet' | translate }}
+        </h4>
+        <p class="text-muted f-s-13 m-b-16 max-w-600">
+          {{ 'import_orders.upload_excel_sheet_description' | translate }}.
+          <!-- {{ 'import_orders.product_sku_hint' | translate }}<code class="text-primary font-bold">|</code> (مثال: <code>قميص اكس فورد |1</code>). -->
+        </p>
+        </div>
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileChange($event)"
+          accept=".xlsx, .xls, .csv"
+          class="d-none"
+        />
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="fileInput.click()"
+            type="button"
+          >
+            <i-tabler name="file-upload" class="icon-18 m-r-4"></i-tabler>
+            {{ 'import_orders.upload_excel_sheet_button' | translate }}
+          </button>
+
+          @if (selectedFileName()) {
+            <span class="file-name-pill p-x-12 p-y-6 rounded-pill bg-light-success text-success f-s-13 d-flex align-items-center">
+              <i-tabler name="check" class="icon-16 m-r-4"></i-tabler>
+              {{ selectedFileName() }}
+            </span>
+          }
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Stock API Status Notice -->
+  @if (stockApiStatus() !== 'idle') {
+    <div
+      class="alert-box m-b-24 p-16 rounded d-flex align-items-center justify-content-between flex-wrap gap-2"
+      [ngClass]="{
+        'bg-light-success text-success border-success': stockApiStatus() === 'success',
+        'bg-light-info text-info border-info': stockApiStatus() === 'fallback'
+      }"
+    >
+      <div class="d-flex align-items-center gap-2">
+        @if (isCheckingStock()) {
+          <mat-spinner diameter="20" color="primary"></mat-spinner>
+          <span class="f-s-14 f-w-500">جاري فحص المخزون والمنتجات في الخادم...</span>
+        } @else {
+          <i-tabler
+            [name]="stockApiStatus() === 'success' ? 'circle-check' : 'info-circle'"
+            class="icon-20"
+          ></i-tabler>
+          <span class="f-s-14 f-w-500">{{ stockApiMessage() }}</span>
+        }
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button
+          mat-stroked-button
+          color="primary"
+          class="f-s-12 btn-sm"
+          (click)="showStockInspector.set(!showStockInspector())"
+          type="button"
+        >
+          <i-tabler name="boxes" class="icon-16 m-r-4"></i-tabler>
+          {{ showStockInspector() ? 'إخفاء لوحة المخزون' : 'عرض تفاصيل المخزون (' + skuList.length + ' كود)' }}
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- SKU Stock Inspector Panel (Collapsible) -->
+  @if (showStockInspector() && skuList.length > 0) {
+    <mat-card class="cardWithShadow m-b-24 border-primary">
+      <mat-card-header class="p-16 bg-light-primary d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <i-tabler name="building-warehouse" class="icon-20 text-primary"></i-tabler>
+          <h4 class="f-s-16 f-w-600 m-b-0 text-primary">لوحة مراقبة مخزون المنتجات (SKUs)</h4>
+        </div>
+        <span class="f-s-12 text-muted">يتم التحديث التلقائي مع كل تعديل أو إضافة منتج جديد</span>
+      </mat-card-header>
+      <mat-card-content class="p-16">
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm v-middle m-b-0">
+            <thead class="bg-light">
+              <tr>
+                <th class="p-8">المنتج</th>
+                <th class="p-8">كود SKU</th>
+                <th class="p-8">المتوفر بالمخزن</th>
+                <th class="p-8">إجمالي المطلوب في الطلبات</th>
+                <th class="p-8">المتبقي بالمخزن</th>
+                <th class="p-8">الحالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of skuList; track item.sku) {
+                @let c = getSkuStockInfo(item.sku);
+                <tr [ngClass]="{'table-danger': c.isDeficit, 'table-warning': c.warehouseStock === 0}">
+                  <td class="p-8">
+                    <div class="d-flex align-items-center gap-2">
+                      @if (item.image) {
+                        <img [src]="item.image" alt="Product" class="rounded product-thumb-sm" />
+                      }
+                      <div>
+                        <div class="font-bold f-s-13">{{ item.name || 'منتج' }}</div>
+                        @if (item.variantSku) {
+                          <div class="text-muted f-s-11">{{ item.variantSku }}</div>
+                        }
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-8 font-bold font-monospace">
+                    <span class="badge bg-light-dark text-dark">{{ item.sku }}</span>
+                  </td>
+                  <td class="p-8" style="width: 150px;">
+                    <div class="d-flex align-items-center gap-1">
+                      <input
+                        type="number"
+                        class="form-control form-control-sm text-center"
+                        [value]="item.warehouseStock"
+                        (change)="updateWarehouseStock(item.sku, $any($event.target).value)"
+                        min="0"
+                      />
+                      <span class="f-s-11 text-muted">قطعة</span>
+                    </div>
+                  </td>
+                  <td class="p-8 font-bold">{{ c.totalConsumed }}</td>
+                  <td class="p-8">
+                    <span
+                      class="f-w-600"
+                      [ngClass]="{
+                        'text-error font-bold': c.remaining < 0,
+                        'text-warning font-bold': c.remaining === 0,
+                        'text-success font-bold': c.remaining > 0
+                      }"
+                    >
+                      {{ c.remaining }}
+                    </span>
+                  </td>
+                  <td class="p-8">
+                    @if (c.warehouseStock <= 0) {
+                      <span class="badge bg-light-error text-error">نفذ المخزون تماماً</span>
+                    } @else if (c.isDeficit) {
+                      <span class="badge bg-light-error text-error">
+                        ⚠️ عجز بالمخزون (نقص {{ -c.remaining }})
+                      </span>
+                    } @else if (c.remaining === 0) {
+                      <span class="badge bg-light-warning text-warning">
+                        مستهلك بالكامل
+                      </span>
+                    } @else {
+                      <span class="badge bg-light-success text-success">
+                        ✓ متوفر وكافٍ
+                      </span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Orders Listing and Management -->
+  @if (importedOrders().length > 0) {
+    <!-- Sticky Control Toolbar -->
+    <div class="orders-toolbar p-16 rounded m-b-24 d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <span class="badge bg-primary text-white p-x-12 p-y-6 f-s-13">
+          {{ 'import_orders.total_orders' | translate }}: {{ totalOrdersCount }}
+        </span>
+        <span class="badge bg-success text-white p-x-12 p-y-6 f-s-13">
+          {{ 'import_orders.submitted_orders' | translate }}: {{ successfulOrdersCount }}
+        </span>
+        @if (warningOrdersCount > 0) {
+          <span class="badge bg-error text-white p-x-12 p-y-6 f-s-13 d-flex align-items-center">
+            <i-tabler name="alert-triangle" class="icon-16 m-r-4"></i-tabler>
+            {{ 'import_orders.warning_orders' | translate }}: {{ warningOrdersCount }}
+          </span>
+        }
+        @if (incompleteOrdersCount > 0) {
+          <span class="badge bg-warning text-dark p-x-12 p-y-6 f-s-13 d-flex align-items-center">
+            <i-tabler name="info-triangle" class="icon-16 m-r-4"></i-tabler>
+           {{ "import_orders.order_not_complete_data"|translate }} {{ incompleteOrdersCount }}
+          </span>
+        }
+      </div>
+
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="exportResults()"
+          type="button"
+        >
+          <i-tabler name="download" class="icon-18 m-r-4"></i-tabler>
+          {{ 'import_orders.export_results' | translate }}
+        </button>
+
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="sendAllReadyOrders()"
+          [disabled]="isSubmittingAll() || successfulOrdersCount === totalOrdersCount"
+          type="button"
+        >
+          @if (isSubmittingAll()) {
+            <mat-spinner diameter="18" class="m-r-8 inline-spinner"></mat-spinner>
+            {{ 'import_orders.sending_orders' | translate }}
+          } @else {
+            <i-tabler name="send" class="icon-18 m-r-4"></i-tabler>
+            {{ 'import_orders.send_all_orders' | translate }}
+          }
+        </button>
+
+        <button
+          mat-stroked-button
+          color="warn"
+          (click)="clearAllOrders()"
+          type="button"
+        >
+          <i-tabler name="trash" class="icon-18 m-r-4"></i-tabler>
+          {{ 'import_orders.clear_all_orders' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Orders Cards (Displayed Vertically Under Each Other) -->
+    <div class="orders-list">
+      @for (order of importedOrders(); track order.id; let orderIdx = $index) {
+        @let hasStockWarn = orderHasStockWarning(order);
+        @let isOrderSuccess = order.status === 'success';
+        @let orderVal = validateOrder(order);
+
+        <mat-card
+          class="cardWithShadow m-b-24 order-card"
+          [ngClass]="{
+            'border-success': isOrderSuccess,
+            'border-error': !isOrderSuccess && hasStockWarn,
+            'border-warning': !isOrderSuccess && !hasStockWarn && !orderVal.valid,
+            'border-submitting': order.status === 'submitting'
+          }"
+        >
+          <!-- Order Card Header / Summary Row -->
+          <div class="order-card-header p-16 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="order-index-badge rounded-circle bg-primary text-white font-bold">
+                {{ orderIdx + 1 }}
+              </span>
+              <h4 class="f-s-16 f-w-600 m-b-0">
+                {{ order.name || ('import_orders.customer_name' | translate) }}
+              </h4>
+
+              @if (order.phone) {
+                <span class="text-muted f-s-13">({{ order.phone }})</span>
+              }
+
+              <!-- Status Badge -->
+              @if (isOrderSuccess) {
+                <span class="badge bg-light-success text-success d-flex align-items-center f-s-12 p-x-8 p-y-4">
+                  <i-tabler name="circle-check" class="icon-16 m-r-4"></i-tabler>
+                  {{ 'import_orders.order_created_successfully' | translate }} #{{ order.orderId }}
+                </span>
+              } @else if (order.status === 'submitting') {
+                <span class="badge bg-light-primary text-primary d-flex align-items-center f-s-12 p-x-8 p-y-4">
+                  <mat-spinner diameter="14" class="m-r-4"></mat-spinner>
+                  {{ 'import_orders.sending_order' | translate }}
+                </span>
+              } @else if (hasStockWarn) {
+                <span class="badge bg-light-error text-error d-flex align-items-center f-s-12 p-x-8 p-y-4">
+                  <i-tabler name="alert-triangle" class="icon-16 m-r-4"></i-tabler>
+                  {{ 'import_orders.stock_warning' | translate }}
+                </span>
+              } @else if (!orderVal.valid) {
+                <span class="badge bg-light-warning text-warning d-flex align-items-center f-s-12 p-x-8 p-y-4">
+                  <i-tabler name="alert-circle" class="icon-16 m-r-4"></i-tabler>
+                  بيانات ناقصة ({{ orderVal.missingFields.join('، ') }})
+                </span>
+              } @else {
+                <span class="badge bg-light-secondary text-secondary f-s-12 p-x-8 p-y-4">
+                  {{ 'import_orders.ready_to_send' | translate }}
+                </span>
+              }
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <span class="f-s-15 f-w-600 text-primary">
+                {{ 'import_orders.total' | translate }}: {{ getOrderTotal(order) }} {{ 'import_orders.egp' | translate }}
+              </span>
+
+              <!-- Toggle View Details for Sent Orders -->
+              @if (isOrderSuccess) {
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="btn-sm"
+                  (click)="toggleOrderExpanded(order)"
+                  type="button"
+                >
+                  <i-tabler [name]="order.isExpanded ? 'eye-off' : 'eye'" class="icon-16 m-r-4"></i-tabler>
+                  {{ (order.isExpanded ? 'import_orders.hide_details' : 'import_orders.view_details') | translate }}
+                </button>
+              }
+
+              @if (!isOrderSuccess) {
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteOrder(orderIdx)"
+                  [matTooltip]="'import_orders.deleteOrder' | translate"
+                  type="button"
+                >
+                  <i-tabler name="trash" class="icon-18"></i-tabler>
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- Order Card Details (Hidden by default when sent successfully, unless user clicks View Details) -->
+          @if (!isOrderSuccess || order.isExpanded) {
+            <mat-divider></mat-divider>
+
+            <mat-card-content class="p-24" [ngClass]="{'opacity-75': isOrderSuccess}">
+              <div class="row g-4">
+                <!-- القسم الأول: بيانات العميل والشحن (Customer & Shipping Details) -->
+                <div class="col-lg-5 col-md-12 section-border-start">
+                  <div class="section-title d-flex align-items-center gap-2 m-b-16">
+                    <i-tabler name="user" class="icon-20 text-primary"></i-tabler>
+                    <h5 class="f-s-15 f-w-600 m-b-0">{{ 'import_orders.customer_and_shipping_details' | translate }}</h5>
+                  </div>
+
+                  <div class="row g-3">
+                    <!-- Name (Required) -->
+                    <div class="col-12">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>
+                          {{ 'import_orders.customer_name' | translate }} <span class="text-error">*</span>
+                        </mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="order.name"
+                          (ngModelChange)="onQuantityChange()"
+                          [disabled]="isOrderSuccess"
+                          [placeholder]="'import_orders.customer_name_placeholder' | translate"
+                          required
+                        />
+                        <i-tabler matPrefix name="user" class="icon-18 text-muted m-r-8"></i-tabler>
+                      </mat-form-field>
+                      @if (!order.name && !isOrderSuccess) {
+                        <div class="text-error f-s-11 m-t-n8 m-b-8">
+                          {{ 'system_messages.valdate.name_is_required' | translate }}
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Phone Numbers (Required) -->
+                    <div class="col-12">
+                      <div class="phone-input-wrapper">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>
+                            {{ 'import_orders.customer_phone' | translate }} <span class="text-error">*</span>
+                          </mat-label>
+                          <input
+                            matInput
+                            #phoneInput
+                            [disabled]="isOrderSuccess"
+                            [placeholder]="'import_orders.customer_phone_placeholder' | translate"
+                            (keydown.enter)="$event.preventDefault(); addPhoneToOrder(order, phoneInput)"
+                          />
+                          @if (!isOrderSuccess) {
+                            <button
+                              mat-icon-button
+                              matSuffix
+                              type="button"
+                              (click)="addPhoneToOrder(order, phoneInput)"
+                              [matTooltip]="'import_orders.add_phone' | translate"
+                            >
+                              <i-tabler name="plus" class="icon-18 text-primary"></i-tabler>
+                            </button>
+                          }
+                          <i-tabler matPrefix name="phone" class="icon-18 text-muted m-r-8"></i-tabler>
+                        </mat-form-field>
+
+                        @if (order.phoneNumbers.length === 0 && !isOrderSuccess) {
+                          <div class="text-error f-s-11 m-t-n8 m-b-8">
+                            {{ 'system_messages.valdate.phone_is_required' | translate }}
+                          </div>
+                        }
+
+                        <!-- Phone Chips -->
+                        <div class="d-flex align-items-center gap-1 flex-wrap m-b-8">
+                          @for (phone of order.phoneNumbers; track phone) {
+                            <span class="phone-chip p-x-8 p-y-4 rounded-pill bg-light-primary text-primary f-s-12 d-flex align-items-center">
+                              {{ phone }}
+                              @if (!isOrderSuccess) {
+                                <button
+                                  type="button"
+                                  class="chip-close-btn m-r-4"
+                                  (click)="removePhoneFromOrder(order, phone)"
+                                >
+                                  &times;
+                                </button>
+                              }
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- City (Required) -->
+                    <div class="col-sm-6">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>
+                          {{ 'import_orders.customer_city' | translate }} <span class="text-error">*</span>
+                        </mat-label>
+                        <mat-select
+                          [(ngModel)]="order.city_id"
+                          (selectionChange)="onCitySelectChange(order, $event.value)"
+                          [disabled]="isOrderSuccess"
+                          required
+                        >
+                          @for (city of cities(); track city.id) {
+                            <mat-option [value]="city.id">
+                              {{ city.name_ar || city.name_en }}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                      @if (!order.city_id && !isOrderSuccess) {
+                        <div class="text-error f-s-11 m-t-n8 m-b-8">
+                          {{ 'system_messages.valdate.city_is_required' | translate }}
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Area (Required) -->
+                    <div class="col-sm-6">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>
+                          {{ 'import_orders.customer_area' | translate }} <span class="text-error">*</span>
+                        </mat-label>
+                        <mat-select
+                          [(ngModel)]="order.area_id"
+                          (selectionChange)="onQuantityChange()"
+                          [disabled]="isOrderSuccess || !order.city_id || getAreasForCity(order.city_id).length === 0"
+                          required
+                        >
+                          <mat-option [value]="null">اختر المنطقة</mat-option>
+                          @for (area of getAreasForCity(order.city_id); track area.id) {
+                            <mat-option [value]="area.id">
+                              {{ area.name_ar || area.name_en }}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                      @if (!order.area_id && !isOrderSuccess && getAreasForCity(order.city_id).length > 0) {
+                        <div class="text-error f-s-11 m-t-n8 m-b-8">
+                          {{ 'system_messages.valdate.area_is_required' | translate }}
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Detailed Address (Required) -->
+                    <div class="col-12">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>
+                          {{ 'import_orders.fullAddress' | translate }} <span class="text-error">*</span>
+                        </mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="order.address"
+                          (ngModelChange)="onQuantityChange()"
+                          [disabled]="isOrderSuccess"
+                          [placeholder]="'import_orders.fullAddress_placeholder' | translate"
+                          required
+                        />
+                        <i-tabler matPrefix name="map-pin" class="icon-18 text-muted m-r-8"></i-tabler>
+                      </mat-form-field>
+                      @if (!order.address && !isOrderSuccess) {
+                        <div class="text-error f-s-11 m-t-n8 m-b-8">
+                          العنوان بالتفصيل مطلوب
+                        </div>
+                      }
+                    </div>
+
+                    <!-- Shipping Notes (OPTIONAL) -->
+                    <div class="col-12">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ 'import_orders.shipping_notes' | translate }} (اختياري)</mat-label>
+                        <textarea
+                          matInput
+                          rows="2"
+                          [(ngModel)]="order.notes"
+                          [disabled]="isOrderSuccess"
+                          placeholder="ملاحظات تسليم المندوب أو العميل (اختياري)"
+                        ></textarea>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Confirmed Toggle -->
+                    <div class="col-12 d-flex align-items-center justify-content-between">
+                      <span class="f-s-14 f-w-500">{{ 'import_orders.order_confirmed_with_customer' | translate }}:</span>
+                      <mat-slide-toggle
+                        color="primary"
+                        [(ngModel)]="order.confirmed"
+                        [disabled]="isOrderSuccess"
+                      >
+                        {{ (order.confirmed ? 'import_orders.confirmed' : 'import_orders.not_confirmed') | translate }}
+                      </mat-slide-toggle>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- القسم الثاني: المنتجات والمخزون (Products & Stock Details) -->
+                <div class="col-lg-7 col-md-12">
+                  <div class="d-flex align-items-center justify-content-between m-b-16">
+                    <div class="section-title d-flex align-items-center gap-2">
+                      <i-tabler name="shopping-bag" class="icon-20 text-primary"></i-tabler>
+                      <h5 class="f-s-15 f-w-600 m-b-0">
+                        {{ 'import_orders.products' | translate }} <span class="text-error">*</span>
+                      </h5>
+                    </div>
+
+                    @if (!isOrderSuccess) {
+                      <button
+                        mat-flat-button
+                        color="primary"
+                        class="btn-sm"
+                        (click)="addItemToOrder(order)"
+                        type="button"
+                      >
+                        <i-tabler name="plus" class="icon-16 m-r-4"></i-tabler>
+                        {{ 'import_orders.add_product' | translate }}
+                      </button>
+                    }
+                  </div>
+
+                  @if (order.items.length === 0) {
+                    <div class="alert alert-warning p-16 rounded text-center m-b-16">
+                      <i-tabler name="alert-triangle" class="icon-24 text-warning m-b-4 d-block m-auto"></i-tabler>
+                      <strong>يجب إضافة منتج واحد على الأقل للطلب!</strong>
+                      <p class="m-b-0 f-s-13 m-t-4">اضغط على زر "إضافة منتج" لاختيار منتجات من الكتالوج</p>
+                    </div>
+                  } @else {
+                    <!-- Products Table -->
+                    <div class="table-responsive products-table-wrapper rounded">
+                      <table class="table table-hover align-middle m-b-0 text-start">
+                        <thead class="bg-light">
+                          <tr>
+                            <th class="p-8">#</th>
+                            <th class="p-8" style="min-width: 180px;">{{ 'import_orders.product_name' | translate }}</th>
+                            <th class="p-8" style="width: 120px;">كود الـ SKU</th>
+                            <th class="p-8" style="width: 120px;">{{ 'import_orders.quantity' | translate }}</th>
+                            <th class="p-8" style="width: 110px;">{{ 'import_orders.unit_price' | translate }}</th>
+                            <th class="p-8">{{ 'import_orders.total_price' | translate }}</th>
+                            <th class="p-8" style="width: 40px;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (item of order.items; track $index; let itemIdx = $index) {
+                            @let stockInfo = getSkuStockInfo(item.sku);
+                            @let isExceeded = isItemExceedingStock(item);
+
+                            <tr [ngClass]="{'row-stock-warning': isExceeded}">
+                              <td class="p-8 text-muted f-s-12">{{ itemIdx + 1 }}</td>
+
+                              <!-- Product Name & Thumbnail (Enriched from API) -->
+                              <td class="p-8">
+                                <div class="d-flex align-items-center gap-2">
+                                  @if (item.image) {
+                                    <img [src]="item.image" alt="Product" class="rounded product-thumb" />
+                                  }
+                                  <div class="w-100">
+                                    <input
+                                      type="text"
+                                      class="form-control form-control-sm"
+                                      [(ngModel)]="item.productName"
+                                      (ngModelChange)="onQuantityChange()"
+                                      [disabled]="isOrderSuccess"
+                                      [placeholder]="'import_orders.product_name' | translate"
+                                      required
+                                    />
+                                    @if (item.variantSku) {
+                                      <span class="text-muted f-s-11 d-block m-t-2 font-monospace">
+                                        {{ item.variantSku }}
+                                      </span>
+                                    }
+                                  </div>
+                                </div>
+                              </td>
+
+                              <!-- SKU -->
+                              <td class="p-8">
+                                <input
+                                  type="text"
+                                  class="form-control form-control-sm font-monospace font-bold"
+                                  [(ngModel)]="item.sku"
+                                  (blur)="onSkuChange(item)"
+                                  [disabled]="isOrderSuccess"
+                                  placeholder="كود SKU"
+                                />
+                              </td>
+
+                              <!-- Quantity Controls -->
+                              <td class="p-8">
+                                <div class="qty-control d-flex align-items-center">
+                                  @if (!isOrderSuccess) {
+                                    <button
+                                      type="button"
+                                      class="btn btn-sm btn-outline-secondary p-0 qty-btn"
+                                      (click)="item.quantity = (item.quantity > 1 ? item.quantity - 1 : 1); onQuantityChange()"
+                                    >
+                                      -
+                                    </button>
+                                  }
+                                  <input
+                                    type="number"
+                                    class="form-control form-control-sm text-center qty-input"
+                                    [(ngModel)]="item.quantity"
+                                    (ngModelChange)="onQuantityChange()"
+                                    [disabled]="isOrderSuccess"
+                                    min="1"
+                                    [ngClass]="{'border-danger text-danger font-bold': isExceeded}"
+                                  />
+                                  @if (!isOrderSuccess) {
+                                    <button
+                                      type="button"
+                                      class="btn btn-sm btn-outline-secondary p-0 qty-btn"
+                                      (click)="item.quantity = item.quantity + 1; onQuantityChange()"
+                                    >
+                                      +
+                                    </button>
+                                  }
+                                </div>
+                              </td>
+
+                              <!-- Price -->
+                              <td class="p-8">
+                                <input
+                                  type="number"
+                                  class="form-control form-control-sm text-center"
+                                  [(ngModel)]="item.price"
+                                  (ngModelChange)="onQuantityChange()"
+                                  [disabled]="isOrderSuccess"
+                                  placeholder="السعر"
+                                  min="0"
+                                />
+                              </td>
+
+                              <!-- Subtotal -->
+                              <td class="p-8 font-bold f-s-13">
+                                {{ (item.price || 0) * (item.quantity || 1) }}
+                              </td>
+
+                              <!-- Remove Item -->
+                              <td class="p-8 text-center">
+                                @if (!isOrderSuccess) {
+                                  <button
+                                    type="button"
+                                    class="btn btn-sm text-danger p-0"
+                                    (click)="removeItemFromOrder(order, itemIdx)"
+                                    matTooltip="حذف المنتج"
+                                  >
+                                    <i-tabler name="x" class="icon-16"></i-tabler>
+                                  </button>
+                                }
+                              </td>
+                            </tr>
+
+                            <!-- SKU Stock Status Notification Row -->
+                            @if (item.sku) {
+                              <tr class="stock-status-row" [ngClass]="{'stock-status-alert': isExceeded}">
+                                <td colspan="7" class="p-x-12 p-y-4">
+                                  <div class="d-flex align-items-center justify-content-between f-s-12">
+                                    <div class="d-flex align-items-center gap-2">
+                                      @if (stockInfo.warehouseStock <= 0) {
+                                        <span class="badge bg-light-error text-error d-flex align-items-center">
+                                          <i-tabler name="alert-circle" class="icon-14 m-r-4"></i-tabler>
+                                          {{ 'import_orders.out_of_stock' | translate }} (المتوفر: 0)
+                                        </span>
+                                      } @else if (stockInfo.isDeficit) {
+                                        <span class="badge bg-light-error text-error d-flex align-items-center">
+                                          <i-tabler name="alert-triangle" class="icon-14 m-r-4"></i-tabler>
+                                          {{ 'import_orders.deficit_in_stock' | translate: { totalConsumed: stockInfo.totalConsumed, warehouseStock: stockInfo.warehouseStock, remaining: -stockInfo.remaining } }}
+                                        </span>
+                                      } @else if (stockInfo.remaining === 0) {
+                                        <span class="badge bg-light-warning text-warning d-flex align-items-center">
+                                          <i-tabler name="info-circle" class="icon-14 m-r-4"></i-tabler>
+                                          {{ 'import_orders.inventory_shortage_all_stock_reserved' | translate }}
+                                        </span>
+                                      } @else {
+                                        <span class="badge bg-light-success text-success d-flex align-items-center">
+                                          <i-tabler name="check" class="icon-14 m-r-4"></i-tabler>
+                                          {{ 'import_orders.sufficient_stock' | translate: { warehouseStock: stockInfo.warehouseStock, remaining: stockInfo.remaining } }}
+                                        </span>
+                                      }
+                                    </div>
+
+                                    <span class="text-muted font-monospace f-s-11">
+                                      SKU: {{ item.sku }}
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            }
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+
+                  <!-- Error message if submission failed -->
+                  @if (order.errorMessage) {
+                    <div class="alert alert-danger m-t-16 p-12 f-s-13 d-flex align-items-center gap-2">
+                      <i-tabler name="alert-circle" class="icon-18"></i-tabler>
+                      <span>{{ order.errorMessage }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </mat-card-content>
+
+            <mat-divider></mat-divider>
+
+            <!-- Order Card Footer Actions -->
+            <div class="order-card-footer p-16 d-flex align-items-center justify-content-between flex-wrap gap-2 bg-light">
+              <div class="d-flex align-items-center gap-2">
+                <span class="f-s-13 text-muted">
+                  {{ 'import_orders.total_products_in_order' | translate }}: <strong class="text-dark">{{ order.items.length }}</strong>
+                </span>
+                <span class="text-muted">|</span>
+                <span class="f-s-13 text-muted">
+                  {{ 'import_orders.total_amount' | translate }}: <strong class="text-dark">{{ getOrderTotal(order) }} {{ 'import_orders.egp' | translate }}</strong>
+                </span>
+              </div>
+
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                @if (isOrderSuccess) {
+                  <button mat-flat-button color="accent" disabled>
+                    <i-tabler name="check" class="icon-18 m-r-4"></i-tabler>
+                    {{ 'import_orders.order_send_successfully' | translate }}
+                  </button>
+                } @else {
+                  @if (hasStockWarn) {
+                    <span class="text-error f-s-12 d-flex align-items-center">
+                      <i-tabler name="alert-triangle" class="icon-16 m-r-4"></i-tabler>
+                      {{ 'import_orders.cannot_send_out_of_stock' | translate }}
+                    </span>
+                  } @else if (!orderVal.valid) {
+                    <span class="text-warning f-s-12 d-flex align-items-center">
+                      <i-tabler name="alert-circle" class="icon-16 m-r-4"></i-tabler>
+                      يرجى استكمال: {{ orderVal.missingFields.join('، ') }}
+                    </span>
+                  }
+
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    (click)="sendOrder(order)"
+                    [disabled]="order.status === 'submitting' || hasStockWarn || !orderVal.valid"
+                    type="button"
+                    [matTooltip]="hasStockWarn ? ('import_orders.cannot_send_out_of_stock' | translate) : (!orderVal.valid ? orderVal.message : '')"
+                  >
+                    @if (order.status === 'submitting') {
+                      <mat-spinner diameter="16" class="m-r-8 inline-spinner"></mat-spinner>
+                      {{ 'import_orders.sending_order' | translate }}
+                    } @else {
+                      <i-tabler name="send" class="icon-18 m-r-4"></i-tabler>
+                      {{ 'import_orders.send_order' | translate }}
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </mat-card>
+      }
+    </div>
+  }
+</div>

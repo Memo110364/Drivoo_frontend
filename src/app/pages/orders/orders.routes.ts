@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { OrdersListComponent } from './list-order/list-order.component';
 import { AddOrderComponent } from './add-order/add-order.component';
 import { ViewOrderComponent } from './view-order/view-order.component';
-import { EditOrderComponent } from './edit-order/edit-order.component'
+import { EditOrderComponent } from './edit-order/edit-order.component';
+import { ImportOrdersComponent } from './import-orders/import-orders.component';
 import { AuthGuard } from 'src/app/auth.guard';
 export const OrdersRoutes: Routes = [
     {
@@ -30,6 +31,14 @@ export const OrdersRoutes: Routes = [
             //   { title: 'Dashboard', url: '/dashboard' },
             //   { title: 'Starter   xx' },
             // ],
+        },
+    },
+    {
+        path: 'import',
+        canActivate: [AuthGuard],
+        component: ImportOrdersComponent,
+        data: {
+            title: 'Import Orders',
         },
     },
     {

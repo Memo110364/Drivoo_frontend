@@ -2,18 +2,77 @@ import { NavItem } from './nav-item/nav-item';
 
 export function navItems():NavItem[]{
   return [
+   
     {
-      id: 1,
-      displayName: 'Sample Page',
-      children: [
-        { navCap: 'Sample Page' },
-        {
-          displayName: 'Starter',
-          iconName: 'solar:widget-add-line-duotone',
-          route: '/starter',
-        },
-      ],
-    }
+    id: 1,
+    displayName: 'dashboard',
+    iconName: 'solar:home-2-outline',
+    route: '/dashboard',
+  },
+  {
+    id: 2,
+    displayName: 'orders',
+    iconName: 'solar:cart-3-line-duotone',
+    // route: '/orders',
+    children: [
+      {
+        displayName: 'all_orders',
+        iconName: 'solar:list-outline',
+        route: '/orders',
+      },  
+      {
+        displayName: 'create_order',
+        iconName: 'solar:cart-plus-outline',
+        route: '/orders/create',
+      },
+      {
+        displayName: 'import_orders',
+        iconName: 'solar:file-download-outline',
+        route: '/orders/import',
+      }
+    ]
+      },
+  {
+    id: 3,
+    displayName: 'products',
+    iconName: 'solar:box-line-duotone',
+    children: [
+      {
+        displayName: 'all_products',
+        iconName: 'solar:list-outline',
+        route: '/products',
+      },  
+      {
+        displayName: 'create_product',
+        iconName: 'system-uicons:box-add',
+        route: '/products/create',
+      }
+    ]
+  },
+  {
+    id: 4,
+    displayName: 'finance',
+    iconName: 'solar:money-bag-linear',
+    route: '/finance/my-wallet',
+  },
+   {
+    id: 5,
+    displayName: 'reports',
+    iconName: 'solar:chart-bold-duotone',
+    route: '/reports',
+  },
+  {
+    id: 6,
+    displayName: 'plugins',
+    iconName: 'solar:widget-add-line-duotone',
+    route: '/plugins',
+  },
+   {
+    id: 7,
+    displayName: 'settings',
+    iconName: 'solar:settings-linear',
+    route: '/settings',
+  },
   ]
 }
 /*

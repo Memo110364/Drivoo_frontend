@@ -7,7 +7,13 @@
     "add_item": "إضافة عنصر",
     "valdate": {
       "name_is_required": "الاسم مطلوب",
-      "phone_is_required": "رقم الهاتف مطلوب"
+      "phone_is_required": "رقم الهاتف مطلوب",
+      "city_is_required": "المحافظة مطلوبة",
+      "area_is_required": "المنطقة مطلوبة",
+      "product_is_required": "المنتج مطلوب",
+      "quantity_is_required": "الكمية مطلوبة",
+      "address_is_required": "العنوان بالتفصيل مطلوب",
+      "missing_required_fields": "بيانات غير مكتملة"
     }
   },
   "dashboard": {
@@ -132,6 +138,7 @@
     "settings": "الإعدادات",
     "all_orders": "جميع الطلبات",
     "create_order": "إنشاء طلب",
+    "import_orders": "استيراد طلبات",
     "all_products": "جميع المنتجات",
     "create_product": "إنشاء منتج",
     "my_wallets": "المحافظ",
@@ -222,6 +229,13 @@
         "paid": "مدفوعة",
         "cancelled": "تم الإلغاء",
         "pending": "قيد الانتظار"
+      },
+      "statuses": {
+        "draft": "مسودة",
+        "unpaid": "غير مدفوعة",
+        "paid": "مدفوعة",
+        "cancelled": "تم الإلغاء",
+        "pending": "قيد الانتظار"
       }
     },
     "balance": {
@@ -298,14 +312,14 @@
       "storage_fee": "مصاريف تخزين",
       "other_service": "خدمات أخرى",
       "opening_balance": "رصيد افتتاحي",
-      "1":"تحصيل طلب",
-      "2":"سحب",
-      "3":"مكافأت",
-      "4":"غرامات",
-      "5":"تبرع",
-      "6":"تعويض",
-      "7":"أخرى",
-      "8":"تحصيل فاتورة"
+      "1": "تحصيل طلب",
+      "2": "سحب",
+      "3": "مكافأت",
+      "4": "غرامات",
+      "5": "تبرع",
+      "6": "تعويض",
+      "7": "أخرى",
+      "8": "تحصيل فاتورة"
     },
     "service_type": {
       "confirmation": "تأكيد",
@@ -406,7 +420,7 @@
     "method_type": {
       "bank_account": "حساب بنكي",
       "vodafone_cash": "فودافون كاش",
-      "e_wallet":"محفظة إلكترونية",
+      "e_wallet": "محفظة إلكترونية",
       "instapay": "انستا باي",
       "cash": "استلام كاش"
     },
@@ -807,6 +821,73 @@
       "marketing": "التسويق والإعلانات",
       "communications": "المحادثات والرسائل"
     }
+  },
+  "import_orders": {
+    "title": "استيراد الطلبات",
+    "description": "استيراد الطلبات من ملف إكسيل",
+    "download_sample_template": "تحميل نموذج الشيت",
+    "download_sample_template_tooltip": "تحميل ملف إكسيل بالصيغة المطلوبة مع بيانات توضيحية",
+    "back_to_orders_list": "العودة لقائمة الطلبات",
+    "upload_excel_sheet_title": "أنواع الملفات المدعومة",
+    "upload_excel_sheet_description": "يدعم الملفات بصيغة .xlsx أو .xls أو .csv",
+    "product_sku_hint": "خانة المنتج يجب أن تنتهي بكود الـ SKU مسبوقاً بفاصل | (مثال: ",
+    "upload_excel_sheet_button": "اختيار ملف",
+    "upload_excel_sheet": "رفع شيت إكسيل",
+    "total_orders": "إجمالي الطلبات",
+    "submitted_orders": "الطلبات المرسلة",
+    "warning_orders": "طلبات بها تنبيهات مخزون",
+    "sending_orders": "جاري إرسال الطلبات...",
+    "sending_order": "جاري إرسال الطلب...",
+    "send_all_orders": "إرسال جميع الطلبات الجاهزة",
+    "send_order": "إرسال الطلب",
+    "clear_all_orders": "تفريغ القائمة",
+    "order_created_successfully": "تم إنشاء الطلب بنجاح",
+    "customer_name": "اسم العميل",
+    "customer_name_placeholder": "برجاء إدخال اسم العميل بالكامل",
+    "customer_phone": "رقم هاتف العميل",
+    "customer_phone_placeholder": "اكتب رقم الهاتف واضغط Enter",
+    "add_phone": "إضافة هاتف",
+    "customer_city": "المحافظة",
+    "customer_area": "المنطقة",
+    "customer_address": "عنوان العميل",
+    "fullAddress": "العنوان بالتفصيل",
+    "fullAddress_placeholder": "اسم الشارع، رقم العمارة، رقم الشقة",
+    "shipping_notes": "ملاحظات الشحن",
+    "confirmed": "مؤكد",
+    "order_confirmed_with_customer": "تم تأكيد الطلب مع العميل",
+    "not_confirmed": "غير مؤكد",
+    "ready_to_send": "جاهز للإرسال",
+    "stock_warning": "تنبيه المخزون",
+    "total": "الإجمالي",
+    "deleteOrder": "حذف الطلب من القائمة",
+    "customer_and_shipping_details": "بيانات العميل والشحن",
+    "choose_file": "اختيار ملف",
+    "order_number": "رقم الطلب",
+    "products": "المنتجات",
+    "add_product": "إضافة منتج",
+    "product_name": "اسم المنتج",
+    "quantity": "الكمية",
+    "unit_price": "سعر الوحدة",
+    "total_price": "السعر الإجمالي",
+    "out_of_stock": "نفذ المخزون",
+    "deficit_in_stock": "عجز بالمخزون! إجمالي المطلوب في الطلبات ({{totalConsumed}}) يتجاوز المتاح ({{warehouseStock}}) بمقدار ({{remaining}})",
+    "inventory_shortage_all_stock_reserved": "عجز بالمخزون! تم حجز كامل المخزون المتوفر (المتبقي: 0)",
+    "sufficient_stock": "المخزون كافٍ (المتوفر: {{warehouseStock}} | المتبقي بعد كل الطلبات: {{remaining}})",
+    "total_products_in_order": "عدد المنتجات",
+    "total_amount": "إجمالي المبلغ",
+    "egp": "ج.م",
+    "order_send_successfully": "تم إرسال هذا الطلب بنجاح",
+    "export_results": "تصدير نتائج الإرسال",
+    "export_results_tooltip": "تصدير ملف إكسيل بنتائج إرسال الطلبات وحالتها وكود كل طلب",
+    "view_details": "عرض تفاصيل الطلب",
+    "hide_details": "إخفاء التفاصيل",
+    "cannot_send_out_of_stock": "لا يمكن إرسال الطلب لوجود منتجات غير متوفرة في المخزون",
+    "hide_skus_stock_inspector": "اخفاء قائمة المخزون",
+    "show_skus_stock_inspector": "اظهار قائمة المخزون ({skuCount} SKUs)",
+    "incomplete_data": "بيانات غير مكتملة",
+    "missing_fields": "بيانات ناقصة",
+    "at_least_one_product": "يجب إضافة منتج واحد على الأقل",
+    "complete_required_fields": "يرجى استكمال البيانات المطلوبة",
+    "order_not_complete_data":"طلبات غير مكتملة البيانات"
   }
 }
-
