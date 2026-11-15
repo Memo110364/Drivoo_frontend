@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -49,6 +49,7 @@ const REMEMBERED_IDENTIFIER = 'drivoo.login.identifier';
   ],
   templateUrl: './side-login.component.html',
   styleUrl: './side-login.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [AuthService],
 })
 export class AppSideLoginComponent {

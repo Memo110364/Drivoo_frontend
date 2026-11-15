@@ -206,7 +206,7 @@
                       Values for "{{ variable.get('name')?.value || 'this variation' }}"
                     </span>
                     <span class="f-s-12 text-muted">
-                      Type: <strong>{{ variable.get('type')?.value | titlecase }}</strong>
+                      Type: <strong>{{ $safeNavigationMigration(variable.get('type')?.value) | titlecase }}</strong>
                     </span>
                   </div>
 

@@ -6,6 +6,7 @@ import {
   Input,
   inject,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
@@ -39,6 +40,7 @@ interface ProductsCache {
     PerformanceTableComponent,
     TabStatusBarComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './products-tab.component.html',
 })
 export class ProductsTabComponent implements OnInit, OnChanges {

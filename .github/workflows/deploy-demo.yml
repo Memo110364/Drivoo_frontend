@@ -47,12 +47,12 @@ jobs:
       # Pages has no SPA rewrite rule; a copy of index.html as 404.html gives us one.
       - name: Add SPA fallback
         run: |
-          cp dist/Matdash/browser/index.html dist/Matdash/browser/404.html
-          touch dist/Matdash/browser/.nojekyll
+          cp dist/Drivoo/browser/index.html dist/Drivoo/browser/404.html
+          touch dist/Drivoo/browser/.nojekyll
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/Matdash/browser
+          path: dist/Drivoo/browser
 
   deploy:
     needs: build

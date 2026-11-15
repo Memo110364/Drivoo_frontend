@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, computed, inject, signal } from '@angular/core';
+import { Component, Input, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,7 @@ import { amountClass, formatDateTime } from '../../shared/wallet-format';
   imports: [CommonModule, FormsModule, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './ledger.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './ledger.component.scss',
 })
 export class LedgerComponent {

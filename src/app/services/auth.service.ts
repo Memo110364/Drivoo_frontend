@@ -14,7 +14,6 @@ export class AuthService {
 
     this.parser = new UAParser();
     this.result = this.parser.getResult();
-    console.log(this.result);
     
 
 
@@ -59,7 +58,6 @@ export class AuthService {
   }
 
   getAccessToken(): string | null {
-    console.log("accessToken: ",sessionStorage.getItem('accessToken'));
     if (localStorage.getItem('rememberMe') === '1') {
       return this.accessToken || localStorage.getItem('accessToken');
     }else{

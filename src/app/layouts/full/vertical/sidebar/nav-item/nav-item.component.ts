@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, OnChanges, Output, EventEmitter, } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, OnChanges, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { NavItem } from './nav-item';
 import { Router } from '@angular/router';
 import { NavService } from '../../../../../services/nav.service';
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
   imports: [TranslateModule, TablerIconsModule, MaterialModule, CommonModule],
   templateUrl: './nav-item.component.html',
   styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('indicatorRotate', [
       state('collapsed', style({ transform: 'rotate(0deg)' })),

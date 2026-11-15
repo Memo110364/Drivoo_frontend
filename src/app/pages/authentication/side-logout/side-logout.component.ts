@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
@@ -11,6 +11,7 @@ import {AuthService} from 'src/app/services/auth.service';
   selector: 'app-logout',
   imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [LoginService],
 })
 export class AppSideLogoutComponent implements OnInit {
@@ -24,7 +25,6 @@ export class AppSideLogoutComponent implements OnInit {
   ngOnInit(): void {
     this.authService.logout();
     this.service.logout();
-    console.log("logout");
     // رجّع المستخدم لصفحة تسجيل الدخول
     this.routes.navigate(['/authentication/login']);
   }

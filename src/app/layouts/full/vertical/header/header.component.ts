@@ -5,6 +5,7 @@ import {
   Input,
   signal,
   ViewEncapsulation,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -53,6 +54,7 @@ interface apps {
     MaterialModule
   ],
   templateUrl: './header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
@@ -109,7 +111,6 @@ export class HeaderComponent {
     const dialogRef = this.dialog.open(AppSearchDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -276,6 +277,7 @@ export class HeaderComponent {
     FormsModule,
     MatDividerModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: 'search-dialog.component.html',
 })
 export class AppSearchDialogComponent {

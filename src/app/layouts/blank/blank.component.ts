@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { AppSettings } from 'src/app/config';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/app/material.module';
   selector: 'app-blank',
   templateUrl: './blank.component.html',
   styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet, MaterialModule, CommonModule],
 })
 export class BlankComponent {

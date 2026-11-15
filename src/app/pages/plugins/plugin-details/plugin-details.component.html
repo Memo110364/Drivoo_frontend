@@ -1,37 +1,14 @@
 <div class="plugin-details-container">
-  <!-- Top Navigation & Breadcrumbs -->
+  @if(!isLoaded() && !hasError() && plugin(); as item){
   <div class="d-flex align-items-center justify-content-between flex-wrap gap-12 m-b-20">
     <a mat-button routerLink="/plugins" class="back-link d-inline-flex align-items-center gap-6">
       <i class="iconify f-s-16 rtl-icon-flip" data-icon="solar:arrow-right-linear"></i>
       <span class="f-w-600">{{ 'plugins.back_to_plugins' | translate }}</span>
     </a>
-
-    <div class="breadcrumbs f-s-13 text-muted d-flex align-items-center gap-6">
-      <span>{{ 'navbar.dashboard' | translate }}</span>
-      <i class="iconify f-s-12 rtl-icon-flip" data-icon="solar:alt-arrow-left-linear"></i>
-      <a routerLink="/plugins" class="text-muted hover-primary">{{ 'plugins.title' | translate }}</a>
-      <i class="iconify f-s-12 rtl-icon-flip" data-icon="solar:alt-arrow-left-linear"></i>
-      <span class="text-dark f-w-600">{{ plugin()?.name || ('plugins.details' | translate) }}</span>
-    </div>
   </div>
 
-  @if (isLoading()) {
-    <!-- Skeletons Loading View -->
-    <mat-card class="cardWithShadow p-24 m-b-24">
-      <div class="d-flex align-items-center gap-20">
-        <ngx-skeleton-loader [theme]="{ width: '72px', height: '72px', 'border-radius': '16px' }"></ngx-skeleton-loader>
-        <div class="flex-grow-1">
-          <ngx-skeleton-loader [theme]="{ width: '40%', height: '24px', 'margin-bottom': '8px' }"></ngx-skeleton-loader>
-          <ngx-skeleton-loader [theme]="{ width: '25%', height: '16px' }"></ngx-skeleton-loader>
-        </div>
-      </div>
-    </mat-card>
-    <mat-card class="cardWithShadow p-24">
-      <ngx-skeleton-loader [theme]="{ width: '100%', height: '200px' }"></ngx-skeleton-loader>
-    </mat-card>
-  } @else if (plugin(); as item) {
-    <!-- Hero Header Banner Card -->
-    <mat-card class="cardWithShadow hero-banner-card m-b-24" [class.hero-active]="item.is_active">
+
+  <mat-card class="cardWithShadow hero-banner-card m-b-24" [class.hero-active]="item.is_active">
       <mat-card-content class="p-24">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-20">
           <!-- Logo & Title Info -->
@@ -40,7 +17,7 @@
               @if (item.image && !imgError()) {
                 <img [src]="item.image" [alt]="item.name" class="hero-logo-img" (error)="onImageError()" />
               } @else {
-                <i class="iconify f-s-36 text-primary" [attr.data-icon]="getCategoryIcon()"></i>
+                <i class="iconify f-s-36 text-primary" data-icon="solar:widget-add-bold-duotone"></i>
               }
             </div>
 
@@ -53,7 +30,7 @@
                     {{ 'plugins.status_active' | translate }}
                   </span>
                 } @else {
-                  <span class="badge-pill badge-inactive">
+                  <span class="badge-pill badge-inactive inactive_12">
                     {{ 'plugins.status_inactive' | translate }}
                   </span>
                 }
@@ -83,170 +60,47 @@
           <!-- Hero Actions -->
           <div class="d-flex align-items-center gap-10">
             @if (!item.is_active) {
-              <button mat-flat-button color="primary" class="hero-subscribe-btn"
+              <button matButton="filled" color="primary" class="hero-subscribe-btn"
                       [disabled]="isSubscribing()"
                       (click)="handleSubscribe()">
+                <span class="d-flex align-items-center gap-6">
                 @if (isSubscribing()) {
                   <mat-spinner diameter="18" class="d-inline-block m-r-6"></mat-spinner>
                 } @else {
                   <i class="iconify f-s-18 m-r-6" data-icon="solar:bolt-bold"></i>
                 }
                 <span>{{ 'plugins.subscribe_now' | translate }}</span>
+                </span>
               </button>
             } @else {
-              <button mat-stroked-button color="warn" class="deactivate-btn" (click)="handleToggleStatus()">
+              <button matButton="outlined"  color="warn" class="deactivate-btn " (click)="handleUnsubscribe()">
+                <span class="d-flex align-items-center gap-6">
                 <i class="iconify f-s-16 m-r-6" data-icon="solar:power-bold"></i>
                 <span>{{ 'plugins.deactivate' | translate }}</span>
+                </span>
               </button>
             }
           </div>
         </div>
       </mat-card-content>
     </mat-card>
-
-    <!-- Main Content Tabs -->
-    <mat-tab-group class="plugin-tabs cardWithShadow bg-white rounded-16 overflow-hidden"
-                   mat-stretch-tabs="false"
-                   [selectedIndex]="selectedTab()"
-                   (selectedIndexChange)="selectedTab.set($event)">
-      <!-- Tab 1: Overview -->
-      <mat-tab [label]="'plugins.overview' | translate">
-        <div class="p-24">
-          <div class="row g-4">
-            <!-- Left / Main Description -->
-            <div class="col-lg-8 col-12">
-              <div class="m-b-24">
-                <h4 class="f-s-16 f-w-700 m-b-12">{{ 'plugins.overview' | translate }}</h4>
-                <p class="text-muted f-s-14 lh-lg m-b-0">
-                  {{ item.description || 'هذه الإضافة تتيح لك الربط التلقائي وتوسيع قدرات متجرك على منصة دريفو بكل كفاءة وأمان وسلاسة.' }}
-                </p>
-              </div>
-
-              <!-- Features Checklist -->
-              <div class="m-b-24">
-                <h4 class="f-s-16 f-w-700 m-b-16">{{ 'plugins.features' | translate }}</h4>
-                <div class="row g-3">
-                  @for (feature of getFeatures(); track feature) {
-                    <div class="col-md-6 col-12">
-                      <div class="feature-box d-flex align-items-center gap-10 p-12 rounded-10">
-                        <div class="feature-icon bg-light-success text-success">
-                          <i class="iconify f-s-16" data-icon="solar:check-circle-bold"></i>
-                        </div>
-                        <span class="f-s-13 f-w-500 text-dark">{{ feature }}</span>
-                      </div>
-                    </div>
-                  }
-                </div>
-              </div>
-
-              <!-- Prerequisites / Requirements -->
-              <div>
-                <h4 class="f-s-16 f-w-700 m-b-12">{{ 'plugins.prerequisites' | translate }}</h4>
-                <div class="alert-box p-16 rounded-12 d-flex align-items-start gap-12 bg-light-primary">
-                  <i class="iconify f-s-20 text-primary m-t-2" data-icon="solar:info-circle-bold-duotone"></i>
-                  <div class="f-s-13 text-muted lh-base">
-                    يتطلب تفعيل هذا التطبيق وجود حساب نشط على المنصة المزودة للخدمة، وسيُطلب منك إدخال بيانات الربط في تبويب "الإعدادات" فور الاشتراك.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right Sidebar Meta Card -->
-            <div class="col-lg-4 col-12">
-              <div class="meta-sidebar p-20 rounded-14 b-1">
-                <h5 class="f-s-14 f-w-700 m-b-16 text-dark">{{ 'plugins.integration_status' | translate }}</h5>
-
-                <div class="meta-row d-flex justify-content-between align-items-center py-2 b-b-1">
-                  <span class="text-muted f-s-13">{{ 'plugins.status_active' | translate }}</span>
-                  <span class="f-s-13 f-w-600" [class.text-success]="item.is_active" [class.text-muted]="!item.is_active">
-                    {{ item.is_active ? ('plugins.status_active' | translate) : ('plugins.status_inactive' | translate) }}
-                  </span>
-                </div>
-
-                <div class="meta-row d-flex justify-content-between align-items-center py-2 b-b-1">
-                  <span class="text-muted f-s-13">{{ 'plugins.filter_by_category' | translate }}</span>
-                  <span class="f-s-13 f-w-600 text-dark">{{ getCategoryName() }}</span>
-                </div>
-
-                <div class="meta-row d-flex justify-content-between align-items-center py-2 b-b-1">
-                  <span class="text-muted f-s-13">{{ 'plugins.developer' | translate }}</span>
-                  <span class="f-s-13 f-w-600 text-dark">{{ item.author || 'Drivoo Team' }}</span>
-                </div>
-
-                <div class="meta-row d-flex justify-content-between align-items-center py-2 b-b-1">
-                  <span class="text-muted f-s-13">{{ 'plugins.version' | translate }}</span>
-                  <span class="f-s-13 f-w-600 text-dark">v{{ item.version || '1.0.0' }}</span>
-                </div>
-
-                <div class="meta-row d-flex justify-content-between align-items-center py-2">
-                  <span class="text-muted f-s-13">{{ 'plugins.rating' | translate }}</span>
-                  <span class="f-s-13 f-w-600 text-warning d-flex align-items-center gap-4">
-                    <i class="iconify f-s-14" data-icon="solar:star-bold"></i>
-                    <span>{{ item.rating || 5.0 }}</span>
-                    <span class="text-muted f-s-11">({{ item.reviews_count || 48 }} {{ 'plugins.reviews' | translate }})</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-tab>
-
-      <!-- Tab 2: Settings & Integration (Currently empty / under construction per user request) -->
-      <mat-tab [label]="'plugins.settings' | translate">
-        <div class="p-32">
-          <!-- Empty State & Configuration Placeholder -->
-          <div class="empty-settings-container text-center p-y-24">
-            <div class="settings-icon-wrap m-b-20">
-              <i class="iconify f-s-56 text-primary" data-icon="solar:settings-minimalistic-line-duotone"></i>
-            </div>
-            <h3 class="f-s-20 f-w-700 m-b-8 text-dark">{{ 'plugins.empty_settings_title' | translate }}</h3>
-            <p class="text-muted f-s-14 m-b-24 m-x-auto" style="max-width: 520px;">
-              {{ 'plugins.empty_settings_desc' | translate }}
-            </p>
-
-            <!-- Preview placeholder form fields -->
-            <div class="settings-preview-card m-x-auto text-start p-24 rounded-14 b-1" style="max-width: 600px;">
-              <div class="d-flex align-items-center justify-content-between m-b-16">
-                <span class="f-s-13 f-w-600 text-muted">حقول الإعدادات التلقائية (معاينة)</span>
-                <span class="badge-pill badge-inactive">قريباً</span>
-              </div>
-
-              <div class="m-b-16">
-                <label class="f-s-12 f-w-600 text-muted d-block m-b-6">مفتاح الربط (API Key)</label>
-                <input type="text" disabled placeholder="sk_live_xxxxxxxxxxxxxxxxxxxx" class="preview-input w-100" />
-              </div>
-
-              <div class="m-b-16">
-                <label class="f-s-12 f-w-600 text-muted d-block m-b-6">المعرّف الخاص (Client Secret ID)</label>
-                <input type="password" disabled value="••••••••••••••••••••••••" class="preview-input w-100" />
-              </div>
-
-              <div class="m-b-20">
-                <label class="f-s-12 f-w-600 text-muted d-block m-b-6">رابط استقبال الإشعارات (Webhook URL)</label>
-                <input type="text" disabled [value]="'https://api.moyaser.local/webhook/' + (item.slug || 'plugin')" class="preview-input w-100" />
-              </div>
-
-              <div class="d-flex justify-content-end">
-                <button mat-flat-button color="primary" disabled>
-                  <span>{{ 'plugins.save_settings' | translate }}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-tab>
-
-      <!-- Tab 3: Activity Log -->
-      <mat-tab [label]="'plugins.activity' | translate">
-        <div class="p-32 text-center">
-          <div class="empty-icon-wrap m-b-16 m-x-auto">
-            <i class="iconify f-s-48 text-muted" data-icon="solar:history-line-duotone"></i>
-          </div>
-          <h4 class="f-s-16 f-w-600 m-b-6 text-dark">لا يوجد سجل نشاط مسجل</h4>
-          <p class="text-muted f-s-13 m-b-0">سيتم عرض عمليات المزامنة والتحديثات الخاصة بهذه الإضافة هنا بمجرد بدء العمل.</p>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  }
+}
+    <!-- مكان الحاوية اللي هيتعمل فيها ريندر للبلجن آمن تماماً -->
+    <div #container></div>
+    @if(isLoaded() && !hasError()){
+    <p>جاري تحميل الإضافة...</p>
+    }
+    @if(hasError()){
+  <mat-card class="cardWithShadow text-center p-32">
+      <div class="error-illustration m-b-16">
+        <i class="iconify m-auto f-s-56 text-error" data-icon="solar:danger-triangle-bold-duotone"></i>
+      </div>
+      <h4 class="f-s-18 f-w-600 m-b-8">تعذر تحميل الإضافة</h4>
+      <p class="text-muted f-s-14 m-b-20">حدث خطأ أثناء جلب  الإضافة من السيرفر. يرجى المحاولة مرة أخرى.</p>
+      <!-- <button mat-flat-button color="primary" (click)="getPlugins()">
+        <i class="iconify f-s-16 m-r-6" data-icon="solar:restart-bold"></i>
+        <span>إعادة المحاولة</span> -->
+      <!-- </button> -->
+    </mat-card>
+    }
 </div>

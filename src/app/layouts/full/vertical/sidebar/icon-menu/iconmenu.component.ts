@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { menuItems } from './iconmenu-data';
 import { TablerIconsModule } from 'angular-tabler-icons';
@@ -12,6 +12,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
   selector: 'app-iconmenu',
   standalone: true,
   templateUrl: './iconmenu.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TablerIconsModule, MatListItem, MatNavList, MatButtonModule, MatTooltipModule],
 })
 export class IconMenuComponent implements OnInit {
@@ -61,6 +62,5 @@ export class IconMenuComponent implements OnInit {
     // Get the current URL
 
     this.selectedMenu = this.findParentRouteId(navItems, this.router.url);
-    console.log(this.selectedMenu);
   }
 }

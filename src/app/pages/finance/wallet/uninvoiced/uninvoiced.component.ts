@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, computed, inject, Input, signal} from '@angular/core';
+import {Component, computed, inject, Input, signal, ChangeDetectionStrategy} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
@@ -30,6 +30,7 @@ import { Router } from '@angular/router';
   ],
   templateUrl: './uninvoiced.component.html',
   providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uninvoiced.component.scss',
 })
 export class UninvoicedComponent {
@@ -99,7 +100,6 @@ export class UninvoicedComponent {
     const rows = this.filteredRows();
     // An opening balance is a starting point, not money that moved, so it is
     // left out of both totals — including it would double-count the period.
-    console.log("summary",rows.filter((row) => parseFloat(row.cost) > 0).reduce((total, row) => total + parseFloat(row.cost), 0))
     const moved = rows.filter((row) => row.type !== 'opening_balance');
     const credit = moved.filter((row) => parseFloat(row.cost) > 0).reduce((total, row) => total + parseFloat(row.cost), 0);
     const debit = moved.filter((row) => parseFloat(row.cost) < 0).reduce((total, row) => total - parseFloat(row.cost), 0);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, Input, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import { downloadCsv } from '../shared/csv-export';
   standalone: true,
   imports: [CommonModule, FormsModule, MaterialModule, TranslateModule],
   templateUrl: './detailed-export.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './detailed-export.component.scss',
 })
 export class DetailedExportComponent {

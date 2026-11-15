@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { BrandingComponent } from './branding.component';
 import { TablerIconsModule } from 'angular-tabler-icons';
@@ -13,6 +14,7 @@ import { MaterialModule } from 'src/app/material.module';
 @Component({
   selector: 'app-sidebar',
   imports: [BrandingComponent, TablerIconsModule, MaterialModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit {

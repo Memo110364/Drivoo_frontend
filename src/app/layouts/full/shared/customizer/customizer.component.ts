@@ -4,6 +4,7 @@ import {
   EventEmitter,
   ViewEncapsulation,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { AppSettings } from 'src/app/config';
 import { CoreService } from 'src/app/services/core.service';
@@ -21,6 +22,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
         NgScrollbarModule,
     ],
     templateUrl: './customizer.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     encapsulation: ViewEncapsulation.None
 })
 export class CustomizerComponent {

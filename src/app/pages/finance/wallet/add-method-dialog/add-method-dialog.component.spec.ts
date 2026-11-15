@@ -1,7 +1,7 @@
 import { EnvironmentInjector, Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { AddMethodDialogComponent } from './add-method-dialog.component';
 import { WalletService, WithdrawalMethodConfig } from 'src/app/services/api/wallet.service';
@@ -36,7 +36,7 @@ describe('AddMethodDialogComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         { provide: MatDialogRef, useValue: { close: () => {} } },
       ],
