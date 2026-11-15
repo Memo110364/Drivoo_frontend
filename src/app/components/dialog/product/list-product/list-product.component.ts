@@ -7,6 +7,7 @@ import {
   Optional,
   Signal,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IconModule } from 'src/app/icon/icon.module';
@@ -39,6 +40,7 @@ export interface Section {
     MatSliderModule,
   ],
   templateUrl: './list-product.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './list-product.component.scss',
 })
 export class ListProductComponent implements OnInit {
@@ -182,7 +184,6 @@ export class ListProductComponent implements OnInit {
     }
   
   formatLabel(value: number): string {
-    console.log("value: ",value);
     
     if (value == 10000) {
       // return infinity

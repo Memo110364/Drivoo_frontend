@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-branding',
   imports: [RouterModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <a [routerLink]="['/']">
       <img

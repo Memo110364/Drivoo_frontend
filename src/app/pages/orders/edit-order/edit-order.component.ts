@@ -1,4 +1,4 @@
-import {Component, signal ,OnInit ,AfterViewInit } from '@angular/core';
+import {Component, signal, OnInit, AfterViewInit, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {OrderService} from 'src/app/services/apps/order/order.service';
 import {LogisticsService} from 'src/app/services/api/logistics.service'
@@ -27,6 +27,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
   selector: 'app-edit-invoice',
   styleUrl: './edit-order.component.scss',
   templateUrl: './edit-order.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MaterialModule,
     CommonModule,
@@ -280,7 +281,6 @@ export class EditOrderComponent implements OnInit{
         if (!currentInvoice.items) {
           currentInvoice.items = [];
         }
-        console.log('result',result);
         
         let newItem: any = null;
         if (result.product_name || result.name || result.product) {
@@ -397,7 +397,6 @@ removeRow(index: number): void {
           status_code: item.itemStatusCode
         }))
       };
-      // console.log('payload',payload);
       // return
       this.orderService.updateInvoice(currentInvoice.id, payload).subscribe({
         next: (res) => {

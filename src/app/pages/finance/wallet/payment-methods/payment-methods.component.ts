@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,7 @@ import { METHOD_ICONS, formatDate, methodStatusClass } from '../../shared/wallet
   standalone: true,
   imports: [CommonModule, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
   templateUrl: './payment-methods.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './payment-methods.component.scss',
 })
 export class PaymentMethodsComponent {

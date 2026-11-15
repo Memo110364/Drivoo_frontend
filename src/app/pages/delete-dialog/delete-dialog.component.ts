@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -19,6 +19,7 @@ import { MaterialModule } from 'src/app/material.module';
     MaterialModule,
   ],
   templateUrl: './delete-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './delete-dialog.component.scss',
 })
 export class DeleteDialogComponent {

@@ -24,6 +24,11 @@ export function navItems():NavItem[]{
         displayName: 'create_order',
         iconName: 'solar:cart-plus-outline',
         route: '/orders/create',
+      },
+      {
+        displayName: 'import_orders',
+        iconName: 'solar:file-download-outline',
+        route: '/orders/import',
       }
     ]
       },

@@ -7,6 +7,7 @@ import {
   inject,
   signal,
   computed,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
@@ -43,6 +44,7 @@ interface OperationsCache {
     NgxSkeletonLoaderModule,
     TabStatusBarComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './operations-tab.component.html',
 })
 export class OperationsTabComponent implements OnInit, OnChanges {

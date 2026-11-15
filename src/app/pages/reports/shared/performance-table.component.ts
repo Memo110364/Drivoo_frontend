@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, computed, inject, signal } from '@angular/core';
+import { Component, Input, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { PerformanceRow } from 'src/app/services/api/reports.service';
 import { downloadCsv } from './csv-export';
+import { FormatSecondsPipe } from '../../../pipe/format-seconds.pipe';
 
 /**
  * The comparison table every dimension shares — carrier, city, area, product,
@@ -15,8 +16,9 @@ import { downloadCsv } from './csv-export';
 @Component({
   selector: 'app-performance-table',
   standalone: true,
-  imports: [CommonModule, RouterLink, MaterialModule, TranslateModule, NgxSkeletonLoaderModule],
+  imports: [CommonModule, RouterLink, MaterialModule, TranslateModule, NgxSkeletonLoaderModule, FormatSecondsPipe],
   templateUrl: './performance-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './performance-table.component.scss',
 })
 export class PerformanceTableComponent {

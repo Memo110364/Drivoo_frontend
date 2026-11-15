@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -22,6 +22,7 @@ export interface AddMethodDialogData {
   standalone: true,
   imports: [CommonModule, FormsModule, MaterialModule, TranslateModule],
   templateUrl: './add-method-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './add-method-dialog.component.scss',
 })
 export class AddMethodDialogComponent {

@@ -103,8 +103,12 @@
           </mat-icon>
         </mat-form-field>
       </div>
-      <div class="col-sm-4 d-flex align-items-center justify-content-end">
-        <a mat-button [routerLink]="['/apps/invoice/addInvoice']" mat-flat-button color="primary">Add Invoice</a>
+      <div class="col-sm-4 d-flex align-items-center justify-content-end gap-2">
+        <a [routerLink]="['/orders/import']" mat-stroked-button color="primary">
+          <i-tabler name="file-upload" class="icon-18 m-r-4"></i-tabler>
+          {{ 'import_orders' | translate }}
+        </a>
+        <a mat-button [routerLink]="['/orders/create']" mat-flat-button color="primary">Add Order</a>
       </div>
     </div>
   </mat-card-content>

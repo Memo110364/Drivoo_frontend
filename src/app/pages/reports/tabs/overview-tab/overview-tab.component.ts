@@ -7,6 +7,7 @@ import {
   inject,
   signal,
   computed,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -47,6 +48,7 @@ interface OverviewCache {
     DetailedExportComponent,
     TabStatusBarComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './overview-tab.component.html',
 })
 export class OverviewTabComponent implements OnInit, OnChanges {

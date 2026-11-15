@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   AbstractControl,
@@ -45,6 +45,7 @@ function phoneOrEmail(control: AbstractControl): ValidationErrors | null {
     TranslateModule,
   ],
   templateUrl: './forgot-password.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './forgot-password.component.scss',
 })
 export class ForgotPasswordComponent {

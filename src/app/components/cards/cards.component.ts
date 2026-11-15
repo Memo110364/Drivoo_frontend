@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,7 @@ import { TablerIconsModule } from 'angular-tabler-icons';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatChipsModule, TablerIconsModule, MatButtonModule, MatIconModule],
   templateUrl: './cards.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cards.component.scss'],
 })
 export class AppCardsComponent {

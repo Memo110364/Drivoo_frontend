@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ import { Plugin, PluginsService } from '../../services/api/plugin.service';
     PluginCardComponent,
   ],
   templateUrl: './plugins.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './plugins.component.scss',
 })
 export class PluginsComponent implements OnInit {
@@ -137,11 +138,11 @@ export class PluginsComponent implements OnInit {
   }
 
   handleSubscribe(plugin: Plugin): void {
-    this.pluginService.subscribePlugin(plugin.id).subscribe({
+    this.pluginService.subscribePlugin(plugin.slug).subscribe({
       next: () => {
         // Update local state
         this.plugins.update((list) =>
-          list.map((item) => (item.id === plugin.id ? { ...item, is_active: true } : item))
+          list.map((item) => (item.slug === plugin.slug ? { ...item, is_active: true } : item))
         );
         const msg = this.translate.instant('plugins.subscribe_success');
         this.snackBar.open(`${msg}: ${plugin.name}`, this.translate.instant('system_messages.close'), {
@@ -157,19 +158,19 @@ export class PluginsComponent implements OnInit {
       },
     });
   }
+handleUnsubscribe(plugin: Plugin): void {
+    if (!plugin) return;
 
-  handleToggle(plugin: Plugin): void {
-    const nextStatus = !plugin.is_active;
-    this.pluginService.togglePluginStatus(plugin.id, nextStatus).subscribe({
+    this.pluginService.unsubscribePlugin(plugin.slug).subscribe({
       next: () => {
-        this.plugins.update((list) =>
-          list.map((item) => (item.id === plugin.id ? { ...item, is_active: nextStatus } : item))
+        this.plugins.update((curr) => (curr ? { ...curr, is_active: false } : curr));
+        this.snackBar.open(
+          this.translate.instant('plugins.unsubscribe_success'),
+          this.translate.instant('system_messages.close'),
+          { duration: 4000 }
         );
-        const msgKey = nextStatus ? 'plugins.subscribe_success' : 'plugins.unsubscribe_success';
-        this.snackBar.open(this.translate.instant(msgKey), this.translate.instant('system_messages.close'), {
-          duration: 3000,
-        });
       },
     });
   }
+
 }

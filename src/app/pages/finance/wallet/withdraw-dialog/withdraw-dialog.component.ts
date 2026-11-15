@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,6 +29,7 @@ export interface WithdrawDialogData {
   standalone: true,
   imports: [CommonModule, FormsModule, MaterialModule, TranslateModule],
   templateUrl: './withdraw-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './withdraw-dialog.component.scss',
 })
 export class WithdrawDialogComponent {

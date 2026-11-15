@@ -1,186 +1,232 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "Matdash": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:application",
-          "options": {
-            "allowedCommonJsDependencies": [
-              "bezier-easing"
-            ],
-            "outputPath": {
-              "base": "dist/Matdash"
-            },
-            "index": "src/index.html",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "mock-api",
-                "output": "/api/v1"
-              }
-            ],
-            "styles": [
-              "src/globals.css",
-              "src/styles.scss",
-              "src/assets/scss/style.scss"
-            ],
-            "browser": "src/main.ts"
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "12mb",
-                  "maximumError": "12mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "12mb",
-                  "maximumError": "12mb"
-                }
-              ],
-              "outputHashing": "all",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "demo": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "12mb",
-                  "maximumError": "12mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "12mb",
-                  "maximumError": "12mb"
-                }
-              ],
-              "outputHashing": "all",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.demo.ts"
-                }
-              ],
-              "baseHref": "/Drivoo_frontend/",
-              "assets": [
-                "src/favicon.ico",
-                "src/assets",
-                {
-                  "glob": "**/*",
-                  "input": "mock-api",
-                  "output": "/api/v1"
-                }
-              ]
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "Matdash:build:production"
-            },
-            "hmr": {
-              "hmr": true
-            },
-            "development": {
-              "buildTarget": "Matdash:build:development"
-            },
-            "demo": {
-              "buildTarget": "Matdash:build:demo"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-          "options": {
-            "buildTarget": "Matdash:build"
-          }
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "karmaConfig": "karma.conf.js"
-          }
-        }
-      }
-    }
-  },
-  "cli": {
-    "analytics": false
-  },
-  "schematics": {
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
-    }
-  }
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects": {
+		"Drivoo": {
+			"projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "",
+			"sourceRoot": "src",
+			"prefix": "app",
+			"architect": {
+				"build": {
+					"builder": "@angular-architects/native-federation:build",
+					"options": {
+						"cacheExternalArtifacts": true,
+						"tsConfig": "tsconfig.federation.json"
+					},
+					"configurations": {
+						"production": {
+							"target": "Drivoo:esbuild:production",
+							"optimization": true,
+							"outputHashing": "all",  
+							"sourceMap": false,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						},
+						"development": {
+							"target": "Drivoo:esbuild:development",
+							"dev": true
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"serve": {
+					"builder": "@angular-architects/native-federation:build",
+					"options": {
+						"target": "Drivoo:serve-original:development",
+						"tsConfig": "tsconfig.federation.json",
+						"rebuildDelay": 500,
+						"cacheExternalArtifacts": true,
+						"dev": true,
+						"devServer": true,
+						"port": 0
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular/build:extract-i18n",
+					"options": {
+						"buildTarget": "Drivoo:build"
+					}
+				},
+				"test": {
+					"builder": "@angular/build:karma",
+					"options": {
+						"polyfills": [
+							"zone.js",
+							"zone.js/testing"
+						],
+						"tsConfig": "tsconfig.spec.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							"src/favicon.ico",
+							"src/assets"
+						],
+						"styles": [
+							"src/styles.scss"
+						],
+						"scripts": [],
+						"karmaConfig": "karma.conf.js"
+					}
+				},
+				"esbuild": {
+					"builder": "@angular/build:application",
+					"options": {
+						"allowedCommonJsDependencies": [
+							"bezier-easing"
+						],
+						"outputPath": {
+							"base": "dist/Drivoo"
+						},
+						"index": "src/index.html",
+						"polyfills": [
+							"zone.js",
+							"es-module-shims"
+						],
+						"tsConfig": "tsconfig.app.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							"src/favicon.ico",
+							"src/assets",
+							{
+								"glob": "**/*",
+								"input": "mock-api",
+								"output": "/api/v1"
+							}
+						],
+						"styles": [
+							"src/globals.css",
+							"src/styles.scss",
+							"src/assets/scss/style.scss"
+						],
+						"browser": "src/main.ts",
+						"stylePreprocessorOptions": {
+							"includePaths": [
+								"node_modules"
+							]
+						}
+					},
+					"configurations": {
+						"production": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "12mb",
+									"maximumError": "12mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "12mb",
+									"maximumError": "12mb"
+								}
+							],
+							"outputHashing": "all",
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
+								}
+							]
+						},
+						"development": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
+						},
+						"demo": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "12mb",
+									"maximumError": "12mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "12mb",
+									"maximumError": "12mb"
+								}
+							],
+							"outputHashing": "all",
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.demo.ts"
+								}
+							],
+							"baseHref": "/Drivoo_frontend/",
+							"assets": [
+								"src/favicon.ico",
+								"src/assets",
+								{
+									"glob": "**/*",
+									"input": "mock-api",
+									"output": "/api/v1"
+								}
+							]
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"serve-original": {
+					"builder": "@angular/build:dev-server",
+					"configurations": {
+						"production": {
+							"buildTarget": "Drivoo:esbuild:production"
+						},
+						"hmr": {
+							"hmr": true
+						},
+						"development": {
+							"buildTarget": "Drivoo:esbuild:development"
+						},
+						"demo": {
+							"buildTarget": "Drivoo:build:demo"
+						}
+					},
+					"defaultConfiguration": "development",
+					"options": {
+						"port": 4200
+					}
+				}
+			}
+		}
+	},
+	"cli": {
+		"analytics": false
+	},
+	"schematics": {
+		"@schematics/angular:component": {
+			"type": "component"
+		},
+		"@schematics/angular:directive": {
+			"type": "directive"
+		},
+		"@schematics/angular:service": {
+			"type": "service"
+		},
+		"@schematics/angular:guard": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:interceptor": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:module": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:pipe": {
+			"typeSeparator": "."
+		},
+		"@schematics/angular:resolver": {
+			"typeSeparator": "."
+		}
+	}
 }

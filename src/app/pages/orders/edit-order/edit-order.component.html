@@ -38,7 +38,7 @@
                 [style.background-color]="'#' + invoice()?.status_color?.color"
                 [style.color]="'#' + invoice()?.status_color?.text_color"
               >
-                {{ "orders.status_number." + invoice()?.status | translate }}
+                {{ "orders.status_number." + $safeNavigationMigration(invoice()?.status) | translate }}
               </span>
               <!-- </h6> -->
             </div>
@@ -47,7 +47,7 @@
                 <span class="f-w-600 f-s-15 m-b-8"> {{ "orders.invoice.order_date" | translate }}:</span>
                 <!-- <h6 name="date" class="m-t-5 m-b-0 f-w-500 f-s-14 f-s-16" [(ngModel)]="invoice().orderDate"
                 ngDefaultControl> -->
-                {{ invoice()?.date | date: "fullDate" }}
+                {{ $safeNavigationMigration(invoice()?.date) | date: "fullDate" }}
                 <!-- </h6> -->
               </div>
             </div>

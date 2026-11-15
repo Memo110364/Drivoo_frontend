@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
 import { navItems } from '../../vertical/sidebar/sidebar-data';
@@ -38,6 +38,7 @@ interface apps {
 @Component({
   selector: 'app-horizontal-header',
   imports: [RouterModule, TablerIconsModule, MaterialModule, BrandingComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './header.component.html',
 })
 export class AppHorizontalHeaderComponent {
@@ -86,7 +87,6 @@ export class AppHorizontalHeaderComponent {
     const dialogRef = this.dialog.open(AppHorizontalSearchDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -251,6 +251,7 @@ export class AppHorizontalHeaderComponent {
 @Component({
   selector: 'app-search-dialog',
   imports: [RouterModule, MaterialModule, TablerIconsModule, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: 'search-dialog.component.html',
 })
 export class AppHorizontalSearchDialogComponent {
