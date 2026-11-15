@@ -111,7 +111,7 @@
             <th mat-header-cell *matHeaderCellDef>
               {{ 'reports.table.avg_delivery_days' | translate }}
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.avg_delivery_days }}</td>
+            <td mat-cell *matCellDef="let row">{{ row.avg_delivery_days>0?(row.avg_delivery_days|formatSeconds):'--' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="revenue">
