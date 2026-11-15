@@ -141,6 +141,8 @@
     "import_orders": "استيراد طلبات",
     "all_products": "جميع المنتجات",
     "create_product": "إنشاء منتج",
+    "stock_requests": "طلبات إضافة المخزون",
+    "manage_stock": "إدارة المخزون",
     "my_wallets": "المحافظ",
     "my_invoices": "الفواتير",
     "transfers": "التحويلات",

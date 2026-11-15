@@ -16,7 +16,7 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { IconModule } from 'src/app/icon/icon.module';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../delete-dialog/delete-dialog.component';
 import { ProductService as AppProductService } from 'src/app/services/apps/product/product.service';
@@ -26,7 +26,7 @@ import { debounceTime, distinctUntilChanged, forkJoin, Subject, Subscription } f
 
 @Component({
   selector: 'app-ecommerce',
-  imports: [MaterialModule, IconModule, CommonModule],
+  imports: [MaterialModule, IconModule, CommonModule, RouterLink],
   templateUrl: './ecommerce.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './ecommerce.component.scss',
@@ -176,6 +176,7 @@ export class ProductComponent implements AfterViewInit, OnInit, OnDestroy {
             description: item.description || '',
             rating: item.rating || 4.5,
             media: item.media,
+            depot_rel: item.depot_rel,
             rawProduct: item
           };
         });
@@ -306,5 +307,23 @@ export class ProductComponent implements AfterViewInit, OnInit, OnDestroy {
 
   getAddProductNavigate(): void {
     this.router.navigate(['/products/create']);
+  }
+
+  getStockRequestsNavigate(element?: any): void {
+    const productId = element?.id;
+    if (productId) {
+      this.router.navigate(['/products', productId, 'stock-requests']);
+    } else {
+      this.router.navigate(['/products/stock-requests']);
+    }
+  }
+
+  getAddStockNavigate(element?: any): void {
+    const productId = element?.id;
+    if (productId) {
+      this.router.navigate(['/products', productId, 'stock-requests', 'create']);
+    } else {
+      this.openSnackBar('يرجى اختيار منتج أولاً لإضافة وتوريد المخزون');
+    }
   }
 }

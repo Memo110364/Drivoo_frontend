@@ -1,0 +1,264 @@
+<div class="stock-requests-page p-24">
+  <!-- Page Header -->
+  <div class="d-flex align-items-center justify-content-between m-b-24 flex-wrap gap-3">
+    <div>
+      <div class="d-flex align-items-center gap-2 m-b-4">
+        <a routerLink="/products" class="text-muted d-flex align-items-center gap-1 hover-primary f-s-13">
+          <i-tabler name="arrow-back" class="icon-16"></i-tabler>
+          المنتجات
+        </a>
+        <span class="text-muted">/</span>
+        <span class="f-s-13 text-primary font-bold">طلبات إضافة المخزون</span>
+      </div>
+      <h3 class="f-s-24 f-w-600 m-b-4">طلبات إضافة وتوريد المخزون</h3>
+      <p class="text-muted m-b-0 f-s-14">
+        متابعة وإدارة شحنات توريد وإضافة المخزون للمنتجات وتفاصيل الأعداد المضافة لكل كود (SKU).
+      </p>
+    </div>
+
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      @if (productId()) {
+        <button mat-flat-button color="primary" (click)="goToCreateRequest()" type="button">
+          <i-tabler name="box-plus" class="icon-18 m-r-4"></i-tabler>
+          طلب توريد مخزون جديد
+        </button>
+      }
+
+      <a mat-stroked-button routerLink="/products" class="text-secondary">
+        <i-tabler name="list" class="icon-18 m-r-4"></i-tabler>
+        قائمة المنتجات
+      </a>
+    </div>
+  </div>
+
+  <!-- Product Filter Focus Banner (if opened for a specific product) -->
+  @if (productId()) {
+    <mat-card class="cardWithShadow m-b-24 product-focus-card border-primary">
+      <mat-card-content class="p-16 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+          @if (product()?.image || product()?.img) {
+            <img [src]="product()?.image || product()?.img" alt="Product" class="rounded product-header-thumb" />
+          } @else {
+            <div class="thumb-header-placeholder rounded d-flex align-items-center justify-content-center bg-light-primary text-primary">
+              <i-tabler name="package" class="icon-28"></i-tabler>
+            </div>
+          }
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-light-primary text-primary f-s-12">منتج محدد</span>
+              <h4 class="f-s-18 f-w-600 m-b-0">{{ product()?.Name_AR || product()?.Name || product()?.name || 'المنتج #' + productId() }}</h4>
+            </div>
+            <div class="d-flex align-items-center gap-3 m-t-4 text-muted f-s-13 flex-wrap">
+              <span>المخزون الكلي الحالي بالمخزن: <strong class="text-dark">{{ product()?.stock ?? 0 }} قطعة</strong></span>
+              <span>•</span>
+              <span>عدد طلبات التوريد: <strong class="text-dark">{{ stockRequests().length }} طلب</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <a mat-button routerLink="/products/stock-requests" class="btn-sm text-primary">
+          <i-tabler name="filter-off" class="icon-16 m-r-4"></i-tabler>
+          عرض طلبات كافة المنتجات
+        </a>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Filter & Controls Toolbar Card -->
+  <mat-card class="cardWithShadow m-b-24">
+    <mat-card-content class="p-16">
+      <div class="row g-3 align-items-center justify-content-between">
+        <!-- Status Filter Buttons -->
+        <div class="col-lg-7 col-md-12">
+          <div class="status-filters d-flex align-items-center gap-2 flex-wrap">
+            <button
+              mat-button
+              type="button"
+              class="filter-chip"
+              [ngClass]="{'active': selectedStatus() === 'all'}"
+              (click)="selectedStatus.set('all')"
+            >
+              الكل ({{ stockRequests().length }})
+            </button>
+            <button
+              mat-button
+              type="button"
+              class="filter-chip"
+              [ngClass]="{'active': selectedStatus() === 'completed'}"
+              (click)="selectedStatus.set('completed')"
+            >
+              <i-tabler name="circle-check" class="icon-14 m-r-4 text-success"></i-tabler>
+              مكتمل ومستلم
+            </button>
+            <button
+              mat-button
+              type="button"
+              class="filter-chip"
+              [ngClass]="{'active': selectedStatus() === 'in_transit'}"
+              (click)="selectedStatus.set('in_transit')"
+            >
+              <i-tabler name="truck-delivery" class="icon-14 m-r-4 text-primary"></i-tabler>
+              جاري الاستلام
+            </button>
+            <button
+              mat-button
+              type="button"
+              class="filter-chip"
+              [ngClass]="{'active': selectedStatus() === 'pending'}"
+              (click)="selectedStatus.set('pending')"
+            >
+              <i-tabler name="clock" class="icon-14 m-r-4 text-warning"></i-tabler>
+              قيد المراجعة
+            </button>
+          </div>
+        </div>
+
+        <!-- Search Input -->
+        <div class="col-lg-5 col-md-12">
+          <mat-form-field appearance="outline" class="w-100 density-compact">
+            <mat-label>بحث برقم الطلب، المنتج، كود SKU، أو المخزن...</mat-label>
+            <input matInput [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)" />
+            <i-tabler matPrefix name="search" class="icon-18 text-muted m-r-8"></i-tabler>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Stock Requests Table Card -->
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="p-0">
+      @if (isLoading()) {
+        <div class="p-40 text-center">
+          <mat-spinner diameter="40" class="m-auto m-b-16"></mat-spinner>
+          <span class="text-muted">جاري تحميل طلبات المخزون...</span>
+        </div>
+      } @else if (filteredRequests().length === 0) {
+        <div class="p-40 text-center">
+          <div class="empty-icon-circle bg-light rounded-circle p-16 m-auto m-b-16 d-inline-flex">
+            <i-tabler name="package-off" class="icon-40 text-muted"></i-tabler>
+          </div>
+          <h4 class="f-s-18 f-w-600 m-b-4">لا توجد طلبات إضافة مخزون</h4>
+          <p class="text-muted f-s-14 m-b-16">لم يتم العثور على أي طلبات تطابق الفلاتر المحددة</p>
+          @if (productId()) {
+            <button mat-flat-button color="primary" (click)="goToCreateRequest()">
+              <i-tabler name="plus" class="icon-18 m-r-4"></i-tabler>
+              إنشاء أول طلب توريد
+            </button>
+          } @else {
+            <a mat-flat-button color="primary" routerLink="/products">
+              <i-tabler name="list" class="icon-18 m-r-4"></i-tabler>
+              قائمة المنتجات
+            </a>
+          }
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table class="table table-hover align-middle m-b-0 text-start">
+            <thead class="bg-light">
+              <tr>
+                <th class="p-16">كود الطلب</th>
+                <th class="p-16">التاريخ</th>
+                <th class="p-16">المنتج</th>
+                <th class="p-16">المستودع المستلم</th>
+                <th class="p-16 text-center">إجمالي القطع المضافة</th>
+                <th class="p-16 text-center">أكواد الـ SKUs</th>
+                <th class="p-16">الحالة</th>
+                <th class="p-16 text-center" style="width: 140px;">الإجراء</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (req of filteredRequests(); track req.id) {
+                <tr class="request-row cursor-pointer" (click)="openDetails(req)">
+                  <!-- Request Code -->
+                  <td class="p-16">
+                    <span class="badge bg-light-primary text-primary font-monospace font-bold f-s-13 p-x-8 p-y-4">
+                      {{ req.request_code }}
+                    </span>
+                  </td>
+
+                  <!-- Date -->
+                  <td class="p-16 text-muted f-s-13">
+                    {{ req.created_at | date:'yyyy/MM/dd' }}
+                    <span class="d-block f-s-11 text-muted">{{ req.created_at | date:'hh:mm a' }}</span>
+                  </td>
+
+                  <!-- Product -->
+                  <td class="p-16">
+                    <div class="d-flex align-items-center gap-2">
+                      @if (req.product_image) {
+                        <img [src]="req.product_image" alt="Product" class="rounded req-thumb" />
+                      }
+                      <div>
+                        <strong class="d-block f-s-14 text-dark">{{ req.product_name }}</strong>
+                        @if (req.supplier_name) {
+                          <span class="text-muted f-s-11">{{ req.supplier_name }}</span>
+                        }
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Depot -->
+                  <td class="p-16">
+                    <div class="d-flex align-items-center gap-1">
+                      <i-tabler name="map-pin" class="icon-14 text-muted"></i-tabler>
+                      <span class="f-s-13 text-dark">{{ req.depot_name }}</span>
+                    </div>
+                  </td>
+
+                  <!-- Total Quantity Added -->
+                  <td class="p-16 text-center">
+                    <span class="badge bg-light-success text-success font-bold f-s-14 p-x-12 p-y-6">
+                      + {{ req.total_quantity }} قطعة
+                    </span>
+                  </td>
+
+                  <!-- SKUs Summary -->
+                  <td class="p-16 text-center">
+                    <span class="badge bg-light-secondary text-secondary f-s-12">
+                      {{ req.items.length }} أكواد SKU
+                    </span>
+                  </td>
+
+                  <!-- Status -->
+                  <td class="p-16">
+                    <span class="badge p-x-10 p-y-4 rounded-pill f-s-12 d-inline-flex align-items-center" [ngClass]="getStatusClass(req.status)">
+                      <i-tabler [name]="getStatusIcon(req.status)" class="icon-14 m-r-4"></i-tabler>
+                      {{ req.status_label || req.status }}
+                    </span>
+                  </td>
+
+                  <!-- Action: View Details Button -->
+                  <td class="p-16 text-center" (click)="$event.stopPropagation()">
+                    <button
+                      mat-stroked-button
+                      color="primary"
+                      class="btn-sm"
+                      (click)="openDetails(req)"
+                      type="button"
+                      matTooltip="عرض تفاصيل الأعداد وأكواد الـ SKUs"
+                    >
+                      <i-tabler name="eye" class="icon-16 m-r-4"></i-tabler>
+                      عرض التفاصيل
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Summary Footer -->
+        <div class="p-16 border-top bg-light d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <span class="f-s-13 text-muted">
+            إجمالي الطلبات المعروضة: <strong class="text-dark">{{ filteredRequests().length }} طلب</strong>
+          </span>
+          <span class="f-s-13 text-muted">
+            إجمالي القطع المضافة عبر الطلبات: <strong class="text-success f-s-15 font-bold">+ {{ totalPiecesInFiltered }} قطعة</strong>
+          </span>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
+

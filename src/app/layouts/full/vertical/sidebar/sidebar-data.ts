@@ -46,6 +46,11 @@ export function navItems():NavItem[]{
         displayName: 'create_product',
         iconName: 'system-uicons:box-add',
         route: '/products/create',
+      },
+      {
+        displayName: 'stock_requests',
+        iconName: 'solar:inbox-line-duotone',
+        route: '/products/stock-requests',
       }
     ]
   },

@@ -1,0 +1,111 @@
+.create-stock-request-page {
+  padding-bottom: 90px; // Leave room for sticky footer
+
+  .product-thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  }
+
+  .product-thumb-placeholder {
+    width: 64px;
+    height: 64px;
+  }
+
+  .search-compact {
+    width: 240px;
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+
+  .bulk-input {
+    width: 70px;
+    height: 32px;
+    padding: 2px 6px;
+  }
+
+  .stock-item-row {
+    background-color: #fff;
+    border: 1px solid var(--mat-sys-outline-variant, #e9edf1);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+      border-color: rgba(var(--mat-sys-primary-rgb, 93, 135, 255), 0.4);
+    }
+
+    &.has-added-stock {
+      background-color: rgba(var(--mat-sys-primary-rgb, 93, 135, 255), 0.035);
+      border-color: var(--mat-sys-primary, #5d87ff) !important;
+      box-shadow: 0 2px 8px rgba(93, 135, 255, 0.12);
+    }
+
+    &.is-zero-stock {
+      border-left: 4px solid #fa896b;
+    }
+  }
+
+  .sku-icon-badge {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .option-title {
+    color: var(--mat-sys-on-surface, #2a3547);
+  }
+
+  .qty-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-input {
+    width: 90px;
+    height: 38px;
+    border: 1.5px solid var(--mat-sys-outline-variant, #d2d6dc);
+    border-radius: 6px;
+
+    &:focus {
+      border-color: var(--mat-sys-primary, #5d87ff);
+      box-shadow: 0 0 0 2px rgba(93, 135, 255, 0.2);
+    }
+  }
+
+  .quick-chip {
+    padding: 0 8px;
+    height: 24px;
+    min-height: 24px;
+    font-size: 11px;
+    line-height: 24px;
+    background-color: var(--mat-sys-surface-variant, #f4f6f8);
+    border-radius: 12px;
+    color: var(--mat-sys-on-surface-variant, #5a6a85);
+
+    &:hover {
+      background-color: rgba(var(--mat-sys-primary-rgb, 93, 135, 255), 0.12);
+      color: var(--mat-sys-primary, #5d87ff);
+    }
+  }
+
+  .sticky-bottom-bar {
+    position: sticky;
+    bottom: 20px;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.96) !important;
+  }
+
+  .btn-submit-request {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+

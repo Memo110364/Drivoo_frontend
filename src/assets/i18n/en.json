@@ -141,6 +141,8 @@
     "import_orders": "Import Orders",
     "all_products": "All Products",
     "create_product": "Create Product",
+    "stock_requests": "Stock Requests",
+    "manage_stock": "Manage Stock",
     "my_wallets": "My Wallets",
     "my_invoices": "My Invoices",
     "transfers": "Transfers",

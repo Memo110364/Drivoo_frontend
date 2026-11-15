@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { ProductComponent } from './list-product/ecommerce.component';
 import { AddProductComponent } from './add-product/add-product.component';
+import { StockRequestsComponent } from './stock-requests/stock-requests.component';
+import { CreateStockRequestComponent } from './stock-requests/create-stock-request/create-stock-request.component';
 import { AuthGuard } from 'src/app/auth.guard';
+
 export const ProductsRoutes: Routes = [
     {
         path: '',
@@ -9,13 +12,7 @@ export const ProductsRoutes: Routes = [
         component: ProductComponent,
         data: {
             title: 'Products',
-            // breadcrumb: true,
-            // urls: [
-            //   { title: 'Dashboard', url: '/dashboard' },
-            //   { title: 'Starter   xx' },
-            // ],
         },
-        
     },
     {
         path: 'create',
@@ -23,11 +20,30 @@ export const ProductsRoutes: Routes = [
         component: AddProductComponent,
         data: {
             title: 'Add Product',
-            // breadcrumb: true,
-            // urls: [
-            //   { title: 'Dashboard', url: '/dashboard' },
-            //   { title: 'Starter   xx' },
-            // ],
+        },
+    },
+    {
+        path: 'stock-requests',
+        canActivate: [AuthGuard],
+        component: StockRequestsComponent,
+        data: {
+            title: 'Stock Requests',
+        },
+    },
+    {
+        path: ':id/stock-requests',
+        canActivate: [AuthGuard],
+        component: StockRequestsComponent,
+        data: {
+            title: 'Product Stock Requests',
+        },
+    },
+    {
+        path: ':id/stock-requests/create',
+        canActivate: [AuthGuard],
+        component: CreateStockRequestComponent,
+        data: {
+            title: 'Add Product Stock',
         },
     },
 ];

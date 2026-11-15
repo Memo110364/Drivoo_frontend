@@ -1,0 +1,110 @@
+<div class="new-stock-request-dialog p-24">
+  <div class="d-flex align-items-center justify-content-between m-b-20 border-bottom p-b-16">
+    <div class="d-flex align-items-center gap-2">
+      <div class="icon-circle bg-light-primary text-primary rounded-circle p-10 d-flex align-items-center justify-content-center">
+        <i-tabler name="box-plus" class="icon-24"></i-tabler>
+      </div>
+      <div>
+        <h3 class="f-s-18 f-w-600 m-b-0">إنشاء طلب إضافة وتوريد مخزون جديد</h3>
+        <p class="text-muted f-s-13 m-b-0">إضافة كميات جديدة للمنتج وتحديد الأعداد لكل كود SKU</p>
+      </div>
+    </div>
+    <button mat-icon-button (click)="close()" type="button">
+      <i-tabler name="x" class="icon-20"></i-tabler>
+    </button>
+  </div>
+
+  <div class="row g-3 m-b-20">
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>المنتج</mat-label>
+        <input matInput [(ngModel)]="product_name" required />
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>المستودع المستلم</mat-label>
+        <mat-select [(ngModel)]="depot_name">
+          <mat-option value="المخزن الرئيسي - القاهرة">المخزن الرئيسي - القاهرة</mat-option>
+          <mat-option value="مخزن العبور المركزي">مخزن العبور المركزي</mat-option>
+          <mat-option value="مخزن الإسكندرية">مخزن الإسكندرية</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>المورد / جهة التوريد</mat-label>
+        <input matInput [(ngModel)]="supplier_name" placeholder="مثال: مصنع النور" />
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>ملاحظات الشحنة</mat-label>
+        <input matInput [(ngModel)]="notes" placeholder="ملاحظات تسليم الشحنة" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between m-b-12">
+    <h4 class="f-s-15 f-w-600 m-b-0">الأصناف وأكواد الـ SKUs والكميات المضافة</h4>
+    <button mat-stroked-button color="primary" class="btn-sm" (click)="addItem()" type="button">
+      <i-tabler name="plus" class="icon-16 m-r-4"></i-tabler>
+      إضافة صنف SKU
+    </button>
+  </div>
+
+  <div class="table-responsive border rounded m-b-20 bg-white">
+    <table class="table table-hover align-middle m-b-0 text-start">
+      <thead class="bg-light">
+        <tr>
+          <th class="p-8">كود SKU</th>
+          <th class="p-8">المتغير / الوصف</th>
+          <th class="p-8" style="width: 140px;">الكمية المضافة</th>
+          <th class="p-8">ملاحظات الصنف</th>
+          <th class="p-8" style="width: 40px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (it of items; track $index; let idx = $index) {
+          <tr>
+            <td class="p-8">
+              <input type="text" class="form-control form-control-sm font-monospace font-bold" [(ngModel)]="it.sku" placeholder="مثال: 5 - اسود - XXL" />
+            </td>
+            <td class="p-8">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="it.option_name" placeholder="مثال: مقاس XXL أسود" />
+            </td>
+            <td class="p-8">
+              <input type="number" class="form-control form-control-sm text-center font-bold" [(ngModel)]="it.quantity" min="1" />
+            </td>
+            <td class="p-8">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="it.notes" placeholder="اختياري" />
+            </td>
+            <td class="p-8 text-center">
+              @if (items.length > 1) {
+                <button type="button" class="btn btn-sm text-danger p-0" (click)="removeItem(idx)">
+                  <i-tabler name="trash" class="icon-16"></i-tabler>
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+      <tfoot class="bg-light border-top">
+        <tr>
+          <td colspan="2" class="p-8 font-bold text-end">إجمالي الكمية:</td>
+          <td class="p-8 text-center font-bold text-primary f-s-15">{{ totalQuantity }} قطعة</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between border-top pt-3">
+    <button mat-button (click)="close()" type="button">إلغاء</button>
+    <button mat-flat-button color="primary" (click)="save()" type="button">
+      <i-tabler name="send" class="icon-18 m-r-4"></i-tabler>
+      إرسال طلب المخزون
+    </button>
+  </div>
+</div>
+

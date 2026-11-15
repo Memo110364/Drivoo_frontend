@@ -1,0 +1,359 @@
+<div class="create-stock-request-page p-24">
+  <!-- Page Header & Breadcrumb -->
+  <div class="d-flex align-items-center justify-content-between m-b-24 flex-wrap gap-3">
+    <div>
+      <div class="d-flex align-items-center gap-2 m-b-4">
+        <a routerLink="/products" class="text-muted d-flex align-items-center gap-1 hover-primary f-s-13">
+          <i-tabler name="box" class="icon-16"></i-tabler>
+          المنتجات
+        </a>
+        <span class="text-muted">/</span>
+        <a [routerLink]="['/products', productId(), 'stock-requests']" class="text-muted hover-primary f-s-13">
+          طلبات إضافة المخزون
+        </a>
+        <span class="text-muted">/</span>
+        <span class="f-s-13 text-primary font-bold">طلب توريد مخزون جديد</span>
+      </div>
+      <h3 class="f-s-24 f-w-600 m-b-4">طلب توريد وإضافة مخزون للمنتج</h3>
+      <p class="text-muted m-b-0 f-s-14">
+        حدد عدد القطع المضافة لكل كود متغير (SKU) لتحديث المخزون بدقة في المستودع.
+      </p>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <button mat-stroked-button color="secondary" (click)="cancel()" type="button">
+        <i-tabler name="arrow-back" class="icon-18 m-r-4"></i-tabler>
+        إلغاء والعودة
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitStockRequest()"
+        [disabled]="totalQuantityToAdd() <= 0 || isSubmitting()"
+        type="button"
+      >
+        @if (isSubmitting()) {
+          <mat-spinner diameter="18" class="d-inline-block m-r-8"></mat-spinner>
+        } @else {
+          <i-tabler name="check" class="icon-18 m-r-4"></i-tabler>
+        }
+        إرسال طلب التوريد (+{{ totalQuantityToAdd() }} قطعة)
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="p-60 text-center">
+      <mat-spinner diameter="44" class="m-auto m-b-16"></mat-spinner>
+      <span class="text-muted f-s-15">جاري جلب تفاصيل المنتج والـ SKUs...</span>
+    </div>
+  } @else {
+    <!-- Product Info Banner -->
+    <mat-card class="cardWithShadow m-b-24 product-info-card">
+      <mat-card-content class="p-20">
+        <div class="row align-items-center g-3">
+          <div class="col-12">
+            <div class="d-flex align-items-center gap-3">
+              @if (product()?.image || product()?.img) {
+                <img [src]="product()?.image || product()?.img" alt="Product" class="rounded product-thumb shadow-sm" />
+              } @else {
+                <div class="product-thumb-placeholder rounded d-flex align-items-center justify-content-center bg-light-primary text-primary">
+                  <i-tabler name="package" class="icon-32"></i-tabler>
+                </div>
+              }
+              <div>
+                <div class="d-flex align-items-center gap-2 flex-wrap m-b-4">
+                  <h4 class="f-s-20 f-w-700 m-b-0 text-dark">
+                    {{ product()?.Name_AR || product()?.Name || product()?.name || 'المنتج #' + productId() }}
+                  </h4>
+                  @if (product()?.code) {
+                    <span class="badge bg-light-secondary text-secondary f-s-12">كود: {{ product()?.code }}</span>
+                  }
+                </div>
+                <div class="d-flex align-items-center gap-3 text-muted f-s-13 flex-wrap">
+                  <span>إجمالي المخزون الحالي بالكامل: <strong class="text-dark font-bold">{{ product()?.stock ?? 0 }} قطعة</strong></span>
+                  <span>•</span>
+                  <span>سعر المنتج: <strong class="text-dark">{{ product()?.price ?? 0 }} ج.م</strong></span>
+                  <span>•</span>
+                  <span>عدد متغيرات الـ SKUs: <strong class="text-primary font-bold">{{ stockItems().length }} كود</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- General Shipment / Request Metadata Card -->
+    <mat-card class="cardWithShadow m-b-24">
+      <mat-card-header class="p-16 p-b-0">
+        <mat-card-title class="f-s-16 f-w-600 d-flex align-items-center gap-2">
+          <i-tabler name="truck-delivery" class="icon-20 text-primary"></i-tabler>
+          بيانات إذن الشحنة والمستودع
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-16">
+        <div class="row g-3">
+          <!-- Depot / Warehouse -->
+          <div class="col-lg-3 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>المستودع المستلم *</mat-label>
+              <mat-select [(ngModel)]="depot_name">
+                @for (d of depots; track d.id) {
+                  <mat-option [value]="d.name">{{ d.name }}</mat-option>
+                }
+              </mat-select>
+              <i-tabler matPrefix name="building-warehouse" class="icon-18 text-muted m-r-8"></i-tabler>
+            </mat-form-field>
+          </div>
+
+          <!-- Supplier Name -->
+          <div class="col-lg-3 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>اسم المورد / المصنع (اختياري)</mat-label>
+              <input matInput [(ngModel)]="supplier_name" placeholder="مثال: مصنع النور للملابس" />
+              <i-tabler matPrefix name="user-check" class="icon-18 text-muted m-r-8"></i-tabler>
+            </mat-form-field>
+          </div>
+
+          <!-- Invoice / Reference -->
+          <div class="col-lg-3 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>رقم إذن التوريد / الفاتورة (اختياري)</mat-label>
+              <input matInput [(ngModel)]="invoice_ref" placeholder="مثال: INV-2026-081" />
+              <i-tabler matPrefix name="file-invoice" class="icon-18 text-muted m-r-8"></i-tabler>
+            </mat-form-field>
+          </div>
+
+          <!-- Notes -->
+          <div class="col-lg-3 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>ملاحظات عامة على الطلب</mat-label>
+              <input matInput [(ngModel)]="notes" placeholder="أي تفاصيل أو ملاحظات خاصة بالشحنة" />
+              <i-tabler matPrefix name="notes" class="icon-18 text-muted m-r-8"></i-tabler>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Stock Variants Section -->
+    <mat-card class="cardWithShadow m-b-24">
+      <mat-card-content class="p-20">
+        <!-- Section Toolbar -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 m-b-20 p-b-16 border-bottom">
+          <div>
+            <h4 class="f-s-18 f-w-700 m-b-2 d-flex align-items-center gap-2">
+              <i-tabler name="packages" class="icon-22 text-primary"></i-tabler>
+              قائمة خيارات المخزون وأكواد الـ SKUs
+            </h4>
+            <span class="text-muted f-s-13">
+              اكتب عدد القطع المراد إضافتها بجانب كل متغير.
+            </span>
+          </div>
+
+          <!-- Bulk Operations & Search Controls -->
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <!-- Search within variants -->
+            <div class="variant-search-wrap">
+              <mat-form-field appearance="outline" class="density-compact search-compact">
+                <mat-label>بحث بالخيار أو الـ SKU...</mat-label>
+                <input matInput [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)" />
+                <i-tabler matPrefix name="search" class="icon-16 text-muted m-r-4"></i-tabler>
+              </mat-form-field>
+            </div>
+
+            <!-- Bulk Fill Input & Button -->
+            <div class="bulk-fill-wrap d-flex align-items-center gap-1 bg-light p-x-8 p-y-4 rounded border">
+              <span class="f-s-12 text-muted font-bold">تطبيق موحد:</span>
+              <input
+                type="number"
+                min="0"
+                class="form-control form-control-sm text-center bulk-input"
+                placeholder="العدد"
+                [ngModel]="bulkQuantity()"
+                (ngModelChange)="bulkQuantity.set($event)"
+              />
+              <button mat-button class="btn-sm text-primary" (click)="applyBulkQuantity()" [disabled]="bulkQuantity() === null || bulkQuantity()! < 0">
+                تطبيق للكل
+              </button>
+            </div>
+
+            <!-- Reset Button -->
+            <button mat-stroked-button color="warn" class="btn-sm" (click)="resetAllQuantities()" matTooltip="تصفير كل القيم المكتوبة">
+              <i-tabler name="rotate-2" class="icon-16 m-r-4"></i-tabler>
+              تصفير
+            </button>
+          </div>
+        </div>
+
+        <!-- Stock Items List -->
+        @if (filteredStockItems().length === 0) {
+          <div class="p-40 text-center text-muted">
+            <i-tabler name="search-off" class="icon-36 m-b-8"></i-tabler>
+            <p class="m-b-0">لا توجد خيارات أو أكواد SKU تطابق بحثك "{{ searchQuery() }}"</p>
+          </div>
+        } @else {
+          <div class="stock-items-grid">
+            @for (item of filteredStockItems(); track item.id) {
+              <div
+                class="stock-item-row p-16 rounded border m-b-12 transition"
+                [ngClass]="{
+                  'has-added-stock border-primary bg-light-primary-subtle': (item.quantity_to_add || 0) > 0,
+                  'is-zero-stock': item.current_stock === 0
+                }"
+              >
+                <div class="row align-items-center g-3">
+                  <!-- Col 1: Option name & SKU code -->
+                  <div class="col-lg-4 col-md-5">
+                    <div class="d-flex align-items-start gap-2">
+                      <div class="sku-icon-badge rounded-circle d-flex align-items-center justify-content-center bg-light text-primary">
+                        <i-tabler name="tag" class="icon-18"></i-tabler>
+                      </div>
+                      <div>
+                        <!-- Option Text (e.g. احمر - XL) -->
+                        <h5 class="f-s-16 f-w-700 m-b-4 option-title text-dark">
+                          {{ item.option_name }}
+                        </h5>
+
+                        <!-- SKU underneath Option -->
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                          <span class="badge bg-light text-dark border font-monospace f-s-12">
+                            <i-tabler name="barcode" class="icon-14 m-r-4 text-muted"></i-tabler>
+                            {{ item.sku }}
+                          </span>
+
+                          <!-- Current Stock Badge -->
+                          @if (item.current_stock === 0) {
+                            <span class="badge bg-light-error text-error f-s-11">
+                              المخزون الحالي: 0 (نفذ المخزون)
+                            </span>
+                          } @else {
+                            <span class="badge bg-light text-muted f-s-11">
+                              المخزون الحالي: <strong class="text-dark">{{ item.current_stock }} قطعة</strong>
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Col 2: Quantity to Add Controller -->
+                  <div class="col-lg-4 col-md-4">
+                    <div class="">
+                      <span class="f-s-12 text-muted m-b-4 font-bold">عدد القطع المراد إضافتها:</span>
+                      <div class="qty-control-group d-flex align-items-center gap-1">
+                        <button
+                          mat-mini-fab
+                          color="secondary"
+                          class="qty-btn"
+                          (click)="decrementQty(item)"
+                          [disabled]="(item.quantity_to_add || 0) <= 0"
+                          type="button"
+                        >
+                          <i-tabler name="minus" class="icon-16"></i-tabler>
+                        </button>
+
+                        <input
+                          type="number"
+                          min="0"
+                          class="form-control text-center font-bold f-s-16 qty-input"
+                          [(ngModel)]="item.quantity_to_add"
+                          (ngModelChange)="onQtyChange(item)"
+                          placeholder="0"
+                        />
+
+                        <button
+                          mat-mini-fab
+                          color="primary"
+                          class="qty-btn"
+                          (click)="incrementQty(item)"
+                          type="button"
+                        >
+                          <i-tabler name="plus" class="icon-16"></i-tabler>
+                        </button>
+                      </div>
+
+                      <!-- Quick Add Shortcut Chips -->
+                      <div class="quick-add-chips d-flex align-items-center gap-1 m-t-6">
+                        <button mat-button class="quick-chip" (click)="addFixedQty(item, 10)">+10</button>
+                        <button mat-button class="quick-chip" (click)="addFixedQty(item, 25)">+25</button>
+                        <button mat-button class="quick-chip" (click)="addFixedQty(item, 50)">+50</button>
+                        <button mat-button class="quick-chip" (click)="addFixedQty(item, 100)">+100</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Col 3: Calculated Result & Item Notes -->
+                  <div class="col-lg-4 col-md-3">
+                    <div class="d-flex align-items-center justify-content-between justify-content-md-end gap-4">
+                      <!-- Expected Stock Calculation -->
+                      <div class="text-center text-md-end">
+                        <span class="f-s-12 text-muted d-block m-b-2">المخزون بعد الإضافة</span>
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-end gap-2">
+                          <span class="f-s-18 f-w-700" [ngClass]="(item.quantity_to_add || 0) > 0 ? 'text-success' : 'text-dark'">
+                            {{ item.current_stock + (item.quantity_to_add || 0) }} قطعة
+                          </span>
+                          @if ((item.quantity_to_add || 0) > 0) {
+                            <span class="badge bg-light-success text-success font-bold f-s-12 p-x-8 p-y-4">
+                              +{{ item.quantity_to_add }}
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Sticky Bottom Summary & Submit Bar -->
+    <div class="sticky-bottom-bar bg-white p-16 rounded shadow-lg border d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <div>
+          <span class="f-s-12 text-muted d-block">الـ SKUs المحددة للتوريد</span>
+          <strong class="f-s-16 text-dark">
+            {{ totalSkusSelected() }} <span class="f-s-13 text-muted">من أصل {{ stockItems().length }} خيارات</span>
+          </strong>
+        </div>
+
+        <div class="border-end h-100 d-none d-sm-block p-r-8"></div>
+
+        <div>
+          <span class="f-s-12 text-muted d-block">إجمالي القطع المضافة</span>
+          <span class="badge bg-light-success text-success f-s-18 f-w-700 p-x-12 p-y-4">
+            + {{ totalQuantityToAdd() }} قطعة
+          </span>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button mat-stroked-button color="secondary" (click)="cancel()" type="button">
+          إلغاء والعودة
+        </button>
+
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="submitStockRequest()"
+          [disabled]="totalQuantityToAdd() <= 0 || isSubmitting()"
+          class="btn-submit-request"
+          type="button"
+        >
+          @if (isSubmitting()) {
+            <mat-spinner diameter="18" class="d-inline-block m-r-8"></mat-spinner>
+            جاري حفظ الطلب...
+          } @else {
+            <i-tabler name="box-plus" class="icon-18 m-r-4"></i-tabler>
+            إرسال طلب إضافة المخزون (+{{ totalQuantityToAdd() }} قطعة)
+          }
+        </button>
+      </div>
+    </div>
+  }
+</div>
+

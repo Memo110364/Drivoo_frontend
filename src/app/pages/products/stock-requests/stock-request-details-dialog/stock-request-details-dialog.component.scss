@@ -1,0 +1,28 @@
+.stock-request-dialog {
+  max-width: 900px;
+  min-width: 650px;
+
+  @media (max-width: 768px) {
+    min-width: 100%;
+    padding: 16px;
+  }
+
+  .icon-circle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .product-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border: 1px solid #e2e8f0;
+  }
+
+  .thumb-placeholder {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e2e8f0;
+  }
+}
+
